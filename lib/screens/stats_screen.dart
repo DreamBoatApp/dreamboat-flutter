@@ -1,0 +1,977 @@
+﻿import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:dream_boat_mobile/theme/app_theme.dart';
+import 'package:dream_boat_mobile/widgets/background_sky.dart';
+import 'package:dream_boat_mobile/widgets/glass_card.dart';
+import 'package:dream_boat_mobile/widgets/custom_button.dart';
+import 'package:dream_boat_mobile/l10n/app_localizations.dart';
+import 'package:dream_boat_mobile/services/openai_service.dart';
+import 'package:dream_boat_mobile/services/dream_service.dart';
+import 'package:dream_boat_mobile/models/dream_entry.dart';
+import 'package:dream_boat_mobile/widgets/gradient_text.dart';
+import 'package:dream_boat_mobile/services/connectivity_service.dart';
+import 'package:dream_boat_mobile/widgets/pro_badge.dart';
+import 'package:provider/provider.dart';
+import 'package:dream_boat_mobile/providers/subscription_provider.dart';
+import 'package:dream_boat_mobile/widgets/pro_upgrade_dialog.dart';
+import 'package:dream_boat_mobile/services/moon_phase_service.dart';
+
+class StatsScreen extends StatefulWidget {
+  const StatsScreen({super.key});
+
+  @override
+  State<StatsScreen> createState() => _StatsScreenState();
+}
+
+class _StatsScreenState extends State<StatsScreen> {
+  final OpenAIService _openAIService = OpenAIService();
+  final DreamService _dreamService = DreamService();
+  
+  bool _isLoading = true;
+  String? _analysisResult;
+  DateTime? _lastAnalysisDate;
+
+
+
+  // Chart Data
+  Map<String, int> _moodCounts = {}; // Raw mood counts
+  int _totalDreamsCount = 0;
+
+  // Weekly Analysis State
+  // 0: Initial/Requirements Not Met or Met but not started
+  // 1: Processing
+  // 2: Done
+  int _analysisState = 0; 
+  bool _canAnalyze = false;
+
+
+  bool _isTipLoading = false;
+  String _dailyTip = "";
+
+  // Moon Sync State
+  String? _moonSyncResult;
+  DateTime? _lastMoonSyncDate;
+  bool _isMoonSyncLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStats();
+    _checkAnalysisStatus();
+
+  }
+
+  // Renamed from _loadData to match initState call
+  Future<void> _loadStats() async {
+     await _loadData();
+  }
+  
+  void _checkAnalysisStatus() {
+      // Simply ensures state variables are ready or checks specific conditions if needed.
+      // For now, _loadData (called by _loadStats) handles most state initialization.
+      // We can use this to explicitly check 7-day rule if not done in _loadData.
+      if (_lastAnalysisDate != null) {
+         final diff = DateTime.now().difference(_lastAnalysisDate!);
+         if (diff.inDays < 7) {
+            // Can't analyze
+         }
+      }
+  }
+
+
+
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
+
+  Future<void> _loadData() async {
+    final prefs = await SharedPreferences.getInstance();
+    
+    // 1. Load Analysis State
+    final dateStr = prefs.getString('last_analysis_date');
+    final result = prefs.getString('last_analysis_result');
+
+    if (dateStr != null && result != null) {
+        _lastAnalysisDate = DateTime.parse(dateStr);
+        _analysisResult = result;
+    }
+
+    // 1b. Load Moon Sync State
+    final moonSyncDateStr = prefs.getString('last_moon_sync_date');
+    final moonSyncResult = prefs.getString('last_moon_sync_result');
+    if (moonSyncDateStr != null && moonSyncResult != null) {
+        _lastMoonSyncDate = DateTime.parse(moonSyncDateStr);
+        _moonSyncResult = moonSyncResult;
+    }
+
+    // 2. Load Daily Tip (Moved to PostFrame for context access)
+    // We defer this to ensure we have the correct locale
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+        final locale = Localizations.localeOf(context).languageCode;
+        _loadDailyTip(prefs, locale);
+    });
+    
+    // 3. Load Real Chart Data
+    final allDreams = await _dreamService.getDreams();
+    // Count interpreted dreams (assuming 'text' and 'date' are valid, checking interpretation length might be better but counting all entries is safer based on request "5 interpreted dream entries" - usually entries have interpretations).
+    // Actually, let's just count total entries as interpretation is usually mandatory or auto-generated.
+    _totalDreamsCount = allDreams.length; 
+
+    final now = DateTime.now();
+    
+    // Filter for current month
+    final monthlyDreams = allDreams.where((d) => d.date.year == now.year && d.date.month == now.month).toList();
+
+    if (monthlyDreams.isNotEmpty) {
+       final total = monthlyDreams.length;
+       final moodCounts = <String, int>{};
+       
+       for (var d in monthlyDreams) {
+         moodCounts[d.mood] = (moodCounts[d.mood] ?? 0) + 1;
+       }
+       
+       if (mounted) setState(() => _moodCounts = moodCounts);
+    } else {
+       if (mounted) setState(() => _moodCounts = {});
+    }
+    
+    // Trigger rebuild to update UI with loaded data
+    // Trigger rebuild to update UI with loaded data
+    if (mounted) {
+       setState(() {
+          _isLoading = false;
+       });
+    }
+  }
+
+  Future<void> _loadDailyTip(SharedPreferences prefs, String locale) async {
+    final todayStr = DateTime.now().toString().split(' ')[0];
+    final dateKey = 'tip_date_$locale';
+    final contentKey = 'tip_content_$locale';
+
+    final lastDate = prefs.getString(dateKey);
+    final cachedContent = prefs.getString(contentKey);
+
+    if (lastDate == todayStr && cachedContent != null && cachedContent.isNotEmpty) {
+       if (mounted) setState(() => _dailyTip = cachedContent);
+    } else {
+       await _generateNewTip(prefs, todayStr, locale, dateKey, contentKey);
+    }
+  }
+
+  Future<void> _generateNewTip(SharedPreferences prefs, String todayStr, String locale, String dateKey, String contentKey) async {
+    if (!mounted) return;
+    setState(() => _isTipLoading = true);
+    
+    try {
+      final allDreams = await _dreamService.getDreams();
+      final recentDreams = allDreams.take(5).map((d) => d.text).toList(); // Send last 5 dreams for context
+      
+      final tip = await _openAIService.generateDailyTip(recentDreams, locale);
+      
+      await prefs.setString(dateKey, todayStr);
+      await prefs.setString(contentKey, tip);
+      
+      if (mounted) {
+        setState(() => _dailyTip = tip);
+      }
+    } catch (e) {
+       // Fallback
+       if (mounted) {
+          final t = AppLocalizations.of(context)!;
+          setState(() => _dailyTip = t.statsTipContent);
+       }
+    } finally {
+      if (mounted) setState(() => _isTipLoading = false);
+    }
+  }
+
+  // FLOW: 1. User taps button -> 2. Show Dialog -> 3. Show Ad -> 4. Run Analysis
+  Future<void> _handleAnalysisTap() async {
+      // Check connectivity first
+      final isConnected = await ConnectivityService.isConnected;
+      if (!isConnected) {
+        if (mounted) {
+           final t = AppLocalizations.of(context)!;
+           ScaffoldMessenger.of(context).showSnackBar(
+             SnackBar(content: Text(t.statsOffline), backgroundColor: Colors.redAccent)
+           );
+        }
+        return;
+      }
+
+      // Check limit again just in case
+      // Check limit again just in case
+      if (_lastAnalysisDate != null) {
+        final difference = DateTime.now().difference(_lastAnalysisDate!);
+        if (difference.inDays < 7) return; 
+      }
+      _showAnalysisInfoDialog();
+  }
+
+  void _showAnalysisInfoDialog() {
+    final t = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.8), // Darken background like screenshot
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: const Color(0xFF1E1B35).withOpacity(0.95), // Dark opaque background
+            borderRadius: BorderRadius.circular(28),
+            border: Border.all(color: const Color(0xFF8B5CF6).withOpacity(0.3)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+               const Icon(LucideIcons.brainCircuit, size: 48, color: Color(0xFFD8B4FE)), // Brain Icon
+               const SizedBox(height: 16),
+                const Text(
+                  "Haftalık Desen Analizi",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Color(0xFFD8B4FE), fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  "Bu analizi haftada yalnızca 1 kez yapabilirsin. Daha kapsamlı sonuç için daha fazla rüya girmen gerekebilir.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, height: 1.5, fontSize: 14),
+                ),
+                const SizedBox(height: 24),
+                const SizedBox(height: 24),
+                Consumer<SubscriptionProvider>(
+                  builder: (context, subProvider, child) {
+                    // ignore: unused_local_variable
+                    final isPro = subProvider.isPro; 
+                    
+                    return Row(
+                          children: [
+                            Expanded(
+                              child: TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                style: TextButton.styleFrom(
+                                   minimumSize: const Size(48, 48),
+                                   tapTargetSize: MaterialTapTargetSize.padded,
+                                   padding: const EdgeInsets.symmetric(vertical: 12),
+                                   side: const BorderSide(color: Colors.white24),
+                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                                ),
+                                child: Text(t.cancel, style: const TextStyle(color: Colors.white70)),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(colors: [Color(0xFFA78BFA), Color(0xFFEC4899)]),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context); // Close dialog
+                                    // Always analyze here, as safety checks are done before dialog
+                                    _runAnalysis();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                    minimumSize: const Size(48, 48),
+                                    tapTargetSize: MaterialTapTargetSize.padded,
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                                  ),
+                                  child: Text(t.understand, style: const TextStyle(color: Colors.white, fontSize: 13), textAlign: TextAlign.center),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                  }
+                )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+
+  Future<void> _runAnalysis() async {
+    setState(() => _isLoading = true);
+
+    try {
+      // Fetch real dreams from the last 7 days
+      final allDreams = await _dreamService.getDreams();
+      final now = DateTime.now();
+      final lastWeek = now.subtract(const Duration(days: 7));
+      
+      final recentDreams = allDreams.where((d) => d.date.isAfter(lastWeek)).take(20).map((d) => d.text).toList();
+      
+      final locale = Localizations.localeOf(context).languageCode;
+      final result = await _openAIService.analyzeDreams(recentDreams, locale);
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('last_analysis_result', result);
+      await prefs.setString('last_analysis_date', DateTime.now().toIso8601String());
+
+      if (mounted) {
+        setState(() {
+          _analysisResult = result;
+          _lastAnalysisDate = DateTime.now();
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  // Moon Sync Analysis (30-day cooldown)
+  Future<void> _runMoonSyncAnalysis() async {
+    if (_isMoonSyncLoading) return;
+    if (!mounted) return;
+    
+    setState(() => _isMoonSyncLoading = true);
+    
+    try {
+      final moonPhaseService = MoonPhaseService();
+      final allDreams = await _dreamService.getDreams();
+      final now = DateTime.now();
+      final last30Days = now.subtract(const Duration(days: 30));
+      
+      // Filter dreams from last 30 days
+      final recentDreams = allDreams.where((d) => d.date.isAfter(last30Days)).take(30).toList();
+      
+      // Prepare dream data with moon phases
+      final dreamData = recentDreams.map((d) {
+        final phase = moonPhaseService.getMoonPhase(d.date);
+        return {
+          'text': d.text,
+          'mood': d.mood,
+          'date': d.date.toIso8601String(),
+          'wordCount': d.text.split(' ').length,
+          'moonPhase': moonPhaseService.getPhaseNameEn(phase),
+          'isWaxing': moonPhaseService.isWaxing(d.date),
+        };
+      }).toList();
+      
+      final locale = Localizations.localeOf(context).languageCode;
+      final result = await _openAIService.analyzeMoonSync(dreamData, locale);
+      
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('last_moon_sync_result', result);
+      await prefs.setString('last_moon_sync_date', DateTime.now().toIso8601String());
+      
+      if (mounted) {
+        setState(() {
+          _moonSyncResult = result;
+          _lastMoonSyncDate = DateTime.now();
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isMoonSyncLoading = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
+    // Prepared Chart Data
+    final Map<String, double> dataMap = {};
+    final List<Color> chartColors = [];
+
+    if (_moodCounts.isEmpty) {
+      dataMap[t.statsNoData] = 100;
+      chartColors.add(Colors.white10);
+    } else {
+        final total = _moodCounts.values.fold(0, (sum, item) => sum + item);
+        // Helper to get localized label and color
+        _moodCounts.forEach((key, count) {
+            String label = t.moodNeutral;
+            Color color = const Color(0xFF9CA3AF);
+            
+            switch(key) {
+              case 'love': label = t.moodLove; color = const Color(0xFFEC4899); break;
+              case 'happy': label = t.moodHappy; color = const Color(0xFFFBBF24); break;
+              case 'sad': label = t.moodSad; color = const Color(0xFF60A5FA); break;
+              case 'scared': label = t.moodScared; color = const Color(0xFF8B5CF6); break;
+              case 'anger': label = t.moodAnger; color = const Color(0xFFEF4444); break;
+              case 'neutral': label = t.moodNeutral; color = const Color(0xFF9CA3AF); break;
+            }
+            
+            final percent = (count / total * 100).round();
+            dataMap["$label (%$percent)"] = count.toDouble();
+            chartColors.add(color);
+        });
+    }
+
+    final isPro = context.watch<SubscriptionProvider>().isPro;
+
+    return NightSkyBackground(
+      isPro: isPro,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Container(
+             margin: const EdgeInsets.all(8),
+             decoration: BoxDecoration(
+               color: Colors.white.withOpacity(0.1),
+               shape: BoxShape.circle,
+             ),
+             child: IconButton(
+               icon: const Icon(LucideIcons.arrowLeft, color: Colors.white, size: 20),
+               onPressed: () => Navigator.pop(context),
+             ),
+          ),
+          centerTitle: true,
+          title: GradientText(
+            t.statsTitle,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            gradient: const LinearGradient(
+              colors: [Colors.white, Color(0xFFF3E8FF)],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              // 1. Daily Tip Card
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1C1326).withOpacity(0.8), // Dark purple/brown bg
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.amber.withOpacity(0.3)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                         const Icon(LucideIcons.lightbulb, color: Color(0xFFFBBF24), size: 20),
+                         const SizedBox(width: 10),
+                         Text(t.statsTipTitle, style: const TextStyle(color: Color(0xFFFBBF24), fontWeight: FontWeight.bold, fontSize: 16)),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    if (_isTipLoading)
+                      const Center(child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.amber)))
+                    else
+                      Text(
+                        _dailyTip.isNotEmpty ? _dailyTip : t.statsTipContent, // Fallback to localized default if empty
+                        style: const TextStyle(color: Colors.white, height: 1.5, fontSize: 14),
+                      )
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // 2. Chart Card
+              GlassCard(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(LucideIcons.pieChart, color: Color(0xFFFBBF24), size: 20),
+                          const SizedBox(width: 8),
+                          Text(t.statsAnalysisTitle, style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          // Chart
+                          Expanded(
+                            flex: 4,
+                            child: SizedBox(
+                              height: 160,
+                              child: PieChart(
+                                PieChartData(
+                                  sectionsSpace: 0,
+                                  centerSpaceRadius: 0,
+                                  sections: List.generate(dataMap.length, (index) {
+                                    final entry = dataMap.entries.elementAt(index);
+                                    return PieChartSectionData(
+                                      color: chartColors[index],
+                                      value: entry.value,
+                                      title: '', 
+                                      radius: 80,
+                                    );
+                                  }),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 24),
+                          // Legend
+                          Expanded(
+                            flex: 5,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: List.generate(dataMap.length, (index) {
+                                final entry = dataMap.entries.elementAt(index);
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 6),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: 12, height: 12, 
+                                        decoration: BoxDecoration(color: chartColors[index], shape: BoxShape.circle)
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Text(entry.key, style: const TextStyle(color: Colors.white70, fontSize: 14)),
+                                    ],
+                                  ),
+                                );
+                              }),
+                            ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 20),
+
+              // 3. Analysis Section
+              if (_analysisResult == null) 
+                _buildIntroState(t, context.watch<SubscriptionProvider>().isPro)
+              else 
+                _buildResultState(t, context.watch<SubscriptionProvider>().isPro),
+
+              const SizedBox(height: 20),
+
+              // 4. Moon Sync Section
+              if (_moonSyncResult == null)
+                _buildMoonSyncIntroState(t, context.watch<SubscriptionProvider>().isPro)
+              else
+                _buildMoonSyncResultState(t, context.watch<SubscriptionProvider>().isPro),
+
+              const SizedBox(height: 30),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIntroState(AppLocalizations t, bool isPro) {
+    if (_isLoading) {
+      return Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+           borderRadius: BorderRadius.circular(20),
+           border: Border.all(color: const Color(0xFF8B5CF6).withOpacity(0.3)),
+           color: const Color(0xFF0F0F23).withOpacity(0.8),
+        ),
+        padding: const EdgeInsets.all(40),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircularProgressIndicator(color: Color(0xFFFBBF24)),
+            const SizedBox(height: 20),
+            Text(t.statsProcessing, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontSize: 16)),
+          ],
+        ),
+      );
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+         borderRadius: BorderRadius.circular(20),
+         border: Border.all(color: const Color(0xFF8B5CF6).withOpacity(0.3)),
+         gradient: LinearGradient(
+           begin: Alignment.topLeft,
+           end: Alignment.bottomRight,
+           colors: [
+             const Color(0xFF2E1065).withOpacity(0.6),
+             const Color(0xFF0F0F23).withOpacity(0.6),
+           ]
+         )
+      ),
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(LucideIcons.brainCircuit, color: Color(0xFFA78BFA), size: 24),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        t.statsAnalysisIntroTitle, 
+                        style: TextStyle(
+                          color: isPro ? const Color(0xFFFBBF24) : const Color(0xFFA78BFA), 
+                          fontSize: 18, 
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    if (!isPro)
+                      const ProBadge(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(t.statsAnalysisIntroContent, style: const TextStyle(color: Colors.white, height: 1.6, fontSize: 14)),
+          const SizedBox(height: 24),
+          
+          if (isPro)
+             // PRO FLOW
+             CustomButton(
+               text: _totalDreamsCount >= 5 ? t.statsAnalyzeBtn : t.statsAnalysisMinDreams,
+               onPressed: _totalDreamsCount >= 5 
+                  ? _runAnalysis // Direct analysis for PRO
+                  : null, // Disabled if < 5
+               isLoading: _isLoading,
+               gradient: _totalDreamsCount >= 5 
+                  ? const LinearGradient(colors: [Color(0xFFFBBF24), Color(0xFFD97706)]) // Gold for Action
+                  : LinearGradient(colors: [Colors.grey.withOpacity(0.5), Colors.grey.withOpacity(0.5)]),
+             )
+          else
+             // STANDARD FLOW (Upgrade Prompt)
+             CustomButton(
+               text: _totalDreamsCount >= 5 
+                  ? t.proRequired 
+                  : t.statsAnalysisMinDreams,
+               onPressed: () => showDialog(context: context, builder: (ctx) => const ProUpgradeDialog()),
+               gradient: const LinearGradient(colors: [Color(0xFFA78BFA), Color(0xFFEC4899)]), // Gradient for Upgrade
+               isLoading: _isLoading,
+             )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildResultState(AppLocalizations t, bool isPro) {
+    // Basic Markdown parser for the specific format we expect
+    List<Widget> contentWidgets = [];
+    if (_analysisResult != null) {
+      final lines = _analysisResult!.split('\n');
+      for (var line in lines) {
+         if (line.startsWith('###')) {
+           // Header
+           contentWidgets.add(Padding(
+             padding: const EdgeInsets.only(top: 20, bottom: 10),
+             child: Text(
+               line.replaceAll('###', '').trim(),
+               style: const TextStyle(color: Color(0xFFFBBF24), fontSize: 16, fontWeight: FontWeight.bold),
+             ),
+           ));
+         } else if (line.trim().startsWith('-')) {
+           // Bullet
+           contentWidgets.add(Padding(
+             padding: const EdgeInsets.only(bottom: 8),
+             child: Row(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 const Padding(
+                   padding: EdgeInsets.only(top: 6),
+                   child: Icon(Icons.circle, size: 4, color: Colors.white70),
+                 ),
+                 const SizedBox(width: 10),
+                 Expanded(child: Text(line.replaceAll('-', '').trim(), style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.5))),
+               ],
+             ),
+           ));
+         } else if (line.trim().isNotEmpty) {
+           // Normal text
+            contentWidgets.add(Text(line.trim(), style: const TextStyle(color: Colors.white, fontSize: 14)));
+         }
+      }
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+         borderRadius: BorderRadius.circular(20),
+         border: Border.all(color: const Color(0xFF8B5CF6).withOpacity(0.3)),
+         color: const Color(0xFF0F0F23).withOpacity(0.8),
+      ),
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(LucideIcons.brainCircuit, color: Color(0xFFA78BFA), size: 24),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  t.statsAnalysisIntroTitle, 
+                  style: const TextStyle(color: Color(0xFFA78BFA), fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(t.statsAnalysisIntroContent, style: const TextStyle(color: Colors.white70, fontSize: 12, height: 1.5)),
+          const Divider(color: Colors.white10, height: 30),
+          
+          ...contentWidgets,
+          
+          const SizedBox(height: 24),
+          // Matches "Haftalık Analiz Yapıldı" style in Screenshot 2
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.08), // Dark Gray look
+              borderRadius: BorderRadius.circular(12)
+            ),
+            alignment: Alignment.center,
+            child: Text(
+                t.statsAnalysisDone, 
+                style: const TextStyle(color: Colors.white54, fontWeight: FontWeight.bold)
+            ),
+          ),
+          const SizedBox(height: 12),
+          Center(
+              child: Text(
+                  _getWaitMessage(t), 
+                  style: const TextStyle(color: Colors.white24, fontSize: 12)
+              )
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getWaitMessage(AppLocalizations t) {
+      if (_lastAnalysisDate == null) return t.statsAnalysisWait(7);
+      
+      final diff = DateTime.now().difference(_lastAnalysisDate!);
+      final remaining = (7 - diff.inDays).clamp(0, 7);
+      return t.statsAnalysisWait(remaining);
+  }
+
+  String _getMoonSyncWaitMessage(AppLocalizations t) {
+      if (_lastMoonSyncDate == null) return t.moonSyncWait(30);
+      
+      final diff = DateTime.now().difference(_lastMoonSyncDate!);
+      final remaining = (30 - diff.inDays).clamp(0, 30);
+      return t.moonSyncWait(remaining);
+  }
+
+  Widget _buildMoonSyncIntroState(AppLocalizations t, bool isPro) {
+    if (_isMoonSyncLoading) {
+      return Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+           borderRadius: BorderRadius.circular(20),
+           border: Border.all(color: const Color(0xFF3B82F6).withOpacity(0.3)),
+           color: const Color(0xFF0F0F23).withOpacity(0.8),
+        ),
+        padding: const EdgeInsets.all(40),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircularProgressIndicator(color: Color(0xFF60A5FA)),
+            const SizedBox(height: 20),
+            Text(t.moonSyncProcessing, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontSize: 16)),
+          ],
+        ),
+      );
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+         borderRadius: BorderRadius.circular(20),
+         border: Border.all(color: const Color(0xFF3B82F6).withOpacity(0.3)),
+         gradient: LinearGradient(
+           begin: Alignment.topLeft,
+           end: Alignment.bottomRight,
+           colors: [
+             const Color(0xFF1E3A5F).withOpacity(0.6),
+             const Color(0xFF0F0F23).withOpacity(0.6),
+           ]
+         )
+      ),
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(LucideIcons.moon, color: Color(0xFF60A5FA), size: 24),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        t.moonSyncTitle, 
+                        style: TextStyle(
+                          color: isPro ? const Color(0xFFFBBF24) : const Color(0xFF60A5FA), 
+                          fontSize: 18, 
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    if (!isPro)
+                      const ProBadge(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(t.moonSyncDescription, style: const TextStyle(color: Colors.white, height: 1.6, fontSize: 14)),
+          const SizedBox(height: 24),
+          
+          if (isPro)
+             // PRO FLOW
+             CustomButton(
+               text: _totalDreamsCount >= 5 ? t.moonSyncBtn : t.moonSyncMinDreams,
+               onPressed: _totalDreamsCount >= 5 
+                  ? _runMoonSyncAnalysis
+                  : null,
+               isLoading: _isMoonSyncLoading,
+               gradient: _totalDreamsCount >= 5 
+                  ? const LinearGradient(colors: [Color(0xFF3B82F6), Color(0xFF1D4ED8)])
+                  : LinearGradient(colors: [Colors.grey.withOpacity(0.5), Colors.grey.withOpacity(0.5)]),
+             )
+          else
+             // STANDARD FLOW (Upgrade Prompt)
+             CustomButton(
+               text: _totalDreamsCount >= 5 
+                  ? t.proRequired 
+                  : t.moonSyncMinDreams,
+               onPressed: () => showDialog(context: context, builder: (ctx) => const ProUpgradeDialog()),
+               gradient: const LinearGradient(colors: [Color(0xFF3B82F6), Color(0xFF8B5CF6)]),
+               isLoading: _isMoonSyncLoading,
+             )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMoonSyncResultState(AppLocalizations t, bool isPro) {
+    // Basic Markdown parser for the specific format
+    List<Widget> contentWidgets = [];
+    if (_moonSyncResult != null) {
+      final lines = _moonSyncResult!.split('\n');
+      for (var line in lines) {
+         if (line.startsWith('###')) {
+           contentWidgets.add(Padding(
+             padding: const EdgeInsets.only(top: 20, bottom: 10),
+             child: Text(
+               line.replaceAll('###', '').trim(),
+               style: const TextStyle(color: Color(0xFF60A5FA), fontSize: 16, fontWeight: FontWeight.bold),
+             ),
+           ));
+         } else if (line.trim().startsWith('-')) {
+           contentWidgets.add(Padding(
+             padding: const EdgeInsets.only(bottom: 8),
+             child: Row(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 const Padding(
+                   padding: EdgeInsets.only(top: 6),
+                   child: Icon(Icons.circle, size: 4, color: Colors.white70),
+                 ),
+                 const SizedBox(width: 10),
+                 Expanded(child: Text(line.replaceAll('-', '').trim(), style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.5))),
+               ],
+             ),
+           ));
+         } else if (line.trim().isNotEmpty) {
+            contentWidgets.add(Text(line.trim(), style: const TextStyle(color: Colors.white, fontSize: 14)));
+         }
+      }
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+         borderRadius: BorderRadius.circular(20),
+         border: Border.all(color: const Color(0xFF3B82F6).withOpacity(0.3)),
+         color: const Color(0xFF0F0F23).withOpacity(0.8),
+      ),
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(LucideIcons.moon, color: Color(0xFF60A5FA), size: 24),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  t.moonSyncTitle, 
+                  style: const TextStyle(color: Color(0xFF60A5FA), fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(t.moonSyncDescription, style: const TextStyle(color: Colors.white70, fontSize: 12, height: 1.5)),
+          const Divider(color: Colors.white10, height: 30),
+          
+          ...contentWidgets,
+          
+          const SizedBox(height: 24),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.08),
+              borderRadius: BorderRadius.circular(12)
+            ),
+            alignment: Alignment.center,
+            child: Text(
+                t.moonSyncDone, 
+                style: const TextStyle(color: Colors.white54, fontWeight: FontWeight.bold)
+            ),
+          ),
+          const SizedBox(height: 12),
+          Center(
+              child: Text(
+                  _getMoonSyncWaitMessage(t), 
+                  style: const TextStyle(color: Colors.white24, fontSize: 12)
+              )
+          ),
+        ],
+      ),
+    );
+  }
+}

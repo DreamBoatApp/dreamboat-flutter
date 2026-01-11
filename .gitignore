@@ -1,0 +1,55 @@
+# Flutter/Dart specific
+.dart_tool/
+.packages
+build/
+.pub-cache/
+.pub/
+
+# Android specific
+android/.gradle/
+android/app/debug/
+android/app/profile/
+android/app/release/
+**/android/key.properties
+**/android/app/google-services.json
+*.keystore
+*.jks
+
+# iOS specific
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/flutter_export_environment.sh
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Miscellaneous
+*.log
+*.pyc
+.DS_Store
+*.swp
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# Firebase
+firebase-debug.log
+.firebase/
+
+# Backend
+backend/node_modules/
+backend/functions/node_modules/
+
+# Environment files (keep examples, ignore actual)
+.env
+.env.local
+*.env.local
+
+# Build outputs
+*.apk
+*.aab
+*.ipa
