@@ -728,7 +728,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get delete => 'Excluir';
 
   @override
-  String get actionFavorite => 'Favori';
+  String get actionFavorite => 'Favorito';
 
   @override
   String get understand => 'Entendi, Continuar';
@@ -901,4 +901,10 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get sharePrivacyHint =>
       'Nota: O botão de compartilhar apenas compartilha a interpretação. Seus sonhos pertencem a você e nunca são compartilhados com terceiros.';
+
+  @override
+  String get moonPhaseLabel => 'Fase Lunar:';
+
+  @override
+  String get readMore => 'Ler mais...';
 }

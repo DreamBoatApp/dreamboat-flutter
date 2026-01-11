@@ -278,5 +278,7 @@
     "moonPhaseThirdQuarter": "Third Quarter",
     "moonPhaseWaningCrescent": "Waning Crescent",
     "actionShareInterpretation": "Share\nInterpretation",
-    "sharePrivacyHint": "Note: The share button only shares the dream interpretation. Your dreams belong to you and are never shared with third parties."
+    "sharePrivacyHint": "Note: The share button only shares the dream interpretation. Your dreams belong to you and are never shared with third parties.",
+    "moonPhaseLabel": "Moon Phase:",
+    "readMore": "Read More..."
 }

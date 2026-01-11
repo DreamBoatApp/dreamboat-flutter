@@ -730,7 +730,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get delete => 'Löschen';
 
   @override
-  String get actionFavorite => 'Favori';
+  String get actionFavorite => 'Favorit';
 
   @override
   String get understand => 'Verstanden, Weiter';
@@ -907,4 +907,10 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get sharePrivacyHint =>
       'Hinweis: Die Teilen-Taste teilt nur die Traumdeutung. Ihre Träume gehören Ihnen und werden niemals mit Dritten geteilt.';
+
+  @override
+  String get moonPhaseLabel => 'Mondphase:';
+
+  @override
+  String get readMore => 'Mehr lesen...';
 }

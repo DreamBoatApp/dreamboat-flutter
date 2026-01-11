@@ -278,5 +278,7 @@
     "moonPhaseThirdQuarter": "Cuarto Menguante",
     "moonPhaseWaningCrescent": "Luna Menguante",
     "actionShareInterpretation": "Compartir\nInterpretación",
-    "sharePrivacyHint": "Nota: El botón de compartir solo comparte la interpretación. Tus sueños te pertenecen y nunca se comparten con terceros."
+    "sharePrivacyHint": "Nota: El botón de compartir solo comparte la interpretación. Tus sueños te pertenecen y nunca se comparten con terceros.",
+    "moonPhaseLabel": "Fase Lunar:",
+    "readMore": "Leer más..."
 }

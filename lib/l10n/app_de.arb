@@ -223,6 +223,8 @@
     "guideSlide4ProRequired": "Du musst die PRO-Version haben, um auf den Leitfaden zuzugreifen.",
     "guideSlide4UnlockButton": "PRO-Version freischalten",
     "guideCompleted": "Herzlichen Glückwunsch! Du hast den gesamten Leitfaden abgeschlossen.",
+    "delete": "Löschen",
+    "actionFavorite": "Favorit",
     "understand": "Verstanden, Weiter",
     "testNotification": "Testbenachrichtigung senden",
     "testNotificationSent": "Testbenachrichtigung gesendet!",
@@ -275,5 +277,7 @@
     "moonPhaseThirdQuarter": "Letztes Viertel",
     "moonPhaseWaningCrescent": "Abnehmende Sichel",
     "actionShareInterpretation": "Deutung\nteilen",
-    "sharePrivacyHint": "Hinweis: Die Teilen-Taste teilt nur die Traumdeutung. Ihre Träume gehören Ihnen und werden niemals mit Dritten geteilt."
+    "sharePrivacyHint": "Hinweis: Die Teilen-Taste teilt nur die Traumdeutung. Ihre Träume gehören Ihnen und werden niemals mit Dritten geteilt.",
+    "moonPhaseLabel": "Mondphase:",
+    "readMore": "Mehr lesen..."
 }

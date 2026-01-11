@@ -904,4 +904,10 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get sharePrivacyHint =>
       'Nota: El botón de compartir solo comparte la interpretación. Tus sueños te pertenecen y nunca se comparten con terceros.';
+
+  @override
+  String get moonPhaseLabel => 'Fase Lunar:';
+
+  @override
+  String get readMore => 'Leer más...';
 }

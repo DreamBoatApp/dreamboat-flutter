@@ -1699,6 +1699,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Not: Paylaş butonu yalnızca rüya yorumunuzu paylaşır. Rüyalarınız size aittir ve herhangi bir şekilde üçüncü şahıslara gösterilmez.'**
   String get sharePrivacyHint;
+
+  /// No description provided for @moonPhaseLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ay Evresi:'**
+  String get moonPhaseLabel;
+
+  /// No description provided for @readMore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devamını Oku...'**
+  String get readMore;
 }
 
 class _AppLocalizationsDelegate

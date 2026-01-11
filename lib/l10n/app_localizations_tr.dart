@@ -894,4 +894,10 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get sharePrivacyHint =>
       'Not: Paylaş butonu yalnızca rüya yorumunuzu paylaşır. Rüyalarınız size aittir ve herhangi bir şekilde üçüncü şahıslara gösterilmez.';
+
+  @override
+  String get moonPhaseLabel => 'Ay Evresi:';
+
+  @override
+  String get readMore => 'Devamını Oku...';
 }

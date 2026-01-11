@@ -295,5 +295,7 @@
     "moonPhaseThirdQuarter": "Son Dördün",
     "moonPhaseWaningCrescent": "Hilal (Küçülen)",
     "actionShareInterpretation": "Yorumu\nPaylaş",
-    "sharePrivacyHint": "Not: Paylaş butonu yalnızca rüya yorumunuzu paylaşır. Rüyalarınız size aittir ve herhangi bir şekilde üçüncü şahıslara gösterilmez."
+    "sharePrivacyHint": "Not: Paylaş butonu yalnızca rüya yorumunuzu paylaşır. Rüyalarınız size aittir ve herhangi bir şekilde üçüncü şahıslara gösterilmez.",
+    "moonPhaseLabel": "Ay Evresi:",
+    "readMore": "Devamını Oku..."
 }

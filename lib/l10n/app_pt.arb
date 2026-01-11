@@ -223,6 +223,8 @@
     "guideSlide4ProRequired": "Você deve ter a versão PRO para acessar o guia.",
     "guideSlide4UnlockButton": "Desbloquear Versão PRO",
     "guideCompleted": "Parabéns! Você completou o guia inteiro.",
+    "delete": "Excluir",
+    "actionFavorite": "Favorito",
     "understand": "Entendi, Continuar",
     "testNotification": "Enviar Notificação de Teste",
     "testNotificationSent": "Notificação de teste enviada!",
@@ -275,5 +277,7 @@
     "moonPhaseThirdQuarter": "Quarto Minguante",
     "moonPhaseWaningCrescent": "Lua Minguante",
     "actionShareInterpretation": "Compartilhar\nInterpretação",
-    "sharePrivacyHint": "Nota: O botão de compartilhar apenas compartilha a interpretação. Seus sonhos pertencem a você e nunca são compartilhados com terceiros."
+    "sharePrivacyHint": "Nota: O botão de compartilhar apenas compartilha a interpretação. Seus sonhos pertencem a você e nunca são compartilhados com terceiros.",
+    "moonPhaseLabel": "Fase Lunar:",
+    "readMore": "Ler mais..."
 }
