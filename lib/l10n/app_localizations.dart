@@ -1711,6 +1711,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Devamını Oku...'**
   String get readMore;
+
+  /// No description provided for @tapForDetails.
+  ///
+  /// In tr, this message translates to:
+  /// **'Detaylar için tıklayın...'**
+  String get tapForDetails;
+
+  /// No description provided for @nSelected.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} Seçildi'**
+  String nSelected(int count);
 }
 
 class _AppLocalizationsDelegate

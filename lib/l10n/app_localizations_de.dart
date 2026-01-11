@@ -913,4 +913,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get readMore => 'Mehr lesen...';
+
+  @override
+  String get tapForDetails => 'Für Details tippen...';
+
+  @override
+  String nSelected(int count) {
+    return '$count Ausgewählt';
+  }
 }

@@ -900,4 +900,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get readMore => 'Devamını Oku...';
+
+  @override
+  String get tapForDetails => 'Detaylar için tıklayın...';
+
+  @override
+  String nSelected(int count) {
+    return '$count Seçildi';
+  }
 }

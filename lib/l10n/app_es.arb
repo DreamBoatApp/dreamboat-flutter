@@ -280,5 +280,14 @@
     "actionShareInterpretation": "Compartir\nInterpretación",
     "sharePrivacyHint": "Nota: El botón de compartir solo comparte la interpretación. Tus sueños te pertenecen y nunca se comparten con terceros.",
     "moonPhaseLabel": "Fase Lunar:",
-    "readMore": "Leer más..."
+    "readMore": "Leer más...",
+    "tapForDetails": "Toca para más detalles...",
+    "nSelected": "{count} Seleccionados",
+    "@nSelected": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    }
 }

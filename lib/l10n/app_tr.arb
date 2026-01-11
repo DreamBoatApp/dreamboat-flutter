@@ -297,5 +297,14 @@
     "actionShareInterpretation": "Yorumu\nPaylaş",
     "sharePrivacyHint": "Not: Paylaş butonu yalnızca rüya yorumunuzu paylaşır. Rüyalarınız size aittir ve herhangi bir şekilde üçüncü şahıslara gösterilmez.",
     "moonPhaseLabel": "Ay Evresi:",
-    "readMore": "Devamını Oku..."
+    "readMore": "Devamını Oku...",
+    "tapForDetails": "Detaylar için tıklayın...",
+    "nSelected": "{count} Seçildi",
+    "@nSelected": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    }
 }

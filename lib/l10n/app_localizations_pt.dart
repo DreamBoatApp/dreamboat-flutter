@@ -907,4 +907,12 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get readMore => 'Ler mais...';
+
+  @override
+  String get tapForDetails => 'Toque para detalhes...';
+
+  @override
+  String nSelected(int count) {
+    return '$count Selecionados';
+  }
 }

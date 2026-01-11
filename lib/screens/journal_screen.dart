@@ -26,6 +26,9 @@ class _JournalScreenState extends State<JournalScreen> {
   int _selectedIndex = 0; 
   late PageController _pageController;
 
+  // Multi-select state
+  bool _isSelectionMode = false;
+  Set<String> _selectedDreamIds = {};
   
   List<DreamEntry> _dreams = [];
   bool _isLoading = true;
@@ -171,6 +174,123 @@ class _JournalScreenState extends State<JournalScreen> {
         d.text.toLowerCase().contains(_searchQuery.toLowerCase()) ||
         d.interpretation.toLowerCase().contains(_searchQuery.toLowerCase())
      ).toList();
+  }
+
+  // === MULTI-SELECT METHODS ===
+  void _enterSelectionMode(String dreamId) {
+    setState(() {
+      _isSelectionMode = true;
+      _selectedDreamIds = {dreamId};
+    });
+  }
+
+  void _toggleSelection(String dreamId) {
+    setState(() {
+      if (_selectedDreamIds.contains(dreamId)) {
+        _selectedDreamIds.remove(dreamId);
+        if (_selectedDreamIds.isEmpty) {
+          _isSelectionMode = false;
+        }
+      } else {
+        _selectedDreamIds.add(dreamId);
+      }
+    });
+  }
+
+  void _exitSelectionMode() {
+    setState(() {
+      _isSelectionMode = false;
+      _selectedDreamIds = {};
+    });
+  }
+
+  Future<void> _deleteSelectedDreams() async {
+    final t = AppLocalizations.of(context)!;
+    final count = _selectedDreamIds.length;
+    
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: const Color(0xFF1E1B35).withOpacity(0.95),
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: const Color(0xFF8B5CF6).withOpacity(0.3)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.redAccent.withOpacity(0.1),
+                blurRadius: 20,
+                spreadRadius: 5
+              )
+            ]
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+               Text(
+                 "$count Rüya Silinsin Mi?",
+                 style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                 textAlign: TextAlign.center,
+               ),
+               const SizedBox(height: 8),
+               Text(
+                 "Seçili rüyaları silmek istediğine emin misin? Bu işlem geri alınamaz.",
+                 style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 14, height: 1.5),
+                 textAlign: TextAlign.center,
+               ),
+               const SizedBox(height: 24),
+               Row(
+                 children: [
+                   Expanded(
+                     child: TextButton(
+                       onPressed: () => Navigator.pop(ctx, false),
+                       style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          side: const BorderSide(color: Colors.white24),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                       ),
+                       child: Text(t.cancel, style: const TextStyle(color: Colors.white70)),
+                     ),
+                   ),
+                   const SizedBox(width: 12),
+                   Expanded(
+                     child: Container(
+                       decoration: BoxDecoration(
+                         gradient: const LinearGradient(colors: [Color(0xFFEF4444), Color(0xFFEC4899)]),
+                         borderRadius: BorderRadius.circular(12),
+                         boxShadow: [
+                           BoxShadow(color: Colors.redAccent.withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 4))
+                         ]
+                       ),
+                       child: ElevatedButton(
+                          onPressed: () => Navigator.pop(ctx, true),
+                          style: ElevatedButton.styleFrom(
+                             backgroundColor: Colors.transparent,
+                             shadowColor: Colors.transparent,
+                             padding: const EdgeInsets.symmetric(vertical: 12),
+                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                          ),
+                          child: Text(t.delete, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white)),
+                       ),
+                     ),
+                   )
+                 ],
+               )
+            ],
+          ),
+        ),
+      )
+    );
+
+    if (confirm != true) return;
+
+    for (final id in _selectedDreamIds) {
+      await DreamService().deleteDream(id);
+    }
+    _exitSelectionMode();
+    _loadDreams();
   }
 
   void _showDreamDetails(BuildContext context, DreamEntry dream) {
@@ -440,19 +560,34 @@ class _JournalScreenState extends State<JournalScreen> {
       return ListView.builder(
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.all(20),
-          itemCount: filtered.length, // +1 for padding at bottom if needed
+          itemCount: filtered.length,
           itemBuilder: (context, index) {
               final dream = filtered[index];
+              final isSelected = _selectedDreamIds.contains(dream.id);
+              
               return AnimatedListItem(
                   index: index,
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 16),
-                    child: _DreamCard(
-                        dream: dream,
-                        t: t,
-                        onToggleFavorite: () => _toggleFavorite(dream),
-                        onDelete: () => _deleteDream(dream.id),
-                        onTap: () => _showDreamDetails(context, dream),
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 200),
+                      opacity: _isSelectionMode && !isSelected ? 0.5 : 1.0,
+                      child: _DreamCard(
+                          dream: dream,
+                          t: t,
+                          isSelectionMode: _isSelectionMode,
+                          isSelected: isSelected,
+                          onLongPress: () => _enterSelectionMode(dream.id),
+                          onToggleFavorite: () => _toggleFavorite(dream),
+                          onDelete: () => _deleteDream(dream.id),
+                          onTap: () {
+                            if (_isSelectionMode) {
+                              _toggleSelection(dream.id);
+                            } else {
+                              _showDreamDetails(context, dream);
+                            }
+                          },
+                      ),
                     ),
                   )
               );
@@ -490,48 +625,85 @@ class _JournalScreenState extends State<JournalScreen> {
         ),
         body: Column(
           children: [
-             // Filter Tabs
-             Padding(
-               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-               child: Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                 children: [
-                   _FilterTab(
-                     text: t.journalAll, 
-                     isSelected: _selectedIndex == 0,
-                     onTap: () => _onTabTapped(0),
-                   ),
-                   const SizedBox(width: 16),
-                   _FilterTab(
-                     text: t.journalFavorites, 
-                     isSelected: _selectedIndex == 1,
-                     onTap: () => _onTabTapped(1),
-                   ),
-                 ],
+             // Filter Tabs (hide in selection mode)
+             if (!_isSelectionMode)
+               Padding(
+                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                 child: Row(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   children: [
+                     _FilterTab(
+                       text: t.journalAll, 
+                       isSelected: _selectedIndex == 0,
+                       onTap: () => _onTabTapped(0),
+                     ),
+                     const SizedBox(width: 16),
+                     _FilterTab(
+                       text: t.journalFavorites, 
+                       isSelected: _selectedIndex == 1,
+                       onTap: () => _onTabTapped(1),
+                     ),
+                   ],
+                 ),
                ),
-             ),
              
-             // Search Bar
-             Padding(
-               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0).copyWith(bottom: 10),
-               child: GlassCard(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  child: TextField(
-                    controller: _searchController,
-                    onChanged: (val) {
-                      setState(() => _searchQuery = val);
-                    },
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                       icon: Icon(LucideIcons.search, color: Colors.white.withOpacity(0.5), size: 20),
-                       hintText: t.journalSearchHint,
-                       hintStyle: TextStyle(color: Colors.white.withOpacity(0.4)),
-                       border: InputBorder.none,
-                       isDense: true
-                    ),
-                  )
+             // Search Bar (hide in selection mode)
+             if (!_isSelectionMode)
+               Padding(
+                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0).copyWith(bottom: 10),
+                 child: GlassCard(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    child: TextField(
+                      controller: _searchController,
+                      onChanged: (val) {
+                        setState(() => _searchQuery = val);
+                      },
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                         icon: Icon(LucideIcons.search, color: Colors.white.withOpacity(0.5), size: 20),
+                         hintText: t.journalSearchHint,
+                         hintStyle: TextStyle(color: Colors.white.withOpacity(0.4)),
+                         border: InputBorder.none,
+                         isDense: true
+                      ),
+                    )
+                 ),
                ),
-             ),
+             
+             // Selection Bar (show in selection mode) - transparent, no box
+             if (_isSelectionMode)
+               Padding(
+                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0).copyWith(bottom: 10),
+                 child: Row(
+                   children: [
+                     // Cancel button (X)
+                     GestureDetector(
+                       onTap: _exitSelectionMode,
+                       child: Icon(LucideIcons.x, color: Colors.white.withOpacity(0.7), size: 22),
+                     ),
+                     const SizedBox(width: 16),
+                     // Selected count
+                     Expanded(
+                       child: Text(
+                         t.nSelected(_selectedDreamIds.length),
+                         style: TextStyle(color: Colors.white.withOpacity(0.95), fontSize: 17, fontWeight: FontWeight.w600),
+                       ),
+                     ),
+                     // Delete button (outlined circle)
+                     GestureDetector(
+                       onTap: _deleteSelectedDreams,
+                       child: Container(
+                         padding: const EdgeInsets.all(10),
+                         decoration: BoxDecoration(
+                           shape: BoxShape.circle,
+                           border: Border.all(color: Colors.redAccent.withOpacity(0.5), width: 1.5),
+                         ),
+                         child: Icon(LucideIcons.trash2, color: Colors.redAccent.withOpacity(0.8), size: 18),
+                       ),
+                     ),
+                   ],
+                 ),
+               ),
              
              // Content PageView
              Expanded(
@@ -594,6 +766,9 @@ class _FilterTab extends StatelessWidget {
 class _DreamCard extends StatelessWidget {
   final DreamEntry dream;
   final AppLocalizations t;
+  final bool isSelectionMode;
+  final bool isSelected;
+  final VoidCallback onLongPress;
   final VoidCallback onToggleFavorite;
   final VoidCallback onDelete;
   final VoidCallback onTap;
@@ -602,6 +777,9 @@ class _DreamCard extends StatelessWidget {
     super.key,
     required this.dream, 
     required this.t, 
+    this.isSelectionMode = false,
+    this.isSelected = false,
+    required this.onLongPress,
     required this.onToggleFavorite, 
     required this.onDelete,
     required this.onTap,
@@ -700,30 +878,44 @@ class _DreamCard extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: onTap,
-              child: Container(
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      const Color(0xFF13132B).withOpacity(0.95),
-                      const Color(0xFF0F0F23).withOpacity(0.95),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.08),
-                    width: 1,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
+              onLongPress: onLongPress,
+              child: Stack(
+                children: [
+                  // Main Card with neon glow when selected
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          const Color(0xFF13132B).withOpacity(0.95),
+                          const Color(0xFF0F0F23).withOpacity(0.95),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: isSelected 
+                          ? const Color(0xFFA78BFA).withOpacity(0.6)
+                          : Colors.white.withOpacity(0.08),
+                        width: isSelected ? 1.5 : 1,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                        // Neon glow when selected
+                        if (isSelected)
+                          BoxShadow(
+                            color: const Color(0xFFA78BFA).withOpacity(0.3),
+                            blurRadius: 20,
+                            spreadRadius: 2,
+                          ),
+                      ],
                     ),
-                  ],
-                ),
                 child: IntrinsicHeight(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -763,48 +955,37 @@ class _DreamCard extends StatelessWidget {
                                   // Mood Icon
                                   Icon(moodData['icon'] as IconData, size: 16, color: moodColor),
                                   
-                                  const SizedBox(width: 12),
-                                  
-                                  // Time
-                                  Text(
-                                    timeStr,
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.6),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 0.5,
-                                    ),
-                                  ),
-                                  
                                   const Spacer(),
                                   
-                                  // Actions
-                                  Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      onTap: onToggleFavorite,
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: Icon(
-                                          dream.isFavorite ? LucideIcons.heart : LucideIcons.heart,
-                                          size: 20,
-                                          color: dream.isFavorite ? Colors.redAccent : Colors.white38,
+                                  // Actions (hide in selection mode)
+                                  if (!isSelectionMode) ...[
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: onToggleFavorite,
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8),
+                                          child: Icon(
+                                            dream.isFavorite ? LucideIcons.heart : LucideIcons.heart,
+                                            size: 20,
+                                            color: dream.isFavorite ? Colors.redAccent : Colors.white38,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      onTap: onDelete,
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(8),
-                                        child: Icon(LucideIcons.trash2, size: 20, color: Colors.white38),
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: onDelete,
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8),
+                                          child: Icon(LucideIcons.trash2, size: 20, color: Colors.white38),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                  ],
                                 ],
                               ),
                               
@@ -827,36 +1008,50 @@ class _DreamCard extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+              
+              // Selection indicator (top-right corner)
+              if (isSelectionMode)
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isSelected 
+                        ? const Color(0xFFA78BFA)
+                        : Colors.white.withOpacity(0.1),
+                      border: Border.all(
+                        color: isSelected 
+                          ? const Color(0xFFA78BFA)
+                          : Colors.white.withOpacity(0.3),
+                        width: 2,
+                      ),
+                    ),
+                    child: isSelected 
+                      ? const Icon(LucideIcons.check, size: 14, color: Colors.white)
+                      : null,
+                  ),
+                ),
+            ],
           ),
-        ],
+        ),
       ),
-    );
+    ],
+  ),
+);
   }
 }
 
-class _CollapsibleInterpretation extends StatefulWidget {
+class _CollapsibleInterpretation extends StatelessWidget {
   final String text;
   const _CollapsibleInterpretation({required this.text});
 
   @override
-  State<_CollapsibleInterpretation> createState() => _CollapsibleInterpretationState();
-}
-
-class _CollapsibleInterpretationState extends State<_CollapsibleInterpretation> {
-  bool _isExpanded = false;
-
-  @override
   Widget build(BuildContext context) {
-      return GestureDetector(
-        onTap: () {
-            setState(() {
-                _isExpanded = !_isExpanded;
-            });
-        },
-        child: AnimatedContainer(
-           duration: const Duration(milliseconds: 300),
-           curve: Curves.easeInOut,
+      return Container(
            padding: const EdgeInsets.all(16),
            decoration: BoxDecoration(
              color: const Color(0xFF1E1B35).withOpacity(0.5),
@@ -866,52 +1061,33 @@ class _CollapsibleInterpretationState extends State<_CollapsibleInterpretation> 
            child: Column(
              crossAxisAlignment: CrossAxisAlignment.start,
              children: [
-               Row(
-                   children: [
-                       Text(
-                          AppLocalizations.of(context)!.dreamInterpretationTitle,
-                          style: TextStyle(color: Color(0xFFA78BFA), fontSize: 13, fontWeight: FontWeight.bold)
-                        ),
-                       const Spacer(),
-                       Icon(
-                           _isExpanded ? LucideIcons.chevronUp : LucideIcons.chevronDown,
-                           size: 16,
-                           color: const Color(0xFFA78BFA).withOpacity(0.7)
-                       )
-                   ]
+               // Header (no arrow)
+               Text(
+                  AppLocalizations.of(context)!.dreamInterpretationTitle,
+                  style: TextStyle(color: Color(0xFFA78BFA), fontSize: 13, fontWeight: FontWeight.bold)
                ),
                
-               if (_isExpanded) const SizedBox(height: 12),
+               const SizedBox(height: 8),
                
-               AnimatedCrossFade(
-                   firstChild: Text(
-                     widget.text,
-                     maxLines: 2, // Preview 2 lines
-                     overflow: TextOverflow.ellipsis,
-                     style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 13, height: 1.5),
-                   ),
-                   secondChild: Text(
-                     widget.text,
-                     style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 14, height: 1.6),
-                   ),
-                   crossFadeState: _isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                   duration: const Duration(milliseconds: 300),
+               // Preview text (2 lines)
+               Text(
+                 text,
+                 maxLines: 2,
+                 overflow: TextOverflow.ellipsis,
+                 style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 13, height: 1.5),
                ),
                
-               // "Read More" hint when collapsed
-               if (!_isExpanded) ...[
-                  const SizedBox(height: 4),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                       AppLocalizations.of(context)!.dreamInterpretationReadMore, 
-                       style: TextStyle(color: Colors.white.withOpacity(0.4), fontSize: 10, fontStyle: FontStyle.italic)
-                    ),
-                  )
-               ]
+               const SizedBox(height: 8),
+               
+               // Hint to tap for details (centered)
+               Center(
+                 child: Text(
+                    AppLocalizations.of(context)!.tapForDetails, 
+                    style: TextStyle(color: Colors.white.withOpacity(0.4), fontSize: 10, fontStyle: FontStyle.italic)
+                 ),
+               )
              ],
            ),
-         ),
       );
   }
 }

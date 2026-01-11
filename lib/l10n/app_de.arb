@@ -279,5 +279,14 @@
     "actionShareInterpretation": "Deutung\nteilen",
     "sharePrivacyHint": "Hinweis: Die Teilen-Taste teilt nur die Traumdeutung. Ihre Träume gehören Ihnen und werden niemals mit Dritten geteilt.",
     "moonPhaseLabel": "Mondphase:",
-    "readMore": "Mehr lesen..."
+    "readMore": "Mehr lesen...",
+    "tapForDetails": "Für Details tippen...",
+    "nSelected": "{count} Ausgewählt",
+    "@nSelected": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    }
 }
