@@ -516,7 +516,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get upgradeStart => 'Başla';
 
   @override
-  String get proRequired => 'PRO Versiyon ve En Az 5 Kaydedilmiş Rüya Gerekir';
+  String get proRequired => 'PRO Versiyon Gerekir';
 
   @override
   String get proRequiredDetail =>
@@ -908,4 +908,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String nSelected(int count) {
     return '$count Seçildi';
   }
+
+  @override
+  String get shareCardHeader => 'GÜNLÜK RÜYA YORUMUM';
+
+  @override
+  String get shareCardWatermark => 'DreamBoat App ile yorumlandı';
 }

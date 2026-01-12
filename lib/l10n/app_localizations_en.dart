@@ -519,8 +519,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get upgradeStart => 'Start';
 
   @override
-  String get proRequired =>
-      'PRO Version and At Least 5 Recorded Dreams Required';
+  String get proRequired => 'PRO Version Required';
 
   @override
   String get proRequiredDetail =>
@@ -912,4 +911,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String nSelected(int count) {
     return '$count Selected';
   }
+
+  @override
+  String get shareCardHeader => 'MY DAILY DREAM INTERPRETATION';
+
+  @override
+  String get shareCardWatermark => 'Interpreted with DreamBoat App';
 }

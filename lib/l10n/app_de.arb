@@ -174,7 +174,7 @@
     "journalDeleteConfirm": "Löschen",
     "journalDeleteCancel": "Abbrechen",
     "upgradeBenefits": "Werbefreie Erfahrung\nVollständige Traumanalyse\nUnbegrenzte Traumdeutung\nExklusiver Zugang zum Leitfaden",
-    "proRequired": "PRO-Version und mindestens 5 aufgezeichnete Träume erforderlich",
+    "proRequired": "PRO-Version erforderlich",
     "proRequiredDetail": "PRO-Version und mindestens 5 aufgezeichnete Träume erforderlich",
     "guideUnlockPro": "PRO-Version freischalten",
     "guideUnlockHint": "Du musst auf PRO upgraden, um den Leitfaden freizuschalten.",
@@ -288,5 +288,7 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "shareCardHeader": "MEINE TÄGLICHE TRAUMDEUTUNG",
+    "shareCardWatermark": "Interpretiert mit DreamBoat App"
 }

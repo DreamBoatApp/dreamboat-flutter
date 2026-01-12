@@ -162,7 +162,7 @@
     "upgradeCancel": "Quizás después",
     "upgradeSuccess": "¡Bienvenido a DreamBoat PRO!",
     "upgradeStart": "Empezar",
-    "proRequired": "Se Requiere Versión PRO y Al Menos 5 Sueños Registrados",
+    "proRequired": "Se Requiere Versión PRO",
     "proRequiredDetail": "Se Requiere Versión PRO y Al Menos 5 Sueños Registrados",
     "guideUnlockPro": "Desbloquear Versión PRO",
     "guideUnlockHint": "Debes actualizar a PRO para desbloquear la guía.",
@@ -289,5 +289,7 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "shareCardHeader": "MI INTERPRETACIÓN DE SUEÑOS DIARIA",
+    "shareCardWatermark": "Interpretado con DreamBoat App"
 }

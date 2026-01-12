@@ -118,8 +118,7 @@ class _StatsScreenState extends State<StatsScreen> {
     
     // 3. Load Real Chart Data
     final allDreams = await _dreamService.getDreams();
-    // Count interpreted dreams (assuming 'text' and 'date' are valid, checking interpretation length might be better but counting all entries is safer based on request "5 interpreted dream entries" - usually entries have interpretations).
-    // Actually, let's just count total entries as interpretation is usually mandatory or auto-generated.
+    // Count interpreted dreams
     _totalDreamsCount = allDreams.length; 
 
     final now = DateTime.now();
@@ -145,6 +144,7 @@ class _StatsScreenState extends State<StatsScreen> {
     if (mounted) {
        setState(() {
           _isLoading = false;
+          _totalDreamsCount = allDreams.length;
        });
     }
   }
@@ -461,39 +461,7 @@ class _StatsScreenState extends State<StatsScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              // 1. Daily Tip Card
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1C1326).withOpacity(0.8), // Dark purple/brown bg
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.amber.withOpacity(0.3)),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                         const Icon(LucideIcons.lightbulb, color: Color(0xFFFBBF24), size: 20),
-                         const SizedBox(width: 10),
-                         Text(t.statsTipTitle, style: const TextStyle(color: Color(0xFFFBBF24), fontWeight: FontWeight.bold, fontSize: 16)),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    if (_isTipLoading)
-                      const Center(child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.amber)))
-                    else
-                      Text(
-                        _dailyTip.isNotEmpty ? _dailyTip : t.statsTipContent, // Fallback to localized default if empty
-                        style: const TextStyle(color: Colors.white, height: 1.5, fontSize: 14),
-                      )
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // 2. Chart Card
+              // 1. Chart Card (Bu Ayın Duygu Dağılımı)
               GlassCard(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -561,6 +529,38 @@ class _StatsScreenState extends State<StatsScreen> {
                     ),
                   ),
                 ),
+              const SizedBox(height: 20),
+
+              // 2. Daily Tip Card (Günün Rüya Tavsiyesi)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1C1326).withOpacity(0.8), // Dark purple/brown bg
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.amber.withOpacity(0.3)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                         const Icon(LucideIcons.lightbulb, color: Color(0xFFFBBF24), size: 20),
+                         const SizedBox(width: 10),
+                         Text(t.statsTipTitle, style: const TextStyle(color: Color(0xFFFBBF24), fontWeight: FontWeight.bold, fontSize: 16)),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    if (_isTipLoading)
+                      const Center(child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.amber)))
+                    else
+                      Text(
+                        _dailyTip.isNotEmpty ? _dailyTip : t.statsTipContent, // Fallback to localized default if empty
+                        style: const TextStyle(color: Colors.white, height: 1.5, fontSize: 14),
+                      )
+                  ],
+                ),
+              ),
               const SizedBox(height: 20),
 
               // 3. Analysis Section
@@ -670,8 +670,8 @@ class _StatsScreenState extends State<StatsScreen> {
              // STANDARD FLOW (Upgrade Prompt)
              CustomButton(
                text: _totalDreamsCount >= 5 
-                  ? t.proRequired 
-                  : t.statsAnalysisMinDreams,
+                  ? t.proRequired  // "PRO Versiyon Gerekir"
+                  : t.proRequiredDetail,  // "PRO Versiyon ve En Az 5 Kaydedilmiş Rüya Gerekir"
                onPressed: () => showDialog(context: context, builder: (ctx) => const ProUpgradeDialog()),
                gradient: const LinearGradient(colors: [Color(0xFFA78BFA), Color(0xFFEC4899)]), // Gradient for Upgrade
                isLoading: _isLoading,
@@ -875,8 +875,8 @@ class _StatsScreenState extends State<StatsScreen> {
              // STANDARD FLOW (Upgrade Prompt)
              CustomButton(
                text: _totalDreamsCount >= 5 
-                  ? t.proRequired 
-                  : t.moonSyncMinDreams,
+                  ? t.proRequired  // "PRO Versiyon Gerekir"
+                  : t.proRequiredDetail,  // "PRO Versiyon ve En Az 5 Kaydedilmiş Rüya Gerekir"
                onPressed: () => showDialog(context: context, builder: (ctx) => const ProUpgradeDialog()),
                gradient: const LinearGradient(colors: [Color(0xFF3B82F6), Color(0xFF8B5CF6)]),
                isLoading: _isMoonSyncLoading,

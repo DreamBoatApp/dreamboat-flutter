@@ -1013,7 +1013,7 @@ abstract class AppLocalizations {
   /// No description provided for @proRequired.
   ///
   /// In tr, this message translates to:
-  /// **'PRO Versiyon ve En Az 5 Kaydedilmiş Rüya Gerekir'**
+  /// **'PRO Versiyon Gerekir'**
   String get proRequired;
 
   /// No description provided for @proRequiredDetail.
@@ -1723,6 +1723,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'{count} Seçildi'**
   String nSelected(int count);
+
+  /// No description provided for @shareCardHeader.
+  ///
+  /// In tr, this message translates to:
+  /// **'GÜNLÜK RÜYA YORUMUM'**
+  String get shareCardHeader;
+
+  /// No description provided for @shareCardWatermark.
+  ///
+  /// In tr, this message translates to:
+  /// **'DreamBoat App ile yorumlandı'**
+  String get shareCardWatermark;
 }
 
 class _AppLocalizationsDelegate

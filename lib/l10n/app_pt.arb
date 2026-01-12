@@ -174,7 +174,7 @@
     "journalDeleteConfirm": "Excluir",
     "journalDeleteCancel": "Cancelar",
     "upgradeBenefits": "Experiência Sem Anúncios\nAnálise Completa de Sonhos\nInterpretação Ilimitada de Sonhos\nAcesso Exclusivo ao Guia",
-    "proRequired": "Versão PRO e Pelo Menos 5 Sonhos Registrados Necessários",
+    "proRequired": "Versão PRO Necessária",
     "proRequiredDetail": "Versão PRO e Pelo Menos 5 Sonhos Registrados Necessários",
     "guideUnlockPro": "Desbloquear Versão PRO",
     "guideUnlockHint": "Você deve atualizar para PRO para desbloquear o guia.",
@@ -288,5 +288,7 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "shareCardHeader": "MINHA INTERPRETAÇÃO DE SONHOS DIÁRIA",
+    "shareCardWatermark": "Interpretado com DreamBoat App"
 }

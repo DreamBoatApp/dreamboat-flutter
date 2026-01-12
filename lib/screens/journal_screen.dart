@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:dream_boat_mobile/providers/subscription_provider.dart';
 import 'package:dream_boat_mobile/services/moon_phase_service.dart';
+import 'package:dream_boat_mobile/services/share_service.dart';
 
 class JournalScreen extends StatefulWidget {
   const JournalScreen({super.key});
@@ -75,7 +76,7 @@ class _JournalScreenState extends State<JournalScreen> {
       });
   }
 
-  Future<void> _deleteDream(String id) async {
+  Future<bool> _deleteDream(String id) async {
     // Show Confirmation Dialog
     final t = AppLocalizations.of(context)!;
     
@@ -156,10 +157,11 @@ class _JournalScreenState extends State<JournalScreen> {
       )
     );
 
-    if (confirm != true) return;
+    if (confirm != true) return false;
 
     await DreamService().deleteDream(id);
     _loadDreams();
+    return true;
   }
 
   Future<void> _toggleFavorite(DreamEntry dream) async {
@@ -329,213 +331,241 @@ class _JournalScreenState extends State<JournalScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.85,
-        minChildSize: 0.5,
-        maxChildSize: 0.95,
-        builder: (context, scrollController) => Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                const Color(0xFF13132B).withOpacity(0.98), // Darker Top
-                const Color(0xFF0F0F23).withOpacity(0.98), // Darker Bottom
-              ],
-            ),
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-            border: Border.all(
-              color: Colors.white.withOpacity(0.1),
-              width: 1,
-            ),
-          ),
-          child: Column(
-            children: [
-              // Handle bar
-              Container(
-                margin: const EdgeInsets.only(top: 12),
-                width: 40,
-                height: 4,
+      builder: (context) {
+        // Initialize mutable state with the dream passed to the function
+        var currentDream = dream;
+        
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return DraggableScrollableSheet(
+              initialChildSize: 0.85,
+              minChildSize: 0.5,
+              maxChildSize: 0.95,
+              builder: (context, scrollController) => Container(
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(2),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      const Color(0xFF13132B).withOpacity(0.98), // Darker Top
+                      const Color(0xFF0F0F23).withOpacity(0.98), // Darker Bottom
+                    ],
+                  ),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.1),
+                    width: 1,
+                  ),
                 ),
-              ),
-              
-              // Content
-              Expanded(
-                child: ListView(
-                  controller: scrollController,
-                  padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
+                child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          dateStr,
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                    // Handle bar
+                    Container(
+                      margin: const EdgeInsets.only(top: 12),
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                    
+                    // Content
+                    Expanded(
+                      child: ListView(
+                        controller: scrollController,
+                        padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                dateStr,
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.5),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Row(
+                                 children: [
+                                   Icon(LucideIcons.moon, size: 14, color: Colors.white.withOpacity(0.5)),
+                                   const SizedBox(width: 6),
+                                   Text(
+                                     "${t.moonPhaseLabel} ${getLocalizedMoonPhase()}",
+                                     style: TextStyle(
+                                       color: Colors.white.withOpacity(0.5),
+                                       fontSize: 12,
+                                       fontStyle: FontStyle.italic,
+                                     ),
+                                   ),
+                                 ],
+                              ),
+                            ],
                           ),
-                        ),
-                        Row(
-                           children: [
-                             Icon(LucideIcons.moon, size: 14, color: Colors.white.withOpacity(0.5)),
-                             const SizedBox(width: 6),
-                             Text(
-                               "${t.moonPhaseLabel} ${getLocalizedMoonPhase()}",
-                               style: TextStyle(
-                                 color: Colors.white.withOpacity(0.5),
-                                 fontSize: 12,
-                                 fontStyle: FontStyle.italic,
-                               ),
-                             ),
-                           ],
-                        ),
-                      ],
-                    ),
-                    
-                    const SizedBox(height: 16),
-                    
-                    // Title (AI Summary)
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        height: 1.3,
-                      ),
-                    ),
-                    
-                    const SizedBox(height: 24),
-                    
-                    // Dream Text
-                    Text(
-                      dream.text,
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.85),
-                        fontSize: 16,
-                        height: 1.8,
-                        letterSpacing: 0.2,
-                      ),
-                    ),
-                    
-                    const SizedBox(height: 32),
-                    
-                    // Interpretation Box (Glassmorphism)
-                    if (dream.interpretation.isNotEmpty)
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.05),
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: const Color(0xFF8B5CF6).withOpacity(0.3),
-                            width: 1,
+                          
+                          const SizedBox(height: 16),
+                          
+                          // Title (AI Summary)
+                          Text(
+                            title,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              height: 1.3,
+                            ),
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFF8B5CF6).withOpacity(0.1),
-                              blurRadius: 20,
-                              spreadRadius: -5,
+                          
+                          const SizedBox(height: 24),
+                          
+                          // Dream Text
+                          Text(
+                            currentDream.text,
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.85),
+                              fontSize: 16,
+                              height: 1.8,
+                              letterSpacing: 0.2,
                             ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            
-                            // Header (NO sparkle icon)
-                            Text(
-                              t.dreamInterpretationTitle,
-                              style: const TextStyle(
-                                color: Color(0xFFA78BFA),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
+                          ),
+                          
+                          const SizedBox(height: 32),
+                          
+                          // Interpretation Box (Glassmorphism)
+                          if (currentDream.interpretation.isNotEmpty)
+                            Container(
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.05),
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: const Color(0xFF8B5CF6).withOpacity(0.3),
+                                  width: 1,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xFF8B5CF6).withOpacity(0.1),
+                                    blurRadius: 20,
+                                    spreadRadius: -5,
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  
+                                  // Header (NO sparkle icon)
+                                  Text(
+                                    t.dreamInterpretationTitle,
+                                    style: const TextStyle(
+                                      color: Color(0xFFA78BFA),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12),
+                                  // Interpretation text
+                                  Text(
+                                    currentDream.interpretation,
+                                    style: TextStyle(
+                                      color: Colors.white.withOpacity(0.8),
+                                      fontSize: 14,
+                                      height: 1.7,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(height: 12),
-                            // Interpretation text
-                            Text(
-                              dream.interpretation,
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.8),
-                                fontSize: 14,
-                                height: 1.7,
+                          
+                          const SizedBox(height: 40),
+                          
+                          // Action Buttons (inside scroll, not fixed)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              // Favori
+                              _ActionButton(
+                                icon: currentDream.isFavorite ? LucideIcons.heart : LucideIcons.heart,
+                                label: t.actionFavorite,
+                                // Change icon color based on state
+                                iconColor: currentDream.isFavorite ? Colors.redAccent : Colors.white,
+                                onTap: () async {
+                                  // 1. Calculate new state
+                                  final newStatus = !currentDream.isFavorite;
+                                  final updated = currentDream.copyWith(isFavorite: newStatus);
+
+                                  // 2. Optimistic UI Update (Local)
+                                  setModalState(() {
+                                    currentDream = updated;
+                                  });
+
+                                  // 3. Backend Update
+                                  await DreamService().updateDream(updated);
+                                  _loadDreams(); // Notify parent list
+                                },
                               ),
+                              
+                              // Yorumu Paylaş
+                              _ActionButton(
+                                icon: LucideIcons.share2,
+                                label: t.actionShareInterpretation,
+                                onTap: () async {
+                                  if (currentDream.interpretation.isNotEmpty) {
+                                    await ShareService.shareInterpretation(
+                                      context,
+                                      currentDream.interpretation,
+                                      t.shareCardWatermark,
+                                      t.shareCardHeader,
+                                    );
+                                  }
+                                },
+                              ),
+                              
+                              // Sil
+                              _ActionButton(
+                                icon: LucideIcons.trash2,
+                                label: t.delete,
+                                onTap: () async {
+                                  // Wait for confirmation result
+                                  final deleted = await _deleteDream(currentDream.id);
+                                  // Only close modal if actually deleted
+                                  if (deleted) {
+                                    Navigator.pop(context);
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                          
+                          const SizedBox(height: 40),
+                          
+                          // Privacy Hint
+                          Text(
+                            t.sharePrivacyHint,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.5),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              height: 1.5,
                             ),
-                          ],
-                        ),
+                          ),
+                          
+                          const SizedBox(height: 40),
+                        ],
                       ),
-                    
-                    const SizedBox(height: 40),
-                    
-                    // Action Buttons (inside scroll, not fixed)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        // Favori
-                        _ActionButton(
-                          icon: dream.isFavorite ? LucideIcons.heartOff : LucideIcons.heart,
-                          label: t.actionFavorite,
-                          onTap: () {
-                            _toggleFavorite(dream);
-                            Navigator.pop(context);
-                          },
-                        ),
-                        
-                        // Yorumu Paylaş
-                        _ActionButton(
-                          icon: LucideIcons.share2,
-                          label: t.actionShareInterpretation,
-                          onTap: () {
-                            // TODO: Implement share functionality
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(t.sharePrivacyHint.split(":")[0]), // Just "Note" or "Not" ? No, use a simpler "Coming soon" or similar if logic needed, but keeping as is for now or better: just remove the hardcoded check for SnackBar text
-                                backgroundColor: const Color(0xFF8B5CF6),
-                              ),
-                            );
-                          },
-                        ),
-                        
-                        // Sil
-                        _ActionButton(
-                          icon: LucideIcons.trash2,
-                          label: t.delete,
-                          onTap: () {
-                            Navigator.pop(context);
-                            _deleteDream(dream.id);
-                          },
-                        ),
-                      ],
                     ),
-                    
-                    const SizedBox(height: 24),
-                    
-                    // Privacy Hint
-                    Text(
-                      t.sharePrivacyHint,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.4),
-                        fontSize: 12,
-                        height: 1.5,
-                      ),
-                    ),
-                    
-                    const SizedBox(height: 40),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            );
+          }
+        );
+      }
     );
   }
+
 
   Widget _buildDreamList(List<DreamEntry> dreams, String emptyMsg, AppLocalizations t) {
       final filtered = _filterDreams(dreams);
@@ -546,14 +576,11 @@ class _JournalScreenState extends State<JournalScreen> {
       
       if (filtered.isEmpty) {
           return Center(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                      Icon(LucideIcons.cloud, size: 48, color: Colors.white.withOpacity(0.2)),
-                      const SizedBox(height: 16),
-                      Text(emptyMsg, style: TextStyle(color: Colors.white.withOpacity(0.4))),
-                  ]
-              )
+              child: Text(
+                emptyMsg, 
+                style: TextStyle(color: Colors.white.withOpacity(0.4)),
+                textAlign: TextAlign.center,
+              ),
           );
       }
 
@@ -1097,47 +1124,51 @@ class _ActionButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
+  final Color? iconColor;
 
   const _ActionButton({
     required this.icon,
     required this.label,
     required this.onTap,
+    this.iconColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
+    return SizedBox(
+      width: 80, // Fixed width for consistent layout
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.08),
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.white.withOpacity(0.15),
-                width: 1,
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(24),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.08),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.1),
+                    width: 1,
+                  ),
+                ),
+                child: Icon(icon, color: iconColor ?? Colors.white.withOpacity(0.9), size: 24),
               ),
-            ),
-            child: Icon(
-              icon,
-              color: Colors.white.withOpacity(0.8),
-              size: 22,
             ),
           ),
           const SizedBox(height: 8),
           SizedBox(
-            height: 28, // Fixed height for alignment
+            height: 32, // Fixed height for 2 lines of text
             child: Text(
               label,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white.withOpacity(0.6),
-                fontSize: 11,
-                height: 1.2,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),

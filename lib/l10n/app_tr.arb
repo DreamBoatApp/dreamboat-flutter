@@ -165,7 +165,7 @@
     "upgradeCancel": "Belki daha sonra",
     "upgradeSuccess": "DreamBoat PRO'ya hoşgeldin!",
     "upgradeStart": "Başla",
-    "proRequired": "PRO Versiyon ve En Az 5 Kaydedilmiş Rüya Gerekir",
+    "proRequired": "PRO Versiyon Gerekir",
     "proRequiredDetail": "PRO Versiyon ve En Az 5 Kaydedilmiş Rüya Gerekir",
     "guideUnlockPro": "PRO Sürümünün Kilidini Aç",
     "guideUnlockHint": "Rehberin kilidini açmak için PRO sürümüne geçmelisin.",
@@ -306,5 +306,7 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "shareCardHeader": "GÜNLÜK RÜYA YORUMUM",
+    "shareCardWatermark": "DreamBoat App ile yorumlandı"
 }
