@@ -991,4 +991,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewCancel => 'Cancel';
+
+  @override
+  String get adConsentTitle => 'One More Dream Interpretation ✨';
+
+  @override
+  String get adConsentBody =>
+      'DreamBoat offers free dream interpretations. To sustain this, a short video will be shown before each interpretation.';
+
+  @override
+  String get adConsentWatch => 'Watch Ad & Get Interpretation';
+
+  @override
+  String get adConsentPro => 'Upgrade to PRO (Ad-Free)';
+
+  @override
+  String get adLoadError =>
+      'The ad could not be loaded at the moment. You can try again shortly or upgrade to PRO.';
+
+  @override
+  String get adRetry => 'Retry';
 }

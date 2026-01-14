@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:dream_boat_mobile/theme/app_theme.dart';
 import 'package:dream_boat_mobile/widgets/background_sky.dart';
-import 'package:dream_boat_mobile/services/connectivity_service.dart'; // [NEW]
+import 'package:dream_boat_mobile/services/connectivity_service.dart'; 
 import 'package:dream_boat_mobile/widgets/glass_card.dart';
 import 'package:dream_boat_mobile/widgets/custom_button.dart';
+import 'package:dream_boat_mobile/widgets/ad_consent_dialog.dart'; // [NEW]
 
 import 'package:dream_boat_mobile/l10n/app_localizations.dart';
 import 'package:dream_boat_mobile/services/openai_service.dart';
@@ -14,7 +15,7 @@ import 'package:dream_boat_mobile/services/ad_manager.dart';
 import 'package:dream_boat_mobile/models/dream_entry.dart';
 import 'package:dream_boat_mobile/screens/journal_screen.dart';
 import 'package:dream_boat_mobile/widgets/gradient_text.dart';
-import 'package:dream_boat_mobile/utils/custom_page_route.dart'; // [NEW]
+import 'package:dream_boat_mobile/utils/custom_page_route.dart'; 
 
 import 'package:provider/provider.dart';
 import 'package:dream_boat_mobile/providers/subscription_provider.dart';
@@ -30,22 +31,19 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
   final TextEditingController _controller = TextEditingController();
   bool _isSaving = false;
 
-
   @override
   void initState() {
     super.initState();
   }
 
-
-
   @override
   void dispose() {
     _controller.dispose();
-    // _rewardedAd?.dispose();
     super.dispose();
   }
 
   void _handleSave() {
+    FocusScope.of(context).unfocus(); // Close keyboard before checking/showing modals
     final text = _controller.text.trim();
     if (text.isEmpty) return;
     
@@ -68,33 +66,68 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
   }
   
   Future<void> _checkAdAndProcess(String mood) async {
-    setState(() => _isSaving = true);
-    
-    // Check PRO Status to potentially skip limits or just identifying user
+    // 1. Check PRO Status
     final isPro = context.read<SubscriptionProvider>().isPro;
-
-    // Check daily usage to prevent abuse (Limit: 100)
-    final service = DreamService();
-    final usage = await service.getDailyUsage();
-    
-    if (!isPro && usage >= 100) {
-      // Limit Reached for Non-Pro (or everyone if we want strict limit)
-       if (mounted) {
-         final t = AppLocalizations.of(context)!;
-         ScaffoldMessenger.of(context).showSnackBar(
-           SnackBar(content: Text(t.dailyLimitReached), backgroundColor: Colors.redAccent)
-         );
-       }
-       setState(() => _isSaving = false);
-       return;
+    if (isPro) {
+      // PRO: Directly process without ads
+      await _processDream(mood);
+      return;
     }
-    
-    // Proceed directly without Ads
-    await _processDream(mood);
+
+    // 2. Check First Dream Status
+    final dreamService = DreamService();
+    final isFirstDream = await dreamService.isFirstDream();
+    if (isFirstDream) {
+      // First Dream: Free, no ad
+      await _processDream(mood, isFirstDream: true);
+      return;
+    }
+
+    // 3. Ad Flow for Standard Users
+    if (!mounted) return;
+    showDialog(
+      context: context,
+      barrierDismissible: false, // User must choose
+      builder: (context) => AdConsentDialog(
+        isAdLoaded: AdManager.instance.isAdLoaded,
+        onWatchAd: () async {
+            // 0. Check if user became PRO inside the dialog flow
+            if (context.read<SubscriptionProvider>().isPro) {
+               if (mounted) _processDream(mood);
+               return;
+            }
+
+            // Logic to show ad
+            final shown = await AdManager.instance.showInterstitial(context);
+            if (shown) {
+                // Ad shown. Proceed to process dream.
+                if (mounted) _processDream(mood);
+            } else {
+              // Failed to show? 
+              if (mounted) {
+                 ScaffoldMessenger.of(context).showSnackBar(
+                   const SnackBar(content: Text('Failed to load ad. Please try again or go PRO.'))
+                 );
+                 // Re-open dialog to let them try again or go PRO
+                 _checkAdAndProcess(mood); 
+              }
+            }
+        },
+        onRetry: () {
+           // Retry checking logic
+           Navigator.pop(context); 
+           // Reload logic is simpler: AdManager auto-reloads.
+           // Just re-triggering the check will re-open dialog with updated state
+           Future.delayed(const Duration(seconds: 1), () {
+              if (mounted) _checkAdAndProcess(mood);
+           });
+        },
+      )
+    );
   }
 
-  Future<void> _processDream(String mood) async {
-    // Note: _isSaving is already true here
+  Future<void> _processDream(String mood, {bool isFirstDream = false}) async {
+    setState(() => _isSaving = true);
     final t = AppLocalizations.of(context)!;
     
     try {
@@ -133,17 +166,17 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
       final dreamService = DreamService();
       await dreamService.saveDream(dreamEntry);
       
-      // Increment daily usage
+      // Increment daily usage (Abuse check mainly)
       await dreamService.incrementDailyUsage();
+      
+      // Mark first dream as used if applicable
+      if (isFirstDream) {
+        await dreamService.setFirstDreamUsed();
+      }
       
       print("MyDream: Dream Saved: ${dreamEntry.id}");
 
       if (mounted) {
-         // Show interstitial ad only if dream was interpreted online (fair exchange)
-         if (isConnected) {
-           await AdManager.instance.maybeShowInterstitial(context);
-         }
-         
          // Navigate to Journal
          Navigator.pushReplacement(
            context, 
@@ -169,7 +202,7 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
     return NightSkyBackground(
       isPro: isPro,
       child: Scaffold(
-        resizeToAvoidBottomInset: true, // Ensure proper keyboard handling
+        resizeToAvoidBottomInset: true, // Ensure we resize when keyboard opens
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -189,134 +222,132 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
           ),
         ),
         body: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(), // Dismiss keyboard on tap outside
+          onTap: () => FocusScope.of(context).unfocus(),
           behavior: HitTestBehavior.opaque,
-          child: CustomScrollView(
-            slivers: [
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: SafeArea(
-                  top: false,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        t.newDreamSubtitle, 
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: AppTheme.textMuted, fontStyle: FontStyle.italic, fontSize: 14),
-                      ),
-                      const SizedBox(height: 20),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF0F0F23).withOpacity(0.9),
-                            borderRadius: BorderRadius.circular(24),
-                            border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
-                          ),
-                          child: TextField(
-                            controller: _controller,
-                            maxLines: null,
-                            expands: true,
-                            maxLength: 3000,
-                            cursorColor: const Color(0xFFA78BFA), // Purple cursor
-                            textAlignVertical: TextAlignVertical.top, // Keep cursor and hint at top
-                            style: const TextStyle(color: Colors.white, fontSize: 16, height: 1.5),
-                            decoration: InputDecoration(
-                                hintText: t.newDreamPlaceholderDetail,
-                                hintStyle: TextStyle(
-                                  color: Colors.white.withOpacity(0.45), 
-                                  fontStyle: FontStyle.italic,
-                                  fontSize: 14, // Smaller hint text to prevent overflow
-                                ),
-                                border: InputBorder.none,
-                                contentPadding: const EdgeInsets.fromLTRB(16, 12, 16, 16), // Reduced top padding
-                                counter: null, 
-                                counterText: "", 
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      
-                      // Character Counter + Hint
-                      ValueListenableBuilder(
-                        valueListenable: _controller,
-                        builder: (context, TextEditingValue value, child) {
-                          final currentLength = value.text.length;
-                          Color color;
-                          if (currentLength < 50) {
-                            color = Colors.white54; 
-                          } else if (currentLength < 3000) {
-                            color = Colors.greenAccent; 
-                          } else {
-                            color = Colors.redAccent;
-                          }
-
-                          return Center(
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.white.withOpacity(0.1)),
-                              ),
-                              child: RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 13, fontStyle: FontStyle.italic),
-                                  children: [
-                                    TextSpan(text: t.newDreamMinCharHint),
-                                    const TextSpan(text: "  "), // Spacer
-                                    TextSpan(
-                                      text: '($currentLength/3000)',
-                                      style: TextStyle(
-                                        color: color, 
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FontStyle.normal
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                      ),
-                      const SizedBox(height: 16),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFF8B5CF6).withOpacity(0.4),
-                              blurRadius: 20,
-                              offset: const Offset(0, 8),
-                              spreadRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: CustomButton(
-                          text: t.newDreamSave, 
-                          loadingText: t.newDreamLoadingText,
-                          onPressed: _handleSave,
-                          isLoading: _isSaving,
-                          icon: null, // Clear left icon
-                          // Deep Cosmic Gradient: Blue -> Purple (App Theme)
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFF3B82F6), Color(0xFF8B5CF6)], // Blue to Purple
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
-                      ),
-                    ],
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Subtitle
+                  Text(
+                    t.newDreamSubtitle, 
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: AppTheme.textMuted, fontStyle: FontStyle.italic, fontSize: 14),
                   ),
-                ),
+                  const SizedBox(height: 16),
+                  
+                  // Main Input Area (Expanded to fill space)
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0F0F23).withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
+                      ),
+                      child: TextField(
+                        controller: _controller,
+                        maxLines: null,
+                        expands: true, // Fills the container
+                        maxLength: 3000,
+                        cursorColor: const Color(0xFFA78BFA),
+                        textAlignVertical: TextAlignVertical.top,
+                        style: const TextStyle(color: Colors.white, fontSize: 16, height: 1.5),
+                        decoration: InputDecoration(
+                            hintText: t.newDreamPlaceholderDetail,
+                            hintStyle: TextStyle(
+                              color: Colors.white.withOpacity(0.45), 
+                              fontStyle: FontStyle.italic,
+                              fontSize: 14,
+                            ),
+                            border: InputBorder.none,
+                            contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                            counter: null, 
+                            counterText: "", 
+                        ),
+                      ),
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 12),
+                  
+                  // Character Counter
+                  ValueListenableBuilder(
+                    valueListenable: _controller,
+                    builder: (context, TextEditingValue value, child) {
+                      final currentLength = value.text.length;
+                      Color color;
+                      if (currentLength < 50) {
+                        color = Colors.white54; 
+                      } else if (currentLength < 3000) {
+                        color = Colors.greenAccent; 
+                      } else {
+                        color = Colors.redAccent;
+                      }
+
+                      return Center(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.white.withOpacity(0.1)),
+                          ),
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 13, fontStyle: FontStyle.italic),
+                              children: [
+                                TextSpan(text: t.newDreamMinCharHint),
+                                const TextSpan(text: "  "), 
+                                TextSpan(
+                                  text: '($currentLength/3000)',
+                                  style: TextStyle(
+                                    color: color, 
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  ),
+                  
+                  const SizedBox(height: 16),
+                  
+                  // Save Button (Fixed at bottom, moves up with keyboard)
+                  Container(
+                    margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : 10), // Add padding only if keyboard closed
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF8B5CF6).withOpacity(0.4),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    ),
+                    child: CustomButton(
+                      text: t.newDreamSave, 
+                      loadingText: t.newDreamLoadingText,
+                      onPressed: _handleSave,
+                      isLoading: _isSaving,
+                      icon: null,
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF3B82F6), Color(0xFF8B5CF6)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

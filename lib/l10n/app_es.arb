@@ -318,5 +318,12 @@
     "reviewFeedbackTitle": "Tu opinión importa",
     "reviewFeedbackContent": "¿Cómo podemos mejorar? No dudes en escribirnos.",
     "reviewFeedbackButton": "Escríbenos",
-    "reviewCancel": "Cancelar"
+    "reviewFeedbackButton": "Escríbenos",
+    "reviewCancel": "Cancelar",
+    "adConsentTitle": "Una Interpretación de Sueño Más ✨",
+    "adConsentBody": "Para mantener DreamBoat gratis, puedes ver un anuncio corto para interpretar este sueño o actualizar a PRO para eliminar los límites.",
+    "adConsentWatch": "Ver Anuncio e Interpretar",
+    "adConsentPro": "Actualizar a PRO (Sin Anuncios)",
+    "adLoadError": "El anuncio no está listo. Por favor intenta de nuevo o actualiza a PRO.",
+    "adRetry": "Reintentar Anuncio"
 }

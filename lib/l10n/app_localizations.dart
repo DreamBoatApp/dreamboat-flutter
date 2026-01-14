@@ -1879,6 +1879,42 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Vazgeç'**
   String get reviewCancel;
+
+  /// No description provided for @adConsentTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir rüya yorumu daha ✨'**
+  String get adConsentTitle;
+
+  /// No description provided for @adConsentBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'DreamBoat’ta rüya yorumları ücretsiz sunulur. Bunu sürdürebilmek için her yorumdan önce kısa bir video gösterilir.'**
+  String get adConsentBody;
+
+  /// No description provided for @adConsentWatch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Reklam İzle ve Yorumu Al'**
+  String get adConsentWatch;
+
+  /// No description provided for @adConsentPro.
+  ///
+  /// In tr, this message translates to:
+  /// **'PRO’ya Geç (Reklamsız)'**
+  String get adConsentPro;
+
+  /// No description provided for @adLoadError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şu anda reklam yüklenemedi. Biraz sonra tekrar deneyebilirsin veya PRO’ya geçebilirsin.'**
+  String get adLoadError;
+
+  /// No description provided for @adRetry.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar Dene'**
+  String get adRetry;
 }
 
 class _AppLocalizationsDelegate

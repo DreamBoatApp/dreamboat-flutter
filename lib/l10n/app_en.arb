@@ -318,5 +318,12 @@
     "reviewFeedbackTitle": "Your feedback matters",
     "reviewFeedbackContent": "How can we improve? Feel free to write to us.",
     "reviewFeedbackButton": "Contact Us",
-    "reviewCancel": "Cancel"
+    "reviewCancel": "Cancel",
+
+    "adConsentTitle": "One More Dream Interpretation ✨",
+    "adConsentBody": "DreamBoat offers free dream interpretations. To sustain this, a short video will be shown before each interpretation.",
+    "adConsentWatch": "Watch Ad & Get Interpretation",
+    "adConsentPro": "Upgrade to PRO (Ad-Free)",
+    "adLoadError": "The ad could not be loaded at the moment. You can try again shortly or upgrade to PRO.",
+    "adRetry": "Retry"
 }

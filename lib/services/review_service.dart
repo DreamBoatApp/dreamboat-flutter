@@ -37,6 +37,10 @@ class ReviewService {
       return;
     }
 
+    // Mark as requested immediately so we don't ask again for a month, 
+    // regardless of whether they interact or dismiss the dialog.
+    await _updateLastReviewRequestDate();
+
     // 2. Show Satisfaction Modal
     if (!context.mounted) return;
     
@@ -52,13 +56,8 @@ class ReviewService {
           if (await inAppReview.isAvailable()) {
             await inAppReview.requestReview();
           } else {
-             // Fallback to store listing if needed, but usually we just stay silent if unavailable
-             // or openStoreListing if we really want reviews.
-             // For a smoother flow, we stick to requestReview which is the in-app popup.
+             // Fallback to store listing if needed
           }
-          
-          // Mark as requested so we don't ask again for a month
-          await _updateLastReviewRequestDate();
         },
         onNeutralOrNegative: () async {
           Navigator.of(ctx).pop(); // Close modal

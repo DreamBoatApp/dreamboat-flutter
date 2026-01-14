@@ -317,5 +317,11 @@
     "reviewFeedbackTitle": "Deine Meinung zählt",
     "reviewFeedbackContent": "Was können wir verbessern? Schreib uns gerne.",
     "reviewFeedbackButton": "Kontaktieren",
-    "reviewCancel": "Abbrechen"
+    "reviewCancel": "Abbrechen",
+    "adConsentTitle": "Noch eine Traumdeutung ✨",
+    "adConsentBody": "Um DreamBoat kostenlos zu halten, kannst du eine kurze Werbung ansehen, um diesen Traum zu deuten, oder auf PRO upgraden.",
+    "adConsentWatch": "Werbung ansehen & Deuten",
+    "adConsentPro": "Auf PRO upgraden (Werbefrei)",
+    "adLoadError": "Werbung ist nicht bereit. Bitte versuche es erneut oder wechsle zu PRO.",
+    "adRetry": "Erneut versuchen"
 }

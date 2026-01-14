@@ -990,4 +990,24 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get reviewCancel => 'Vazgeç';
+
+  @override
+  String get adConsentTitle => 'Bir rüya yorumu daha ✨';
+
+  @override
+  String get adConsentBody =>
+      'DreamBoat’ta rüya yorumları ücretsiz sunulur. Bunu sürdürebilmek için her yorumdan önce kısa bir video gösterilir.';
+
+  @override
+  String get adConsentWatch => 'Reklam İzle ve Yorumu Al';
+
+  @override
+  String get adConsentPro => 'PRO’ya Geç (Reklamsız)';
+
+  @override
+  String get adLoadError =>
+      'Şu anda reklam yüklenemedi. Biraz sonra tekrar deneyebilirsin veya PRO’ya geçebilirsin.';
+
+  @override
+  String get adRetry => 'Tekrar Dene';
 }

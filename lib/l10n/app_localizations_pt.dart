@@ -997,4 +997,24 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get reviewCancel => 'Cancelar';
+
+  @override
+  String get adConsentTitle => 'Mais Uma Interpretação de Sonho ✨';
+
+  @override
+  String get adConsentBody =>
+      'Para manter o DreamBoat gratuito, você pode assistir a um breve anúncio para interpretar este sonho ou atualizar para o PRO para remover limites.';
+
+  @override
+  String get adConsentWatch => 'Assistir Anúncio e Interpretar';
+
+  @override
+  String get adConsentPro => 'Atualizar para PRO (Sem Anúncios)';
+
+  @override
+  String get adLoadError =>
+      'O anúncio não está pronto. Por favor, tente novamente ou atualize para PRO.';
+
+  @override
+  String get adRetry => 'Tentar Anuncio Novamente';
 }

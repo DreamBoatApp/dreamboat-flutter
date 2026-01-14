@@ -1001,4 +1001,24 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get reviewCancel => 'Abbrechen';
+
+  @override
+  String get adConsentTitle => 'Noch eine Traumdeutung ✨';
+
+  @override
+  String get adConsentBody =>
+      'Um DreamBoat kostenlos zu halten, kannst du eine kurze Werbung ansehen, um diesen Traum zu deuten, oder auf PRO upgraden.';
+
+  @override
+  String get adConsentWatch => 'Werbung ansehen & Deuten';
+
+  @override
+  String get adConsentPro => 'Auf PRO upgraden (Werbefrei)';
+
+  @override
+  String get adLoadError =>
+      'Werbung ist nicht bereit. Bitte versuche es erneut oder wechsle zu PRO.';
+
+  @override
+  String get adRetry => 'Erneut versuchen';
 }
