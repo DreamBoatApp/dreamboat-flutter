@@ -27,18 +27,28 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
     final t = AppLocalizations.of(context)!;
     
     final moods = [
-        {'key': 'awe', 'label': t.moodAwe, 'icon': LucideIcons.sparkles, 'color': const Color(0xFFC084FC)},
-        {'key': 'love', 'label': t.moodLove, 'icon': LucideIcons.heart, 'color': const Color(0xFFEC4899)},
-        {'key': 'happy', 'label': t.moodHappy, 'icon': LucideIcons.smile, 'color': const Color(0xFFFBBF24)},
-        {'key': 'empowered', 'label': t.moodEmpowered, 'icon': LucideIcons.zap, 'color': const Color(0xFFF43F5E)},
-        {'key': 'longing', 'label': t.moodLonging, 'icon': LucideIcons.hourglass, 'color': const Color(0xFF38BDF8)},
-        {'key': 'neutral', 'label': t.moodNeutral, 'icon': LucideIcons.meh, 'color': const Color(0xFF9CA3AF)},
-        {'key': 'confusion', 'label': t.moodConfusion, 'icon': LucideIcons.helpCircle, 'color': const Color(0xFF2DD4BF)},
-        {'key': 'anxiety', 'label': t.moodAnxiety, 'icon': LucideIcons.activity, 'color': const Color(0xFFFB923C)},
-        {'key': 'sad', 'label': t.moodSad, 'icon': LucideIcons.cloudRain, 'color': const Color(0xFF60A5FA)},
-        {'key': 'scared', 'label': t.moodScared, 'icon': LucideIcons.ghost, 'color': const Color(0xFF8B5CF6)},
-        {'key': 'anger', 'label': t.moodAnger, 'icon': LucideIcons.flame, 'color': const Color(0xFFEF4444)},
+        {'key': 'love', 'label': t.moodLove, 'icon': LucideIcons.heart, 'color': const Color(0xFFEC4899)}, // Heart
+        {'key': 'happy', 'label': t.moodHappy, 'icon': LucideIcons.sun, 'color': const Color(0xFFFBBF24)}, // Sun
+        {'key': 'peace', 'label': t.moodPeace, 'icon': LucideIcons.feather, 'color': const Color(0xFF4ADE80)}, // Feather (Peace)
+        {'key': 'awe', 'label': t.moodAwe, 'icon': LucideIcons.tornado, 'color': const Color(0xFFC084FC)}, // Tornado (Awe/Blown Away)
+        {'key': 'empowered', 'label': t.moodEmpowered, 'icon': LucideIcons.zap, 'color': const Color(0xFFF43F5E)}, // Zap
+        {'key': 'longing', 'label': t.moodLonging, 'icon': LucideIcons.cloudSun, 'color': const Color(0xFF38BDF8)}, // CloudSun (Horizon)
+        {'key': 'confusion', 'label': t.moodConfusion, 'icon': LucideIcons.brain, 'color': const Color(0xFF2DD4BF)}, // Brain (Mental Confusion)
+        {'key': 'anxiety', 'label': t.moodAnxiety, 'icon': LucideIcons.waves, 'color': const Color(0xFFFB923C)}, // Waves
+        {'key': 'sad', 'label': t.moodSad, 'icon': LucideIcons.cloud, 'color': const Color(0xFF60A5FA)}, // Cloud
+        {'key': 'scared', 'label': t.moodScared, 'icon': LucideIcons.ghost, 'color': const Color(0xFF8B5CF6)}, // Ghost
+        {'key': 'anger', 'label': t.moodAnger, 'icon': LucideIcons.flame, 'color': const Color(0xFFEF4444)}, // Flame
+        {'key': 'neutral', 'label': t.moodNeutral, 'icon': LucideIcons.minus, 'color': const Color(0xFF9CA3AF)}, // Minus (Line)
     ];
+
+    // Calculate item width for 4 columns
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double paddingHorizontal = 48; // 24 + 24
+    final double spacing = 12;
+    final int columns = 4;
+    final double itemWidth = (screenWidth - paddingHorizontal - (spacing * (columns - 1))) / columns;
+    // Fixed height to accommodate 2 lines of text + icon + padding
+    final double itemHeight = 100;
 
     return Container(
       decoration: BoxDecoration(
@@ -69,10 +79,15 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                  const SizedBox(height: 24),
                  
                  // Vividness Slider Section
-                 Text(
-                   t.moodVividnessQuestion,
-                   style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 14),
-                   textAlign: TextAlign.center,
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   children: [
+                      Text(
+                       t.moodVividnessQuestion,
+                       style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 14),
+                       textAlign: TextAlign.center,
+                     ),
+                   ],
                  ),
                  const SizedBox(height: 12),
                  Slider( // Simplified Custom Slider could be better, but standard for now
@@ -103,9 +118,9 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
 
                  // Mood Grid
                  Wrap(
-                   spacing: 12,
-                   runSpacing: 12,
-                   alignment: WrapAlignment.center,
+                   spacing: spacing,
+                   runSpacing: spacing,
+                   alignment: WrapAlignment.start, // Align start to look like grid
                    children: moods.map((m) {
                      final isSelected = _selectedMood == m['key'];
                      final color = m['color'] as Color;
@@ -123,41 +138,54 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                        },
                        child: AnimatedContainer(
                          duration: const Duration(milliseconds: 300),
-                         curve: Curves.easeOutCubic, // Changed from easeOutBack to prevent negative shadow blur
-                         padding: EdgeInsets.symmetric(
-                           horizontal: isSelected ? 20 : 16, 
-                           vertical: isSelected ? 16 : 12
-                         ),
-                       decoration: BoxDecoration(
-                         color: isSelected ? color.withOpacity(0.2) : Colors.white.withOpacity(0.05),
-                         borderRadius: BorderRadius.circular(20),
-                         border: Border.all(
-                           color: isSelected ? color : Colors.white.withOpacity(0.1),
-                           width: isSelected ? 2 : 1
-                         ),
-                         boxShadow: isSelected ? [
-                           BoxShadow(color: color.withOpacity(0.4), blurRadius: 15, spreadRadius: 1)
-                         ] : [],
-                       ),
-                       child: Column(
-                         mainAxisSize: MainAxisSize.min,
-                         children: [
-                           Icon(m['icon'] as IconData, color: isSelected ? Colors.white : color, size: 24),
-                           const SizedBox(height: 8),
-                           Text(
-                             m['label'] as String,
-                             style: TextStyle(
-                               color: isSelected ? Colors.white : Colors.white70,
-                               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                               fontSize: 12
-                             ),
+                         curve: Curves.easeOutCubic, 
+                         width: itemWidth,
+                         height: itemHeight,
+                         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+                         decoration: BoxDecoration(
+                           // Unselected: Transparent with colored border
+                           // Selected: Slight tint, colored border, glowing shadow
+                           color: isSelected ? color.withOpacity(0.1) : Colors.transparent,
+                           borderRadius: BorderRadius.circular(24),
+                           border: Border.all(
+                             color: isSelected ? color : color.withOpacity(0.3), // Colored border always
+                             width: isSelected ? 1.5 : 1
                            ),
-                         ],
+                           boxShadow: isSelected ? [
+                             BoxShadow(color: color.withOpacity(0.6), blurRadius: 12, spreadRadius: -2), // Inner/Outer Glow
+                             BoxShadow(color: color.withOpacity(0.3), blurRadius: 20, spreadRadius: 2), // Outer Haze
+                           ] : [],
+                         ),
+                         child: Column(
+                           mainAxisSize: MainAxisSize.min,
+                           mainAxisAlignment: MainAxisAlignment.center,
+                           children: [
+                             // Icon: Color always, slightly dim when not selected
+                             Icon(
+                               m['icon'] as IconData, 
+                               color: isSelected ? color : color.withOpacity(0.8), 
+                               size: 26
+                             ),
+                             const SizedBox(height: 8),
+                             Text(
+                               m['label'] as String,
+                               textAlign: TextAlign.center,
+                               maxLines: 2,
+                               overflow: TextOverflow.ellipsis,
+                               style: TextStyle(
+                                 color: isSelected ? Colors.white : color.withOpacity(0.8), // Text colored when unselected
+                                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                 fontSize: 11, // Slightly smaller to fit 2 lines
+                                 letterSpacing: 0.3,
+                                 height: 1.1,
+                               ),
+                             ),
+                           ],
+                         ),
                        ),
-                     ),
-                   );
-                 }).toList(),
-               ),
+                     );
+                   }).toList(),
+                 ),
                
                // Intensity Slider (Only if mood selected)
                AnimatedSize(
@@ -194,7 +222,6 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                          onPressed: () {
                            if (_selectedMood != null) {
                              widget.onSave(_selectedMood!, _secondaryMoods, _intensity, _vividness);
-                             Navigator.pop(context);
                            }
                          },
                          gradient: LinearGradient(
@@ -214,9 +241,8 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                  TextButton(
                    onPressed: () {
                       widget.onSave('neutral', [], 1, _vividness);
-                      Navigator.pop(context);
                    },
-                   child: Text(t.moodNotSure, style: TextStyle(color: Colors.white.withOpacity(0.4))),
+                   child: Text(t.moodNotSure, style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 14)),
                  ),
                ],
                

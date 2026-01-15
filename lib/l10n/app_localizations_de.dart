@@ -109,6 +109,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get moodNeutral => 'Neutral';
 
   @override
+  String get moodPeace => 'Frieden';
+
+  @override
   String get moodAwe => 'Ehrfurcht';
 
   @override
@@ -956,7 +959,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get sharePrivacyHint =>
-      'Hinweis: Die Teilen-Taste teilt nur die Traumdeutung. Ihre Träume gehören Ihnen und werden niemals mit Dritten geteilt.';
+      'Hinweis: Der Button Deutung teilen teilt nur die Traumdeutung. Ihre Träume gehören Ihnen und werden niemals mit Dritten geteilt.';
 
   @override
   String get moonPhaseLabel => 'Mondphase:';

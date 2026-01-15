@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart'; // For kDebugMode
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:dream_boat_mobile/theme/app_theme.dart';
 import 'package:dream_boat_mobile/widgets/background_sky.dart';
@@ -229,6 +230,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     title: t.settingsSupport,
                     onTap: () => _showSupportModal(context),
                   ),
+
+                   // DEBUG Toggle for Emulator Testing
+                  if (kDebugMode)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.red.withOpacity(0.1),
+                          border: Border.all(color: Colors.red.withOpacity(0.5)),
+                          borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: _SettingItem(
+                          icon: LucideIcons.bug, 
+                          title: "DEBUG: Toggle PRO",
+                          value: isPro ? "PRO ACTIVE" : "STANDARD",
+                          onTap: () {
+                             context.read<SubscriptionProvider>().debugSetProStatus(!isPro);
+                             ScaffoldMessenger.of(context).showSnackBar(
+                               SnackBar(content: Text("Debug: PRO status set to ${!isPro}"))
+                             );
+                          },
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),

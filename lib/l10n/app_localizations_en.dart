@@ -108,6 +108,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moodNeutral => 'Neutral';
 
   @override
+  String get moodPeace => 'Peace';
+
+  @override
   String get moodAwe => 'Awe';
 
   @override
@@ -948,7 +951,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sharePrivacyHint =>
-      'Note: The share button only shares the dream interpretation. Your dreams belong to you and are never shared with third parties.';
+      'Note: The Share Interpretation button only shares the dream interpretation. Your dreams belong to you and are never shared with third parties.';
 
   @override
   String get moonPhaseLabel => 'Moon Phase:';

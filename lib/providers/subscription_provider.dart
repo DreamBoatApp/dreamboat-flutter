@@ -181,4 +181,18 @@ class SubscriptionProvider extends ChangeNotifier {
     final entitlement = _customerInfo?.entitlements.active[_proEntitlement];
     return entitlement?.expirationDate;
   }
+  /// DEBUG ONLY: Manually toggle PRO status
+  void debugSetProStatus(bool status) async {
+    _isPro = status;
+    notifyListeners();
+
+    // Cache the debug status so it persists across hot restarts/app restarts
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('is_pro_version', _isPro);
+      debugPrint('DEBUG: Manually set PRO status to $_isPro');
+    } catch (e) {
+      debugPrint('Cache error: $e');
+    }
+  }
 }

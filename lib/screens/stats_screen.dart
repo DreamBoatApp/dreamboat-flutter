@@ -420,6 +420,7 @@ class _StatsScreenState extends State<StatsScreen> {
               case 'neutral': label = t.moodNeutral; color = const Color(0xFF9CA3AF); break;
               // New moods
               case 'awe': label = t.moodAwe; color = const Color(0xFFC084FC); break; // Purple
+              case 'peace': label = t.moodPeace; color = const Color(0xFF4ADE80); break; // Green (Peace)
               case 'anxiety': label = t.moodAnxiety; color = const Color(0xFFFB923C); break; // Orange
               case 'confusion': label = t.moodConfusion; color = const Color(0xFF2DD4BF); break; // Teal
               case 'empowered': label = t.moodEmpowered; color = const Color(0xFFF43F5E); break; // Rose

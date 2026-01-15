@@ -85,27 +85,28 @@ class _AdConsentDialogState extends State<AdConsentDialog> {
                   )
                 ],
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+              child: Stack(
                 children: [
-                  // Icon Header Removed per user request
-                  const SizedBox(height: 10),
-                  const SizedBox(height: 20),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Space for X button
+                      const SizedBox(height: 10), 
 
-                  // Title
-                  GradientText(
-                    t.adConsentTitle,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      height: 1.2,
-                    ),
-                    gradient: const LinearGradient(
-                      colors: [Colors.white, Color(0xFFE0E7FF)],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
+                      // Title
+                      GradientText(
+                        t.adConsentTitle,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          height: 1.2,
+                        ),
+                        gradient: const LinearGradient(
+                          colors: [Colors.white, Color(0xFFE0E7FF)],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
 
                   // Body Text
                   Text(
@@ -163,9 +164,20 @@ class _AdConsentDialogState extends State<AdConsentDialog> {
                   // Footer info removed per user request
                 ],
               ),
-            ),
+              Positioned(
+                right: -12,
+                top: -12,
+                child: IconButton(
+                  icon: const Icon(LucideIcons.x, color: Colors.white30, size: 24),
+                  splashRadius: 20,
+                  onPressed: () => Navigator.pop(context, 'back'),
+                ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    ));
   }
   
   Widget _buildPrimaryButton(BuildContext context, {

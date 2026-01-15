@@ -1,6 +1,8 @@
 import 'dart:ui'; // Needed for ImageFilter
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // [NEW] For SystemChannels
 import 'package:lucide_icons/lucide_icons.dart';
+
 import 'package:dream_boat_mobile/theme/app_theme.dart';
 import 'package:dream_boat_mobile/widgets/background_sky.dart';
 import 'package:dream_boat_mobile/services/connectivity_service.dart'; 
@@ -30,7 +32,10 @@ class NewDreamScreen extends StatefulWidget {
 
 class _NewDreamScreenState extends State<NewDreamScreen> {
   final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode(); // [NEW] Focus Control
   bool _isSaving = false;
+  bool _isModalOpen = false; // [NEW] To prevent scaffold resize
+  bool _isAdDialogOpen = false; // [NEW] To prevent premature unlock
 
   @override
   void initState() {
@@ -40,20 +45,24 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
   @override
   void dispose() {
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
   void _handleSave() {
-    FocusScope.of(context).unfocus(); // Close keyboard before checking/showing modals
+    _focusNode.unfocus(); // Close keyboard
     final text = _controller.text.trim();
     if (text.isEmpty) return;
     
     // Validation: Allow short dreams, but they won't be interpreted.
-    // Proceed to mood selection regardless of length (as long as not empty)
     _showMoodModal();
   }
 
   void _showMoodModal() {
+    setState(() => _isModalOpen = true); // Lock layout
+    _focusNode.unfocus();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+    
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -63,14 +72,24 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
            _checkAdAndProcess(mood, secondaryMoods, intensity, vividness);
         }
       ),
-    );
+    ).whenComplete(() {
+       // Only unlock if we are NOT opening the ad dialog (or it's already open via checks)
+       if (mounted && !_isAdDialogOpen) {
+         setState(() => _isModalOpen = false);
+         _focusNode.unfocus();
+       }
+    });
   }
   
   Future<void> _checkAdAndProcess(String mood, List<String> secondaryMoods, int intensity, int vividness) async {
+    // Lock everything down
+    _focusNode.unfocus();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+
     // 1. Check PRO Status
     final isPro = context.read<SubscriptionProvider>().isPro;
     if (isPro) {
-      // PRO: Directly process without ads
+      if (mounted) Navigator.pop(context); // Close Mood Sheet
       await _processDream(mood, secondaryMoods, intensity, vividness);
       return;
     }
@@ -79,21 +98,27 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
     final dreamService = DreamService();
     final isFirstDream = await dreamService.isFirstDream();
     if (isFirstDream) {
-      // First Dream: Free, no ad
+      if (mounted) Navigator.pop(context); // Close Mood Sheet
       await _processDream(mood, secondaryMoods, intensity, vividness, isFirstDream: true);
       return;
     }
 
     // 3. Ad Flow for Standard Users
     if (!mounted) return;
-    showDialog(
+    
+    // We show Dialog ON TOP of Sheet. Sheet remains open if user cancels.
+    await showDialog(
       context: context,
-      barrierDismissible: false, // User must choose
+      barrierDismissible: false,
       builder: (context) => AdConsentDialog(
         isAdLoaded: AdManager.instance.isAdLoaded,
         onWatchAd: () async {
+            // AdConsentDialog closed itself before calling this.
+            // Top route is Mood Sheet.
+            
             // 0. Check if user became PRO inside the dialog flow
             if (context.read<SubscriptionProvider>().isPro) {
+               if (mounted) Navigator.pop(context); // Close Mood Sheet
                if (mounted) _processDream(mood, secondaryMoods, intensity, vividness);
                return;
             }
@@ -101,7 +126,8 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
             // Logic to show ad
             final shown = await AdManager.instance.showInterstitial(context);
             if (shown) {
-                // Ad shown. Proceed to process dream.
+                // Ad shown. Proceed.
+                if (mounted) Navigator.pop(context); // Close Mood Sheet
                 if (mounted) _processDream(mood, secondaryMoods, intensity, vividness);
             } else {
               // Failed to show? 
@@ -109,22 +135,24 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
                  ScaffoldMessenger.of(context).showSnackBar(
                    const SnackBar(content: Text('Failed to load ad. Please try again or go PRO.'))
                  );
-                 // Re-open dialog to let them try again or go PRO
-                 _checkAdAndProcess(mood, secondaryMoods, intensity, vividness); 
+                 // We are potentially back at Sheet since AdDialog closed.
+                 // We don't need to re-open anything. User is on Sheet.
+                 // They can try saving again.
               }
             }
         },
         onRetry: () {
            // Retry checking logic
            Navigator.pop(context); 
-           // Reload logic is simpler: AdManager auto-reloads.
-           // Just re-triggering the check will re-open dialog with updated state
-           Future.delayed(const Duration(seconds: 1), () {
-              if (mounted) _checkAdAndProcess(mood, secondaryMoods, intensity, vividness);
+           // Reload logic...
+           // Just re-triggering the check will re-open dialog (on top of sheet)
+           Future.delayed(const Duration(seconds: 0), () { 
+              if (mounted) _checkAdAndProcess(mood, secondaryMoods, intensity, vividness); // Recursion (safeish)
            });
         },
       )
     );
+    // If canceled (Back), we do nothing. User is back at Sheet.
   }
 
   Future<void> _processDream(String mood, List<String> secondaryMoods, int intensity, int vividness, {bool isFirstDream = false}) async {
@@ -207,7 +235,7 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
     return NightSkyBackground(
       isPro: isPro,
       child: Scaffold(
-        resizeToAvoidBottomInset: true, // Ensure we resize when keyboard opens
+        resizeToAvoidBottomInset: !_isModalOpen, // [NEW] Prevent keyboard jump during modal interactions
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -227,7 +255,7 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
           ),
         ),
         body: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => _focusNode.unfocus(),
           behavior: HitTestBehavior.opaque,
           child: SafeArea(
             child: Padding(

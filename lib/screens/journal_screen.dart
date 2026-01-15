@@ -553,7 +553,7 @@ class _JournalScreenState extends State<JournalScreen> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white.withOpacity(0.5),
-                              fontSize: 14,
+                              fontSize: 12,
                               fontWeight: FontWeight.w600,
                               height: 1.5,
                             ),
@@ -836,6 +836,12 @@ class _DreamCard extends StatelessWidget {
       'scared': {'icon': LucideIcons.ghost, 'color': const Color(0xFFA48CD4)}, // Muted Purple
       'anger': {'icon': LucideIcons.flame, 'color': const Color(0xFFD48C8C)}, // Muted Red
       'neutral': {'icon': LucideIcons.meh, 'color': const Color(0xFFA0A0A0)}, // Muted Gray
+      'peace': {'icon': LucideIcons.feather, 'color': const Color(0xFF4ADE80)}, // Green (Peace)
+      'awe': {'icon': LucideIcons.tornado, 'color': const Color(0xFFC084FC)}, // Purple (Awe)
+      'empowered': {'icon': LucideIcons.zap, 'color': const Color(0xFFF43F5E)}, // Rose (Empowered)
+      'longing': {'icon': LucideIcons.cloudSun, 'color': const Color(0xFF38BDF8)}, // Sky Blue (Longing)
+      'confusion': {'icon': LucideIcons.brain, 'color': const Color(0xFF2DD4BF)}, // Teal (Confusion)
+      'anxiety': {'icon': LucideIcons.waves, 'color': const Color(0xFFFB923C)}, // Orange (Anxiety)
     };
     
     final moodData = moodMap[dream.mood] ?? moodMap['neutral']!;

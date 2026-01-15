@@ -109,6 +109,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get moodNeutral => 'Neutro';
 
   @override
+  String get moodPeace => 'Paz';
+
+  @override
   String get moodAwe => 'Admiração';
 
   @override
@@ -951,7 +954,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get sharePrivacyHint =>
-      'Nota: O botão de compartilhar apenas compartilha a interpretação. Seus sonhos pertencem a você e nunca são compartilhados com terceiros.';
+      'Nota: O botão Compartilhar Interpretação apenas compartilha a interpretação. Seus sonhos pertencem a você e nunca são compartilhados com terceiros.';
 
   @override
   String get moonPhaseLabel => 'Fase Lunar:';

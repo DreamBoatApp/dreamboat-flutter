@@ -290,6 +290,12 @@ abstract class AppLocalizations {
   /// **'Nötr'**
   String get moodNeutral;
 
+  /// No description provided for @moodPeace.
+  ///
+  /// In tr, this message translates to:
+  /// **'Huzur'**
+  String get moodPeace;
+
   /// No description provided for @moodAwe.
   ///
   /// In tr, this message translates to:
@@ -1799,7 +1805,7 @@ abstract class AppLocalizations {
   /// No description provided for @sharePrivacyHint.
   ///
   /// In tr, this message translates to:
-  /// **'Not: Paylaş butonu yalnızca rüya yorumunuzu paylaşır. Rüyalarınız size aittir ve herhangi bir şekilde üçüncü şahıslara gösterilmez.'**
+  /// **'Not: Yorumu paylaş butonu yalnızca rüya yorumunuzu paylaşır. Rüyalarınız size aittir ve herhangi bir şekilde üçüncü şahıslara gösterilmez.'**
   String get sharePrivacyHint;
 
   /// No description provided for @moonPhaseLabel.

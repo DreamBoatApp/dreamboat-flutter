@@ -108,6 +108,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get moodNeutral => 'Nötr';
 
   @override
+  String get moodPeace => 'Huzur';
+
+  @override
   String get moodAwe => 'Şaşkınlık';
 
   @override
@@ -944,7 +947,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get sharePrivacyHint =>
-      'Not: Paylaş butonu yalnızca rüya yorumunuzu paylaşır. Rüyalarınız size aittir ve herhangi bir şekilde üçüncü şahıslara gösterilmez.';
+      'Not: Yorumu paylaş butonu yalnızca rüya yorumunuzu paylaşır. Rüyalarınız size aittir ve herhangi bir şekilde üçüncü şahıslara gösterilmez.';
 
   @override
   String get moonPhaseLabel => 'Ay Evresi:';
