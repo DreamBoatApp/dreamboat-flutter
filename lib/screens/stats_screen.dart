@@ -19,6 +19,11 @@ import 'package:dream_boat_mobile/providers/subscription_provider.dart';
 import 'package:dream_boat_mobile/widgets/pro_upgrade_dialog.dart';
 import 'package:dream_boat_mobile/services/moon_phase_service.dart';
 
+class _MoodStat {
+  int count = 0;
+  int totalIntensity = 0;
+}
+
 class StatsScreen extends StatefulWidget {
   const StatsScreen({super.key});
 
@@ -37,7 +42,8 @@ class _StatsScreenState extends State<StatsScreen> {
 
 
   // Chart Data
-  Map<String, int> _moodCounts = {}; // Raw mood counts
+  Map<String, _MoodStat> _moodStats = {}; // Stores count and intensity
+
   int _totalDreamsCount = 0;
 
   // Weekly Analysis State
@@ -127,16 +133,19 @@ class _StatsScreenState extends State<StatsScreen> {
     final monthlyDreams = allDreams.where((d) => d.date.year == now.year && d.date.month == now.month).toList();
 
     if (monthlyDreams.isNotEmpty) {
-       final total = monthlyDreams.length;
-       final moodCounts = <String, int>{};
+       final moodStats = <String, _MoodStat>{};
        
        for (var d in monthlyDreams) {
-         moodCounts[d.mood] = (moodCounts[d.mood] ?? 0) + 1;
+         if (!moodStats.containsKey(d.mood)) {
+            moodStats[d.mood] = _MoodStat();
+         }
+         moodStats[d.mood]!.count++;
+         moodStats[d.mood]!.totalIntensity += (d.moodIntensity ?? 2); // Default to medium if null
        }
        
-       if (mounted) setState(() => _moodCounts = moodCounts);
+       if (mounted) setState(() => _moodStats = moodStats);
     } else {
-       if (mounted) setState(() => _moodCounts = {});
+       if (mounted) setState(() => _moodStats = {});
     }
     
     // Trigger rebuild to update UI with loaded data
@@ -398,39 +407,155 @@ class _StatsScreenState extends State<StatsScreen> {
     final t = AppLocalizations.of(context)!;
 
     // Prepared Chart Data
-    final Map<String, double> dataMap = {};
-    final List<Color> chartColors = [];
+    final List<PieChartSectionData> chartSections = [];
+    final List<Widget> legendItems = [];
 
-    if (_moodCounts.isEmpty) {
-      dataMap[t.statsNoData] = 100;
-      chartColors.add(Colors.white10);
+    if (_moodStats.isEmpty) {
+        chartSections.add(PieChartSectionData(
+          color: Colors.white10,
+          value: 100,
+          title: '',
+          radius: 80,
+        ));
+        legendItems.add(Text(t.statsNoData, style: const TextStyle(color: Colors.white70)));
     } else {
-        final total = _moodCounts.values.fold(0, (sum, item) => sum + item);
-        // Helper to get localized label and color
-        _moodCounts.forEach((key, count) {
-            String label = t.moodNeutral;
-            Color color = const Color(0xFF9CA3AF);
+        final total = _moodStats.values.fold(0, (sum, item) => sum + item.count);
+        
+        // 1. Chart Sections (Original Order - Unsorted)
+        _moodStats.forEach((key, stat) {
+             String label = t.moodNeutral;
+            Color baseColor = const Color(0xFF9CA3AF);
             
             switch(key) {
-              case 'love': label = t.moodLove; color = const Color(0xFFEC4899); break;
-              case 'happy': label = t.moodHappy; color = const Color(0xFFFBBF24); break;
-              case 'sad': label = t.moodSad; color = const Color(0xFF60A5FA); break;
-              case 'scared': label = t.moodScared; color = const Color(0xFF8B5CF6); break;
-              case 'anger': label = t.moodAnger; color = const Color(0xFFEF4444); break;
-              case 'neutral': label = t.moodNeutral; color = const Color(0xFF9CA3AF); break;
-              // New moods
-              case 'awe': label = t.moodAwe; color = const Color(0xFFC084FC); break; // Purple
-              case 'peace': label = t.moodPeace; color = const Color(0xFF4ADE80); break; // Green (Peace)
-              case 'anxiety': label = t.moodAnxiety; color = const Color(0xFFFB923C); break; // Orange
-              case 'confusion': label = t.moodConfusion; color = const Color(0xFF2DD4BF); break; // Teal
-              case 'empowered': label = t.moodEmpowered; color = const Color(0xFFF43F5E); break; // Rose
-              case 'longing': label = t.moodLonging; color = const Color(0xFF38BDF8); break; // Sky Blue
+              case 'love': label = t.moodLove; baseColor = const Color(0xFFEC4899); break;
+              case 'happy': label = t.moodHappy; baseColor = const Color(0xFFFBBF24); break;
+              case 'sad': label = t.moodSad; baseColor = const Color(0xFF60A5FA); break;
+              case 'scared': label = t.moodScared; baseColor = const Color(0xFF8B5CF6); break;
+              case 'anger': label = t.moodAnger; baseColor = const Color(0xFFEF4444); break;
+              case 'neutral': label = t.moodNeutral; baseColor = const Color(0xFF9CA3AF); break;
+              case 'awe': label = t.moodAwe; baseColor = const Color(0xFFC084FC); break;
+              case 'peace': label = t.moodPeace; baseColor = const Color(0xFF4ADE80); break;
+              case 'anxiety': label = t.moodAnxiety; baseColor = const Color(0xFFFB923C); break;
+              case 'confusion': label = t.moodConfusion; baseColor = const Color(0xFF2DD4BF); break;
+              case 'empowered': label = t.moodEmpowered; baseColor = const Color(0xFFF43F5E); break;
+              case 'longing': label = t.moodLonging; baseColor = const Color(0xFF38BDF8); break;
             }
             
-            final percent = (count / total * 100).round();
-            dataMap["$label (%$percent)"] = count.toDouble();
-            chartColors.add(color);
+            // Calculate Average Intensity
+            double avgIntensity = stat.totalIntensity / stat.count;
+            Color finalColor = baseColor;
+            
+            if (avgIntensity <= 1.4) {
+               finalColor = baseColor.withOpacity(0.6); 
+            } else if (avgIntensity >= 2.3) {
+                finalColor = Color.lerp(baseColor, Colors.black, 0.3)!;
+            } else {
+               finalColor = baseColor; 
+            }
+            
+            final percent = (stat.count / total * 100).round();
+            
+            chartSections.add(PieChartSectionData(
+              color: finalColor,
+              value: stat.count.toDouble(),
+              title: '${percent}%', 
+              titleStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
+              radius: 70, 
+              showTitle: true,
+            ));
         });
+
+        // 2. Legend Items (Sorted by Count Descending)
+        final sortedStats = _moodStats.entries.toList()
+          ..sort((a, b) => b.value.count.compareTo(a.value.count));
+
+        for (var entry in sortedStats) {
+            final key = entry.key;
+            final stat = entry.value;
+
+            String label = t.moodNeutral;
+            Color baseColor = const Color(0xFF9CA3AF);
+            
+            switch(key) {
+              case 'love': label = t.moodLove; baseColor = const Color(0xFFEC4899); break;
+              case 'happy': label = t.moodHappy; baseColor = const Color(0xFFFBBF24); break;
+              case 'sad': label = t.moodSad; baseColor = const Color(0xFF60A5FA); break;
+              case 'scared': label = t.moodScared; baseColor = const Color(0xFF8B5CF6); break;
+              case 'anger': label = t.moodAnger; baseColor = const Color(0xFFEF4444); break;
+              case 'neutral': label = t.moodNeutral; baseColor = const Color(0xFF9CA3AF); break;
+              case 'awe': label = t.moodAwe; baseColor = const Color(0xFFC084FC); break;
+              case 'peace': label = t.moodPeace; baseColor = const Color(0xFF4ADE80); break;
+              case 'anxiety': label = t.moodAnxiety; baseColor = const Color(0xFFFB923C); break;
+              case 'confusion': label = t.moodConfusion; baseColor = const Color(0xFF2DD4BF); break;
+              case 'empowered': label = t.moodEmpowered; baseColor = const Color(0xFFF43F5E); break;
+              case 'longing': label = t.moodLonging; baseColor = const Color(0xFF38BDF8); break;
+            }
+            
+            double avgIntensity = stat.totalIntensity / stat.count;
+            String intensityText = t.intensityFeltMedium;
+            Color finalColor = baseColor;
+            
+            if (avgIntensity <= 1.4) {
+               finalColor = baseColor.withOpacity(0.6); 
+               intensityText = t.intensityFeltLight;
+            } else if (avgIntensity >= 2.3) {
+                finalColor = Color.lerp(baseColor, Colors.black, 0.3)!;
+                intensityText = t.intensityFeltIntense;
+            } else {
+               finalColor = baseColor; 
+               intensityText = t.intensityFeltMedium;
+            }
+            
+            final percent = (stat.count / total * 100).round();
+            
+            // Legend Item
+            legendItems.add(
+               FractionallySizedBox(
+                  widthFactor: 0.47, 
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Container(
+                            width: 10, height: 10, 
+                            decoration: BoxDecoration(
+                              color: finalColor, 
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(color: finalColor.withOpacity(0.5), blurRadius: 4, spreadRadius: 1)
+                              ]
+                            )
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Column(
+                             crossAxisAlignment: CrossAxisAlignment.start,
+                             children: [
+                                Text(
+                                  "$label (%$percent)",
+                                  style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 13),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  intensityText,
+                                  style: const TextStyle(fontSize: 11, color: Colors.white54, height: 1.1),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                ),
+                             ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+               )
+            );
+        }
     }
 
     final isPro = context.watch<SubscriptionProvider>().isPro;
@@ -468,77 +593,7 @@ class _StatsScreenState extends State<StatsScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              // 1. Chart Card (Bu Ayın Duygu Dağılımı)
-              GlassCard(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(LucideIcons.pieChart, color: Color(0xFFFBBF24), size: 20),
-                          const SizedBox(width: 8),
-                          Text(t.statsAnalysisTitle, style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          // Chart
-                          Expanded(
-                            flex: 4,
-                            child: SizedBox(
-                              height: 160,
-                              child: PieChart(
-                                PieChartData(
-                                  sectionsSpace: 0,
-                                  centerSpaceRadius: 0,
-                                  sections: List.generate(dataMap.length, (index) {
-                                    final entry = dataMap.entries.elementAt(index);
-                                    return PieChartSectionData(
-                                      color: chartColors[index],
-                                      value: entry.value,
-                                      title: '', 
-                                      radius: 80,
-                                    );
-                                  }),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 24),
-                          // Legend
-                          Expanded(
-                            flex: 5,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: List.generate(dataMap.length, (index) {
-                                final entry = dataMap.entries.elementAt(index);
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 6),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 12, height: 12, 
-                                        decoration: BoxDecoration(color: chartColors[index], shape: BoxShape.circle)
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(entry.key, style: const TextStyle(color: Colors.white70, fontSize: 14)),
-                                    ],
-                                  ),
-                                );
-                              }),
-                            ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              const SizedBox(height: 20),
-
-              // 2. Daily Tip Card (Günün Rüya Tavsiyesi)
+              // 1. Daily Tip Card (Günün Rüya Tavsiyesi)
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
@@ -566,6 +621,73 @@ class _StatsScreenState extends State<StatsScreen> {
                         style: const TextStyle(color: Colors.white, height: 1.5, fontSize: 14),
                       )
                   ],
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // 2. Chart Card (Monthly Emotion Distribution)
+              GlassCard(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(top: 2.0),
+                            child: Icon(LucideIcons.pieChart, color: Color(0xFFFBBF24), size: 20),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                             child: Column(
+                               crossAxisAlignment: CrossAxisAlignment.start,
+                               children: [
+                                  Text(t.statsAnalysisTitle, style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    t.statsRecordedDreams(_totalDreamsCount),
+                                    style: const TextStyle(color: Colors.white54, fontSize: 12)
+                                  ),
+                               ],
+                             )
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+                      // New Layout: Vertical Stack (Chart Top, Legend Bottom)
+                      Column(
+                        children: [
+                          // Chart (Center)
+                          SizedBox(
+                            height: 140, // Reduced height
+                            child: PieChart(
+                              PieChartData(
+                                sectionsSpace: 2, // Small gap between slices
+                                centerSpaceRadius: 0, // Full Pie
+                                sections: chartSections.map((s) => s.copyWith(
+                                   radius: 70, // Full radius
+                                   titleStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white), // Ensure text is visible
+                                )).toList(), 
+                                borderData: FlBorderData(show: false),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          // Legend (Grid / Wrap)
+                          SizedBox(
+                            width: double.infinity,
+                            child: Wrap(
+                              spacing: 16,
+                              runSpacing: 16,
+                              alignment: WrapAlignment.start,
+                              children: legendItems,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 20),

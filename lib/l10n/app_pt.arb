@@ -341,5 +341,10 @@
     "adConsentWatch": "Assistir Anúncio e Interpretar",
     "adConsentPro": "Atualizar para PRO (Sem Anúncios)",
     "adLoadError": "O anúncio não está pronto. Por favor, tente novamente ou atualize para PRO.",
-    "adRetry": "Tentar Anuncio Novamente"
+    "adRetry": "Tentar Anuncio Novamente",
+    "intensityFeltLight": "Sentido levemente",
+    "intensityFeltMedium": "Sentido moderadamente",
+    "intensityFeltIntense": "Sentido intensamente",
+    "statsDreamLabel": "Sonhos",
+    "statsRecordedDreams": "Sonhos registrados: {count}"
 }

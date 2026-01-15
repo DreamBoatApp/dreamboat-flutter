@@ -1064,4 +1064,21 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get adRetry => 'Tekrar Dene';
+
+  @override
+  String get intensityFeltLight => 'Hafif hissediliyor';
+
+  @override
+  String get intensityFeltMedium => 'Orta hissediliyor';
+
+  @override
+  String get intensityFeltIntense => 'Yoğun hissediliyor';
+
+  @override
+  String get statsDreamLabel => 'Rüya';
+
+  @override
+  String statsRecordedDreams(Object count) {
+    return 'Kaydedilen rüya sayısı: $count';
+  }
 }

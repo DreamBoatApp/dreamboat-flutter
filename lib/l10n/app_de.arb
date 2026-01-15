@@ -342,5 +342,10 @@
     "adConsentWatch": "Werbung ansehen & Deuten",
     "adConsentPro": "Auf PRO upgraden (Werbefrei)",
     "adLoadError": "Werbung ist nicht bereit. Bitte versuche es erneut oder wechsle zu PRO.",
-    "adRetry": "Erneut versuchen"
+    "adRetry": "Erneut versuchen",
+    "intensityFeltLight": "Leicht gefühlt",
+    "intensityFeltMedium": "Mäßig gefühlt",
+    "intensityFeltIntense": "Intensiv gefühlt",
+    "statsDreamLabel": "Träume",
+    "statsRecordedDreams": "Aufgezeichnete Träume: {count}"
 }

@@ -1075,4 +1075,21 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get adRetry => 'Erneut versuchen';
+
+  @override
+  String get intensityFeltLight => 'Leicht gefühlt';
+
+  @override
+  String get intensityFeltMedium => 'Mäßig gefühlt';
+
+  @override
+  String get intensityFeltIntense => 'Intensiv gefühlt';
+
+  @override
+  String get statsDreamLabel => 'Träume';
+
+  @override
+  String statsRecordedDreams(Object count) {
+    return 'Aufgezeichnete Träume: $count';
+  }
 }

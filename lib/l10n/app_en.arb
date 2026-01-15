@@ -343,5 +343,10 @@
     "adConsentWatch": "Watch Ad & Get Interpretation",
     "adConsentPro": "Upgrade to PRO (Ad-Free)",
     "adLoadError": "The ad could not be loaded at the moment. You can try again shortly or upgrade to PRO.",
-    "adRetry": "Retry"
+    "adRetry": "Retry",
+    "intensityFeltLight": "Felt lightly",
+    "intensityFeltMedium": "Felt moderately",
+    "intensityFeltIntense": "Felt intensely",
+    "statsDreamLabel": "Dreams",
+    "statsRecordedDreams": "Recorded dreams: {count}"
 }

@@ -360,5 +360,10 @@
     "adConsentWatch": "Reklam İzle ve Yorumu Al",
     "adConsentPro": "PRO’ya Geç (Reklamsız)",
     "adLoadError": "Şu anda reklam yüklenemedi. Biraz sonra tekrar deneyebilirsin veya PRO’ya geçebilirsin.",
-    "adRetry": "Tekrar Dene"
+    "adRetry": "Tekrar Dene",
+    "intensityFeltLight": "Hafif hissediliyor",
+    "intensityFeltMedium": "Orta hissediliyor",
+    "intensityFeltIntense": "Yoğun hissediliyor",
+    "statsDreamLabel": "Rüya",
+    "statsRecordedDreams": "Kaydedilen rüya sayısı: {count}"
 }

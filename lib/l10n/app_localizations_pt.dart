@@ -1072,4 +1072,21 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get adRetry => 'Tentar Anuncio Novamente';
+
+  @override
+  String get intensityFeltLight => 'Sentido levemente';
+
+  @override
+  String get intensityFeltMedium => 'Sentido moderadamente';
+
+  @override
+  String get intensityFeltIntense => 'Sentido intensamente';
+
+  @override
+  String get statsDreamLabel => 'Sonhos';
+
+  @override
+  String statsRecordedDreams(Object count) {
+    return 'Sonhos registrados: $count';
+  }
 }

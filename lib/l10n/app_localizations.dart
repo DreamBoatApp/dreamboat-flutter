@@ -2023,6 +2023,36 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Tekrar Dene'**
   String get adRetry;
+
+  /// No description provided for @intensityFeltLight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafif hissediliyor'**
+  String get intensityFeltLight;
+
+  /// No description provided for @intensityFeltMedium.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta hissediliyor'**
+  String get intensityFeltMedium;
+
+  /// No description provided for @intensityFeltIntense.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yoğun hissediliyor'**
+  String get intensityFeltIntense;
+
+  /// No description provided for @statsDreamLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüya'**
+  String get statsDreamLabel;
+
+  /// No description provided for @statsRecordedDreams.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydedilen rüya sayısı: {count}'**
+  String statsRecordedDreams(Object count);
 }
 
 class _AppLocalizationsDelegate
