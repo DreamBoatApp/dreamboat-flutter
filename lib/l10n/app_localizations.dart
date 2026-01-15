@@ -188,10 +188,16 @@ abstract class AppLocalizations {
   /// **'Rüya Desen Analizi'**
   String get statsAnalysisIntroTitle;
 
+  /// No description provided for @statsAnalysisIntroSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftada bir kez yapılabilir'**
+  String get statsAnalysisIntroSubtitle;
+
   /// No description provided for @statsAnalysisIntroContent.
   ///
   /// In tr, this message translates to:
-  /// **'Rüya Desen Analizi, haftalık olarak kaydettiğin rüyaları bir arada inceleyerek bilinçaltının tekrar eden temalarını, duygusal döngülerini ve sembolik eğilimlerini ortaya çıkarır. Bu sistem, tek tek rüya yorumlarından farklı olarak zaman içinde oluşan kalıpları, yani zihninin sana anlatmaya çalıştığı büyük resmi gösterir.'**
+  /// **'Rüya Desen Analizi, Rüya Günlüğünde kayıtlı olan tüm rüyaları bir arada inceleyerek bilinçaltının tekrar eden temalarını, duygusal döngülerini ve sembolik eğilimlerini ortaya çıkarır. Bu sistem, tek tek rüya yorumlarından farklı olarak zaman içinde oluşan kalıpları, yani zihninin sana anlatmaya çalıştığı büyük resmi gösterir. Zaman içinde değişen ögeleri daha düzenli takip edebilmen için haftada sadece bir kez yapılabilir.'**
   String get statsAnalysisIntroContent;
 
   /// No description provided for @statsAnalysisWait.
@@ -1712,10 +1718,16 @@ abstract class AppLocalizations {
   /// **'Ay ve Gezegen Senkronizasyonu'**
   String get moonSyncTitle;
 
+  /// No description provided for @moonSyncSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayda bir kez yapılabilir'**
+  String get moonSyncSubtitle;
+
   /// No description provided for @moonSyncDescription.
   ///
   /// In tr, this message translates to:
-  /// **'Ay ve Gezegen Senkronizasyonu, rüyalarını gördüğün günkü Ayın evresiyle birlikte analiz ederek bilinçaltındaki duygusal dalgalanmaları Ayın evrelerine göre yorumlar. Rüyalarının kelime yoğunluğunu, duygusal tonunu ve seçtiğin ruh hâli etiketlerini Ay\'ın döngüsüyle eşleştirir. Bu sayede rüyalarının yalnızca içeriğine değil, Ay ve Gezegen düzeninin senin üzerindeki etkisini de anlarsın.'**
+  /// **'Ay ve Gezegen Senkronizasyonu, son bir ay içinde rüyalarını gördüğün günkü Ayın evresi ve yaşanan kozmik olaylarla (kanlı ay, süper ay, ay tutulması gibi) birlikte analiz ederek bilinçaltındaki duygusal dalgalanmalarını Ayın evrelerine göre yorumlar. Rüyalarının kelime ve duygu yoğunluğunu, duygusal tonunu ve seçtiğin ruh hâli etiketlerini Ay’ın döngüsüyle eşleştirir ve bu dönemlerde yapman gerekenlerle ilgili sana tavsiyeler verir. Bu sayede rüyalarının yalnızca içeriğini değil, Ay ve Gezegen düzeninin senin üzerindeki etkisini de anlarsın. Ayın döngüsüyle uyumlu olması ve zaman içinde değişen etkileri daha düzenli takip edebilmen için ayda sadece bir kez yapılabilir.'**
   String get moonSyncDescription;
 
   /// No description provided for @moonSyncBtn.

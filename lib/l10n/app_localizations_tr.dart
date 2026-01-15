@@ -52,8 +52,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get statsAnalysisIntroTitle => 'Rüya Desen Analizi';
 
   @override
+  String get statsAnalysisIntroSubtitle => 'Haftada bir kez yapılabilir';
+
+  @override
   String get statsAnalysisIntroContent =>
-      'Rüya Desen Analizi, haftalık olarak kaydettiğin rüyaları bir arada inceleyerek bilinçaltının tekrar eden temalarını, duygusal döngülerini ve sembolik eğilimlerini ortaya çıkarır. Bu sistem, tek tek rüya yorumlarından farklı olarak zaman içinde oluşan kalıpları, yani zihninin sana anlatmaya çalıştığı büyük resmi gösterir.';
+      'Rüya Desen Analizi, Rüya Günlüğünde kayıtlı olan tüm rüyaları bir arada inceleyerek bilinçaltının tekrar eden temalarını, duygusal döngülerini ve sembolik eğilimlerini ortaya çıkarır. Bu sistem, tek tek rüya yorumlarından farklı olarak zaman içinde oluşan kalıpları, yani zihninin sana anlatmaya çalıştığı büyük resmi gösterir. Zaman içinde değişen ögeleri daha düzenli takip edebilmen için haftada sadece bir kez yapılabilir.';
 
   @override
   String statsAnalysisWait(Object days) {
@@ -897,8 +900,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get moonSyncTitle => 'Ay ve Gezegen Senkronizasyonu';
 
   @override
+  String get moonSyncSubtitle => 'Ayda bir kez yapılabilir';
+
+  @override
   String get moonSyncDescription =>
-      'Ay ve Gezegen Senkronizasyonu, rüyalarını gördüğün günkü Ayın evresiyle birlikte analiz ederek bilinçaltındaki duygusal dalgalanmaları Ayın evrelerine göre yorumlar. Rüyalarının kelime yoğunluğunu, duygusal tonunu ve seçtiğin ruh hâli etiketlerini Ay\'ın döngüsüyle eşleştirir. Bu sayede rüyalarının yalnızca içeriğine değil, Ay ve Gezegen düzeninin senin üzerindeki etkisini de anlarsın.';
+      'Ay ve Gezegen Senkronizasyonu, son bir ay içinde rüyalarını gördüğün günkü Ayın evresi ve yaşanan kozmik olaylarla (kanlı ay, süper ay, ay tutulması gibi) birlikte analiz ederek bilinçaltındaki duygusal dalgalanmalarını Ayın evrelerine göre yorumlar. Rüyalarının kelime ve duygu yoğunluğunu, duygusal tonunu ve seçtiğin ruh hâli etiketlerini Ay’ın döngüsüyle eşleştirir ve bu dönemlerde yapman gerekenlerle ilgili sana tavsiyeler verir. Bu sayede rüyalarının yalnızca içeriğini değil, Ay ve Gezegen düzeninin senin üzerindeki etkisini de anlarsın. Ayın döngüsüyle uyumlu olması ve zaman içinde değişen etkileri daha düzenli takip edebilmen için ayda sadece bir kez yapılabilir.';
 
   @override
   String get moonSyncBtn => 'Kozmik Analizi Başlat';

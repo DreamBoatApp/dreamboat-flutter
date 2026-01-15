@@ -190,7 +190,14 @@ class SubscriptionProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('is_pro_version', _isPro);
-      debugPrint('DEBUG: Manually set PRO status to $_isPro');
+      
+      // Clear analysis caches to reset state for testing
+      await prefs.remove('last_analysis_result');
+      await prefs.remove('last_analysis_date');
+      await prefs.remove('last_moon_sync_result');
+      await prefs.remove('last_moon_sync_date');
+      
+      debugPrint('DEBUG: Manually set PRO status to $_isPro and cleared analysis cache.');
     } catch (e) {
       debugPrint('Cache error: $e');
     }

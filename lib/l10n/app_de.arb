@@ -14,8 +14,9 @@
     "statsAnalysisTitle": "Monatliche Emotionsverteilung",
     "statsAnalysisResult": "Traummuster-Analyse",
     "statsAnalyzeBtn": "Traummuster anzeigen",
-    "statsAnalysisIntroTitle": "Was ist Traummuster-Analyse?",
-    "statsAnalysisIntroContent": "Die Traummuster-Analyse untersucht deine wöchentlich aufgezeichneten Träume, um wiederkehrende Themen, emotionale Zyklen und symbolische Trends deines Unterbewusstseins aufzudecken.",
+    "statsAnalysisIntroTitle": "Traummuster-Analyse",
+    "statsAnalysisIntroSubtitle": "Kann einmal pro Woche durchgeführt werden",
+    "statsAnalysisIntroContent": "Die Traummuster-Analyse untersucht deine wöchentlich aufgezeichneten Träume, um wiederkehrende Themen, emotionale Zyklen und symbolische Trends deines Unterbewusstseins aufzudecken. Anders als bei einzelnen Traumdeutungen zeigt dieses System Muster auf, die im Laufe der Zeit entstehen – das große Ganze, das dein Geist dir mitteilen möchte. Sie kann nur einmal pro Woche durchgeführt werden, damit du verändernde Elemente im Laufe der Zeit regelmäßiger verfolgen kannst.",
     "statsAnalysisWait": "Du musst {days} Tage auf eine neue Analyse warten.",
     "statsAnalysisMinDreams": "Mindestens 5 aufgezeichnete Träume erforderlich",
     "statsAnalysisDone": "Wöchentliche Analyse abgeschlossen",
@@ -273,8 +274,9 @@
     "notifReminderBody": "Vergiss nicht, deinen Traum aufzuzeichnen! 🌙",
     "pressBackToExit": "Drücke erneut zurück zum Beenden",
     
-    "moonSyncTitle": "Mond- und Planetensynchronisation",
-    "moonSyncDescription": "Die Mond- und Planetensynchronisation analysiert deine Träume zusammen mit der Mondphase am Tag deines Traums und interpretiert die emotionalen Schwankungen deines Unterbewusstseins entsprechend der Mondphasen. Sie vergleicht die Wortintensität, den emotionalen Ton und die ausgewählten Stimmungsetiketten deiner Träume mit dem Mondzyklus. So verstehst du nicht nur den Inhalt deiner Träume, sondern auch den Einfluss von Mond und Planetenkonstellation auf dich.",
+    "moonSyncTitle": "Mond & Planet Synchronisation",
+    "moonSyncSubtitle": "Kann einmal im Monat durchgeführt werden",
+    "moonSyncDescription": "Mond & Planet Synchronisation analysiert deine unterbewussten emotionalen Schwankungen, indem sie deine Träume mit der Mondphase und kosmischen Ereignissen (Blauer Mond, Supermond, Finsternisse) des letzten Monats abgleicht. Sie korreliert Wortanzahl, emotionale Intensität und Stimmungstags mit dem Mondzyklus und bietet Ratschläge zur Ausrichtung. So verstehst du nicht nur den Inhalt, sondern auch den kosmischen Einfluss auf dich. Nur einmal im Monat möglich, um verändernde Effekte zu verfolgen und dich am Mondzyklus auszurichten.",
     "moonSyncBtn": "Kosmische Analyse Starten",
     "moonSyncWait": "Du musst {days} Tage auf eine neue Analyse warten.",
     "@moonSyncWait": {

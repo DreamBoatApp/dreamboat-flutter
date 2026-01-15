@@ -49,12 +49,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get statsAnalyzeBtn => 'Ver Patrón de Sueños';
 
   @override
-  String get statsAnalysisIntroTitle =>
-      '¿Qué es el Análisis de Patrones de Sueños?';
+  String get statsAnalysisIntroTitle => 'Análisis de Patrones de Sueños';
+
+  @override
+  String get statsAnalysisIntroSubtitle =>
+      'Se puede realizar una vez por semana';
 
   @override
   String get statsAnalysisIntroContent =>
-      'El Análisis de Patrones de Sueños examina tus sueños semanales registrados en conjunto para revelar temas recurrentes, ciclos emocionales y tendencias simbólicas de tu subconsciente. A diferencia de las interpretaciones individuales, este sistema muestra patrones formados con el tiempo, el panorama general que tu mente intenta comunicarte.';
+      'El Análisis de Patrones de Sueños examina tus sueños semanales registrados en conjunto para revelar temas recurrentes, ciclos emocionales y tendencias simbólicas de tu subconsciente. A diferencia de las interpretaciones individuales, este sistema muestra patrones formados con el tiempo, el panorama general que tu mente intenta comunicarte. Se puede realizar solo una vez a la semana para que puedas seguir los elementos cambiantes con mayor regularidad a lo largo del tiempo.';
 
   @override
   String statsAnalysisWait(Object days) {
@@ -904,6 +907,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get moonSyncTitle => 'Sincronización Lunar y Planetaria';
+
+  @override
+  String get moonSyncSubtitle => 'Ayda bir kez yapılabilir';
 
   @override
   String get moonSyncDescription =>

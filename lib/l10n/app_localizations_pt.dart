@@ -49,11 +49,14 @@ class AppLocalizationsPt extends AppLocalizations {
   String get statsAnalyzeBtn => 'Ver Padrão de Sonhos';
 
   @override
-  String get statsAnalysisIntroTitle => 'O que é Análise de Padrões de Sonhos?';
+  String get statsAnalysisIntroTitle => 'Análise de Padrões de Sonhos';
+
+  @override
+  String get statsAnalysisIntroSubtitle => 'Pode ser feito uma vez por semana';
 
   @override
   String get statsAnalysisIntroContent =>
-      'A Análise de Padrões de Sonhos examina seus sonhos semanais registrados coletivamente para revelar temas recorrentes, ciclos emocionais e tendências simbólicas do seu subconsciente.';
+      'A Análise de Padrões de Sonhos examina seus sonhos semanais registrados coletivamente para revelar temas recorrentes, ciclos emocionais e tendências simbólicas do seu subconsciente. Diferente das interpretações individuais, este sistema mostra os padrões formados ao longo do tempo, a visão geral que sua mente está tentando lhe transmitir. Pode ser realizada apenas uma vez por semana para permitir que você acompanhe os elementos em mudança com mais regularidade ao longo do tempo.';
 
   @override
   String statsAnalysisWait(Object days) {
@@ -901,11 +904,14 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pressBackToExit => 'Pressione voltar novamente para sair';
 
   @override
-  String get moonSyncTitle => 'Sincronização Lunar e Planetária';
+  String get moonSyncTitle => 'Sincronização Lua e Planeta';
+
+  @override
+  String get moonSyncSubtitle => 'Pode ser feito uma vez por mês';
 
   @override
   String get moonSyncDescription =>
-      'A Sincronização Lunar e Planetária analisa seus sonhos junto com a fase lunar do dia em que você sonhou, interpretando as flutuações emocionais do seu subconsciente de acordo com as fases da Lua. Ela relaciona a intensidade de palavras, o tom emocional e as tags de humor selecionadas dos seus sonhos com o ciclo lunar. Dessa forma, você entende não apenas o conteúdo dos seus sonhos, mas também a influência da Lua e do alinhamento planetário sobre você.';
+      'Sincronização Lua e Planeta analisa suas flutuações emocionais subconscientes combinando a fase lunar e eventos cósmicos (Lua Azul, Superlua, eclipses) do último mês com seus sonhos. Correlaciona contagem de palavras, intensidade emocional e tags de humor com o ciclo lunar, oferecendo conselhos de alinhamento. Isso permite entender não só o conteúdo, mas a influência cósmica em você. Feito apenas uma vez por mês para acompanhar efeitos em mudança e alinhar-se com o ciclo lunar.';
 
   @override
   String get moonSyncBtn => 'Iniciar Análise Cósmica';

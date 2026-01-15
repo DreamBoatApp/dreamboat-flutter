@@ -15,6 +15,7 @@ import 'package:dream_boat_mobile/l10n/app_localizations.dart';
 import 'package:dream_boat_mobile/services/openai_service.dart';
 import 'package:dream_boat_mobile/services/dream_service.dart';
 import 'package:dream_boat_mobile/services/ad_manager.dart';
+import 'package:dream_boat_mobile/services/astronomy_service.dart'; // [NEW]
 import 'package:dream_boat_mobile/models/dream_entry.dart';
 import 'package:dream_boat_mobile/screens/journal_screen.dart';
 import 'package:dream_boat_mobile/widgets/gradient_text.dart';
@@ -183,17 +184,20 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
       }
       
       // Save Dream
-      // Save Dream
+      final now = DateTime.now();
+      final astronomicalEvents = AstronomyService.getEvents(now);
+      
       final dreamEntry = DreamEntry(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        id: now.millisecondsSinceEpoch.toString(),
         text: _controller.text,
-        date: DateTime.now(),
+        date: now,
         mood: mood,
         secondaryMoods: secondaryMoods,
         moodIntensity: intensity,
         vividness: vividness,
         interpretation: interpretation,
         title: title,
+        astronomicalEvents: astronomicalEvents,
       );
       
       final dreamService = DreamService();

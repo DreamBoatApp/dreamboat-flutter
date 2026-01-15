@@ -49,11 +49,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsAnalyzeBtn => 'See Dream Pattern';
 
   @override
-  String get statsAnalysisIntroTitle => 'What is Dream Pattern Analysis?';
+  String get statsAnalysisIntroTitle => 'Dream Pattern Analysis';
+
+  @override
+  String get statsAnalysisIntroSubtitle => 'Can be done once a week';
 
   @override
   String get statsAnalysisIntroContent =>
-      'Dream Pattern Analysis examines your weekly recorded dreams collectively to reveal recurring themes, emotional cycles, and symbolic trends of your subconscious. Unlike individual dream interpretations, this system shows patterns formed over time, the big picture your mind is trying to tell you.';
+      'Dream Pattern Analysis examines all dreams recorded in your Dream Journal together to reveal recurring themes, emotional cycles, and symbolic trends of your subconscious. Unlike individual dream interpretations, this system shows patterns formed over time, the big picture your mind is trying to tell you. It can be done only once a week to let you track changing elements more regularly over time.';
 
   @override
   String statsAnalysisWait(Object days) {
@@ -901,8 +904,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moonSyncTitle => 'Moon & Planet Synchronization';
 
   @override
+  String get moonSyncSubtitle => 'Can be done once a month';
+
+  @override
   String get moonSyncDescription =>
-      'Moon & Planet Synchronization analyzes your dreams alongside the lunar phase on the day you dreamed, interpreting your subconscious emotional fluctuations according to the Moon\'s phases. It matches your dreams\' word intensity, emotional tone, and selected mood tags with the Moon\'s cycle. This way, you understand not only the content of your dreams but also the influence of the Moon and planetary alignment on you.';
+      'Moon & Planet Synchronization analyzes your subconscious emotional fluctuations by matching your dreams with the Moon’s phase and any cosmic events (Blue Moon, Super Moon, eclipses) of the last month. It correlates your dreams\' word count, emotional intensity, and mood tags with the lunar cycle, offering advice for alignment. This lets you understand not just dream content but the cosmic influence on you. Done only once a month to help you track changing effects and align with the Moon’s cycle.';
 
   @override
   String get moonSyncBtn => 'Start Cosmic Analysis';

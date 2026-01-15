@@ -371,6 +371,9 @@ class _StatsScreenState extends State<StatsScreen> {
         return {
           'text': d.text,
           'mood': d.mood,
+          'moodIntensity': d.moodIntensity,
+          'vividness': d.vividness,
+          'astronomicalEvents': d.astronomicalEvents,
           'date': d.date.toIso8601String(),
           'wordCount': d.text.split(' ').length,
           'moonPhase': moonPhaseService.getPhaseNameEn(phase),
@@ -659,15 +662,30 @@ class _StatsScreenState extends State<StatsScreen> {
                       Column(
                         children: [
                           // Chart (Center)
-                          SizedBox(
+                          Container(
                             height: 140, // Reduced height
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.white.withOpacity(0.1), // Soft white glow
+                                  blurRadius: 20,
+                                  spreadRadius: 5,
+                                ),
+                                BoxShadow(
+                                  color: const Color(0xFF8B5CF6).withOpacity(0.2), // Purple mystical glow
+                                  blurRadius: 40,
+                                  spreadRadius: 10,
+                                ),
+                              ],
+                            ),
                             child: PieChart(
                               PieChartData(
                                 sectionsSpace: 2, // Small gap between slices
                                 centerSpaceRadius: 0, // Full Pie
                                 sections: chartSections.map((s) => s.copyWith(
                                    radius: 70, // Full radius
-                                   titleStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white), // Ensure text is visible
+                                   showTitle: false, // [MODIFIED] Remove labels
                                 )).toList(), 
                                 borderData: FlBorderData(show: false),
                               ),
@@ -783,23 +801,37 @@ class _StatsScreenState extends State<StatsScreen> {
               const Icon(LucideIcons.brainCircuit, color: Color(0xFFA78BFA), size: 24),
               const SizedBox(width: 12),
               Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
-                      child: Text(
-                        t.statsAnalysisIntroTitle, 
-                        style: TextStyle(
-                          color: isPro ? const Color(0xFFFBBF24) : const Color(0xFFA78BFA), 
-                          fontSize: 18, 
-                          fontWeight: FontWeight.bold
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            t.statsAnalysisIntroTitle, 
+                            style: TextStyle(
+                              color: isPro ? const Color(0xFFFBBF24) : const Color(0xFFA78BFA), 
+                              fontSize: 18, 
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
                         ),
+                        const SizedBox(width: 8),
+                        if (!isPro)
+                          const ProBadge(),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      t.statsAnalysisIntroSubtitle,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.6),
+                        fontSize: 13,
+                        fontStyle: FontStyle.italic,
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    if (!isPro)
-                      const ProBadge(),
                   ],
                 ),
               ),
@@ -889,9 +921,23 @@ class _StatsScreenState extends State<StatsScreen> {
               const Icon(LucideIcons.brainCircuit, color: Color(0xFFA78BFA), size: 24),
               const SizedBox(width: 12),
               Expanded(
-                child: Text(
-                  t.statsAnalysisIntroTitle, 
-                  style: const TextStyle(color: Color(0xFFA78BFA), fontSize: 18, fontWeight: FontWeight.bold),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      t.statsAnalysisIntroTitle, 
+                      style: const TextStyle(color: Color(0xFFA78BFA), fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      t.statsAnalysisIntroSubtitle,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.6),
+                        fontSize: 13,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -988,23 +1034,37 @@ class _StatsScreenState extends State<StatsScreen> {
               const Icon(LucideIcons.moon, color: Color(0xFF60A5FA), size: 24),
               const SizedBox(width: 12),
               Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
-                      child: Text(
-                        t.moonSyncTitle, 
-                        style: TextStyle(
-                          color: isPro ? const Color(0xFFFBBF24) : const Color(0xFF60A5FA), 
-                          fontSize: 18, 
-                          fontWeight: FontWeight.bold
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            t.moonSyncTitle, 
+                            style: TextStyle(
+                              color: isPro ? const Color(0xFFFBBF24) : const Color(0xFF60A5FA), 
+                              fontSize: 18, 
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
                         ),
+                        const SizedBox(width: 8),
+                        if (!isPro)
+                          const ProBadge(),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      t.moonSyncSubtitle,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.6),
+                        fontSize: 13,
+                        fontStyle: FontStyle.italic,
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    if (!isPro)
-                      const ProBadge(),
                   ],
                 ),
               ),
@@ -1091,9 +1151,23 @@ class _StatsScreenState extends State<StatsScreen> {
               const Icon(LucideIcons.moon, color: Color(0xFF60A5FA), size: 24),
               const SizedBox(width: 12),
               Expanded(
-                child: Text(
-                  t.moonSyncTitle, 
-                  style: const TextStyle(color: Color(0xFF60A5FA), fontSize: 18, fontWeight: FontWeight.bold),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      t.moonSyncTitle, 
+                      style: const TextStyle(color: Color(0xFF60A5FA), fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      t.moonSyncSubtitle,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.6),
+                        fontSize: 13,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
