@@ -303,7 +303,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get guideStage2Content =>
-      'Você formou sua intenção mental. Agora, aprenderemos a reentrar conscientemente na fase REM onde os sonhos são mais intensos. A técnica WBTB aumenta significativamente o potencial de sonho lúcido permitindo que você volte a dormir em um estado semi-acordado.';
+      'Você formou sua intenção mental. Agora, aprenderemos a reentrar conscientemente na fase REM onde os sonhos são mais intensos. A técnica WBTB pode apoiar a consciência de sonho lúcido permitindo que você volte a dormir em um estado semi-acordado.';
 
   @override
   String get guideStage2Importance =>
@@ -329,7 +329,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get guideStage3Content =>
-      'Uma das técnicas mais impressionantes de sonhos lúcidos, WILD leva você diretamente ao reino dos sonhos conscientemente. Você permite que seu corpo durma enquanto sua mente permanece acordada antes de dormir, e transita para o sonho sem nem piscar.';
+      'Uma das técnicas mais impressionantes de sonhos lúcidos, WILD leva você diretamente ao reino dos sonhos conscientemente. Você permite que seu corpo durma enquanto sua mente permanece acordada antes de dormir, e você pode notar mais claramente quando o sonho começa.';
 
   @override
   String get guideStage3Importance =>
@@ -408,11 +408,11 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get guideStage6Content =>
-      'Sua mente agora conheceu o sonho lúcido. Nesta fase, damos um passo atrás da prática de sonhos e preparamos o ambiente que aumentará a qualidade dos sonhos lúcidos regulando sua química mental.';
+      'Sua mente agora conheceu o sonho lúcido. Nesta fase, damos um passo atrás da prática de sonhos e buscamos criar um ambiente mental mais saudável para os sonhos lúcidos apoiando o equilíbrio mental.';
 
   @override
   String get guideStage6Importance =>
-      'Dopamina é o centro da motivação, imaginação e sistema de recompensa. Estímulos excessivos perturbam este equilíbrio e reduzem a clareza dos sonhos.';
+      'Dopamina é um neurotransmissor que desempenha um papel nos processos de motivação e atenção. Estímulos excessivos podem dificultar o foco mental. Este conteúdo não é aconselhamento médico; oferece apenas sugestões de consciência e estilo de vida.';
 
   @override
   String get guideStage6Steps =>
@@ -428,18 +428,18 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get guideStage7Title =>
-      '7. Consciência Avançada e Manipulação Criativa';
+      '7. Consciência Avançada e Orientação Criativa';
 
   @override
   String get guideStage7Subtitle => 'Tornando-se o Mestre do Sonho';
 
   @override
   String get guideStage7Content =>
-      'Chegamos ao fim da jornada. Neste ponto, você não será apenas lúcido, mas alcançará o nível para mudar conscientemente o conteúdo do sonho. É hora de criar livremente seu mundo dos sonhos.';
+      'Chegamos ao fim da jornada. Neste ponto, você não será apenas lúcido, mas alcançará um nível onde pode explorar a experiência do sonho de forma mais consciente. É hora de criar livremente seu mundo dos sonhos.';
 
   @override
   String get guideStage7Importance =>
-      'Com esta técnica, você pode acessar o subconsciente, enfrentar medos e testar tudo que imaginar. Esta é uma revolução tanto mental quanto espiritual.';
+      'Com esta técnica, você pode desenvolver consciência sobre símbolos do sonho e imagens mentais, e testar tudo que imaginar. Esta é uma revolução tanto mental quanto espiritual.';
 
   @override
   String get guideStage7Steps =>
@@ -1102,4 +1102,23 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get settingsSupportIdCopied =>
       'ID copiado! Você pode enviar este código para nossa equipe de suporte.';
+
+  @override
+  String get guideIntentExerciseTitle => 'Vamos repetir juntos antes de dormir';
+
+  @override
+  String get guideIntentPhrase =>
+      'No meu próximo sonho, vou perceber que estou sonhando.';
+
+  @override
+  String get guideIntentRepeatButton => 'Repetir';
+
+  @override
+  String guideIntentProgress(Object count) {
+    return '$count / 10 repetições';
+  }
+
+  @override
+  String get guideIntentComplete =>
+      'Você está pronto! Agora pode dormir com esta intenção. 🌙';
 }

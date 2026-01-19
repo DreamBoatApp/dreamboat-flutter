@@ -197,7 +197,14 @@ class SubscriptionProvider extends ChangeNotifier {
       await prefs.remove('last_moon_sync_result');
       await prefs.remove('last_moon_sync_date');
       
-      debugPrint('DEBUG: Manually set PRO status to $_isPro and cleared analysis cache.');
+      // Reset lucid dream guide progress
+      await prefs.remove('guide_progress');
+      
+      // Reset intent exercise counter
+      await prefs.remove('intent_exercise_count');
+      await prefs.remove('intent_exercise_date');
+      
+      debugPrint('DEBUG: Manually set PRO status to $_isPro and cleared analysis/guide cache.');
     } catch (e) {
       debugPrint('Cache error: $e');
     }

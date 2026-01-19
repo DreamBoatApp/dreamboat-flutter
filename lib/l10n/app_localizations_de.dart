@@ -304,7 +304,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get guideStage2Content =>
-      'Du hast deine mentale Absicht geformt. Jetzt lernen wir, bewusst wieder in die REM-Phase einzutreten, in der Träume am intensivsten sind. Die WBTB-Technik erhöht das Klartraumpotenzial erheblich, indem sie dir erlaubt, in einem halb wachen Zustand wieder einzuschlafen.';
+      'Du hast deine mentale Absicht geformt. Jetzt lernen wir, bewusst wieder in die REM-Phase einzutreten, in der Träume am intensivsten sind. Die WBTB-Technik kann das Klartraum-Bewusstsein unterstützen, indem sie dir erlaubt, in einem halb wachen Zustand wieder einzuschlafen.';
 
   @override
   String get guideStage2Importance =>
@@ -331,7 +331,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get guideStage3Content =>
-      'Eine der beeindruckendsten Techniken des Klarträumens, WILD, führt dich direkt und bewusst in das Traumreich. Du erlaubst deinem Körper zu schlafen, während dein Geist wach bleibt, und du gehst in den Traum über, ohne zu blinzeln.';
+      'Eine der beeindruckendsten Techniken des Klarträumens, WILD, führt dich direkt und bewusst in das Traumreich. Du erlaubst deinem Körper zu schlafen, während dein Geist wach bleibt, und du kannst deutlicher bemerken, wann der Traum beginnt.';
 
   @override
   String get guideStage3Importance =>
@@ -409,11 +409,11 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get guideStage6Content =>
-      'Dein Geist hat nun das Klarträumen kennengelernt. In dieser Phase treten wir einen Schritt von der Traumpraxis zurück und bereiten die Umgebung vor, die die Qualität der Klarträume erhöht, indem sie deine mentale Chemie reguliert.';
+      'Dein Geist hat nun das Klarträumen kennengelernt. In dieser Phase treten wir einen Schritt von der Traumpraxis zurück und versuchen, eine gesündere mentale Umgebung für Klarträume zu schaffen, indem wir das mentale Gleichgewicht unterstützen.';
 
   @override
   String get guideStage6Importance =>
-      'Dopamin ist das Zentrum für Motivation, Vorstellungskraft und das Belohnungssystem. Übermäßige Reize stören dieses Gleichgewicht und verringern die Traumklarheit.';
+      'Dopamin ist ein Neurotransmitter, der bei Motivations- und Aufmerksamkeitsprozessen eine Rolle spielt. Übermäßige Reize können die mentale Fokussierung erschweren. Dieser Inhalt ist kein medizinischer Rat; er bietet nur Vorschläge für Bewusstsein und Lebensstil.';
 
   @override
   String get guideStage6Steps =>
@@ -429,18 +429,18 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get guideStage7Title =>
-      '7. Erweitertes Bewusstsein und Kreative Manipulation';
+      '7. Erweitertes Bewusstsein und Kreative Anleitung';
 
   @override
   String get guideStage7Subtitle => 'Meister des Traums werden';
 
   @override
   String get guideStage7Content =>
-      'Wir sind am Ende der Reise angelangt. An diesem Punkt wirst du nicht nur klar sein, sondern das Niveau erreichen, den Trauminhalt bewusst zu verändern. Es ist Zeit, deine Traumwelt frei zu erschaffen.';
+      'Wir sind am Ende der Reise angelangt. An diesem Punkt wirst du nicht nur klar sein, sondern ein Niveau erreichen, auf dem du das Traumerlebnis bewusster erkunden kannst. Es ist Zeit, deine Traumwelt frei zu erschaffen.';
 
   @override
   String get guideStage7Importance =>
-      'Mit dieser Technik kannst du auf das Unterbewusstsein zugreifen, Ängste konfrontieren und alles testen, was du dir vorstellst. Dies ist eine Revolution sowohl geistig als auch spirituell.';
+      'Mit dieser Technik du kannst Bewusstsein für Traumsymbole und mentale Bilder entwickeln, und alles testen, was du dir vorstellst. Dies ist eine Revolution sowohl geistig als auch spirituell.';
 
   @override
   String get guideStage7Steps =>
@@ -1106,4 +1106,24 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get settingsSupportIdCopied =>
       'ID kopiert! Du kannst diesen Code an unser Support-Team senden.';
+
+  @override
+  String get guideIntentExerciseTitle =>
+      'Lass uns vor dem Schlafen gemeinsam wiederholen';
+
+  @override
+  String get guideIntentPhrase =>
+      'In meinem nächsten Traum werde ich erkennen, dass ich träume.';
+
+  @override
+  String get guideIntentRepeatButton => 'Wiederholen';
+
+  @override
+  String guideIntentProgress(Object count) {
+    return '$count / 10 Wiederholungen';
+  }
+
+  @override
+  String get guideIntentComplete =>
+      'Du bist bereit! Jetzt kannst du mit dieser Absicht schlafen. 🌙';
 }

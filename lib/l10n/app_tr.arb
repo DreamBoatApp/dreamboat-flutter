@@ -97,7 +97,7 @@
 
     "guideStage2Title": "2. WBTB (Wake Back To Bed)",
     "guideStage2Subtitle": "Bilinçli Rüya Kapısını Aralamak",
-    "guideStage2Content": "Artık zihinsel niyetini oluşturdun. Şimdi, rüyaların en yoğun yaşandığı REM evresine, bilinçli bir şekilde yeniden giriş yapmayı öğreneceğiz. WBTB tekniği, yarı uyanıklık halinde yeniden uykuya dalmanı sağlayarak lucid dream potansiyelini ciddi oranda artırır.",
+    "guideStage2Content": "Artık zihinsel niyetini oluşturdun. Şimdi, rüyaların en yoğun yaşandığı REM evresine, bilinçli bir şekilde yeniden giriş yapmayı öğreneceğiz. WBTB tekniği, yarı uyanıklık halinde yeniden uykuya dalmanı sağlayarak lucid rüya farkındalığını destekleyebilir.",
     "guideStage2Importance": "WBTB ile beynin hem uyanıklık hem uyku arasında kalır. Bu geçiş noktası, lucid rüyalar için en uygun zihinsel ortamı sağlar.",
     "guideStage2Steps": "Gece uyuduktan 4–6 saat sonra alarm kurup uyan.\n15–30 dakika boyunca düşük ışıkta kitap oku, meditasyon yap ya da MILD tekrarı yap.\nBu sürenin sonunda tekrar yat ve MILD niyetiyle uykuya dal.",
     "guideStage2Criteria": "1 hafta içinde en az 2 gece rüyanda bulunduğun ortamın farkındalığını kazandıysan bir sonraki aşamaya geçebilirsin.",
@@ -105,7 +105,7 @@
 
     "guideStage3Title": "3. WILD (Wake Initiated Lucid Dream)",
     "guideStage3Subtitle": "Bilincinle Rüyaya Doğrudan Giriş",
-    "guideStage3Content": "Lucid dreaming'in en etkileyici tekniklerinden biri olan WILD, seni doğrudan bilinçli şekilde rüya alemine taşır. Uyumadan önce zihnin uyanık kalırken bedenin uyumasına izin verirsin ve rüyaya gözlerini bile kırpmadan geçiş yaparsın.",
+    "guideStage3Content": "Lucid dreaming'in en etkileyici tekniklerinden biri olan WILD, seni doğrudan bilinçli şekilde rüya alemine taşır. Uyumadan önce zihnin uyanık kalırken bedenin uyumasına izin verirsin ve rüya başlangıcını daha net fark edebilirsin.",
     "guideStage3Importance": "WILD, zihinsel berraklık ile bedensel rahatlamanın eş zamanlı yürütülmesini gerektirir. Bu teknik, doğrudan rüyaya giriş yaptığın için diğerlerinden farklıdır ve yüksek düzeyde pratik ister.",
     "guideStage3Steps": "WBTB sonrası uygula.\nYatağa uzan, tüm bedenini gevşet.\nNefesine odaklan, zihnini aktif tut.\nGözlerin kapalıyken ışıklar, desenler görebilirsin — sakince izle.\nRüyanın başladığını fark ettiğinde kontrolü ele al.",
     "guideStage3Criteria": "2 hafta içinde en az 1 kez doğrudan bilinçli bir şekilde rüya içine geçiş yaptıysan 4. aşamaya hazırsın.",
@@ -129,16 +129,16 @@
 
     "guideStage6Title": "6. Dopamin Dengesi",
     "guideStage6Subtitle": "Zihin Kimyasını Dengelemek",
-    "guideStage6Content": "Artık zihnin lucid dreaming ile tanıştı. Bu aşamada rüya pratiğinden bir adım geri çekiliyor ve zihinsel kimyanı düzenleyerek lucid rüyaların kalitesini artıracak ortamı hazırlıyoruz.",
-    "guideStage6Importance": "Dopamin; motivasyon, hayal gücü ve ödül sisteminin merkezidir. Aşırı uyaranlar bu dengeyi bozar ve rüya netliğini düşürür.",
+    "guideStage6Content": "Artık zihnin lucid dreaming ile tanıştı. Bu aşamada rüya pratiğinden bir adım geri çekiliyor ve zihinsel dengeyi destekleyerek lucid rüyalar için daha sağlıklı bir zihinsel ortam oluşturmayı amaçlıyoruz.",
+    "guideStage6Importance": "Dopamin, motivasyon ve dikkat süreçlerinde rol oynayan bir nörotransmitterdir. Aşırı uyaranlar zihinsel odaklanmayı zorlaştırabilir. Bu içerikler tıbbi tavsiye değildir; yalnızca farkındalık ve yaşam tarzı önerileri sunar.",
     "guideStage6Steps": "5 gün boyunca sosyal medya süreni 1 saatle sınırla.\nHafif egzersiz, yürüyüş ve güneş ışığı al.\nOmega-3 açısından zengin, şekerden uzak beslen.\nUyku öncesi odak egzersizleri yap.",
     "guideStage6Criteria": "1 hafta içinde 2 lucid rüyada bilinçli şekilde ortamı, ışığı veya bir objeyi yönettiysen son aşamaya geçebilirsin.",
     "guideStage6BrainNote": "Artık zihnini sadece eğitmedin, onun biyolojik yapısını da optimize ettin. Şimdi bilinçli rüyalar sadece mümkün değil; senin doğan haline dönüşüyor.",
 
-    "guideStage7Title": "7. İleri Bilinç ve Yaratıcı Manipülasyon",
+    "guideStage7Title": "7. İleri Farkındalık ve Yaratıcı Yönlendirme",
     "guideStage7Subtitle": "Rüyanın Efendisi Olmak",
-    "guideStage7Content": "Yolculuğun sonuna geldik. Bu noktada artık sadece lucid olmakla kalmayacak, rüya içeriğini bilinçli şekilde değiştirecek seviyeye ulaşacaksın. Rüya dünyanı özgürce yaratma zamanı geldi.",
-    "guideStage7Importance": "Bu teknikle bilinçaltına erişebilir, korkularla yüzleşebilir, hayal ettiğin her şeyi test edebilirsin. Bu, hem zihinsel hem ruhsal bir devrimdir.",
+    "guideStage7Content": "Yolculuğun sonuna geldik. Bu noktada artık sadece lucid olmakla kalmayacak, rüya deneyimini daha bilinçli şekilde keşfedebileceğin bir seviyeye ulaşacaksın. Rüya dünyanı özgürce yaratma zamanı geldi.",
+    "guideStage7Importance": "Bu teknikle rüya sembolleri ve zihinsel imgeler üzerine farkındalık geliştirebilirsin, hayal ettiğin her şeyi test edebilirsin. Bu, hem zihinsel hem ruhsal bir devrimdir.",
     "guideStage7Steps": "Rüyada yapmak istediğin senaryoyu detaylıca yaz ve hayal et.\nRüyada bilinçli olarak mekanı, zamanı, karakteri veya sonucu değiştir.\nFarkındalık meditasyonlarını gündelik rutine ekle.",
     "guideStage7Criteria": "2 hafta içinde en az 2 rüyada aktif manipülasyon yaptıysan (uçmak, ortamı değiştirmek, bir şeyi çağırmak), lucid dreaming ustasısın.",
     "guideStage7BrainNote": "Bu yolculuğun sonunda sadece bilinçli rüyalar değil, hayal gücünün sınırsız potansiyeli seni bekliyor. Artık sadece uyanıkken değil, uyurken de hayatı yaratıyorsun.",
@@ -369,5 +369,10 @@
     "statsDreamLabel": "Rüya",
     "statsRecordedDreams": "Kaydedilen rüya sayısı: {count}",
     "settingsSupportId": "Destek ID'si",
-    "settingsSupportIdCopied": "ID kopyalandı! Destek ekibine bu kodu gönderebilirsiniz."
+    "settingsSupportIdCopied": "ID kopyalandı! Destek ekibine bu kodu gönderebilirsiniz.",
+    "guideIntentExerciseTitle": "Uyumadan önce birlikte tekrar edelim",
+    "guideIntentPhrase": "Bir sonraki rüyamda rüya gördüğümü fark edeceğim.",
+    "guideIntentRepeatButton": "Tekrarla",
+    "guideIntentProgress": "{count} / 10 tekrar",
+    "guideIntentComplete": "Hazırsın! Şimdi bu niyetle uyuyabilirsin. 🌙"
 }

@@ -302,7 +302,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guideStage2Content =>
-      'You have formed your mental intention. Now, we will learn to consciously re-enter the REM phase where dreams are most intense. The WBTB technique significantly increases lucid dream potential by allowing you to fall back asleep in a semi-awake state.';
+      'You have formed your mental intention. Now, we will learn to consciously re-enter the REM phase where dreams are most intense. The WBTB technique can support lucid dream awareness. by allowing you to fall back asleep in a semi-awake state.';
 
   @override
   String get guideStage2Importance =>
@@ -329,7 +329,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guideStage3Content =>
-      'One of the most impressive techniques of lucid dreaming, WILD takes you directly into the dream realm consciously. You allow your body to sleep while your mind stays awake before sleeping, and you transition into the dream without even blinking.';
+      'One of the most impressive techniques of lucid dreaming, WILD takes you directly into the dream realm consciously. You allow your body to sleep while your mind stays awake before sleeping, and you can more clearly notice when the dream begins.';
 
   @override
   String get guideStage3Importance =>
@@ -407,11 +407,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guideStage6Content =>
-      'Your mind has now met lucid dreaming. At this stage, we take a step back from dream practice and prepare the environment that will increase the quality of lucid dreams by regulating your mental chemistry.';
+      'Your mind has now met lucid dreaming. At this stage, we take a step back from dream practice and aim to create a healthier mental environment for lucid dreams by supporting mental balance.';
 
   @override
   String get guideStage6Importance =>
-      'Dopamine is the center of motivation, imagination, and the reward system. Excessive stimuli disrupt this balance and reduce dream clarity.';
+      'Dopamine is a neurotransmitter that plays a role in motivation and attention processes. Excessive stimuli can make mental focus difficult. This content is not medical advice; it only offers awareness and lifestyle suggestions.';
 
   @override
   String get guideStage6Steps =>
@@ -426,19 +426,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'You didn\'t just train your mind, you optimized its biological structure. Now conscious dreams are not just possible; they are becoming your nature.';
 
   @override
-  String get guideStage7Title =>
-      '7. Advanced Consciousness and Creative Manipulation';
+  String get guideStage7Title => '7. Advanced Awareness and Creative Guidance';
 
   @override
   String get guideStage7Subtitle => 'Becoming the Master of the Dream';
 
   @override
   String get guideStage7Content =>
-      'We have come to the end of the journey. At this point, you will not only be lucid but reach the level to consciously change the dream content. It is time to freely create your dream world.';
+      'We have come to the end of the journey. At this point, you will not only be lucid but reach a level where you can explore the dream experience more consciously. It is time to freely create your dream world.';
 
   @override
   String get guideStage7Importance =>
-      'With this technique, you can access the subconscious, face fears, and test everything you imagine. This is a revolution both mentally and spiritually.';
+      'With this technique, you can develop awareness of dream symbols and mental imagery, and test everything you imagine. This is a revolution both mentally and spiritually.';
 
   @override
   String get guideStage7Steps =>
@@ -1096,4 +1095,23 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settingsSupportIdCopied =>
       'ID copied! You can send this code to our support team.';
+
+  @override
+  String get guideIntentExerciseTitle => 'Let\'s repeat together before sleep';
+
+  @override
+  String get guideIntentPhrase =>
+      'In my next dream, I will realize I am dreaming.';
+
+  @override
+  String get guideIntentRepeatButton => 'Repeat';
+
+  @override
+  String guideIntentProgress(Object count) {
+    return '$count / 10 repetitions';
+  }
+
+  @override
+  String get guideIntentComplete =>
+      'You\'re ready! Now you can sleep with this intention. 🌙';
 }

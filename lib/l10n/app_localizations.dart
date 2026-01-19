@@ -653,7 +653,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideStage2Content.
   ///
   /// In tr, this message translates to:
-  /// **'Artık zihinsel niyetini oluşturdun. Şimdi, rüyaların en yoğun yaşandığı REM evresine, bilinçli bir şekilde yeniden giriş yapmayı öğreneceğiz. WBTB tekniği, yarı uyanıklık halinde yeniden uykuya dalmanı sağlayarak lucid dream potansiyelini ciddi oranda artırır.'**
+  /// **'Artık zihinsel niyetini oluşturdun. Şimdi, rüyaların en yoğun yaşandığı REM evresine, bilinçli bir şekilde yeniden giriş yapmayı öğreneceğiz. WBTB tekniği, yarı uyanıklık halinde yeniden uykuya dalmanı sağlayarak lucid rüya farkındalığını destekleyebilir.'**
   String get guideStage2Content;
 
   /// No description provided for @guideStage2Importance.
@@ -695,7 +695,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideStage3Content.
   ///
   /// In tr, this message translates to:
-  /// **'Lucid dreaming\'in en etkileyici tekniklerinden biri olan WILD, seni doğrudan bilinçli şekilde rüya alemine taşır. Uyumadan önce zihnin uyanık kalırken bedenin uyumasına izin verirsin ve rüyaya gözlerini bile kırpmadan geçiş yaparsın.'**
+  /// **'Lucid dreaming\'in en etkileyici tekniklerinden biri olan WILD, seni doğrudan bilinçli şekilde rüya alemine taşır. Uyumadan önce zihnin uyanık kalırken bedenin uyumasına izin verirsin ve rüya başlangıcını daha net fark edebilirsin.'**
   String get guideStage3Content;
 
   /// No description provided for @guideStage3Importance.
@@ -821,13 +821,13 @@ abstract class AppLocalizations {
   /// No description provided for @guideStage6Content.
   ///
   /// In tr, this message translates to:
-  /// **'Artık zihnin lucid dreaming ile tanıştı. Bu aşamada rüya pratiğinden bir adım geri çekiliyor ve zihinsel kimyanı düzenleyerek lucid rüyaların kalitesini artıracak ortamı hazırlıyoruz.'**
+  /// **'Artık zihnin lucid dreaming ile tanıştı. Bu aşamada rüya pratiğinden bir adım geri çekiliyor ve zihinsel dengeyi destekleyerek lucid rüyalar için daha sağlıklı bir zihinsel ortam oluşturmayı amaçlıyoruz.'**
   String get guideStage6Content;
 
   /// No description provided for @guideStage6Importance.
   ///
   /// In tr, this message translates to:
-  /// **'Dopamin; motivasyon, hayal gücü ve ödül sisteminin merkezidir. Aşırı uyaranlar bu dengeyi bozar ve rüya netliğini düşürür.'**
+  /// **'Dopamin, motivasyon ve dikkat süreçlerinde rol oynayan bir nörotransmitterdir. Aşırı uyaranlar zihinsel odaklanmayı zorlaştırabilir. Bu içerikler tıbbi tavsiye değildir; yalnızca farkındalık ve yaşam tarzı önerileri sunar.'**
   String get guideStage6Importance;
 
   /// No description provided for @guideStage6Steps.
@@ -851,7 +851,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideStage7Title.
   ///
   /// In tr, this message translates to:
-  /// **'7. İleri Bilinç ve Yaratıcı Manipülasyon'**
+  /// **'7. İleri Farkındalık ve Yaratıcı Yönlendirme'**
   String get guideStage7Title;
 
   /// No description provided for @guideStage7Subtitle.
@@ -863,13 +863,13 @@ abstract class AppLocalizations {
   /// No description provided for @guideStage7Content.
   ///
   /// In tr, this message translates to:
-  /// **'Yolculuğun sonuna geldik. Bu noktada artık sadece lucid olmakla kalmayacak, rüya içeriğini bilinçli şekilde değiştirecek seviyeye ulaşacaksın. Rüya dünyanı özgürce yaratma zamanı geldi.'**
+  /// **'Yolculuğun sonuna geldik. Bu noktada artık sadece lucid olmakla kalmayacak, rüya deneyimini daha bilinçli şekilde keşfedebileceğin bir seviyeye ulaşacaksın. Rüya dünyanı özgürce yaratma zamanı geldi.'**
   String get guideStage7Content;
 
   /// No description provided for @guideStage7Importance.
   ///
   /// In tr, this message translates to:
-  /// **'Bu teknikle bilinçaltına erişebilir, korkularla yüzleşebilir, hayal ettiğin her şeyi test edebilirsin. Bu, hem zihinsel hem ruhsal bir devrimdir.'**
+  /// **'Bu teknikle rüya sembolleri ve zihinsel imgeler üzerine farkındalık geliştirebilirsin, hayal ettiğin her şeyi test edebilirsin. Bu, hem zihinsel hem ruhsal bir devrimdir.'**
   String get guideStage7Importance;
 
   /// No description provided for @guideStage7Steps.
@@ -2077,6 +2077,36 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'ID kopyalandı! Destek ekibine bu kodu gönderebilirsiniz.'**
   String get settingsSupportIdCopied;
+
+  /// No description provided for @guideIntentExerciseTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyumadan önce birlikte tekrar edelim'**
+  String get guideIntentExerciseTitle;
+
+  /// No description provided for @guideIntentPhrase.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir sonraki rüyamda rüya gördüğümü fark edeceğim.'**
+  String get guideIntentPhrase;
+
+  /// No description provided for @guideIntentRepeatButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrarla'**
+  String get guideIntentRepeatButton;
+
+  /// No description provided for @guideIntentProgress.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} / 10 tekrar'**
+  String guideIntentProgress(Object count);
+
+  /// No description provided for @guideIntentComplete.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hazırsın! Şimdi bu niyetle uyuyabilirsin. 🌙'**
+  String get guideIntentComplete;
 }
 
 class _AppLocalizationsDelegate

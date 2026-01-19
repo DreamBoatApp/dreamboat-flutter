@@ -300,7 +300,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get guideStage2Content =>
-      'Artık zihinsel niyetini oluşturdun. Şimdi, rüyaların en yoğun yaşandığı REM evresine, bilinçli bir şekilde yeniden giriş yapmayı öğreneceğiz. WBTB tekniği, yarı uyanıklık halinde yeniden uykuya dalmanı sağlayarak lucid dream potansiyelini ciddi oranda artırır.';
+      'Artık zihinsel niyetini oluşturdun. Şimdi, rüyaların en yoğun yaşandığı REM evresine, bilinçli bir şekilde yeniden giriş yapmayı öğreneceğiz. WBTB tekniği, yarı uyanıklık halinde yeniden uykuya dalmanı sağlayarak lucid rüya farkındalığını destekleyebilir.';
 
   @override
   String get guideStage2Importance =>
@@ -326,7 +326,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get guideStage3Content =>
-      'Lucid dreaming\'in en etkileyici tekniklerinden biri olan WILD, seni doğrudan bilinçli şekilde rüya alemine taşır. Uyumadan önce zihnin uyanık kalırken bedenin uyumasına izin verirsin ve rüyaya gözlerini bile kırpmadan geçiş yaparsın.';
+      'Lucid dreaming\'in en etkileyici tekniklerinden biri olan WILD, seni doğrudan bilinçli şekilde rüya alemine taşır. Uyumadan önce zihnin uyanık kalırken bedenin uyumasına izin verirsin ve rüya başlangıcını daha net fark edebilirsin.';
 
   @override
   String get guideStage3Importance =>
@@ -405,11 +405,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get guideStage6Content =>
-      'Artık zihnin lucid dreaming ile tanıştı. Bu aşamada rüya pratiğinden bir adım geri çekiliyor ve zihinsel kimyanı düzenleyerek lucid rüyaların kalitesini artıracak ortamı hazırlıyoruz.';
+      'Artık zihnin lucid dreaming ile tanıştı. Bu aşamada rüya pratiğinden bir adım geri çekiliyor ve zihinsel dengeyi destekleyerek lucid rüyalar için daha sağlıklı bir zihinsel ortam oluşturmayı amaçlıyoruz.';
 
   @override
   String get guideStage6Importance =>
-      'Dopamin; motivasyon, hayal gücü ve ödül sisteminin merkezidir. Aşırı uyaranlar bu dengeyi bozar ve rüya netliğini düşürür.';
+      'Dopamin, motivasyon ve dikkat süreçlerinde rol oynayan bir nörotransmitterdir. Aşırı uyaranlar zihinsel odaklanmayı zorlaştırabilir. Bu içerikler tıbbi tavsiye değildir; yalnızca farkındalık ve yaşam tarzı önerileri sunar.';
 
   @override
   String get guideStage6Steps =>
@@ -424,18 +424,18 @@ class AppLocalizationsTr extends AppLocalizations {
       'Artık zihnini sadece eğitmedin, onun biyolojik yapısını da optimize ettin. Şimdi bilinçli rüyalar sadece mümkün değil; senin doğan haline dönüşüyor.';
 
   @override
-  String get guideStage7Title => '7. İleri Bilinç ve Yaratıcı Manipülasyon';
+  String get guideStage7Title => '7. İleri Farkındalık ve Yaratıcı Yönlendirme';
 
   @override
   String get guideStage7Subtitle => 'Rüyanın Efendisi Olmak';
 
   @override
   String get guideStage7Content =>
-      'Yolculuğun sonuna geldik. Bu noktada artık sadece lucid olmakla kalmayacak, rüya içeriğini bilinçli şekilde değiştirecek seviyeye ulaşacaksın. Rüya dünyanı özgürce yaratma zamanı geldi.';
+      'Yolculuğun sonuna geldik. Bu noktada artık sadece lucid olmakla kalmayacak, rüya deneyimini daha bilinçli şekilde keşfedebileceğin bir seviyeye ulaşacaksın. Rüya dünyanı özgürce yaratma zamanı geldi.';
 
   @override
   String get guideStage7Importance =>
-      'Bu teknikle bilinçaltına erişebilir, korkularla yüzleşebilir, hayal ettiğin her şeyi test edebilirsin. Bu, hem zihinsel hem ruhsal bir devrimdir.';
+      'Bu teknikle rüya sembolleri ve zihinsel imgeler üzerine farkındalık geliştirebilirsin, hayal ettiğin her şeyi test edebilirsin. Bu, hem zihinsel hem ruhsal bir devrimdir.';
 
   @override
   String get guideStage7Steps =>
@@ -1095,4 +1095,23 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get settingsSupportIdCopied =>
       'ID kopyalandı! Destek ekibine bu kodu gönderebilirsiniz.';
+
+  @override
+  String get guideIntentExerciseTitle => 'Uyumadan önce birlikte tekrar edelim';
+
+  @override
+  String get guideIntentPhrase =>
+      'Bir sonraki rüyamda rüya gördüğümü fark edeceğim.';
+
+  @override
+  String get guideIntentRepeatButton => 'Tekrarla';
+
+  @override
+  String guideIntentProgress(Object count) {
+    return '$count / 10 tekrar';
+  }
+
+  @override
+  String get guideIntentComplete =>
+      'Hazırsın! Şimdi bu niyetle uyuyabilirsin. 🌙';
 }
