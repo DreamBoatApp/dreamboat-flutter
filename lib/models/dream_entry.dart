@@ -12,6 +12,7 @@ class DreamEntry {
   final String? title; // AI-generated dream title
   final bool isFavorite;
   final List<String>? astronomicalEvents; // List of cosmic events (e.g., "Super Moon", "Solar Eclipse")
+  final int? guideStage; // Lucid guide stage when dream was recorded (0: MILD, 1: WBTB, 2: WILD, etc.)
 
   DreamEntry({
     required this.id,
@@ -25,6 +26,7 @@ class DreamEntry {
     this.title,
     this.isFavorite = false,
     this.astronomicalEvents,
+    this.guideStage,
   });
 
   Map<String, dynamic> toJson() {
@@ -40,6 +42,7 @@ class DreamEntry {
       'title': title,
       'isFavorite': isFavorite,
       'astronomicalEvents': astronomicalEvents,
+      'guideStage': guideStage,
     };
   }
 
@@ -56,6 +59,7 @@ class DreamEntry {
       title: json['title'],
       isFavorite: json['isFavorite'] ?? false,
       astronomicalEvents: (json['astronomicalEvents'] as List<dynamic>?)?.map((e) => e.toString()).toList(),
+      guideStage: json['guideStage'],
     );
   }
 
@@ -71,6 +75,7 @@ class DreamEntry {
     String? title,
     bool? isFavorite,
     List<String>? astronomicalEvents,
+    int? guideStage,
   }) {
     return DreamEntry(
       id: id ?? this.id,
@@ -84,6 +89,8 @@ class DreamEntry {
       title: title ?? this.title,
       isFavorite: isFavorite ?? this.isFavorite,
       astronomicalEvents: astronomicalEvents ?? this.astronomicalEvents,
+      guideStage: guideStage ?? this.guideStage,
     );
   }
 }
+

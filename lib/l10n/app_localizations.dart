@@ -593,7 +593,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideCompletionContent.
   ///
   /// In tr, this message translates to:
-  /// **'Lucid Rüya Rehberinin tüm aşamalarını tamamladın.'**
+  /// **'Lucid Rüya Rehberinin tüm aşamalarını tamamladın.\n\nArtık tüm teknikler üzerinde ustalaşarak Lucid Rüya dünyasında serbestçe ilerleyebilirsin!'**
   String get guideCompletionContent;
 
   /// No description provided for @guideStage1Title.
@@ -869,7 +869,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideStage7Importance.
   ///
   /// In tr, this message translates to:
-  /// **'Bu teknikle rüya sembolleri ve zihinsel imgeler üzerine farkındalık geliştirebilirsin, hayal ettiğin her şeyi test edebilirsin. Bu, hem zihinsel hem ruhsal bir devrimdir.'**
+  /// **'Bu teknikle rüya sembolleri ve zihinsel imgeler üzerine farkındalık geliştirebilirsin, hayal ettiğin her şeyi test edebilirsin. Bu hem zihinsel hem de kişisel farkındalık açısından önemli bir adımdır.'**
   String get guideStage7Importance;
 
   /// No description provided for @guideStage7Steps.
@@ -881,7 +881,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideStage7Criteria.
   ///
   /// In tr, this message translates to:
-  /// **'2 hafta içinde en az 2 rüyada aktif manipülasyon yaptıysan (uçmak, ortamı değiştirmek, bir şeyi çağırmak), lucid dreaming ustasısın.'**
+  /// **'2 hafta içinde en az 2 rüyada aktif manipülasyon yaptıysan (uçmak, ortamı değiştirmek, bir şeyi çağırmak), lucid rüya dünyasına hoş geldin.'**
   String get guideStage7Criteria;
 
   /// No description provided for @guideStage7BrainNote.
@@ -1187,7 +1187,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideDialogTitle.
   ///
   /// In tr, this message translates to:
-  /// **'İlerlemek İstediğine Emin Misin?'**
+  /// **'İlerlemek istediğine emin misin?'**
   String get guideDialogTitle;
 
   /// No description provided for @guideDialogContent.
@@ -2107,6 +2107,186 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Hazırsın! Şimdi bu niyetle uyuyabilirsin. 🌙'**
   String get guideIntentComplete;
+
+  /// No description provided for @wildBreathTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nefes ve Gevşeme Modu'**
+  String get wildBreathTitle;
+
+  /// No description provided for @wildBreathStart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nefes ve Gevşeme Modunu Başlat'**
+  String get wildBreathStart;
+
+  /// No description provided for @wildBreathInhale.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nefes Al'**
+  String get wildBreathInhale;
+
+  /// No description provided for @wildBreathHold.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tut'**
+  String get wildBreathHold;
+
+  /// No description provided for @wildBreathExhale.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ver'**
+  String get wildBreathExhale;
+
+  /// No description provided for @wildBreathFocus.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sadece nefesine odaklan'**
+  String get wildBreathFocus;
+
+  /// No description provided for @wildBreathTapToExit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çıkmak için dokun'**
+  String get wildBreathTapToExit;
+
+  /// No description provided for @wbtbDreamsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'WBTB Sonrası Rüyaların'**
+  String get wbtbDreamsTitle;
+
+  /// No description provided for @wbtbDreamsDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu aşamayı uyguladığın gecelerde kaydettiğin rüyaları burada inceleyebilirsin.'**
+  String get wbtbDreamsDesc;
+
+  /// No description provided for @wbtbDreamsButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'WBTB Rüyalarını Gör'**
+  String get wbtbDreamsButton;
+
+  /// No description provided for @wbtbNoDreamsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz bu aşamaya ait rüya yok'**
+  String get wbtbNoDreamsTitle;
+
+  /// No description provided for @wbtbNoDreamsDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu tekniği uyguladıktan sonra rüyalarını kaydet ve burada analiz et.'**
+  String get wbtbNoDreamsDesc;
+
+  /// No description provided for @wbtbAddFirstDream.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk Rüyamı Ekle'**
+  String get wbtbAddFirstDream;
+
+  /// No description provided for @timeAwarenessTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gerçeklik Kontrolleri Egzersizi'**
+  String get timeAwarenessTitle;
+
+  /// No description provided for @timeAwarenessInstruction.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyumadan önce sesli cevapla'**
+  String get timeAwarenessInstruction;
+
+  /// No description provided for @timeAwarenessQ1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünün tarihi ne?'**
+  String get timeAwarenessQ1;
+
+  /// No description provided for @timeAwarenessQ2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftanın hangi günündeyiz?'**
+  String get timeAwarenessQ2;
+
+  /// No description provided for @timeAwarenessQ3.
+  ///
+  /// In tr, this message translates to:
+  /// **'REMOVED'**
+  String get timeAwarenessQ3;
+
+  /// No description provided for @timeAwarenessQ4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saat tam olarak kaç?'**
+  String get timeAwarenessQ4;
+
+  /// No description provided for @timeAwarenessQ5.
+  ///
+  /// In tr, this message translates to:
+  /// **'Etrafına bak ve 3 farklı nesne say.'**
+  String get timeAwarenessQ5;
+
+  /// No description provided for @timeAwarenessQ6.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üzerinde ne renk kıyafet var?'**
+  String get timeAwarenessQ6;
+
+  /// No description provided for @timeAwarenessQ11.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şu an hangi sesleri duyuyorsun?'**
+  String get timeAwarenessQ11;
+
+  /// No description provided for @timeAwarenessQ7.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün ilk konuştuğun kişi kimdi?'**
+  String get timeAwarenessQ7;
+
+  /// No description provided for @timeAwarenessQ8.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ellerine bak ve parmaklarını say.'**
+  String get timeAwarenessQ8;
+
+  /// No description provided for @timeAwarenessQ9.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nefes al ve \'Rüya görüyor muyum?\' diye sor.'**
+  String get timeAwarenessQ9;
+
+  /// No description provided for @timeAwarenessQ10.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şimdi gözlerini kapat ve uyuduğunu hayal et.'**
+  String get timeAwarenessQ10;
+
+  /// No description provided for @stage5Task1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüya Günlüğü Tuttum'**
+  String get stage5Task1;
+
+  /// No description provided for @stage5Task2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyamda Farkındalık Sinyali Yaşadım'**
+  String get stage5Task2;
+
+  /// No description provided for @stage5Hint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şartları sağladıkça yıldızlara tıklayarak görevleri gerçekleştirebilirsin. Tüm görevler tamamlandığında ilerlemenin kilidi açılır.'**
+  String get stage5Hint;
+
+  /// No description provided for @guideCriteriaNotMet.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlerlemek için bu aşamanın şartlarını tamamlamalısın.'**
+  String get guideCriteriaNotMet;
 }
 
 class _AppLocalizationsDelegate

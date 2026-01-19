@@ -23,6 +23,7 @@ import 'package:dream_boat_mobile/utils/custom_page_route.dart';
 
 import 'package:provider/provider.dart';
 import 'package:dream_boat_mobile/providers/subscription_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NewDreamScreen extends StatefulWidget {
   const NewDreamScreen({super.key});
@@ -187,6 +188,10 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
       final now = DateTime.now();
       final astronomicalEvents = AstronomyService.getEvents(now);
       
+      // Get current guide stage for tracking
+      final prefs = await SharedPreferences.getInstance();
+      final guideStage = prefs.getInt('guide_progress');
+      
       final dreamEntry = DreamEntry(
         id: now.millisecondsSinceEpoch.toString(),
         text: _controller.text,
@@ -198,6 +203,7 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
         interpretation: interpretation,
         title: title,
         astronomicalEvents: astronomicalEvents,
+        guideStage: guideStage,
       );
       
       final dreamService = DreamService();

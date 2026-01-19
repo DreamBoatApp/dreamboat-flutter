@@ -264,7 +264,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guideCompletionContent =>
-      'You have completed all stages of the Lucid Dream Guide.';
+      'You have completed all stages of the Lucid Dream Guide.\n\nNow, by mastering all techniques, you can move freely in the Lucid Dream world!';
 
   @override
   String get guideStage1Title =>
@@ -437,7 +437,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guideStage7Importance =>
-      'With this technique, you can develop awareness of dream symbols and mental imagery, and test everything you imagine. This is a revolution both mentally and spiritually.';
+      'With this technique, you can develop awareness of dream symbols and mental imagery, and test everything you imagine. This is a significant step in terms of both mental and personal awareness.';
 
   @override
   String get guideStage7Steps =>
@@ -445,7 +445,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guideStage7Criteria =>
-      'If you have performed active manipulation in at least 2 dreams in 2 weeks (flying, changing the environment, summoning something), you are a lucid dreaming master.';
+      'If you have performed active manipulation in at least 2 dreams in 2 weeks (flying, changing the environment, summoning something), welcome to the world of lucid dreaming.';
 
   @override
   String get guideStage7BrainNote =>
@@ -1114,4 +1114,99 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get guideIntentComplete =>
       'You\'re ready! Now you can sleep with this intention. 🌙';
+
+  @override
+  String get wildBreathTitle => 'Breath & Relaxation Mode';
+
+  @override
+  String get wildBreathStart => 'Start Breath & Relaxation Mode';
+
+  @override
+  String get wildBreathInhale => 'Inhale';
+
+  @override
+  String get wildBreathHold => 'Hold';
+
+  @override
+  String get wildBreathExhale => 'Exhale';
+
+  @override
+  String get wildBreathFocus => 'Focus only on your breath';
+
+  @override
+  String get wildBreathTapToExit => 'Tap to exit';
+
+  @override
+  String get wbtbDreamsTitle => 'Your WBTB Dreams';
+
+  @override
+  String get wbtbDreamsDesc =>
+      'View dreams recorded on nights you practiced this technique.';
+
+  @override
+  String get wbtbDreamsButton => 'View WBTB Dreams';
+
+  @override
+  String get wbtbNoDreamsTitle => 'No dreams for this stage yet';
+
+  @override
+  String get wbtbNoDreamsDesc =>
+      'Record your dreams after practicing this technique.';
+
+  @override
+  String get wbtbAddFirstDream => 'Add My First Dream';
+
+  @override
+  String get timeAwarenessTitle => 'Reality Checks Exercise';
+
+  @override
+  String get timeAwarenessInstruction => 'Answer aloud before sleeping';
+
+  @override
+  String get timeAwarenessQ1 => 'What is today\'s date?';
+
+  @override
+  String get timeAwarenessQ2 => 'What day of the week is it?';
+
+  @override
+  String get timeAwarenessQ3 => 'REMOVED';
+
+  @override
+  String get timeAwarenessQ4 => 'What time is it exactly?';
+
+  @override
+  String get timeAwarenessQ5 => 'Look around and name 3 different objects.';
+
+  @override
+  String get timeAwarenessQ6 => 'What color are your clothes?';
+
+  @override
+  String get timeAwarenessQ11 => 'What sounds do you hear right now?';
+
+  @override
+  String get timeAwarenessQ7 => 'Who was the first person you spoke to today?';
+
+  @override
+  String get timeAwarenessQ8 => 'Look at your hands and count your fingers.';
+
+  @override
+  String get timeAwarenessQ9 => 'Take a breath and ask \'Am I dreaming?\'';
+
+  @override
+  String get timeAwarenessQ10 =>
+      'Now close your eyes and imagine you are sleeping.';
+
+  @override
+  String get stage5Task1 => 'Kept a Dream Journal';
+
+  @override
+  String get stage5Task2 => 'Experienced Awareness Signal in Dream';
+
+  @override
+  String get stage5Hint =>
+      'Tap the stars as you fulfill the conditions. Progress unlocks when all tasks are completed.';
+
+  @override
+  String get guideCriteriaNotMet =>
+      'You must complete the criteria for this stage to proceed.';
 }

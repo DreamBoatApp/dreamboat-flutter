@@ -10,6 +10,14 @@ import 'package:provider/provider.dart';
 import 'package:dream_boat_mobile/providers/subscription_provider.dart';
 import 'package:dream_boat_mobile/widgets/pro_upgrade_dialog.dart';
 import 'package:dream_boat_mobile/services/review_service.dart';
+import 'package:dream_boat_mobile/widgets/breathing_overlay.dart';
+import 'package:dream_boat_mobile/services/dream_service.dart';
+import 'package:dream_boat_mobile/models/dream_entry.dart';
+import 'package:dream_boat_mobile/screens/new_dream_screen.dart';
+import 'package:dream_boat_mobile/screens/journal_screen.dart';
+import 'package:dream_boat_mobile/utils/custom_page_route.dart';
+import 'package:dream_boat_mobile/widgets/time_awareness_exercise.dart'; 
+import 'package:dream_boat_mobile/widgets/stage_checklist.dart'; // [NEW]
 import 'package:flutter/services.dart';
 
 class GuideScreen extends StatefulWidget {
@@ -24,6 +32,8 @@ class _GuideScreenState extends State<GuideScreen> {
   int _progress = 0; // 0 to 7
   int? _expandedIndex;
   int _intentRepeatCount = 0; // Intent repetition counter for MILD
+  List<DreamEntry> _wbtbDreams = []; // Cached WBTB dreams
+  bool _isLoadingWbtbDreams = true;
   final PageController _pageController = PageController();
   final ScrollController _scrollController = ScrollController();
 
@@ -34,6 +44,12 @@ class _GuideScreenState extends State<GuideScreen> {
     super.dispose();
   }
 
+
+  
+  // Stage 5 Checklist State
+  // Map of Task Key -> Current Stars
+  Map<String, int> _stage5Progress = {};
+  
   @override
   void initState() {
     super.initState();
@@ -59,7 +75,53 @@ class _GuideScreenState extends State<GuideScreen> {
     setState(() {
       _progress = prefs.getInt('guide_progress') ?? 0;
       _intentRepeatCount = intentCount;
+      
+      // Load Stage 5 Checklist (Persisted as simple Ints)
+      _stage5Progress = {
+        'task1': prefs.getInt('stage5_task1') ?? 0,
+        'task2': prefs.getInt('stage5_task2') ?? 0,
+      };
     });
+    
+    _loadWbtbDreams();
+  }
+
+  Future<void> _updateStage5Progress(String taskKey, int stars) async {
+    setState(() {
+      _stage5Progress[taskKey] = stars;
+    });
+    
+    final prefs = await SharedPreferences.getInstance();
+    if (taskKey == 'task1') {
+       await prefs.setInt('stage5_task1', stars);
+    } else if (taskKey == 'task2') {
+       await prefs.setInt('stage5_task2', stars);
+    }
+  }
+
+  Future<void> _loadWbtbDreams() async {
+    try {
+      final service = DreamService();
+      final allDreams = await service.getDreams();
+      
+      // Filter dreams recorded during STAGE 1 (WBTB)
+      // guideStage field is new, so old dreams will be null
+      final wbtbDreams = allDreams.where((d) => d.guideStage == 1).toList();
+      
+      if (mounted) {
+        setState(() {
+          _wbtbDreams = wbtbDreams;
+          _isLoadingWbtbDreams = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error loading WBTB dreams: $e');
+      if (mounted) {
+        setState(() {
+          _isLoadingWbtbDreams = false;
+        });
+      }
+    }
   }
 
   List<StageData> get _stages {
@@ -89,8 +151,31 @@ class _GuideScreenState extends State<GuideScreen> {
     ];
   }
 
+  bool get _canAdvance {
+    // Only Stage 5 (Optimization) - index 4 has criteria
+    if (_progress == 4) {
+       final stars1 = _stage5Progress['task1'] ?? 0;
+       final stars2 = _stage5Progress['task2'] ?? 0;
+       return stars1 >= 7 && stars2 >= 3;
+    }
+
+    // For all other stages, allow advancing immediately
+    return true; 
+  }
+
   Future<void> _advanceProgress() async {
      final t = AppLocalizations.of(context)!;
+
+     if (!_canAdvance) {
+       ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(
+           content: Text(t.guideCriteriaNotMet),
+           backgroundColor: Colors.redAccent,
+         )
+       );
+       return; 
+     }
+
      final prefs = await SharedPreferences.getInstance();
      if (_progress < _stages.length - 1) {
        final newVal = _progress + 1;
@@ -115,89 +200,177 @@ class _GuideScreenState extends State<GuideScreen> {
 
   void _confirmComplete() {
     final t = AppLocalizations.of(context)!;
-    showDialog(
+    showGeneralDialog(
       context: context, 
+      barrierDismissible: true,
+      barrierLabel: '',
       barrierColor: Colors.black.withOpacity(0.8),
-      builder: (ctx) => Dialog(
-        backgroundColor: Colors.transparent,
-        child: Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: const Color(0xFF1E1B35).withOpacity(0.95), // Premium Dark
-            borderRadius: BorderRadius.circular(28),
-            border: Border.all(color: const Color(0xFFFBBF24).withOpacity(0.3)), // Amber Border
-            boxShadow: [
-              BoxShadow(
-                 color: const Color(0xFFFBBF24).withOpacity(0.1),
-                 blurRadius: 20, 
-                 spreadRadius: 5
-              )
-            ]
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-
-               Text(
-                 t.guideDialogTitle,
-                 style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                 textAlign: TextAlign.center,
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (ctx, anim1, anim2) {
+        return Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.85,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              // Gradient Border
+              borderRadius: BorderRadius.circular(32),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  const Color(0xFFFBBF24).withOpacity(0.6), // Gold
+                  const Color(0xFF9333EA).withOpacity(0.4), // Purple
+                ]
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFFBBF24).withOpacity(0.2),
+                  blurRadius: 30,
+                  spreadRadius: 5
+                )
+              ]
+            ),
+            child: Container(
+               margin: const EdgeInsets.all(1.5), // For border width
+               clipBehavior: Clip.hardEdge,
+               decoration: BoxDecoration(
+                 color: const Color(0xFF0F0B1E).withOpacity(0.95), // Deep Dark Background
+                 borderRadius: BorderRadius.circular(31),
                ),
-               const SizedBox(height: 12),
-               Text(
-                 t.guideDialogContent,
-                 style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 14, height: 1.5),
-                 textAlign: TextAlign.center,
-               ),
-               const SizedBox(height: 24),
-               Row(
+               child: Stack(
                  children: [
-                   Expanded(
-                     child: TextButton(
-                       onPressed: () => Navigator.pop(ctx),
-                       style: TextButton.styleFrom(
-                          minimumSize: const Size(48, 48),
-                          tapTargetSize: MaterialTapTargetSize.padded,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          side: const BorderSide(color: Colors.white24),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                   // Background Particles/Glow
+                   Positioned(
+                     top: -50, right: -50,
+                     child: Container(
+                       width: 150, height: 150,
+                       decoration: BoxDecoration(
+                         shape: BoxShape.circle,
+                         color: const Color(0xFFFBBF24).withOpacity(0.1),
+                         boxShadow: [BoxShadow(color: const Color(0xFFFBBF24).withOpacity(0.2), blurRadius: 60, spreadRadius: 20)]
                        ),
-                       child: Text(t.guideDialogCancel, style: const TextStyle(color: Colors.white70)),
                      ),
                    ),
-                   const SizedBox(width: 12),
-                   Expanded(
-                     child: Container(
-                       decoration: BoxDecoration(
-                         gradient: const LinearGradient(colors: [Color(0xFFFBBF24), Color(0xFFD97706)]), // Amber Gradient
-                         borderRadius: BorderRadius.circular(12),
-                         boxShadow: [
-                           BoxShadow(color: const Color(0xFFFBBF24).withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 4))
-                         ]
-                       ),
-                       child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(ctx);
-                            _advanceProgress();
-                          },
-                          style: ElevatedButton.styleFrom(
-                             backgroundColor: Colors.transparent,
-                             shadowColor: Colors.transparent,
-                             minimumSize: const Size(48, 48),
-                             tapTargetSize: MaterialTapTargetSize.padded,
-                             padding: const EdgeInsets.symmetric(vertical: 12),
-                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
-                          ),
-                          child: Text(t.guideDialogConfirm, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black)),
-                       ),
+                   
+                   Padding(
+                     padding: const EdgeInsets.fromLTRB(24, 32, 24, 24), // Reduced padding
+                     child: Column(
+                       mainAxisSize: MainAxisSize.min,
+                       children: [
+                         // Title
+                         Text(
+                           t.guideDialogTitle,
+                           style: const TextStyle(
+                             color: Colors.white, 
+                             fontSize: 18, 
+                             fontWeight: FontWeight.bold,
+                             fontFamily: 'Inter', // Ensure premium font
+                             decoration: TextDecoration.none
+                           ),
+                           textAlign: TextAlign.center,
+                         ),
+                         const SizedBox(height: 16),
+                         
+                         // Content
+                         Text(
+                           t.guideDialogContent,
+                           style: TextStyle(
+                             color: Colors.white.withOpacity(0.7), 
+                             fontSize: 14, 
+                             height: 1.6,
+                             fontFamily: 'Inter',
+                             decoration: TextDecoration.none
+                           ),
+                           textAlign: TextAlign.center,
+                         ),
+                         const SizedBox(height: 28), // Slightly reduced from 32
+
+                         // Buttons
+                         Row(
+                           children: [
+                             // Cancel
+                             Expanded(
+                               child: TextButton(
+                                 onPressed: () => Navigator.pop(ctx),
+                                 style: TextButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                 ),
+                                 child: Text(
+                                   t.guideDialogCancel, 
+                                   style: TextStyle(
+                                     color: Colors.white.withOpacity(0.6),
+                                     fontSize: 15,
+                                     fontWeight: FontWeight.w500
+                                   )
+                                 ),
+                               ),
+                             ),
+                             const SizedBox(width: 16),
+                             
+                             // Confirm (Gradient)
+                             Expanded(
+                               child: Container(
+                                 height: 54,
+                                 decoration: BoxDecoration(
+                                   gradient: const LinearGradient(
+                                     colors: [Color(0xFFFBBF24), Color(0xFFD97706)],
+                                   ),
+                                   borderRadius: BorderRadius.circular(16),
+                                   boxShadow: [
+                                     BoxShadow(
+                                       color: const Color(0xFFFBBF24).withOpacity(0.3),
+                                       blurRadius: 12,
+                                       offset: const Offset(0, 4)
+                                     )
+                                   ]
+                                 ),
+                                 child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(ctx);
+                                      _advanceProgress();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                       backgroundColor: Colors.transparent,
+                                       shadowColor: Colors.transparent,
+                                       padding: EdgeInsets.zero,
+                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          t.guideDialogConfirm, // Usually "Devam Et"
+                                          style: const TextStyle(
+                                            fontSize: 15, 
+                                            fontWeight: FontWeight.bold, 
+                                            color: Colors.black
+                                          )
+                                        ),
+                                        const SizedBox(width: 8),
+                                        const Icon(LucideIcons.arrowRight, size: 18, color: Colors.black)
+                                      ],
+                                    ),
+                                 ),
+                               ),
+                             )
+                           ],
+                         )
+                       ],
                      ),
-                   )
+                   ),
                  ],
                )
-            ],
+            ),
           ),
-        ),
-      )
+        );
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        return ScaleTransition(
+          scale: CurvedAnimation(parent: anim1, curve: Curves.easeOutBack),
+          child: FadeTransition(opacity: anim1, child: child),
+        );
+      },
     );
   }
 
@@ -525,7 +698,8 @@ class _GuideScreenState extends State<GuideScreen> {
            splashColor: Colors.white.withOpacity(0.1),
            highlightColor: Colors.white.withOpacity(0.05),
            onTap: () {
-             if (isCompleted) {
+             // Only allow expanding if it's the current stage or already completed
+             if (isCurrent || isCompleted) {
                setState(() => _expandedIndex = _expandedIndex == index ? null : index);
              }
            },
@@ -636,13 +810,98 @@ class _GuideScreenState extends State<GuideScreen> {
                         // Intent Repetition Exercise (MILD only - index 0)
                         if (index == 0) _buildIntentRepetitionExercise(),
                         
+                        // Dream Link Card (WBTB only - index 1)
+                        if (index == 1) _buildWbtbDreamLinkCard(),
+
+                        // Breathing Exercise (WILD only - index 2)
+                        if (index == 2) _buildWildBreathingExercise(),
+
+                        // Time Awareness Exercise (Stage 4 - index 3)
+                        if (index == 3) const TimeAwarenessExercise(),
+                        
+                        // Stage 5 Checklist (Index 4)
+                        if (index == 4) 
+                          StageChecklist(
+                            tasks: {
+                              'task1': 7, // Use fixed keys for internal logic
+                              'task2': 3
+                            },
+                            progress: {
+                              'task1': _stage5Progress['task1'] ?? 0,
+                              'task2': _stage5Progress['task2'] ?? 0,
+                            }, 
+                            taskTitles: { // Pass localized titles for display
+                              'task1': t.stage5Task1,
+                              'task2': t.stage5Task2,
+                            },
+                            onProgressChanged: (taskKey, stars) {
+                               _updateStage5Progress(taskKey, stars);
+                            },
+                          ),
+                        
                         const SizedBox(height: 24),
 
                         if (!isCompleted && index < stages.length - 1)
-                          CustomButton(
-                            text: t.guideNextStep,
-                            onPressed: _confirmComplete,
-                            gradient: const LinearGradient(colors: [Color(0xFFFBBF24), Color(0xFFD97706)]),
+                          // Advance Button
+                          Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.only(top: 20),
+                            child: Column(
+                              children: [
+                                // Hint Text for Stage 5
+                                if (index == 4) 
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 32, left: 24, right: 24),
+                                    child: Text(
+                                      t.stage5Hint,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(0.5),
+                                        fontSize: 12,
+                                        fontStyle: FontStyle.italic
+                                      ),
+                                    ),
+                                  ),
+                                  
+                                ElevatedButton(
+                                  onPressed: _canAdvance ? () {
+                                    if (index == _stages.length - 1) {
+                                      // Mastery
+                                    } else {
+                                      _confirmComplete();
+                                    }
+                                  } : null, // Disable if not met
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: _canAdvance ? const Color(0xFFFBBF24) : Colors.white10,
+                                    foregroundColor: Colors.black,
+                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    elevation: _canAdvance ? 4 : 0,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        index == _stages.length - 1 ? t.guideCompleted : t.guideNextStep,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold, 
+                                          fontSize: 16,
+                                          color: _canAdvance ? Colors.black : Colors.white38
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Icon(
+                                        LucideIcons.arrowRight, 
+                                        size: 18,
+                                        color: _canAdvance ? Colors.black : Colors.white38,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           )
                         else if (index == stages.length - 1)
                            Container(
@@ -736,7 +995,8 @@ class _GuideScreenState extends State<GuideScreen> {
 
   Widget _buildIntentRepetitionExercise() {
     final t = AppLocalizations.of(context)!;
-    final isComplete = _intentRepeatCount >= 10;
+    // Show as complete if counter reached 10 OR if stage is already completed (progress > 0)
+    final isComplete = _intentRepeatCount >= 10 || _progress > 0;
     final progress = _intentRepeatCount / 10;
     
     return Container(
@@ -878,6 +1138,181 @@ class _GuideScreenState extends State<GuideScreen> {
                 },
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // WILD Breathing Exercise for Stage 3
+  void _showBreathingOverlay() {
+    HapticFeedback.mediumImpact();
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        barrierColor: Colors.transparent,
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return FadeTransition(
+            opacity: animation,
+            child: const BreathingOverlay(),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildWildBreathingExercise() {
+    final t = AppLocalizations.of(context)!;
+    
+    return Container(
+      margin: const EdgeInsets.only(top: 20),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              const Color(0xFF60A5FA).withOpacity(0.2),
+              const Color(0xFF818CF8).withOpacity(0.15),
+            ],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF60A5FA).withOpacity(0.3),
+              blurRadius: 20,
+              spreadRadius: 2,
+            ),
+            BoxShadow(
+              color: const Color(0xFF818CF8).withOpacity(0.2),
+              blurRadius: 30,
+              spreadRadius: 5,
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: _showBreathingOverlay,
+            borderRadius: BorderRadius.circular(16),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+              child: Center(
+                child: Text(
+                  t.wildBreathStart,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.95),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWbtbDreamLinkCard() {
+    final t = AppLocalizations.of(context)!;
+    final hasDreams = _wbtbDreams.isNotEmpty;
+    
+    // While loading, show nothing or specific loader? 
+    // Just showing nothing is safer to avoid flicker if fast
+    if (_isLoadingWbtbDreams) return const SizedBox.shrink();
+    
+    return Container(
+      margin: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1E1E2C),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.05),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Title Row (Icon removed)
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  hasDreams ? t.wbtbDreamsTitle : t.wbtbNoDreamsTitle,
+                  style: const TextStyle(
+                    color: Color(0xFFFBBF24), // Amber
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          
+          Text(
+            hasDreams ? t.wbtbDreamsDesc : t.wbtbNoDreamsDesc,
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.7),
+              fontSize: 13,
+              height: 1.4,
+            ),
+          ),
+          
+          const SizedBox(height: 16),
+          
+          // Action Button
+          SizedBox(
+            width: double.infinity,
+            child: TextButton(
+              onPressed: () {
+                if (hasDreams) {
+                   Navigator.push(
+                    context, 
+                    FastSlidePageRoute(
+                      child: JournalScreen(
+                        filter: (d) => d.guideStage == 1,
+                        filterTitle: t.wbtbDreamsTitle,
+                      )
+                    )
+                  );
+                } else {
+                  // Navigate to New Dream Screen
+                  Navigator.push(
+                    context, 
+                    FastSlidePageRoute(child: const NewDreamScreen())
+                  ).then((_) {
+                    // Refresh dreams after coming back
+                    _loadWbtbDreams();
+                  });
+                }
+              },
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                backgroundColor: Colors.white.withOpacity(0.05),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                   Text(
+                    hasDreams ? t.wbtbDreamsButton : t.wbtbAddFirstDream,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  const Icon(LucideIcons.arrowRight, size: 14, color: Colors.white70),
+                ],
+              ),
+            ),
           ),
         ],
       ),

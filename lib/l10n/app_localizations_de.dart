@@ -266,7 +266,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get guideCompletionContent =>
-      'Du hast alle Stufen des Klartraum-Leitfadens abgeschlossen.';
+      'Du hast alle Stufen des Klartraum-Leitfadens abgeschlossen.\n\nJetzt, da du alle Techniken beherrschst, kannst du dich frei in der Klartraumwelt bewegen!';
 
   @override
   String get guideStage1Title =>
@@ -440,15 +440,15 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get guideStage7Importance =>
-      'Mit dieser Technik du kannst Bewusstsein für Traumsymbole und mentale Bilder entwickeln, und alles testen, was du dir vorstellst. Dies ist eine Revolution sowohl geistig als auch spirituell.';
+      'Mit dieser Technik kannst du das Bewusstsein für Traumsymbole und mentale Bilder entwickeln und alles testen, was du dir vorstellst. Dies ist ein wichtiger Schritt sowohl in Bezug auf das geistige als auch auf das persönliche Bewusstsein.';
 
   @override
   String get guideStage7Steps =>
-      'Schreibe das Szenario, das du im Traum erleben willst, im Detail auf und stelle es dir vor.\nÄndere bewusst den Ort, die Zeit, den Charakter oder das Ergebnis im Traum.\nFüge Achtsamkeitsmeditationen zu deiner täglichen Routine hinzu.';
+      'Schreibe das Szenario, das du im Traum erleben möchtest, detailliert auf und stelle es dir vor.\nÄndere bewusst den Ort, die Zeit, den Charakter oder das Ergebnis im Traum.\nFüge Achtsamkeitsmeditationen zu deiner täglichen Routine hinzu.';
 
   @override
   String get guideStage7Criteria =>
-      'Wenn du in mindestens 2 Träumen in 2 Wochen aktive Manipulation durchgefürt hast (Fliegen, Umgebung ändern, etwas beschwören), bist du ein Klartraum-Meister.';
+      'Wenn du in 2 Wochen in mindestens 2 Träumen eine aktive Manipulation durchgeführt hast (Fliegen, Umgebung ändern, etwas beschwören), willkommen in der Welt des Klarträumens.';
 
   @override
   String get guideStage7BrainNote =>
@@ -611,11 +611,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get guideNextStep => 'Nächster Schritt';
 
   @override
-  String get guideDialogTitle => 'Nächste Stufe freischalten?';
+  String get guideDialogTitle => 'Bist du sicher, dass du weitermachen willst?';
 
   @override
   String get guideDialogContent =>
-      'Das Fortfahren zur nächsten Stufe, ohne den aktuellen Schritt abzuschließen, könnte deiner Reise schaden. Bist du sicher, dass du fortfahren möchtest?';
+      'Das Fortfahren zurächsten Stufe, ohne den aktuellen Schritt abzuschließen, könnte deiner Reise schaden. Bist du sicher, dass du fortfahren möchtest?';
 
   @override
   String get guideDialogCancel => 'Warten';
@@ -1126,4 +1126,99 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get guideIntentComplete =>
       'Du bist bereit! Jetzt kannst du mit dieser Absicht schlafen. 🌙';
+
+  @override
+  String get wildBreathTitle => 'Atem- und Entspannungsmodus';
+
+  @override
+  String get wildBreathStart => 'Atem- und Entspannungsmodus starten';
+
+  @override
+  String get wildBreathInhale => 'Einatmen';
+
+  @override
+  String get wildBreathHold => 'Halten';
+
+  @override
+  String get wildBreathExhale => 'Ausatmen';
+
+  @override
+  String get wildBreathFocus => 'Konzentriere dich nur auf deinen Atem';
+
+  @override
+  String get wildBreathTapToExit => 'Zum Beenden tippen';
+
+  @override
+  String get wbtbDreamsTitle => 'Deine WBTB-Träume';
+
+  @override
+  String get wbtbDreamsDesc =>
+      'Sieh dir Träume an, die in Nächten aufgezeichnet wurden, in denen du diese Technik geübt hast.';
+
+  @override
+  String get wbtbDreamsButton => 'WBTB-Träume ansehen';
+
+  @override
+  String get wbtbNoDreamsTitle => 'Noch keine Träume für diese Stufe';
+
+  @override
+  String get wbtbNoDreamsDesc =>
+      'Zeichne deine Träume auf, nachdem du diese Technik geübt hast.';
+
+  @override
+  String get wbtbAddFirstDream => 'Meinen ersten Traum hinzufügen';
+
+  @override
+  String get timeAwarenessTitle => 'Realitätscheck-Übung';
+
+  @override
+  String get timeAwarenessInstruction => 'Antworte laut vor dem Schlafen';
+
+  @override
+  String get timeAwarenessQ1 => 'Welches Datum ist heute?';
+
+  @override
+  String get timeAwarenessQ2 => 'Welcher Wochentag ist heute?';
+
+  @override
+  String get timeAwarenessQ3 => 'REMOVED';
+
+  @override
+  String get timeAwarenessQ4 => 'Wie spät ist es genau?';
+
+  @override
+  String get timeAwarenessQ5 => 'Schau dich um und nenne 3 Gegenstände.';
+
+  @override
+  String get timeAwarenessQ6 => 'Welche Farbe hat deine Kleidung?';
+
+  @override
+  String get timeAwarenessQ11 => 'Welche Geräusche hörst du gerade?';
+
+  @override
+  String get timeAwarenessQ7 => 'Mit wem hast du heute zuerst gesprochen?';
+
+  @override
+  String get timeAwarenessQ8 => 'Schau auf deine Hände und zähle deine Finger.';
+
+  @override
+  String get timeAwarenessQ9 => 'Atme ein und frage \'Träume ich?\'';
+
+  @override
+  String get timeAwarenessQ10 =>
+      'Schließe jetzt deine Augen und stelle dir vor, du schläfst.';
+
+  @override
+  String get stage5Task1 => 'Traumtagebuch geführt';
+
+  @override
+  String get stage5Task2 => 'Bewusstseinssignal im Traum erlebt';
+
+  @override
+  String get stage5Hint =>
+      'Tippe auf Sterne bei Erfüllung. Fortschritt wird freigeschaltet, wenn alle Aufgaben erledigt sind.';
+
+  @override
+  String get guideCriteriaNotMet =>
+      'Du musst die Kriterien dieser Stufe erfüllen, um fortzufahren.';
 }

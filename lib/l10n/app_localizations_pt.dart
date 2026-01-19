@@ -265,7 +265,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get guideCompletionContent =>
-      'Você completou todas as etapas do Guia de Sonhos Lúcidos.';
+      'Você completou todas as etapas do Guia de Sonhos Lúcidos.\n\nAgora, dominando todas as técnicas, você pode se mover livremente no mundo dos Sonhos Lúcidos!';
 
   @override
   String get guideStage1Title =>
@@ -439,15 +439,15 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get guideStage7Importance =>
-      'Com esta técnica, você pode desenvolver consciência sobre símbolos do sonho e imagens mentais, e testar tudo que imaginar. Esta é uma revolução tanto mental quanto espiritual.';
+      'Com esta técnica, você pode desenvolver a consciência dos símbolos dos sonhos e da imagética mental, e testar tudo o que imaginar. Este é um passo significativo em termos de consciência mental e pessoal.';
 
   @override
   String get guideStage7Steps =>
-      'Escreva e imagine o cenário que quer fazer no sonho em detalhes.\nMude conscientemente o lugar, tempo, personagem ou resultado no sonho.\nAdicione meditações de mindfulness à sua rotina diária.';
+      'Escreva e imagine o cenário que deseja fazer no sonho em detalhes.\nMude conscientemente o lugar, o tempo, o personagem ou o resultado no sonho.\nAdicione meditações de atenção plena à sua rotina diária.';
 
   @override
   String get guideStage7Criteria =>
-      'Se realizou manipulação ativa em pelo menos 2 sonhos em 2 semanas (voar, mudar o ambiente, invocar algo), você é um mestre dos sonhos lúcidos.';
+      'Se você realizou manipulação ativa em pelo menos 2 sonhos em 2 semanas (voar, mudar o ambiente, invocar algo), bem-vindo ao mundo dos sonhos lúcidos.';
 
   @override
   String get guideStage7BrainNote =>
@@ -611,7 +611,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get guideNextStep => 'Próximo Passo';
 
   @override
-  String get guideDialogTitle => 'Desbloquear Próxima Etapa?';
+  String get guideDialogTitle => 'Tem certeza de que deseja avançar?';
 
   @override
   String get guideDialogContent =>
@@ -1121,4 +1121,100 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get guideIntentComplete =>
       'Você está pronto! Agora pode dormir com esta intenção. 🌙';
+
+  @override
+  String get wildBreathTitle => 'Modo de Respiração e Relaxamento';
+
+  @override
+  String get wildBreathStart => 'Iniciar Modo de Respiração e Relaxamento';
+
+  @override
+  String get wildBreathInhale => 'Inspire';
+
+  @override
+  String get wildBreathHold => 'Segure';
+
+  @override
+  String get wildBreathExhale => 'Expire';
+
+  @override
+  String get wildBreathFocus => 'Concentre-se apenas na sua respiração';
+
+  @override
+  String get wildBreathTapToExit => 'Toque para sair';
+
+  @override
+  String get wbtbDreamsTitle => 'Seus sonhos WBTB';
+
+  @override
+  String get wbtbDreamsDesc =>
+      'Veja os sonhos registrados nas noites que praticou esta técnica.';
+
+  @override
+  String get wbtbDreamsButton => 'Ver sonhos WBTB';
+
+  @override
+  String get wbtbNoDreamsTitle => 'Ainda não há sonhos desta etapa';
+
+  @override
+  String get wbtbNoDreamsDesc =>
+      'Registre seus sonhos após praticar esta técnica.';
+
+  @override
+  String get wbtbAddFirstDream => 'Adicionar meu primeiro sonho';
+
+  @override
+  String get timeAwarenessTitle => 'Exercício de Verificação de Realidade';
+
+  @override
+  String get timeAwarenessInstruction => 'Responda em voz alta antes de dormir';
+
+  @override
+  String get timeAwarenessQ1 => 'Qual é a data de hoje?';
+
+  @override
+  String get timeAwarenessQ2 => 'Que dia da semana é hoje?';
+
+  @override
+  String get timeAwarenessQ3 => 'REMOVED';
+
+  @override
+  String get timeAwarenessQ4 => 'Que horas são exatamente?';
+
+  @override
+  String get timeAwarenessQ5 => 'Olhe ao redor e nomeie 3 objetos.';
+
+  @override
+  String get timeAwarenessQ6 => 'Qual a cor da sua roupa?';
+
+  @override
+  String get timeAwarenessQ11 => 'Que sons você ouve agora?';
+
+  @override
+  String get timeAwarenessQ7 =>
+      'Quem foi a primeira pessoa com quem você falou hoje?';
+
+  @override
+  String get timeAwarenessQ8 => 'Olhe para suas mãos e conte seus dedos.';
+
+  @override
+  String get timeAwarenessQ9 => 'Respire fundo e pergunte \'Estou sonhando?\'';
+
+  @override
+  String get timeAwarenessQ10 =>
+      'Agora feche os olhos e imagine que está dormindo.';
+
+  @override
+  String get stage5Task1 => 'Mantive um Diário de Sonhos';
+
+  @override
+  String get stage5Task2 => 'Experimentei Sinal de Consciência no Sonho';
+
+  @override
+  String get stage5Hint =>
+      'Toque nas estrelas ao cumprir. O progresso desbloqueia ao completar todas as tarefas.';
+
+  @override
+  String get guideCriteriaNotMet =>
+      'Você deve completar os critérios desta etapa para prosseguir.';
 }

@@ -17,7 +17,10 @@ import 'package:dream_boat_mobile/services/share_service.dart';
 import 'package:dream_boat_mobile/services/review_service.dart';
 
 class JournalScreen extends StatefulWidget {
-  const JournalScreen({super.key});
+  final bool Function(DreamEntry)? filter;
+  final String? filterTitle;
+
+  const JournalScreen({super.key, this.filter, this.filterTitle});
 
   @override
   State<JournalScreen> createState() => _JournalScreenState();
@@ -54,8 +57,14 @@ class _JournalScreenState extends State<JournalScreen> {
   Future<void> _loadDreams() async {
     setState(() => _isLoading = true);
     final dreams = await DreamService().getDreams();
+    
+    // Apply optional filter if present
+    final filteredDreams = widget.filter != null 
+        ? dreams.where(widget.filter!).toList() 
+        : dreams;
+
     setState(() {
-      _dreams = dreams;
+      _dreams = filteredDreams;
       _isLoading = false;
     });
   }
@@ -649,7 +658,7 @@ class _JournalScreenState extends State<JournalScreen> {
           ),
           centerTitle: true,
           title: Text(
-            t.journalTitle,
+            widget.filterTitle ?? t.journalTitle,
             style: const TextStyle(
               fontSize: 20, 
               fontWeight: FontWeight.bold,
@@ -659,8 +668,8 @@ class _JournalScreenState extends State<JournalScreen> {
         ),
         body: Column(
           children: [
-             // Filter Tabs (hide in selection mode)
-             if (!_isSelectionMode)
+             // Filter Tabs (hide in selection mode OR if filtered externally)
+             if (!_isSelectionMode && widget.filter == null)
                Padding(
                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                  child: Row(

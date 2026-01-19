@@ -263,7 +263,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get guideCompletionContent =>
-      'Lucid Rüya Rehberinin tüm aşamalarını tamamladın.';
+      'Lucid Rüya Rehberinin tüm aşamalarını tamamladın.\n\nArtık tüm teknikler üzerinde ustalaşarak Lucid Rüya dünyasında serbestçe ilerleyebilirsin!';
 
   @override
   String get guideStage1Title =>
@@ -435,7 +435,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get guideStage7Importance =>
-      'Bu teknikle rüya sembolleri ve zihinsel imgeler üzerine farkındalık geliştirebilirsin, hayal ettiğin her şeyi test edebilirsin. Bu, hem zihinsel hem ruhsal bir devrimdir.';
+      'Bu teknikle rüya sembolleri ve zihinsel imgeler üzerine farkındalık geliştirebilirsin, hayal ettiğin her şeyi test edebilirsin. Bu hem zihinsel hem de kişisel farkındalık açısından önemli bir adımdır.';
 
   @override
   String get guideStage7Steps =>
@@ -443,7 +443,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get guideStage7Criteria =>
-      '2 hafta içinde en az 2 rüyada aktif manipülasyon yaptıysan (uçmak, ortamı değiştirmek, bir şeyi çağırmak), lucid dreaming ustasısın.';
+      '2 hafta içinde en az 2 rüyada aktif manipülasyon yaptıysan (uçmak, ortamı değiştirmek, bir şeyi çağırmak), lucid rüya dünyasına hoş geldin.';
 
   @override
   String get guideStage7BrainNote =>
@@ -606,7 +606,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get guideNextStep => 'İlerle';
 
   @override
-  String get guideDialogTitle => 'İlerlemek İstediğine Emin Misin?';
+  String get guideDialogTitle => 'İlerlemek istediğine emin misin?';
 
   @override
   String get guideDialogContent =>
@@ -1114,4 +1114,98 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get guideIntentComplete =>
       'Hazırsın! Şimdi bu niyetle uyuyabilirsin. 🌙';
+
+  @override
+  String get wildBreathTitle => 'Nefes ve Gevşeme Modu';
+
+  @override
+  String get wildBreathStart => 'Nefes ve Gevşeme Modunu Başlat';
+
+  @override
+  String get wildBreathInhale => 'Nefes Al';
+
+  @override
+  String get wildBreathHold => 'Tut';
+
+  @override
+  String get wildBreathExhale => 'Ver';
+
+  @override
+  String get wildBreathFocus => 'Sadece nefesine odaklan';
+
+  @override
+  String get wildBreathTapToExit => 'Çıkmak için dokun';
+
+  @override
+  String get wbtbDreamsTitle => 'WBTB Sonrası Rüyaların';
+
+  @override
+  String get wbtbDreamsDesc =>
+      'Bu aşamayı uyguladığın gecelerde kaydettiğin rüyaları burada inceleyebilirsin.';
+
+  @override
+  String get wbtbDreamsButton => 'WBTB Rüyalarını Gör';
+
+  @override
+  String get wbtbNoDreamsTitle => 'Henüz bu aşamaya ait rüya yok';
+
+  @override
+  String get wbtbNoDreamsDesc =>
+      'Bu tekniği uyguladıktan sonra rüyalarını kaydet ve burada analiz et.';
+
+  @override
+  String get wbtbAddFirstDream => 'İlk Rüyamı Ekle';
+
+  @override
+  String get timeAwarenessTitle => 'Gerçeklik Kontrolleri Egzersizi';
+
+  @override
+  String get timeAwarenessInstruction => 'Uyumadan önce sesli cevapla';
+
+  @override
+  String get timeAwarenessQ1 => 'Bugünün tarihi ne?';
+
+  @override
+  String get timeAwarenessQ2 => 'Haftanın hangi günündeyiz?';
+
+  @override
+  String get timeAwarenessQ3 => 'REMOVED';
+
+  @override
+  String get timeAwarenessQ4 => 'Saat tam olarak kaç?';
+
+  @override
+  String get timeAwarenessQ5 => 'Etrafına bak ve 3 farklı nesne say.';
+
+  @override
+  String get timeAwarenessQ6 => 'Üzerinde ne renk kıyafet var?';
+
+  @override
+  String get timeAwarenessQ11 => 'Şu an hangi sesleri duyuyorsun?';
+
+  @override
+  String get timeAwarenessQ7 => 'Bugün ilk konuştuğun kişi kimdi?';
+
+  @override
+  String get timeAwarenessQ8 => 'Ellerine bak ve parmaklarını say.';
+
+  @override
+  String get timeAwarenessQ9 => 'Nefes al ve \'Rüya görüyor muyum?\' diye sor.';
+
+  @override
+  String get timeAwarenessQ10 => 'Şimdi gözlerini kapat ve uyuduğunu hayal et.';
+
+  @override
+  String get stage5Task1 => 'Rüya Günlüğü Tuttum';
+
+  @override
+  String get stage5Task2 => 'Rüyamda Farkındalık Sinyali Yaşadım';
+
+  @override
+  String get stage5Hint =>
+      'Şartları sağladıkça yıldızlara tıklayarak görevleri gerçekleştirebilirsin. Tüm görevler tamamlandığında ilerlemenin kilidi açılır.';
+
+  @override
+  String get guideCriteriaNotMet =>
+      'İlerlemek için bu aşamanın şartlarını tamamlamalısın.';
 }
