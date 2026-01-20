@@ -36,6 +36,7 @@
     "moodConfusion": "Confusion",
     "moodEmpowered": "Empowered",
     "moodLonging": "Longing",
+    "feltMood": "Felt Mood:",
     "moodSelectPrompt": "What is the first feeling when you think of this dream?",
     "moodIntensityLabel": "Intensity",
     "moodIntensityLow": "Low",

@@ -5,6 +5,8 @@
 import FlutterMacOS
 import Foundation
 
+import cloud_functions
+import firebase_app_check
 import firebase_core
 import flutter_local_notifications
 import flutter_timezone
@@ -17,6 +19,8 @@ import url_launcher_macos
 import webview_flutter_wkwebview
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
+  FLTFirebaseFunctionsPlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseFunctionsPlugin"))
+  FLTFirebaseAppCheckPlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseAppCheckPlugin"))
   FLTFirebaseCorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseCorePlugin"))
   FlutterLocalNotificationsPlugin.register(with: registry.registrar(forPlugin: "FlutterLocalNotificationsPlugin"))
   FlutterTimezonePlugin.register(with: registry.registrar(forPlugin: "FlutterTimezonePlugin"))

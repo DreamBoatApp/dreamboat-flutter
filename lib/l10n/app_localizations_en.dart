@@ -129,6 +129,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moodLonging => 'Longing';
 
   @override
+  String get feltMood => 'Felt Mood:';
+
+  @override
   String get moodSelectPrompt =>
       'What is the first feeling when you think of this dream?';
 

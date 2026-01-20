@@ -130,6 +130,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get moodLonging => 'Saudade';
 
   @override
+  String get feltMood => 'Emoção Sentida:';
+
+  @override
   String get moodSelectPrompt =>
       'Qual é a primeira sensação ao pensar neste sonho?';
 

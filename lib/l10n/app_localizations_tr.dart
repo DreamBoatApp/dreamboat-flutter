@@ -130,6 +130,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get moodLonging => 'Özlem';
 
   @override
+  String get feltMood => 'Hissedilen Duygu:';
+
+  @override
   String get moodSelectPrompt => 'Bu rüyayı düşündüğünde içindeki ilk his ne?';
 
   @override
@@ -1053,7 +1056,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get reviewCancel => 'Vazgeç';
 
   @override
-  String get adConsentTitle => 'Bir rüya yorumu daha ✨';
+  String get adConsentTitle => 'Bir rüya yorumu daha';
 
   @override
   String get adConsentBody =>

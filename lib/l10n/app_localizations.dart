@@ -332,6 +332,12 @@ abstract class AppLocalizations {
   /// **'Özlem'**
   String get moodLonging;
 
+  /// No description provided for @feltMood.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hissedilen Duygu:'**
+  String get feltMood;
+
   /// No description provided for @moodSelectPrompt.
   ///
   /// In tr, this message translates to:
@@ -2003,7 +2009,7 @@ abstract class AppLocalizations {
   /// No description provided for @adConsentTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Bir rüya yorumu daha ✨'**
+  /// **'Bir rüya yorumu daha'**
   String get adConsentTitle;
 
   /// No description provided for @adConsentBody.

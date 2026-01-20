@@ -839,22 +839,23 @@ class _DreamCard extends StatelessWidget {
 
     // Mood mapping (Pastel / Misty colors)
     final moodMap = {
-      'love': {'icon': LucideIcons.heart, 'color': const Color(0xFFD48CB3)}, // Muted Pink
-      'happy': {'icon': LucideIcons.smile, 'color': const Color(0xFFD4C08C)}, // Muted Yellow
-      'sad': {'icon': LucideIcons.cloudRain, 'color': const Color(0xFF8CA4D4)}, // Muted Blue
-      'scared': {'icon': LucideIcons.ghost, 'color': const Color(0xFFA48CD4)}, // Muted Purple
-      'anger': {'icon': LucideIcons.flame, 'color': const Color(0xFFD48C8C)}, // Muted Red
-      'neutral': {'icon': LucideIcons.meh, 'color': const Color(0xFFA0A0A0)}, // Muted Gray
-      'peace': {'icon': LucideIcons.feather, 'color': const Color(0xFF4ADE80)}, // Green (Peace)
-      'awe': {'icon': LucideIcons.tornado, 'color': const Color(0xFFC084FC)}, // Purple (Awe)
-      'empowered': {'icon': LucideIcons.zap, 'color': const Color(0xFFF43F5E)}, // Rose (Empowered)
-      'longing': {'icon': LucideIcons.cloudSun, 'color': const Color(0xFF38BDF8)}, // Sky Blue (Longing)
-      'confusion': {'icon': LucideIcons.brain, 'color': const Color(0xFF2DD4BF)}, // Teal (Confusion)
-      'anxiety': {'icon': LucideIcons.waves, 'color': const Color(0xFFFB923C)}, // Orange (Anxiety)
+      'love': {'icon': LucideIcons.heart, 'color': const Color(0xFFD48CB3), 'label': t.moodLove}, // Muted Pink
+      'happy': {'icon': LucideIcons.smile, 'color': const Color(0xFFD4C08C), 'label': t.moodHappy}, // Muted Yellow
+      'sad': {'icon': LucideIcons.cloudRain, 'color': const Color(0xFF8CA4D4), 'label': t.moodSad}, // Muted Blue
+      'scared': {'icon': LucideIcons.ghost, 'color': const Color(0xFFA48CD4), 'label': t.moodScared}, // Muted Purple
+      'anger': {'icon': LucideIcons.flame, 'color': const Color(0xFFD48C8C), 'label': t.moodAnger}, // Muted Red
+      'neutral': {'icon': LucideIcons.meh, 'color': const Color(0xFFA0A0A0), 'label': t.moodNeutral}, // Muted Gray
+      'peace': {'icon': LucideIcons.feather, 'color': const Color(0xFF4ADE80), 'label': t.moodPeace}, // Green (Peace)
+      'awe': {'icon': LucideIcons.tornado, 'color': const Color(0xFFC084FC), 'label': t.moodAwe}, // Purple (Awe)
+      'empowered': {'icon': LucideIcons.zap, 'color': const Color(0xFFF43F5E), 'label': t.moodEmpowered}, // Rose (Empowered)
+      'longing': {'icon': LucideIcons.cloudSun, 'color': const Color(0xFF38BDF8), 'label': t.moodLonging}, // Sky Blue (Longing)
+      'confusion': {'icon': LucideIcons.brain, 'color': const Color(0xFF2DD4BF), 'label': t.moodConfusion}, // Teal (Confusion)
+      'anxiety': {'icon': LucideIcons.waves, 'color': const Color(0xFFFB923C), 'label': t.moodAnxiety}, // Orange (Anxiety)
     };
     
     final moodData = moodMap[dream.mood] ?? moodMap['neutral']!;
     final moodColor = moodData['color'] as Color;
+    final moodLabel = moodData['label'] as String;
 
     return IntrinsicHeight(
       child: Row(
@@ -1002,8 +1003,17 @@ class _DreamCard extends StatelessWidget {
                               Row(
                                 children: [
                                   // Mood Icon (only when mood is selected)
-                                  if (dream.mood != null)
+                                  if (dream.mood != null) ...[
+                                    Text(
+                                      '${t.feltMood} $moodLabel',
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(0.5),
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 6),
                                     Icon(moodData['icon'] as IconData, size: 16, color: moodColor),
+                                  ],
                                   
                                   const Spacer(),
                                   

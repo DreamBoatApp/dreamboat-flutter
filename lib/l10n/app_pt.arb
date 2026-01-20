@@ -36,6 +36,7 @@
     "moodConfusion": "Confusão",
     "moodEmpowered": "Empoderado",
     "moodLonging": "Saudade",
+    "feltMood": "Emoção Sentida:",
     "moodSelectPrompt": "Qual é a primeira sensação ao pensar neste sonho?",
     "moodIntensityLabel": "Intensidade",
     "moodIntensityLow": "Baixa",

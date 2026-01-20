@@ -13,6 +13,9 @@ import 'package:dream_boat_mobile/services/ad_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart'; // for kDebugMode
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 void main() async {
   debugPrint('=== MAIN START ===');
@@ -25,6 +28,13 @@ void main() async {
     systemNavigationBarColor: Colors.transparent,
     systemNavigationBarIconBrightness: Brightness.light,
   ));
+  
+  // Lock Orientation to Portrait
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   debugPrint('=== WidgetsFlutterBinding initialized ===');
@@ -45,8 +55,28 @@ void main() async {
   );
   debugPrint('=== runApp completed ===');
   
-  // Do notification setup AFTER app is running (non-blocking)
+  // Do Firebase/AppCheck and notification setup AFTER app is running (non-blocking)
+  _initFirebaseInBackground();
   _initNotificationsInBackground();
+}
+
+// Background Firebase initialization - does not block app startup
+Future<void> _initFirebaseInBackground() async {
+  try {
+    debugPrint('=== Background: Starting Firebase init ===');
+    await Firebase.initializeApp();
+    debugPrint('=== Background: Firebase initialized ===');
+    
+    // Initialize App Check (Security)
+    await FirebaseAppCheck.instance.activate(
+      androidProvider: kDebugMode 
+          ? AndroidProvider.debug 
+          : AndroidProvider.playIntegrity,
+    );
+    debugPrint('=== Background: App Check activated (${kDebugMode ? "DEBUG" : "PLAY_INTEGRITY"}) ===');
+  } catch (e) {
+    debugPrint('=== Background: Firebase/AppCheck init failed: $e ===');
+  }
 }
 
 // Background initialization - does not block app startup

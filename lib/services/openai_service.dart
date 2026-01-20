@@ -1,171 +1,158 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:flutter/foundation.dart';
 
 class OpenAIService {
-  // Cloud Function URLs
-  static const String _baseUrl = 'https://us-central1-dream-boat-app.cloudfunctions.net';
-  
   static const String _mockTip = "Bugün, içsel yolculuğunu derinleştirmek için bir anı defteri tutmayı deneyebilirsin. Rüyalarında gördüğün çocukluk hâlinle bağ kurarak, o saf sevgiyi yeniden keşfetmek için birkaç dakikanı ayır ve hislerini kaleme al.";
   
-  static const String _mockInterpretation = "Rüya yorum servisine şu anda ulaşılamıyor. Lütfen internet bağlantınızı kontrol edip tekrar deneyin.";
-
-  // New: Call Secure Cloud Function - Returns title + interpretation
-  Future<Map<String, String?>> interpretDream(String dreamText, String mood, String language) async {
-    try {
-      final response = await http.post(
-        Uri.parse('$_baseUrl/interpretDream'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          "dreamText": dreamText,
-          "mood": mood,
-          "language": language
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        final decodedBody = utf8.decode(response.bodyBytes);
-        try {
-          // Try to parse as JSON (New Backend)
-          final data = jsonDecode(decodedBody);
-          
-          // Log Token Usage if present
-          if (data is Map<String, dynamic> && data.containsKey('usage')) {
-             final usage = data['usage'];
-             print("GPT Usage (interpretDream): Input: ${usage['prompt_tokens']}, Output: ${usage['completion_tokens']}, Total: ${usage['total_tokens']}");
-          }
-
-          // Check if it's the old JSON format {result: '...'} or new {title: '...', interpretation: '...'}
-          if (data is Map<String, dynamic>) {
-            if (data.containsKey('result')) {
-               // Old structure
-               return {
-                 'title': null,
-                 'interpretation': data['result'] as String?,
-               };
-            } else {
-              // New structure
-              return {
-                'title': data['title'] as String?,
-                'interpretation': data['interpretation'] as String?,
-              };
-            }
-          }
-           // Fallback
-           return {'title': null, 'interpretation': decodedBody};
-        } catch (e) {
-          // Not JSON? Maybe raw text (Legacy Backend fallback)
-          return {
-            'title': null,
-            'interpretation': decodedBody,
-          };
+  static bool _firebaseInitialized = false;
+  static bool _appCheckActivated = false;
+  
+  /// Ensure Firebase is initialized before making calls
+  Future<void> _ensureFirebaseReady() async {
+    // Initialize Firebase if not done
+    if (!_firebaseInitialized) {
+      try {
+        debugPrint('=== OpenAIService: Initializing Firebase... ===');
+        await Firebase.initializeApp();
+        _firebaseInitialized = true;
+        debugPrint('=== OpenAIService: Firebase initialized ===');
+      } catch (e) {
+        // Check if already initialized (that's OK)
+        if (e.toString().contains('already been initialized') || 
+            e.toString().contains('[core/duplicate-app]')) {
+          _firebaseInitialized = true;
+          debugPrint('=== OpenAIService: Firebase was already initialized ===');
+        } else {
+          debugPrint('=== OpenAIService: Firebase init error: $e ===');
+          rethrow;
         }
-      } else {
-        print('Cloud Function Error: ${response.statusCode} ${response.body}');
-        return {
-          'title': null,
-          'interpretation': "Analiz alınırken bir hata oluştu: ${response.statusCode}",
-        };
       }
-    } catch (e) {
-       print('Connection Exception: $e');
-       return {
-         'title': null,
-         'interpretation': "Bağlantı hatası: $e",
-       };
+    }
+    
+    // Activate App Check if not done
+    if (!_appCheckActivated) {
+      try {
+        debugPrint('=== OpenAIService: Activating App Check... ===');
+        await FirebaseAppCheck.instance.activate(
+          androidProvider: kDebugMode 
+              ? AndroidProvider.debug 
+              : AndroidProvider.playIntegrity,
+        );
+        _appCheckActivated = true;
+        debugPrint('=== OpenAIService: App Check activated (${kDebugMode ? "DEBUG" : "PLAY_INTEGRITY"}) ===');
+      } catch (e) {
+        debugPrint('=== OpenAIService: App Check error (continuing anyway): $e ===');
+        // Don't rethrow - App Check errors shouldn't block functionality
+        _appCheckActivated = true; // Mark as done to avoid repeated attempts
+      }
     }
   }
 
+  /// Interpret a dream - Returns title + interpretation
+  Future<Map<String, String?>> interpretDream(String dreamText, String mood, String language) async {
+    try {
+      await _ensureFirebaseReady();
+      
+      final result = await FirebaseFunctions.instance.httpsCallable('interpretDream').call({
+        'dreamText': dreamText,
+        'mood': mood,
+        'language': language,
+      });
+      
+      final data = result.data as Map<String, dynamic>;
+      
+      // Log Token Usage if present
+      if (data.containsKey('usage')) {
+        final usage = data['usage'];
+        debugPrint("GPT Usage (interpretDream): Input: ${usage['prompt_tokens']}, Output: ${usage['completion_tokens']}, Total: ${usage['total_tokens']}");
+      }
+
+      return {
+        'title': data['title'] as String?,
+        'interpretation': data['interpretation'] as String?,
+      };
+    } catch (e) {
+      debugPrint('interpretDream Error: $e');
+      return {
+        'title': null,
+        'interpretation': "Bağlantı hatası: $e",
+      };
+    }
+  }
+
+  /// Generate daily dream tip
   Future<String> generateDailyTip(List<String> dreams, String language) async {
     try {
-      final response = await http.post(
-        Uri.parse('$_baseUrl/generateDailyTip'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          "language": language
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(utf8.decode(response.bodyBytes));
-        
-        // Log Token Usage if present
-        if (data.containsKey('usage')) {
-             final usage = data['usage'];
-             print("GPT Usage (generateDailyTip): Input: ${usage['prompt_tokens']}, Output: ${usage['completion_tokens']}, Total: ${usage['total_tokens']}");
-        }
-        
-        return data['result'] ?? _mockTip;
-      } else {
-        throw Exception('Failed to generate tip: ${response.body}');
+      await _ensureFirebaseReady();
+      
+      final result = await FirebaseFunctions.instance.httpsCallable('generateDailyTip').call({
+        'language': language,
+      });
+      
+      final data = result.data as Map<String, dynamic>;
+      
+      // Log Token Usage if present
+      if (data.containsKey('usage')) {
+        final usage = data['usage'];
+        debugPrint("GPT Usage (generateDailyTip): Input: ${usage['prompt_tokens']}, Output: ${usage['completion_tokens']}, Total: ${usage['total_tokens']}");
       }
+      
+      return data['result'] ?? _mockTip;
     } catch (e) {
-      print('Tip Gen Error: $e');
-      // Fallback to mock tip on error so the UI still shows something nicely
+      debugPrint('generateDailyTip Error: $e');
       return _mockTip;
     }
   }
 
+  /// Analyze weekly dream patterns
   Future<String> analyzeDreams(List<String> dreams, String language) async {
     try {
-      final response = await http.post(
-        Uri.parse('$_baseUrl/analyzeDreams'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          "dreams": dreams,
-          "language": language
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(utf8.decode(response.bodyBytes));
-        
-        // Log Token Usage if present
-        if (data.containsKey('usage')) {
-             final usage = data['usage'];
-             print("GPT Usage (analyzeDreams): Input: ${usage['prompt_tokens']}, Output: ${usage['completion_tokens']}, Total: ${usage['total_tokens']}");
-        }
-
-        return data['result'] ?? "Analiz tamamlanamadı.";
-      } else {
-        print('Analysis Error: ${response.statusCode} ${response.body}');
-        return "Analysis Error: ${response.statusCode}";
+      await _ensureFirebaseReady();
+      
+      final result = await FirebaseFunctions.instance.httpsCallable('analyzeDreams').call({
+        'dreams': dreams,
+        'language': language,
+      });
+      
+      final data = result.data as Map<String, dynamic>;
+      
+      // Log Token Usage if present
+      if (data.containsKey('usage')) {
+        final usage = data['usage'];
+        debugPrint("GPT Usage (analyzeDreams): Input: ${usage['prompt_tokens']}, Output: ${usage['completion_tokens']}, Total: ${usage['total_tokens']}");
       }
+
+      return data['result'] ?? "Analiz tamamlanamadı.";
     } catch (e) {
-       print('Connection Exception: $e');
-       return "Connection Error: $e";
+      debugPrint('analyzeDreams Error: $e');
+      return "Connection Error: $e";
     }
   }
 
   /// Analyze dreams with moon phase correlation
   Future<String> analyzeMoonSync(List<Map<String, dynamic>> dreamData, String language) async {
     try {
-      final response = await http.post(
-        Uri.parse('$_baseUrl/analyzeMoonSync'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          "dreamData": dreamData,
-          "language": language
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(utf8.decode(response.bodyBytes));
-        
-        // Log Token Usage if present
-        if (data.containsKey('usage')) {
-             final usage = data['usage'];
-             print("GPT Usage (analyzeMoonSync): Input: ${usage['prompt_tokens']}, Output: ${usage['completion_tokens']}, Total: ${usage['total_tokens']}");
-        }
-
-        return data['result'] ?? "Kozmik analiz tamamlanamadı.";
-      } else {
-        print('Moon Sync Error: ${response.statusCode} ${response.body}');
-        return "Moon Sync Error: ${response.statusCode}";
+      await _ensureFirebaseReady();
+      
+      final result = await FirebaseFunctions.instance.httpsCallable('analyzeMoonSync').call({
+        'dreamData': dreamData,
+        'language': language,
+      });
+      
+      final data = result.data as Map<String, dynamic>;
+      
+      // Log Token Usage if present
+      if (data.containsKey('usage')) {
+        final usage = data['usage'];
+        debugPrint("GPT Usage (analyzeMoonSync): Input: ${usage['prompt_tokens']}, Output: ${usage['completion_tokens']}, Total: ${usage['total_tokens']}");
       }
+
+      return data['result'] ?? "Kozmik analiz tamamlanamadı.";
     } catch (e) {
-       print('Connection Exception: $e');
-       return "Connection Error: $e";
+      debugPrint('analyzeMoonSync Error: $e');
+      return "Connection Error: $e";
     }
   }
-
 }

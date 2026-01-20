@@ -131,6 +131,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get moodLonging => 'Nostalgia';
 
   @override
+  String get feltMood => 'Emoción Sentida:';
+
+  @override
   String get moodSelectPrompt => '¿Qué sientes al pensar en este sueño?';
 
   @override

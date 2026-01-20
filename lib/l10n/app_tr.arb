@@ -39,6 +39,7 @@
     "moodConfusion": "Kafa Karışıklığı",
     "moodEmpowered": "Güçlü",
     "moodLonging": "Özlem",
+    "feltMood": "Hissedilen Duygu:",
     "moodSelectPrompt": "Bu rüyayı düşündüğünde içindeki ilk his ne?",
     "moodIntensityLabel": "Duygu Yoğunluğu",
     "moodIntensityLow": "Hafif",
@@ -357,7 +358,7 @@
     "reviewFeedbackButton": "Bize Yaz",
     "reviewCancel": "Vazgeç",
 
-    "adConsentTitle": "Bir rüya yorumu daha ✨",
+    "adConsentTitle": "Bir rüya yorumu daha",
     "adConsentBody": "DreamBoat’ta rüya yorumları ücretsiz sunulur. Bunu sürdürebilmek için her yorumdan önce kısa bir video gösterilir.",
     "adConsentWatch": "Reklam İzle ve Yorumu Al",
     "adConsentPro": "PRO’ya Geç (Reklamsız)",

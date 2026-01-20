@@ -1,22 +1,20 @@
-const { onRequest } = require("firebase-functions/v2/https");
+const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const { defineSecret } = require("firebase-functions/params");
 const { OpenAI } = require("openai");
-const cors = require("cors")({ origin: true });
 
 // Güvenli API Key - Firebase Secrets ile saklanır
 // Deploy öncesi: firebase functions:secrets:set OPENAI_API_KEY
 const openaiApiKey = defineSecret("OPENAI_API_KEY");
 
-exports.interpretDream = onRequest({ secrets: [openaiApiKey] }, (req, res) => {
+exports.interpretDream = onCall({ secrets: [openaiApiKey] }, async (request) => {
     const openai = new OpenAI({ apiKey: openaiApiKey.value() });
-    cors(req, res, async () => {
-        try {
-            if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
 
-            const { dreamText, mood, language } = req.body;
-            if (!dreamText || !mood) return res.status(400).send("Missing dreamText or mood");
+    const { dreamText, mood, language } = request.data;
+    if (!dreamText || !mood) {
+        throw new HttpsError('invalid-argument', 'Missing dreamText or mood');
+    }
 
-            const systemPrompt = `
+    const systemPrompt = `
 You are a Mystical Dream Oracle (Rüya Tabircisi).
 Your role is to interpret dreams using TRADITIONAL SYMBOLIC DREAM LORE – like an ancient dream dictionary, NOT a psychologist.
 
@@ -127,59 +125,55 @@ You must strip the user's "context" and interpret only the **OBJECT** or **CONCE
 User Mood Context: ${mood}
 `;
 
-            const completion = await openai.chat.completions.create({
-                messages: [
-                    { role: "system", content: systemPrompt },
-                    { role: "user", content: `Here is the dream: ${dreamText}` },
-                ],
-                model: "gpt-4o-mini",
-                temperature: 0.7,
-                response_format: { type: "json_object" }
-            });
+    try {
+        const completion = await openai.chat.completions.create({
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: `Here is the dream: ${dreamText}` },
+            ],
+            model: "gpt-4o-mini",
+            temperature: 0.7,
+            response_format: { type: "json_object" }
+        });
 
-            // Parse the JSON response
-            const responseText = completion.choices[0].message.content;
-            let parsed;
-            try {
-                parsed = JSON.parse(responseText);
-            } catch (e) {
-                // Fallback if JSON parsing fails
-                parsed = { title: null, interpretation: responseText };
-            }
-
-            res.json({
-                title: parsed.title || null,
-                interpretation: parsed.interpretation || responseText,
-                usage: completion.usage // Added token usage
-            });
-        } catch (error) {
-            console.error("Error interpretation:", error);
-            res.status(500).json({ error: error.message });
+        // Parse the JSON response
+        const responseText = completion.choices[0].message.content;
+        let parsed;
+        try {
+            parsed = JSON.parse(responseText);
+        } catch (e) {
+            parsed = { title: null, interpretation: responseText };
         }
-    });
+
+        return {
+            title: parsed.title || null,
+            interpretation: parsed.interpretation || responseText,
+            usage: completion.usage
+        };
+    } catch (error) {
+        console.error("Error interpretation:", error);
+        throw new HttpsError('internal', error.message);
+    }
 });
 
-exports.generateDailyTip = onRequest({ secrets: [openaiApiKey] }, (req, res) => {
+exports.generateDailyTip = onCall({ secrets: [openaiApiKey] }, async (request) => {
     const openai = new OpenAI({ apiKey: openaiApiKey.value() });
-    cors(req, res, async () => {
-        try {
-            if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
 
-            const { language } = req.body; // 'tr', 'en', 'es', 'pt', 'de'
-            const lang = language || 'en';
+    const { language } = request.data;
+    const lang = language || 'en';
 
-            const langMap = {
-                'tr': 'Turkish',
-                'en': 'English',
-                'es': 'Spanish',
-                'de': 'German',
-                'pt': 'Portuguese'
-            };
-            const targetLanguage = langMap[lang] || 'English';
+    const langMap = {
+        'tr': 'Turkish',
+        'en': 'English',
+        'es': 'Spanish',
+        'de': 'German',
+        'pt': 'Portuguese'
+    };
+    const targetLanguage = langMap[lang] || 'English';
 
-            const systemPrompt = `You are a gentle dream-guidance assistant.
+    const systemPrompt = `You are a gentle dream-guidance assistant.
 
-Your task is to generate a single, short daily suggestion (“Dream Tip”) for the user. 
+Your task is to generate a single, short daily suggestion ("Dream Tip") for the user. 
 This is NOT a dream interpretation. 
 It should feel supportive, reflective, and related to dream awareness, emotional clarity, or inner exploration.
 
@@ -191,7 +185,7 @@ RULES:
 - Keep the suggestion actionable but light (e.g., journaling, reflection, breathing, noticing emotions).
 - Avoid therapy-like or medical advice.
 - Use a soft, poetic style suited for a dream-themed app.
-- Do NOT reference the user’s specific life; keep it universal.
+- Do NOT reference the user's specific life; keep it universal.
 
 The structure should feel like:
 1. A gentle invitation toward self-awareness.
@@ -200,47 +194,41 @@ The structure should feel like:
 Reply in ${targetLanguage} language.
 `;
 
-            const completion = await openai.chat.completions.create({
-                messages: [
-                    { role: "system", content: systemPrompt },
-                    { role: "user", content: "Generate today's dream guidance tip." },
-                ],
-                model: "gpt-4o-mini",
-                temperature: 0.8,
-                max_tokens: 150,
-            });
+    try {
+        const completion = await openai.chat.completions.create({
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: "Generate today's dream guidance tip." },
+            ],
+            model: "gpt-4o-mini",
+            temperature: 0.8,
+            max_tokens: 150,
+        });
 
-            res.json({
-                result: completion.choices[0].message.content,
-                usage: completion.usage // Added token usage
-            });
-        } catch (error) {
-            console.error("Error tip:", error);
-            res.status(500).json({ error: error.message });
-        }
-    });
+        return {
+            result: completion.choices[0].message.content,
+            usage: completion.usage
+        };
+    } catch (error) {
+        console.error("Error tip:", error);
+        throw new HttpsError('internal', error.message);
+    }
 });
 
-exports.analyzeDreams = onRequest({ secrets: [openaiApiKey] }, (req, res) => {
+exports.analyzeDreams = onCall({ secrets: [openaiApiKey] }, async (request) => {
     const openai = new OpenAI({ apiKey: openaiApiKey.value() });
-    cors(req, res, async () => {
-        try {
-            if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
 
-            const { dreams, language } = req.body;
-            const lang = language || 'en';
+    const { dreams, language } = request.data;
+    const lang = language || 'en';
 
-            if (!dreams || !Array.isArray(dreams)) return res.status(400).send("Missing dreams array");
+    if (!dreams || !Array.isArray(dreams)) {
+        throw new HttpsError('invalid-argument', 'Missing dreams array');
+    }
 
-            const systemPrompt = `
+    const systemPrompt = `
 You are a weekly Dream Pattern Analysis assistant.
 
 Your task is NOT to interpret a single dream, but to look at all dreams provided for the week and identify patterns, recurring themes, emotional trends, and symbolic clusters. Your tone should be calm, observational, and insightful.
-
-// SENSITIVE CONTENT RULE REMOVED TEMPORARILY
-// If any dream in the weekly list contains elements such as sexual violence, rape, murder...
-// THEN DO NOT analyze the patterns.
-
 
 LIMITED DATA RULE:
 If fewer than 5 dreams are provided in the weekly set, include this message at the beginning of your analysis:
@@ -294,48 +282,47 @@ Your response must be in ${lang === 'tr' ? 'Turkish' : 'English'}.
 REMEMBER: No "kullanıcı", no **bold**, no bullet points. Always "sen/senin" (you/your). Use "1)" numbering format NOT "1." format.
 `;
 
-            const completion = await openai.chat.completions.create({
-                messages: [
-                    { role: "system", content: systemPrompt },
-                    { role: "user", content: `Here are the dreams for the week:\n\n${dreams.join('\n\n')}` }
-                ],
-                model: "gpt-4o-mini",
-                temperature: 0.7,
-            });
+    try {
+        const completion = await openai.chat.completions.create({
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: `Here are the dreams for the week:\n\n${dreams.join('\n\n')}` }
+            ],
+            model: "gpt-4o-mini",
+            temperature: 0.7,
+        });
 
-            res.json({
-                result: completion.choices[0].message.content,
-                usage: completion.usage // Added token usage
-            });
-        } catch (error) {
-            console.error("Error analysis:", error);
-            res.status(500).json({ error: error.message });
-        }
-    });
+        return {
+            result: completion.choices[0].message.content,
+            usage: completion.usage
+        };
+    } catch (error) {
+        console.error("Error analysis:", error);
+        throw new HttpsError('internal', error.message);
+    }
 });
 
 // Moon & Planet Synchronization Analysis
-exports.analyzeMoonSync = onRequest({ secrets: [openaiApiKey] }, (req, res) => {
+exports.analyzeMoonSync = onCall({ secrets: [openaiApiKey] }, async (request) => {
     const openai = new OpenAI({ apiKey: openaiApiKey.value() });
-    cors(req, res, async () => {
-        try {
-            if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
 
-            const { dreamData, language } = req.body;
-            const lang = language || 'en';
+    const { dreamData, language } = request.data;
+    const lang = language || 'en';
 
-            if (!dreamData || !Array.isArray(dreamData)) return res.status(400).send("Missing dreamData array");
+    if (!dreamData || !Array.isArray(dreamData)) {
+        throw new HttpsError('invalid-argument', 'Missing dreamData array');
+    }
 
-            const langMap = {
-                'tr': 'Turkish',
-                'en': 'English',
-                'es': 'Spanish',
-                'de': 'German',
-                'pt': 'Portuguese'
-            };
-            const targetLanguage = langMap[lang] || 'English';
+    const langMap = {
+        'tr': 'Turkish',
+        'en': 'English',
+        'es': 'Spanish',
+        'de': 'German',
+        'pt': 'Portuguese'
+    };
+    const targetLanguage = langMap[lang] || 'English';
 
-            const systemPrompt = `
+    const systemPrompt = `
 You are a Cosmic Dream Analysis assistant specializing in Moon Phase correlations and Astronomical Events.
 
 Your task is to analyze the relationship between the user's dream journal data and the lunar/cosmic cycle.
@@ -349,8 +336,6 @@ You will receive dream data containing:
 GOAL:
 Provide a deep, personalized monthly cosmic analysis that connects the user's psychology and subconscious state to the moon's journey.
 The user should feel: "My dreams, the Moon's phases, my clarity of memory, and my emotional world are all connected."
-
-SENSITIVE CONTENT RULE REMOVED.
 
 ANALYSIS FRAMEWORK:
 
@@ -396,33 +381,33 @@ TONE & STYLE:
 
 `;
 
-            // Format dream data for the prompt
-            const formattedDreams = dreamData.map((d, i) =>
-                `Dream ${i + 1} (${d.date.split('T')[0]}):
+    // Format dream data for the prompt
+    const formattedDreams = dreamData.map((d, i) =>
+        `Dream ${i + 1} (${d.date.split('T')[0]}):
    Phase: ${d.moonPhase} (${d.isWaxing ? 'Waxing' : 'Waning'})
    Cosmic Events: ${d.astronomicalEvents && d.astronomicalEvents.length > 0 ? d.astronomicalEvents.join(', ') : 'None'}
    Mood: ${d.mood} (Intensity: ${d.moodIntensity}/3)
    Vividness: ${d.vividness}/3
    Word Count: ${d.wordCount}
    Content: ${d.text.substring(0, 300)}...`
-            ).join('\n\n');
+    ).join('\n\n');
 
-            const completion = await openai.chat.completions.create({
-                messages: [
-                    { role: "system", content: systemPrompt },
-                    { role: "user", content: `Here is the dream journal data with moon phase and cosmic event info:\n\n${formattedDreams}` }
-                ],
-                model: "gpt-4o-mini",
-                temperature: 0.7,
-            });
+    try {
+        const completion = await openai.chat.completions.create({
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: `Here is the dream journal data with moon phase and cosmic event info:\n\n${formattedDreams}` }
+            ],
+            model: "gpt-4o-mini",
+            temperature: 0.7,
+        });
 
-            res.json({
-                result: completion.choices[0].message.content,
-                usage: completion.usage // Added token usage
-            });
-        } catch (error) {
-            console.error("Error moon sync:", error);
-            res.status(500).json({ error: error.message });
-        }
-    });
+        return {
+            result: completion.choices[0].message.content,
+            usage: completion.usage
+        };
+    } catch (error) {
+        console.error("Error moon sync:", error);
+        throw new HttpsError('internal', error.message);
+    }
 });

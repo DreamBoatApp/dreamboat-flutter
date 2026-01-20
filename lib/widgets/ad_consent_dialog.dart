@@ -91,22 +91,8 @@ class _AdConsentDialogState extends State<AdConsentDialog> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       // Space for X button
-                      const SizedBox(height: 10), 
+                      const SizedBox(height: 32), 
 
-                      // Title
-                      GradientText(
-                        t.adConsentTitle,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          height: 1.2,
-                        ),
-                        gradient: const LinearGradient(
-                          colors: [Colors.white, Color(0xFFE0E7FF)],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
 
                   // Body Text
                   Text(
@@ -121,41 +107,39 @@ class _AdConsentDialogState extends State<AdConsentDialog> {
                   const SizedBox(height: 32),
 
                   // Actions
+                  // Actions
+                  // Actions
                   if (isLoaded) ...[
-                    // Watch Ad Button
-                     _buildPrimaryButton(
+                    // Watch Ad Button (Secondary Visual - Matte Blue)
+                     _buildSecondaryButton(
                       context,
                       label: t.adConsentWatch,
-                      icon: LucideIcons.play,
                       onTap: () {
                          Navigator.pop(context); // Close dialog
                          widget.onWatchAd();
                       },
                     ),
                     const SizedBox(height: 12),
-                    
-                    // Pro Button
-                    _buildSecondaryButton(
+
+                    // Pro Button (Primary Visual - Gold)
+                    _buildPrimaryButton(
                       context,
                       label: t.adConsentPro,
-                      icon: LucideIcons.crown,
                       onTap: () => _handleGoPro(context),
                     ),
                   ] else ...[
-                     // Retry Button
-                     _buildPrimaryButton(
+                     // Retry Button (Secondary Visual - Matte Blue)
+                     _buildSecondaryButton(
                       context,
                       label: t.adRetry,
-                      icon: LucideIcons.refreshCw,
                       onTap: widget.onRetry,
                     ),
                     const SizedBox(height: 12),
 
-                     // Pro Button (Still valid if ad fails)
-                     _buildSecondaryButton(
+                     // Pro Button (Primary Visual - Gold)
+                     _buildPrimaryButton(
                       context,
                       label: t.adConsentPro,
-                      icon: LucideIcons.crown,
                       onTap: () => _handleGoPro(context),
                     ),
                   ],
@@ -182,7 +166,6 @@ class _AdConsentDialogState extends State<AdConsentDialog> {
   
   Widget _buildPrimaryButton(BuildContext context, {
     required String label, 
-    required IconData icon, 
     required VoidCallback onTap 
   }) {
       return Container(
@@ -190,11 +173,11 @@ class _AdConsentDialogState extends State<AdConsentDialog> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           gradient: const LinearGradient(
-            colors: [Color(0xFF3B82F6), Color(0xFF8B5CF6)], // Signature Blue-Purple
+              colors: [Color(0xFFFCD34D), Color(0xFFF59E0B)], // Slightly brighter Gold
           ),
           boxShadow: [
              BoxShadow(
-               color: const Color(0xFF8B5CF6).withOpacity(0.4),
+               color: const Color(0xFFFBBF24).withOpacity(0.4),
                blurRadius: 12,
                offset: const Offset(0, 4),
              )
@@ -207,23 +190,16 @@ class _AdConsentDialogState extends State<AdConsentDialog> {
             borderRadius: BorderRadius.circular(16),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                   Icon(icon, color: Colors.white, size: 20),
-                   const SizedBox(width: 8),
-                   Flexible(
-                     child: Text(
-                       label,
-                       textAlign: TextAlign.center,
-                       style: const TextStyle(
-                         color: Colors.white,
-                         fontWeight: FontWeight.bold,
-                         fontSize: 15,
-                       ),
-                     ),
-                   ),
-                ],
+              child: Center(
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.black, // Dark text on Gold
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
               ),
             ),
           ),
@@ -233,15 +209,20 @@ class _AdConsentDialogState extends State<AdConsentDialog> {
 
   Widget _buildSecondaryButton(BuildContext context, {
     required String label, 
-    required IconData icon, 
     required VoidCallback onTap 
   }) {
       return Container(
         width: double.infinity,
-         decoration: BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFFFD700).withOpacity(0.5)), // Gold border for PRO
-          color: const Color(0xFFFFD700).withOpacity(0.1),
+          // Matte Blue Style (Original colors but dull/flat)
+          gradient: LinearGradient(
+            colors: [
+              const Color(0xFF3B82F6).withOpacity(0.2), 
+              const Color(0xFF8B5CF6).withOpacity(0.2)
+            ], 
+          ),
+          border: Border.all(color: const Color(0xFF3B82F6).withOpacity(0.3)),
         ),
         child: Material(
           color: Colors.transparent,
@@ -250,23 +231,16 @@ class _AdConsentDialogState extends State<AdConsentDialog> {
             borderRadius: BorderRadius.circular(16),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                   Icon(icon, color: const Color(0xFFFFD700), size: 20),
-                   const SizedBox(width: 8),
-                   Flexible(
-                     child: Text(
-                       label,
-                       textAlign: TextAlign.center,
-                       style: const TextStyle(
-                         color: Color(0xFFFFD700), // Gold text
-                         fontWeight: FontWeight.w600,
-                         fontSize: 15,
-                       ),
-                     ),
-                   ),
-                ],
+              child: Center(
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                  ),
+                ),
               ),
             ),
           ),
