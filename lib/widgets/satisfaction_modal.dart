@@ -51,26 +51,7 @@ class SatisfactionModal extends StatelessWidget {
                 ),
               ),
 
-              // 3. Subtle Close Button (X)
-              Positioned(
-                top: 8,
-                right: 8,
-                child: GestureDetector(
-                  onTap: () => Navigator.of(context).pop(),
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.05),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      LucideIcons.x,
-                      size: 20,
-                      color: Colors.white.withOpacity(0.3),
-                    ),
-                  ),
-                ),
-              ),
+
 
               // 4. Glass Effect & Content
               BackdropFilter(
@@ -103,16 +84,16 @@ class SatisfactionModal extends StatelessWidget {
                           shape: BoxShape.circle,
                           boxShadow: [
                              BoxShadow(
-                              color: AppTheme.secondary.withOpacity(0.3),
-                              blurRadius: 15,
-                              spreadRadius: 2,
+                               color: AppTheme.secondary.withOpacity(0.3),
+                               blurRadius: 15,
+                               spreadRadius: 2,
                             ),
                           ]
                         ),
                         child: Image.asset(
                           'assets/images/db_logo_icon.png',
-                          width: 22,
-                          height: 22,
+                          width: 58, // Increased size
+                          height: 58, // Increased size
                           color: const Color(0xFF6366F1), // Indigo accent
                         ),
                       ),
@@ -143,40 +124,70 @@ class SatisfactionModal extends StatelessWidget {
 
                       // Options Row
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start, // Align to top to handle varying text heights
                         children: [
-                          _buildOption(
-                            context,
-                            icon: LucideIcons.cloudRain,
-                            color: const Color(0xFF60A5FA), // Blue
-                            label: t.reviewOptionNo,
-                            onTap: onNeutralOrNegative,
+                          Expanded(
+                            child: _buildOption(
+                              context,
+                              icon: LucideIcons.cloudRain,
+                              color: const Color(0xFF60A5FA), // Blue
+                              label: t.reviewOptionNo,
+                              onTap: onNeutralOrNegative,
+                            ),
                           ),
-                          _buildOption(
-                            context,
-                            icon: LucideIcons.meh,
-                            color: const Color(0xFF9CA3AF), // Gray
-                            label: t.reviewOptionNeutral,
-                            onTap: onNeutralOrNegative,
+                          Expanded(
+                            child: _buildOption(
+                              context,
+                              icon: LucideIcons.meh,
+                              color: const Color(0xFF9CA3AF), // Gray
+                              label: t.reviewOptionNeutral,
+                              onTap: onNeutralOrNegative,
+                            ),
                           ),
-                          _buildOption(
-                            context,
-                            icon: LucideIcons.heart,
-                            color: const Color(0xFFEC4899), // Pink
-                            label: t.reviewOptionYes,
-                            onTap: onSatisfied,
-                            isPrimary: true,
+                          Expanded(
+                            child: _buildOption(
+                              context,
+                              icon: LucideIcons.heart,
+                              color: const Color(0xFFEC4899), // Pink
+                              label: t.reviewOptionYes,
+                              onTap: onSatisfied,
+                              isPrimary: true,
+                            ),
                           ),
+
+
                         ],
                       ),
                     ],
                   ),
                 ),
               ),
+              
+              // 3. Close Button (Correctly placed on top)
+              Positioned(
+                top: 8,
+                right: 8,
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.1), // Subtle background
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      LucideIcons.x,
+                      size: 24,
+                      color: Colors.white.withOpacity(0.6),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
+          ),
         ),
-      ),
     );
   }
 

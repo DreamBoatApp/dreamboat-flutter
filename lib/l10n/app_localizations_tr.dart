@@ -130,7 +130,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get moodLonging => 'Özlem';
 
   @override
-  String get feltMood => 'Hissedilen Duygu:';
+  String get feltMood => 'Duygu:';
 
   @override
   String get moodSelectPrompt => 'Bu rüyayı düşündüğünde içindeki ilk his ne?';

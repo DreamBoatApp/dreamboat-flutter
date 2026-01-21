@@ -335,7 +335,7 @@ abstract class AppLocalizations {
   /// No description provided for @feltMood.
   ///
   /// In tr, this message translates to:
-  /// **'Hissedilen Duygu:'**
+  /// **'Duygu:'**
   String get feltMood;
 
   /// No description provided for @moodSelectPrompt.

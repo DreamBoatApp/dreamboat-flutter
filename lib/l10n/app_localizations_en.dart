@@ -129,7 +129,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moodLonging => 'Longing';
 
   @override
-  String get feltMood => 'Felt Mood:';
+  String get feltMood => 'Mood:';
 
   @override
   String get moodSelectPrompt =>

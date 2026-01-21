@@ -36,7 +36,7 @@
     "moodConfusion": "Verwirrung",
     "moodEmpowered": "Stark",
     "moodLonging": "Sehnsucht",
-    "feltMood": "Gefühlte Stimmung:",
+    "feltMood": "Stimmung:",
     "moodSelectPrompt": "Welches Gefühl kommt als erstes auf?",
     "moodIntensityLabel": "Intensität",
     "moodIntensityLow": "Niedrig",

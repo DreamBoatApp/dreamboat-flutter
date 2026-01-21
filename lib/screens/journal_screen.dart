@@ -1002,20 +1002,28 @@ class _DreamCard extends StatelessWidget {
                               // Header Row (Separate Time & Mood)
                               Row(
                                 children: [
-                                  // Mood Icon (only when mood is selected)
-                                  if (dream.mood != null) ...[
-                                    Text(
-                                      '${t.feltMood} $moodLabel',
-                                      style: TextStyle(
-                                        color: Colors.white.withOpacity(0.5),
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 6),
-                                    Icon(moodData['icon'] as IconData, size: 16, color: moodColor),
-                                  ],
+                                  // Mood section (expanded to fill available space)
+                                  Expanded(
+                                    child: dream.mood != null
+                                      ? Row(
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                '${t.feltMood} $moodLabel',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  color: Colors.white.withOpacity(0.5),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 6),
+                                            Icon(moodData['icon'] as IconData, size: 16, color: moodColor),
+                                          ],
+                                        )
+                                      : const SizedBox.shrink(),
+                                  ),
                                   
-                                  const Spacer(),
                                   
                                   // Actions (hide in selection mode)
                                   if (!isSelectionMode) ...[
@@ -1194,10 +1202,12 @@ class _ActionButton extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           SizedBox(
-            height: 32, // Fixed height for 2 lines of text
+            height: 40, // Fixed height for 2 lines of text with descenders
             child: Text(
               label,
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.white.withOpacity(0.6),
                 fontSize: 12,
