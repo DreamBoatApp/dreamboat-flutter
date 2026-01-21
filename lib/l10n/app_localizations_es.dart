@@ -673,13 +673,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get supportContent =>
-      'Tus comentarios son muy valiosos para NovaBloom Studio.\n\nPuedes enviarnos un correo electrónico para sugerencias, informes de errores o solicitudes de colaboración. No olvides pegar tu ID de soporte en el cuerpo del correo electrónico.';
+      'Tus comentarios son muy valiosos para NovaBloom Studio.\n\nPuedes enviarnos un correo electrónico para sugerencias, informes de errores o solicitudes de colaboración.';
 
   @override
   String get supportSendEmail => 'Enviar Correo';
 
   @override
   String get supportEmailNotFound => 'Aplicación de correo no encontrada.';
+
+  @override
+  String get supportEmailSubject => 'Solicitud de soporte de DreamBoat';
 
   @override
   String get debugResetTitle => 'Reinicio de Depuración';
@@ -1252,5 +1255,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get analysisStep4 => 'Analizando profundidad psicológica...';
 
   @override
-  String get analysisStep5 => 'Preparando interpretación...';
+  String get analysisStep5 => 'La interpretación se está preparando...';
+
+  @override
+  String get supportTechInfoNote =>
+      'Nota: La siguiente información técnica nos ayuda a resolver su problema más rápido. Por favor no la borre.';
 }

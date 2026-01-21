@@ -1295,7 +1295,7 @@ abstract class AppLocalizations {
   /// No description provided for @supportContent.
   ///
   /// In tr, this message translates to:
-  /// **'Görüşleriniz NovaBloom Studio için çok değerli.\n\nÖneri, hata bildirimi veya işbirliği talepleriniz için bize e-posta gönderebilirsiniz. E-posta metni içerisine Destek ID\'nizi yapıştırmayı unutmayın.'**
+  /// **'Görüşleriniz NovaBloom Studio için çok değerli.\n\nÖneri, hata bildirimi veya işbirliği talepleriniz için bize e-posta gönderebilirsiniz.'**
   String get supportContent;
 
   /// No description provided for @supportSendEmail.
@@ -1309,6 +1309,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'E-posta uygulaması bulunamadı.'**
   String get supportEmailNotFound;
+
+  /// No description provided for @supportEmailSubject.
+  ///
+  /// In tr, this message translates to:
+  /// **'DreamBoat Destek Talebi'**
+  String get supportEmailSubject;
 
   /// No description provided for @debugResetTitle.
   ///
@@ -2353,6 +2359,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Yorum hazırlanıyor...'**
   String get analysisStep5;
+
+  /// No description provided for @supportTechInfoNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Not: Aşağıdaki teknik bilgiler, sorununuzu daha hızlı çözmemize yardımcı olur. Lütfen silmeyiniz.'**
+  String get supportTechInfoNote;
 }
 
 class _AppLocalizationsDelegate

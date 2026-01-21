@@ -198,9 +198,10 @@
     "privacySection4Title": "4. Descargo de Responsabilidad Médica (IMPORTANTE):",
     "privacySection4Content": "Esta aplicación no es un dispositivo médico. Las interpretaciones y análisis de sueños proporcionados son únicamente para entretenimiento y desarrollo personal y no constituyen consejo médico. Nuestra aplicación no recopila ni procesa ningún dato biométrico o de salud.",
     "supportTitle": "Contáctanos",
-    "supportContent": "Tus comentarios son muy valiosos para NovaBloom Studio.\n\nPuedes enviarnos un correo electrónico para sugerencias, informes de errores o solicitudes de colaboración. No olvides pegar tu ID de soporte en el cuerpo del correo electrónico.",
+    "supportContent": "Tus comentarios son muy valiosos para NovaBloom Studio.\n\nPuedes enviarnos un correo electrónico para sugerencias, informes de errores o solicitudes de colaboración.",
     "supportSendEmail": "Enviar Correo",
     "supportEmailNotFound": "Aplicación de correo no encontrada.",
+    "supportEmailSubject": "Solicitud de soporte de DreamBoat",
     "debugResetTitle": "Reinicio de Depuración",
     "debugResetContent": "¿Quieres restaurar la aplicación a la versión Estándar?",
     "cancel": "Cancelar",
@@ -404,5 +405,6 @@
     "analysisStep2": "Mapeando el subconsciente...",
     "analysisStep3": "Conectando arquetipos...",
     "analysisStep4": "Analizando profundidad psicológica...",
-    "analysisStep5": "Preparando interpretación..."
+    "analysisStep5": "La interpretación se está preparando...",
+    "supportTechInfoNote": "Nota: La siguiente información técnica nos ayuda a resolver su problema más rápido. Por favor no la borre."
 }

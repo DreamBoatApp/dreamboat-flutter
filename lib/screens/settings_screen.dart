@@ -19,6 +19,8 @@ import 'package:dream_boat_mobile/widgets/pro_upgrade_dialog.dart';
 import 'package:dream_boat_mobile/widgets/pro_badge.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'dart:io';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -839,10 +841,23 @@ class _SupportDialogState extends State<_SupportDialog> {
                   icon: const Icon(LucideIcons.mail, color: Colors.white),
                   label: Text(t.supportSendEmail, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                   onPressed: () async {
+                    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+                    String version = packageInfo.version;
+                    String buildNumber = packageInfo.buildNumber;
+                    String os = Platform.isAndroid ? 'Android' : (Platform.isIOS ? 'iOS' : Platform.operatingSystem);
+                    String locale = Localizations.localeOf(context).toString();
+                    
+                    String body = "\n\n--------------------------------\n"
+                        "${t.supportTechInfoNote}\n\n"
+                        "Destek Kimliği (User ID): ${_userId ?? 'Unknown'}\n"
+                        "Uygulama Sürümü: $version ($buildNumber)\n"
+                        "Platform: $os\n"
+                        "Dil: $locale";
+
                     final Uri emailLaunchUri = Uri(
                       scheme: 'mailto',
                       path: 'info@novabloomstudio.com',
-                      query: 'subject=DreamBoat Destek Talebi',
+                      query: 'subject=${Uri.encodeComponent(t.supportEmailSubject)}&body=${Uri.encodeComponent(body)}',
                     );
 
                     try {

@@ -669,17 +669,20 @@ class AppLocalizationsDe extends AppLocalizations {
       'Diese App ist kein medizinisches Gerät. Die bereitgestellten Traumdeutungen und Analysen dienen ausschließlich Unterhaltungs- und Persönlichkeitsentwicklungszwecken und stellen keine medizinische Beratung dar. Unsere App sammelt oder verarbeitet keine biometrischen oder gesundheitsbezogenen Daten.';
 
   @override
-  String get supportTitle => 'Kontaktiere uns';
+  String get supportTitle => 'Kontaktieren Sie uns';
 
   @override
   String get supportContent =>
-      'Dein Feedback ist für NovaBloom Studio sehr wertvoll.\n\nDu kannst uns eine E-Mail für Vorschläge, Fehlerberichte oder Kooperationsanfragen senden. Vergiss nicht, deine Support-ID in den E-Mail-Text einzufügen.';
+      'Ihr Feedback ist für NovaBloom Studio sehr wertvoll.\n\nSie können uns eine E-Mail für Vorschläge, Fehlerberichte oder Kooperationsanfragen senden.';
 
   @override
   String get supportSendEmail => 'E-Mail senden';
 
   @override
   String get supportEmailNotFound => 'E-Mail-App nicht gefunden.';
+
+  @override
+  String get supportEmailSubject => 'DreamBoat Support-Anfrage';
 
   @override
   String get debugResetTitle => 'Debug-Reset';
@@ -1256,5 +1259,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get analysisStep4 => 'Psychologische Tiefe wird analysiert...';
 
   @override
-  String get analysisStep5 => 'Interpretation wird vorbereitet...';
+  String get analysisStep5 => 'Die Interpretation wird vorbereitet...';
+
+  @override
+  String get supportTechInfoNote =>
+      'Hinweis: Die folgenden technischen Informationen helfen uns, Ihr Problem schneller zu lösen. Bitte nicht löschen.';
 }

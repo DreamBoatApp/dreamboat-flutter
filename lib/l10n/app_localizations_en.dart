@@ -669,13 +669,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get supportContent =>
-      'Your feedback is very valuable to NovaBloom Studio.\n\nYou can send us an email for suggestions, bug reports, or collaboration requests. Don\'t forget to paste your Support ID into the email body.';
+      'Your feedback is very valuable to NovaBloom Studio.\n\nYou can send us an email for suggestions, bug reports, or collaboration requests.';
 
   @override
   String get supportSendEmail => 'Send Email';
 
   @override
   String get supportEmailNotFound => 'Email app not found.';
+
+  @override
+  String get supportEmailSubject => 'DreamBoat Support Request';
 
   @override
   String get debugResetTitle => 'Debug Reset';
@@ -1244,5 +1247,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get analysisStep4 => 'Analyzing psychological depth...';
 
   @override
-  String get analysisStep5 => 'Preparing interpretation...';
+  String get analysisStep5 => 'Interpretation is being prepared...';
+
+  @override
+  String get supportTechInfoNote =>
+      'Note: The technical info below helps us resolve your issue faster. Please do not delete.';
 }

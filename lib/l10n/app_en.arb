@@ -198,9 +198,10 @@
     "privacySection4Title": "4. Health and Medical Disclaimer (IMPORTANT):",
     "privacySection4Content": "This app is not a medical device. Dream interpretations and analyses provided are solely for entertainment and personal development purposes and do not constitute medical advice. Our app does not collect or process any biometric or health data.",
     "supportTitle": "Contact Us",
-    "supportContent": "Your feedback is very valuable to NovaBloom Studio.\n\nYou can send us an email for suggestions, bug reports, or collaboration requests. Don't forget to paste your Support ID into the email body.",
+    "supportContent": "Your feedback is very valuable to NovaBloom Studio.\n\nYou can send us an email for suggestions, bug reports, or collaboration requests.",
     "supportSendEmail": "Send Email",
     "supportEmailNotFound": "Email app not found.",
+    "supportEmailSubject": "DreamBoat Support Request",
     "debugResetTitle": "Debug Reset",
     "debugResetContent": "Do you want to restore the app to Standard version?",
     "cancel": "Cancel",
@@ -405,5 +406,6 @@
     "analysisStep2": "Mapping the subconscious...",
     "analysisStep3": "Connecting archetypes...",
     "analysisStep4": "Analyzing psychological depth...",
-    "analysisStep5": "Preparing interpretation..."
+    "analysisStep5": "Interpretation is being prepared...",
+    "supportTechInfoNote": "Note: The technical info below helps us resolve your issue faster. Please do not delete."
 }

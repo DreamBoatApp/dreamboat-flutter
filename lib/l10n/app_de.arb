@@ -210,10 +210,11 @@
     "privacySection3Content": "Für Fragen, Vorschläge und Datenanfragen kannst du uns unter info@novabloomstudio.com kontaktieren.",
     "privacySection4Title": "4. Gesundheits- und medizinischer Haftungsausschluss (WICHTIG):",
     "privacySection4Content": "Diese App ist kein medizinisches Gerät. Die bereitgestellten Traumdeutungen und Analysen dienen ausschließlich Unterhaltungs- und Persönlichkeitsentwicklungszwecken und stellen keine medizinische Beratung dar. Unsere App sammelt oder verarbeitet keine biometrischen oder gesundheitsbezogenen Daten.",
-    "supportTitle": "Kontaktiere uns",
-    "supportContent": "Dein Feedback ist für NovaBloom Studio sehr wertvoll.\n\nDu kannst uns eine E-Mail für Vorschläge, Fehlerberichte oder Kooperationsanfragen senden. Vergiss nicht, deine Support-ID in den E-Mail-Text einzufügen.",
+    "supportTitle": "Kontaktieren Sie uns",
+    "supportContent": "Ihr Feedback ist für NovaBloom Studio sehr wertvoll.\n\nSie können uns eine E-Mail für Vorschläge, Fehlerberichte oder Kooperationsanfragen senden.",
     "supportSendEmail": "E-Mail senden",
     "supportEmailNotFound": "E-Mail-App nicht gefunden.",
+    "supportEmailSubject": "DreamBoat Support-Anfrage",
     "debugResetTitle": "Debug-Reset",
     "debugResetContent": "Möchtest du die App auf die Standardversion zurücksetzen?",
     "timeFormat24h": "24-Stunden-Format",
@@ -403,5 +404,6 @@
     "analysisStep2": "Unterbewusstsein wird kartiert...",
     "analysisStep3": "Archetypen werden verbunden...",
     "analysisStep4": "Psychologische Tiefe wird analysiert...",
-    "analysisStep5": "Interpretation wird vorbereitet..."
+    "analysisStep5": "Die Interpretation wird vorbereitet...",
+    "supportTechInfoNote": "Hinweis: Die folgenden technischen Informationen helfen uns, Ihr Problem schneller zu lösen. Bitte nicht löschen."
 }

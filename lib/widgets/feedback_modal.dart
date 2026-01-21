@@ -5,6 +5,9 @@ import 'package:dream_boat_mobile/l10n/app_localizations.dart';
 import 'package:dream_boat_mobile/widgets/particle_overlay.dart';
 import 'package:dream_boat_mobile/theme/app_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:io';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 class FeedbackModal extends StatelessWidget {
   const FeedbackModal({super.key});
@@ -149,7 +152,7 @@ class FeedbackModal extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: () async {
                                 Navigator.of(context).pop();
-                                _sendEmail();
+                                _sendEmail(context);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF6366F1),
@@ -183,11 +186,31 @@ class FeedbackModal extends StatelessWidget {
     );
   }
 
-  Future<void> _sendEmail() async {
+  Future<void> _sendEmail(BuildContext context) async {
+    final t = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).toString(); // Fetch before async code
+    
+    String userId = 'Unknown';
+    try {
+        userId = await Purchases.appUserID;
+    } catch (_) {}
+
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
+    String buildNumber = packageInfo.buildNumber;
+    String os = Platform.isAndroid ? 'Android' : (Platform.isIOS ? 'iOS' : Platform.operatingSystem);
+
+    String body = "\n\n--------------------------------\n"
+        "${t.supportTechInfoNote}\n\n"
+        "Destek Kimliği (User ID): $userId\n"
+        "Uygulama Sürümü: $version ($buildNumber)\n"
+        "Platform: $os\n"
+        "Dil: $locale";
+
     final Uri emailLaunchUri = Uri(
       scheme: 'mailto',
       path: 'info@novabloomstudio.com',
-      query: 'subject=DreamBoat Feedback',
+      query: 'subject=${Uri.encodeComponent(t.supportEmailSubject)}&body=${Uri.encodeComponent(body)}',
     );
 
     try {

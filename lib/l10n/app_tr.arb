@@ -214,9 +214,10 @@
     "privacySection4Content": "Bu uygulama tıbbi bir cihaz değildir. Sunulan rüya yorumları ve analizler tamamen eğlence ve kişisel gelişim amaçlıdır, tıbbi tavsiye niteliği taşımaz. Uygulamamız herhangi bir biyometrik veya sağlık verisi toplamaz ve işlemez.",
     
     "supportTitle": "Bize Ulaşın",
-    "supportContent": "Görüşleriniz NovaBloom Studio için çok değerli.\n\nÖneri, hata bildirimi veya işbirliği talepleriniz için bize e-posta gönderebilirsiniz. E-posta metni içerisine Destek ID'nizi yapıştırmayı unutmayın.",
+    "supportContent": "Görüşleriniz NovaBloom Studio için çok değerli.\n\nÖneri, hata bildirimi veya işbirliği talepleriniz için bize e-posta gönderebilirsiniz.",
     "supportSendEmail": "E-posta Gönder",
     "supportEmailNotFound": "E-posta uygulaması bulunamadı.",
+    "supportEmailSubject": "DreamBoat Destek Talebi",
     
     "debugResetTitle": "Debug Reset",
     "debugResetContent": "Uygulama durumunu Standart versiyona döndürmek istiyor musunuz?",
@@ -422,5 +423,6 @@
     "analysisStep2": "Bilinçaltı haritası çıkarılıyor...",
     "analysisStep3": "Arketipsel bağlantılar kuruluyor...",
     "analysisStep4": "Psikolojik derinlik çözümleniyor...",
-    "analysisStep5": "Yorum hazırlanıyor..."
+    "analysisStep5": "Yorum hazırlanıyor...",
+    "supportTechInfoNote": "Not: Aşağıdaki teknik bilgiler, sorununuzu daha hızlı çözmemize yardımcı olur. Lütfen silmeyiniz."
 }
