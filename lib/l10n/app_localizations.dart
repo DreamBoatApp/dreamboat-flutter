@@ -2323,6 +2323,36 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Çok fazla istek gönderildi. Lütfen {minutes} dakika sonra tekrar deneyin.'**
   String rateLimitWait(int minutes);
+
+  /// No description provided for @analysisStep1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüya sembolleri taranıyor...'**
+  String get analysisStep1;
+
+  /// No description provided for @analysisStep2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilinçaltı haritası çıkarılıyor...'**
+  String get analysisStep2;
+
+  /// No description provided for @analysisStep3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arketipsel bağlantılar kuruluyor...'**
+  String get analysisStep3;
+
+  /// No description provided for @analysisStep4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Psikolojik derinlik çözümleniyor...'**
+  String get analysisStep4;
+
+  /// No description provided for @analysisStep5.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorum hazırlanıyor...'**
+  String get analysisStep5;
 }
 
 class _AppLocalizationsDelegate

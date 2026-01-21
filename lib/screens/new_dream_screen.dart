@@ -10,6 +10,7 @@ import 'package:dream_boat_mobile/widgets/glass_card.dart';
 import 'package:dream_boat_mobile/widgets/custom_button.dart';
 import 'package:dream_boat_mobile/widgets/mood_selection_sheet.dart';
 import 'package:dream_boat_mobile/widgets/ad_consent_dialog.dart'; // [NEW]
+import 'package:dream_boat_mobile/widgets/dream_analysis_overlay.dart'; // [NEW]
 
 import 'package:dream_boat_mobile/l10n/app_localizations.dart';
 import 'package:dream_boat_mobile/services/openai_service.dart';
@@ -39,6 +40,8 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
   bool _isModalOpen = false; // [NEW] To prevent scaffold resize
   bool _isAdDialogOpen = false; // [NEW] To prevent premature unlock
   int? _rateLimitMinutes; // [NEW] Rate limit countdown minutes
+  bool _showAnalysisOverlay = false; // [NEW] Analysis overlay visibility
+  bool _preparingAd = false; // [NEW] Transition state for ad loading
 
   @override
   void initState() {
@@ -114,62 +117,72 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
     if (!mounted) return;
     
     // We show Dialog ON TOP of Sheet. Sheet remains open if user cancels.
-    await showDialog(
+    final result = await showDialog<String>(
       context: context,
       barrierDismissible: false,
       builder: (context) => AdConsentDialog(
         isAdLoaded: AdManager.instance.isAdLoaded,
         adLoadFailed: AdManager.instance.adLoadFailed,
-        onWatchAd: () async {
-            // AdConsentDialog closed itself before calling this.
-            // Top route is Mood Sheet.
-            
-            // 0. Check if user became PRO inside the dialog flow
-            if (context.read<SubscriptionProvider>().isPro) {
-               if (mounted) Navigator.pop(context); // Close Mood Sheet
-               if (mounted) _processDream(mood, secondaryMoods, intensity, vividness);
-               return;
-            }
-
-            // Logic to show ad
-            final shown = await AdManager.instance.showInterstitial(context);
-            if (shown) {
-                // Ad shown. Proceed.
-                if (mounted) Navigator.pop(context); // Close Mood Sheet
-                if (mounted) _processDream(mood, secondaryMoods, intensity, vividness);
-            } else {
-              // Failed to show? 
-              if (mounted) {
-                 ScaffoldMessenger.of(context).showSnackBar(
-                   const SnackBar(content: Text('Failed to load ad. Please try again or go PRO.'))
-                 );
-                 // We are potentially back at Sheet since AdDialog closed.
-                 // We don't need to re-open anything. User is on Sheet.
-                 // They can try saving again.
-              }
-            }
-        },
-        onRetry: () {
-           // Retry checking logic
-           Navigator.pop(context); 
-           // Reload logic...
-           // Just re-triggering the check will re-open dialog (on top of sheet)
-           Future.delayed(const Duration(seconds: 0), () { 
-              if (mounted) _checkAdAndProcess(mood, secondaryMoods, intensity, vividness); // Recursion (safeish)
-           });
-        },
-        onSkipAd: () {
-           // Skip ad - only available when adLoadFailed is true
-           if (mounted) Navigator.pop(context); // Close Mood Sheet
-           if (mounted) _processDream(mood, secondaryMoods, intensity, vividness);
-        },
       )
     );
-    // If canceled (Back), we do nothing. User is back at Sheet.
+
+    if (!mounted) return;
+
+    if (result == 'pro') {
+       if (mounted) Navigator.pop(context); // Close Mood Sheet
+       await _processDream(mood, secondaryMoods, intensity, vividness);
+       return;
+    }
+
+    if (result == 'watch') {
+         // Close Mood Sheet FIRST
+         if (mounted) Navigator.pop(context);
+
+         // [FIX] Show simple black screen transition instead of full overlay
+         // This prevents the "half-second glitch" of the analysis screen appearing before ad
+         if (mounted) {
+           setState(() {
+             _preparingAd = true;
+             _isSaving = true; // Lock UI
+           });
+         }
+
+         // Logic to show ad
+         final shown = await AdManager.instance.showInterstitial(context);
+         
+         if (mounted) {
+            setState(() => _preparingAd = false); // Hide transition screen
+         }
+
+         if (shown) {
+             // Ad shown & completed. Proceed to processing (Overlay will appear now)
+             if (mounted) await _processDream(mood, secondaryMoods, intensity, vividness);
+         } else {
+             // Failed.
+             if (mounted) {
+                setState(() => _isSaving = false);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Failed to load ad. Please try again.'))
+                );
+             }
+         }
+    } else if (result == 'retry') {
+        // Retry logic - wait a bit then re-check
+        Future.delayed(const Duration(milliseconds: 200), () { 
+           if (mounted) _checkAdAndProcess(mood, secondaryMoods, intensity, vividness);
+        });
+    } else if (result == 'skip') {
+        if (mounted) Navigator.pop(context); // Close Mood Sheet
+        if (mounted) _processDream(mood, secondaryMoods, intensity, vividness);
+    }
+    // If result is null (back button), do nothing. User is at Mood Sheet.
   }
 
   Future<void> _processDream(String mood, List<String> secondaryMoods, int intensity, int vividness, {bool isFirstDream = false}) async {
-    setState(() => _isSaving = true);
+    setState(() {
+      _isSaving = true;
+      _showAnalysisOverlay = true; // Show overlay
+    });
     final t = AppLocalizations.of(context)!;
     
     try {
@@ -255,7 +268,10 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${t.error}: $e')));
        }
     } finally {
-      if (mounted) setState(() => _isSaving = false);
+      if (mounted) setState(() {
+        _isSaving = false;
+        _showAnalysisOverlay = false; // Hide overlay
+      });
     }
   }
 
@@ -264,37 +280,39 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
     final t = AppLocalizations.of(context)!;
     final isPro = context.watch<SubscriptionProvider>().isPro;
 
-    return NightSkyBackground(
-      isPro: isPro,
-      child: Scaffold(
-        resizeToAvoidBottomInset: !_isModalOpen, // [NEW] Prevent keyboard jump during modal interactions
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
-            onPressed: () => Navigator.pop(context),
-          ),
-          centerTitle: true,
-          title: GradientText(
-            t.newDreamTitle,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            gradient: const LinearGradient(
-              colors: [Colors.white, Color(0xFFF3E8FF)],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
+    return Stack(
+      children: [
+        NightSkyBackground(
+          isPro: isPro,
+          child: Scaffold(
+            resizeToAvoidBottomInset: !_isModalOpen, // [NEW] Prevent keyboard jump during modal interactions
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: IconButton(
+                icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
+                onPressed: () => Navigator.pop(context),
+              ),
+              centerTitle: true,
+              title: GradientText(
+                t.newDreamTitle,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                gradient: const LinearGradient(
+                  colors: [Colors.white, Color(0xFFF3E8FF)],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+              ),
             ),
-          ),
-        ),
-        body: GestureDetector(
-          onTap: () => _focusNode.unfocus(),
-          behavior: HitTestBehavior.opaque,
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+            body: GestureDetector(
+              onTap: () => _focusNode.unfocus(),
+              behavior: HitTestBehavior.opaque,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
                   // Subtitle
                   Text(
                     t.newDreamSubtitle, 
@@ -416,6 +434,19 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
           ),
         ),
       ),
+    ),
+        // Analysis overlay (shown during AI processing)
+        if (_showAnalysisOverlay)
+          const Positioned.fill(
+            child: DreamAnalysisOverlay(),
+          ),
+
+        // [NEW] Simple transition screen while ad loads
+        if (_preparingAd)
+          Positioned.fill(
+            child: Container(color: const Color(0xFF0F0F23)), // Theme background color
+          ),
+      ],
     );
   }
 }

@@ -400,5 +400,10 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "analysisStep1": "Scanning dream symbols...",
+    "analysisStep2": "Mapping the subconscious...",
+    "analysisStep3": "Connecting archetypes...",
+    "analysisStep4": "Analyzing psychological depth...",
+    "analysisStep5": "Preparing interpretation..."
 }

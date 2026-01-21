@@ -398,5 +398,10 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "analysisStep1": "Traumsymbole werden gescannt...",
+    "analysisStep2": "Unterbewusstsein wird kartiert...",
+    "analysisStep3": "Archetypen werden verbunden...",
+    "analysisStep4": "Psychologische Tiefe wird analysiert...",
+    "analysisStep5": "Interpretation wird vorbereitet..."
 }

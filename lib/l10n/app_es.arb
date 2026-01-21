@@ -399,5 +399,10 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "analysisStep1": "Escaneando símbolos del sueño...",
+    "analysisStep2": "Mapeando el subconsciente...",
+    "analysisStep3": "Conectando arquetipos...",
+    "analysisStep4": "Analizando profundidad psicológica...",
+    "analysisStep5": "Preparando interpretación..."
 }

@@ -8,18 +8,12 @@ import 'package:dream_boat_mobile/widgets/pro_upgrade_dialog.dart';
 import 'package:provider/provider.dart';
 
 class AdConsentDialog extends StatefulWidget {
-  final VoidCallback onWatchAd;
-  final VoidCallback onRetry;
-  final VoidCallback? onSkipAd; // Called when user chooses to skip ad (when loading failed)
   final bool isAdLoaded;
   final bool adLoadFailed; // True when max retries reached
 
   const AdConsentDialog({
     super.key,
-    required this.onWatchAd,
-    required this.onRetry,
     required this.isAdLoaded,
-    this.onSkipAd,
     this.adLoadFailed = false,
   });
 
@@ -32,7 +26,7 @@ class _AdConsentDialogState extends State<AdConsentDialog> {
     // Show Pro Dialog (Don't close current dialog yet)
     await showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.8),
+      barrierColor: Colors.black.withValues(alpha: 0.8),
       builder: (context) => const ProUpgradeDialog(),
     );
 
@@ -41,8 +35,7 @@ class _AdConsentDialogState extends State<AdConsentDialog> {
     
     final isPro = context.read<SubscriptionProvider>().isPro;
     if (isPro) {
-      Navigator.pop(context); // Close AdConsentDialog
-      widget.onWatchAd(); // Trigger "Proceed" flow
+      Navigator.pop(context, 'pro'); // Close with 'pro' result
     }
   }
 
@@ -119,8 +112,7 @@ class _AdConsentDialogState extends State<AdConsentDialog> {
                       context,
                       label: t.adConsentWatch,
                       onTap: () {
-                         Navigator.pop(context); // Close dialog
-                         widget.onWatchAd();
+                         Navigator.pop(context, 'watch'); // Close dialog with result
                       },
                     ),
                     const SizedBox(height: 12),
@@ -136,18 +128,17 @@ class _AdConsentDialogState extends State<AdConsentDialog> {
                      _buildSecondaryButton(
                       context,
                       label: t.adRetry,
-                      onTap: widget.onRetry,
+                      onTap: () => Navigator.pop(context, 'retry'),
                     ),
                     const SizedBox(height: 12),
 
                     // Skip Ad Button - Only show when adLoadFailed and onSkipAd is provided
-                    if (widget.adLoadFailed && widget.onSkipAd != null) ...[
+                    if (widget.adLoadFailed) ...[
                       _buildTertiaryButton(
                         context,
                         label: t.adSkipThisTime, // "Bu sefer reklamsız devam"
                         onTap: () {
-                          Navigator.pop(context);
-                          widget.onSkipAd!();
+                          Navigator.pop(context, 'skip');
                         },
                       ),
                       const SizedBox(height: 12),

@@ -22,8 +22,6 @@ class AdManager {
   InterstitialAd? _interstitialAd;
   bool _isAdLoaded = false;
   bool _adLoadFailed = false; // Track if ad loading failed after max retries
-  DateTime? _lastAdShownTime;
-  int _adsShownThisSession = 0;
 
   // Configuration
   static const int _maxRetries = 3;
@@ -57,27 +55,7 @@ class AdManager {
           _isAdLoaded = true;
           _adLoadFailed = false; // Reset failed state
           _retryCount = 0; // Reset retry count on success
-
-          // Set up callbacks
-          _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-            onAdDismissedFullScreenContent: (ad) {
-              debugPrint('AdManager: Ad dismissed.');
-              ad.dispose();
-              _interstitialAd = null;
-              _isAdLoaded = false;
-              // Preload next
-              _retryCount = 0;
-              _loadInterstitialAd();
-            },
-            onAdFailedToShowFullScreenContent: (ad, error) {
-              debugPrint('AdManager: Failed to show ad: ${error.message}');
-              ad.dispose();
-              _interstitialAd = null;
-              _isAdLoaded = false;
-              _retryCount = 0;
-              _loadInterstitialAd();
-            },
-          );
+          // Callbacks will be set when showing the ad to handle completion
         },
         onAdFailedToLoad: (error) {
           debugPrint('AdManager: Failed to load interstitial: ${error.message} (code: ${error.code})');
@@ -110,7 +88,7 @@ class AdManager {
   }
 
   /// Show the interstitial ad if ready.
-  /// Returns `true` if ad was shown, `false` otherwise.
+  /// Returns `true` if ad was shown and completed, `false` otherwise.
   Future<bool> showInterstitial(BuildContext context) async {
     // 1. Check PRO status (Double check)
     final isPro = context.read<SubscriptionProvider>().isPro;
@@ -125,34 +103,44 @@ class AdManager {
       return false;
     }
 
-    // 3. Show Ad
+    // 3. Show Ad with Completer
     debugPrint('AdManager: Showing interstitial ad.');
+    final completer = Completer<bool>();
+
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdDismissedFullScreenContent: (ad) {
+        debugPrint('AdManager: Ad dismissed.');
+        ad.dispose();
+        _interstitialAd = null;
+        _isAdLoaded = false;
+        
+        if (!completer.isCompleted) completer.complete(true);
+        
+        // Preload next
+        _retryCount = 0;
+        _loadInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        debugPrint('AdManager: Failed to show ad: ${error.message}');
+        ad.dispose();
+        _interstitialAd = null;
+        _isAdLoaded = false;
+        
+        if (!completer.isCompleted) completer.complete(false);
+        
+        _retryCount = 0;
+        _loadInterstitialAd();
+      },
+      onAdShowedFullScreenContent: (ad) {
+        debugPrint('AdManager: Ad showed.');
+      },
+    );
+
     await _interstitialAd!.show();
-    // Logic for "waiting" is handled by the caller awaiting this future? 
-    // Actually `show()` returns void Future. The app flow resumes when ad closes 
-    // because the ad covers the screen. But we might want to wait for it to close?
-    // The SDK creates a new Activity/ViewController overlay. 
-    // We don't practically "await" the dismissal here unless we use a Completer.
-    // For now, standard behavior is fine, the user engages with ad then returns.
-    return true;
+    
+    return completer.future;
   }
   
-  /// Helper to wait for ad dismissal if strict flow is needed (Bonus)
-  Future<void> showInterstitialAndWait(BuildContext context) async {
-     if (!isAdLoaded) return;
-     if (context.read<SubscriptionProvider>().isPro) return;
-
-     final completer = Completer<void>();
-     
-     // Current ad is already configured with callbacks in _loadInterstitialAd
-     // We need to hook into those callbacks. 
-     // Since specific callback hooks are tricky with the current singleton structure 
-     // without re-creating the ad, we will rely on standard flow:
-     // The ad shows, user watches, closes, returning to app context.
-     
-     await _interstitialAd!.show();
-  }
-
   /// Dispose resources. calls on app termination if needed.
   void dispose() {
     _interstitialAd?.dispose();

@@ -1230,4 +1230,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String rateLimitWait(int minutes) {
     return 'Too many requests. Please try again in $minutes minute(s).';
   }
+
+  @override
+  String get analysisStep1 => 'Scanning dream symbols...';
+
+  @override
+  String get analysisStep2 => 'Mapping the subconscious...';
+
+  @override
+  String get analysisStep3 => 'Connecting archetypes...';
+
+  @override
+  String get analysisStep4 => 'Analyzing psychological depth...';
+
+  @override
+  String get analysisStep5 => 'Preparing interpretation...';
 }

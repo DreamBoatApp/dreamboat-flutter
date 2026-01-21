@@ -1229,4 +1229,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String rateLimitWait(int minutes) {
     return 'Çok fazla istek gönderildi. Lütfen $minutes dakika sonra tekrar deneyin.';
   }
+
+  @override
+  String get analysisStep1 => 'Rüya sembolleri taranıyor...';
+
+  @override
+  String get analysisStep2 => 'Bilinçaltı haritası çıkarılıyor...';
+
+  @override
+  String get analysisStep3 => 'Arketipsel bağlantılar kuruluyor...';
+
+  @override
+  String get analysisStep4 => 'Psikolojik derinlik çözümleniyor...';
+
+  @override
+  String get analysisStep5 => 'Yorum hazırlanıyor...';
 }

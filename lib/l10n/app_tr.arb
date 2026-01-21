@@ -417,5 +417,10 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "analysisStep1": "Rüya sembolleri taranıyor...",
+    "analysisStep2": "Bilinçaltı haritası çıkarılıyor...",
+    "analysisStep3": "Arketipsel bağlantılar kuruluyor...",
+    "analysisStep4": "Psikolojik derinlik çözümleniyor...",
+    "analysisStep5": "Yorum hazırlanıyor..."
 }
