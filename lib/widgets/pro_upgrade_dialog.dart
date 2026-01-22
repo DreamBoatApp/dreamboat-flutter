@@ -74,12 +74,14 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
       
       if (mounted) {
         if (success) {
-          Navigator.pop(context);
-          showDialog(
+          await showDialog(
             context: context,
             barrierDismissible: false,
             builder: (ctx) => _ProSuccessDialog(),
           );
+          if (mounted) {
+            Navigator.pop(context, true);
+          }
         } else {
           setState(() => _isLoading = false);
         }

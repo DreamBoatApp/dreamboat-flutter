@@ -405,5 +405,65 @@
     "analysisStep3": "Archetypen werden verbunden...",
     "analysisStep4": "Psychologische Tiefe wird analysiert...",
     "analysisStep5": "Die Interpretation wird vorbereitet...",
-    "supportTechInfoNote": "Hinweis: Die folgenden technischen Informationen helfen uns, Ihr Problem schneller zu lösen. Bitte nicht löschen."
+    "supportTechInfoNote": "Die folgenden technischen Informationen helfen uns, Ihr Problem schneller zu lösen. Bitte nicht löschen.",
+
+    "onboardingWelcomeTitle": "Du hast vielleicht noch nicht geträumt",
+    "onboardingWelcomeSubtitle": "Lass uns in der Zwischenzeit dein allgemeines Traumprofil entdecken.",
+    "surveyQ1": "Wie oft erinnerst du dich normalerweise an deine Träume?",
+    "surveyQ1Option1": "Nie",
+    "surveyQ1Option2": "1-2 Mal im Monat",
+    "surveyQ1Option3": "1-2 Mal pro Woche",
+    "surveyQ1Option4": "Fast jeden Tag",
+
+    "surveyQ2": "Was beschreibt deinen Schlafrhythmus am besten?",
+    "surveyQ2Option1": "Sehr unregelmäßig",
+    "surveyQ2Option2": "Etwas unregelmäßig",
+    "surveyQ2Option3": "Meistens regelmäßig",
+    "surveyQ2Option4": "Sehr regelmäßig",
+
+    "surveyQ3": "Wie ist die allgemeine Stimmung deiner Träume?",
+    "surveyQ3Option1": "Friedlich",
+    "surveyQ3Option2": "Gemischt",
+    "surveyQ3Option3": "Angespannt",
+    "surveyQ3Option4": "Beängstigend",
+
+    "surveyQ4": "Wie fühlst du dich normalerweise in deinen Träumen?",
+    "surveyQ4Option1": "Unter Kontrolle",
+    "surveyQ4Option2": "Wie ein Beobachter",
+    "surveyQ4Option3": "Auf der Flucht",
+    "surveyQ4Option4": "Erforschend",
+
+    "profile1Name": "Träumerischer Reisender",
+    "profile1Desc": "Erkundung, Suche nach Bedeutung und emotionales Bewusstsein stehen in deinen Träumen im Vordergrund.\n\nDein Unterbewusstsein spricht oft in Symbolen zu dir. Du hast das Gefühl, dass kleine Details im Leben tatsächlich eine große Bedeutung haben.\n\nWenn du deine Träume aufzeichnest, wirst du deine innere Welt klarer sehen.",
+
+    "profile2Name": "Stiller Beobachter",
+    "profile2Desc": "Du bist mitten im Geschehen deiner Träume, hast aber das Gefühl, keine Kontrolle zu haben.\n\nDein Unterbewusstsein versucht zu verarbeiten, was du erlebt hast. Gedanken aus dem Alltag sickern mit sanften Übergängen in deine Träume.\n\nDas Aufschreiben deiner Träume kann die Last deines Geistes erleichtern.",
+
+    "profile3Name": "Emotionaler Entdecker",
+    "profile3Desc": "Deine Träume sind intensiv, detailliert und emotional stark.\n\nDein Unterbewusstsein bietet dir Szenen an, um dich selbst kennenzulernen. Du hast eine starke Bindung zu deiner inneren Welt.\n\nDas Verfolgen deiner Träume kann dir ernsthafte Erkenntnisse liefern.",
+
+    "profile4Name": "Mentaler Krieger",
+    "profile4Desc": "Themen wie Druck, Flucht und Kampf stehen in deinen Träumen im Vordergrund.\n\nTäglicher Stress kann sich in deinen Träumen widerspiegeln. Dein Unterbewusstsein signalisiert dir, „langsamer zu machen“.\n\nDas Aufschreiben deiner Träume kann geistige Erleichterung verschaffen.",
+
+    "profile5Name": "Kontrollierender Architekt",
+    "profile5Desc": "In deinen Träumen gibt es ein Gefühl für Richtung und bewusste Dominanz.\n\nDu hast vielleicht eine geplante, organisierte und bewusste Struktur in deinem Leben. Träume dienen dir als Spielplatz.\n\nDein Potenzial für Klarträume ist hoch.",
+
+    "profile6Name": "Tieftaucher",
+    "profile6Desc": "Deine Träume können intensiv und manchmal verstörend sein.\n\nDein Unterbewusstsein bringt unterdrückte Gefühle auf die Bühne. Das ist nichts Schlechtes; betrachte es als einen Reinigungsprozess.\n\nDas Aufschreiben deiner Träume kann deine inneren Lasten erleichtern.",
+
+    "profile7Name": "Traumreisender",
+    "profile7Desc": "In deinen Träumen herrscht ein Zustand von Ruhe und Fluss.\n\nDu bist vielleicht jemand, der das Leben aus der Ferne beobachtet und Emotionen tief erlebt. Träume dienen dir als geistiger Ruhebereich.\n\nEin Traumtagebuch stärkt dich noch weiter.",
+
+    "profile8Name": "Bewusstseins-Schwellen-Passagier",
+    "profile8Desc": "Deine Träume sind sehr lebendig, aber manchmal ermüdend.\n\nDu wechselst zwischen Bewusstsein und Unterbewusstsein hin und her. Du gehörst zu den Profilen, die dem Klarträumen am nächsten sind.\n\nMit etwas Balance kannst du deine Träume bewusst steuern.",
+    
+    "surveyDisclaimer": "Diese Analyse ist keine wissenschaftliche oder medizinische Bewertung.\nSie dient nur zu Unterhaltungs- und Bewusstseinszwecken.",
+    "surveyResultTitle": "Dein Traumprofil",
+    "surveyContinue": "DreamBoat Starten",
+    "welcomeHeader": "Willkommen bei DreamBoat",
+    "stepProgress": "Schritt {current} / {total}",
+    "emailLabelSupportId": "Support-ID (Benutzer-ID)",
+    "emailLabelAppVersion": "App-Version",
+    "emailLabelPlatform": "Plattform",
+    "emailLabelLanguage": "Sprache"
 }

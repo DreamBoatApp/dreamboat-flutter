@@ -1259,5 +1259,158 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get supportTechInfoNote =>
-      'Nota: La siguiente información técnica nos ayuda a resolver su problema más rápido. Por favor no la borre.';
+      'La siguiente información técnica nos ayuda a resolver su problema más rápido. Por favor no la borre.';
+
+  @override
+  String get onboardingWelcomeTitle => 'Es posible que aún no hayas soñado';
+
+  @override
+  String get onboardingWelcomeSubtitle =>
+      'Mientras tanto, descubramos tu perfil de sueño general.';
+
+  @override
+  String get surveyQ1 => '¿Con qué frecuencia recuerdas tus sueños?';
+
+  @override
+  String get surveyQ1Option1 => 'Nunca';
+
+  @override
+  String get surveyQ1Option2 => '1-2 veces al mes';
+
+  @override
+  String get surveyQ1Option3 => '1-2 veces a la semana';
+
+  @override
+  String get surveyQ1Option4 => 'Casi todos los días';
+
+  @override
+  String get surveyQ2 => '¿Cuál describe mejor tu horario de sueño?';
+
+  @override
+  String get surveyQ2Option1 => 'Muy irregular';
+
+  @override
+  String get surveyQ2Option2 => 'Algo irregular';
+
+  @override
+  String get surveyQ2Option3 => 'Generalmente regular';
+
+  @override
+  String get surveyQ2Option4 => 'Muy regular';
+
+  @override
+  String get surveyQ3 => '¿Cuál es el tono general de tus sueños?';
+
+  @override
+  String get surveyQ3Option1 => 'Pacífico';
+
+  @override
+  String get surveyQ3Option2 => 'Mixto';
+
+  @override
+  String get surveyQ3Option3 => 'Tenso';
+
+  @override
+  String get surveyQ3Option4 => 'Aterrador';
+
+  @override
+  String get surveyQ4 => '¿Cómo te sientes generalmente en tus sueños?';
+
+  @override
+  String get surveyQ4Option1 => 'En control';
+
+  @override
+  String get surveyQ4Option2 => 'Como un observador';
+
+  @override
+  String get surveyQ4Option3 => 'Huyendo';
+
+  @override
+  String get surveyQ4Option4 => 'Explorando';
+
+  @override
+  String get profile1Name => 'Viajero Soñador';
+
+  @override
+  String get profile1Desc =>
+      'La exploración, la búsqueda de significado y la conciencia emocional destacan en tus sueños.\n\nTu subconsciente a menudo te habla con símbolos. Sientes que los pequeños detalles de la vida en realidad tienen un gran significado.\n\nA medida que registres tus sueños, comenzarás a ver tu mundo interior con mayor claridad.';
+
+  @override
+  String get profile2Name => 'Observador Silencioso';
+
+  @override
+  String get profile2Desc =>
+      'Estás dentro de los eventos en tus sueños, pero sientes que no tienes el control.\n\nTu subconsciente está tratando de digerir lo que has vivido. Los pensamientos de la vida diaria se filtran en tus sueños con transiciones suaves.\n\nEscribir tus sueños puede aligerar la carga de tu mente.';
+
+  @override
+  String get profile3Name => 'Explorador Emocional';
+
+  @override
+  String get profile3Desc =>
+      'Tus sueños son intensos, detallados y emocionalmente fuertes.\n\nTu subconsciente te ofrece escenas para conocerte a ti mismo. Tienes un vínculo fuerte con tu mundo interior.\n\nSeguir tus sueños puede darte serias ideas.';
+
+  @override
+  String get profile4Name => 'Guerrero Mental';
+
+  @override
+  String get profile4Desc =>
+      'Los temas de presión, escape y lucha destacan en tus sueños.\n\nEl estrés diario puede reflejarse en tus sueños. Tu subconsciente te está indicando que \'bajes la velocidad\'.\n\nEscribir tus sueños puede proporcionar alivio mental.';
+
+  @override
+  String get profile5Name => 'Arquitecto Controlador';
+
+  @override
+  String get profile5Desc =>
+      'Hay un sentido de dirección y dominio consciente en tus sueños.\n\nPuedes tener una estructura planificada, organizada y consciente en tu vida. Los sueños funcionan como un patio de recreo para ti.\n\nTu potencial de sueño lúcido es alto.';
+
+  @override
+  String get profile6Name => 'Buzo Profundo';
+
+  @override
+  String get profile6Desc =>
+      'Tus sueños pueden ser intensos y a veces perturbadores.\n\nTu subconsciente lleva al escenario emociones reprimidas. Esto no es algo malo; piénsalo como un proceso de limpieza.\n\nEscribir tus sueños puede aligerar tus cargas internas.';
+
+  @override
+  String get profile7Name => 'Viajero de Sueños';
+
+  @override
+  String get profile7Desc =>
+      'Hay un estado de calma y fluidez en tus sueños.\n\nPuedes ser alguien que observa la vida desde la distancia y experimenta emociones profundamente. Los sueños funcionan como un área de descanso mental para ti.\n\nUn diario de sueños te fortalece aún más.';
+
+  @override
+  String get profile8Name => 'Pasajero del Umbral Consciente';
+
+  @override
+  String get profile8Desc =>
+      'Tus sueños son muy vívidos pero a veces agotadores.\n\nVas y vienes entre la conciencia y el subconsciente. Eres uno de los perfiles más cercanos al sueño lúcido.\n\nPuedes gestionar tus sueños conscientemente con un poco de equilibrio.';
+
+  @override
+  String get surveyDisclaimer =>
+      'Este análisis no es una evaluación científica o médica.\nEs solo para fines de entretenimiento y concientización.';
+
+  @override
+  String get surveyResultTitle => 'Tu Perfil de Sueño';
+
+  @override
+  String get surveyContinue => 'Comenzar DreamBoat';
+
+  @override
+  String get welcomeHeader => 'Bienvenido a DreamBoat';
+
+  @override
+  String stepProgress(Object current, Object total) {
+    return 'Paso $current / $total';
+  }
+
+  @override
+  String get emailLabelSupportId => 'ID de Soporte (ID de Usuario)';
+
+  @override
+  String get emailLabelAppVersion => 'Versión de la App';
+
+  @override
+  String get emailLabelPlatform => 'Plataforma';
+
+  @override
+  String get emailLabelLanguage => 'Idioma';
 }

@@ -1250,5 +1250,158 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get supportTechInfoNote =>
-      'Not: Aşağıdaki teknik bilgiler, sorununuzu daha hızlı çözmemize yardımcı olur. Lütfen silmeyiniz.';
+      'Aşağıdaki teknik bilgiler, sorununuzu daha hızlı çözmemize yardımcı olur. Lütfen silmeyiniz.';
+
+  @override
+  String get onboardingWelcomeTitle => 'Henüz bir rüya görmemiş olabilirsin';
+
+  @override
+  String get onboardingWelcomeSubtitle =>
+      'Bu sırada senin genel rüya profilini çıkaralım.';
+
+  @override
+  String get surveyQ1 => 'Genelde rüyalarını ne sıklıkla hatırlarsın?';
+
+  @override
+  String get surveyQ1Option1 => 'Hiç';
+
+  @override
+  String get surveyQ1Option2 => 'Ayda 1–2';
+
+  @override
+  String get surveyQ1Option3 => 'Haftada 1–2';
+
+  @override
+  String get surveyQ1Option4 => 'Neredeyse her gün';
+
+  @override
+  String get surveyQ2 => 'Uyku düzenini en iyi hangisi tanımlar?';
+
+  @override
+  String get surveyQ2Option1 => 'Çok düzensiz';
+
+  @override
+  String get surveyQ2Option2 => 'Biraz düzensiz';
+
+  @override
+  String get surveyQ2Option3 => 'Genelde düzenli';
+
+  @override
+  String get surveyQ2Option4 => 'Çok düzenli';
+
+  @override
+  String get surveyQ3 => 'Rüyalarının tonu genelde nasıl?';
+
+  @override
+  String get surveyQ3Option1 => 'Huzurlu';
+
+  @override
+  String get surveyQ3Option2 => 'Karışık';
+
+  @override
+  String get surveyQ3Option3 => 'Gergin';
+
+  @override
+  String get surveyQ3Option4 => 'Korkutucu';
+
+  @override
+  String get surveyQ4 => 'Rüyalarında kendini daha çok nasıl hissedersin?';
+
+  @override
+  String get surveyQ4Option1 => 'Kontrolde';
+
+  @override
+  String get surveyQ4Option2 => 'İzleyici gibi';
+
+  @override
+  String get surveyQ4Option3 => 'Kaçıyor gibi';
+
+  @override
+  String get surveyQ4Option4 => 'Keşfediyor gibi';
+
+  @override
+  String get profile1Name => 'Hayalci Gezgin';
+
+  @override
+  String get profile1Desc =>
+      'Rüyalarında keşif, anlam arayışı ve duygusal farkındalık öne çıkıyor.\n\nBilinçaltın sana sık sık sembollerle konuşuyor. Hayatındaki küçük detayların aslında büyük anlamlar taşıdığını hissediyorsun.\n\nRüyalarını kaydettikçe iç dünyanı daha net görmeye başlayacaksın.';
+
+  @override
+  String get profile2Name => 'Sessiz Gözlemci';
+
+  @override
+  String get profile2Desc =>
+      'Rüyalarında olayların içindesin ama kontrol sende değil gibi hissediyorsun.\n\nBilinçaltın yaşadıklarını sindirmeye çalışıyor. Günlük hayattaki düşüncelerin rüyalarına yumuşak geçişlerle sızıyor.\n\nRüyalarını yazmak, zihninin yükünü hafifletebilir.';
+
+  @override
+  String get profile3Name => 'Duygusal Kaşif';
+
+  @override
+  String get profile3Desc =>
+      'Rüyaların yoğun, detaylı ve duygusal olarak güçlü.\n\nBilinçaltın sana kendini tanıman için sahneler sunuyor. İç dünyanla güçlü bir bağın var.\n\nRüyalarını takip etmek sana ciddi içgörüler kazandırabilir.';
+
+  @override
+  String get profile4Name => 'Zihinsel Savaşçı';
+
+  @override
+  String get profile4Desc =>
+      'Rüyalarında baskı, kaçış ve mücadele temaları öne çıkıyor.\n\nGünlük streslerin rüyalarına yansıyor olabilir. Bilinçaltın sana “yavaşla” sinyali veriyor.\n\nRüyalarını yazmak zihinsel rahatlama sağlayabilir.';
+
+  @override
+  String get profile5Name => 'Kontrolcü Mimar';
+
+  @override
+  String get profile5Desc =>
+      'Rüyalarında yön duygusu ve bilinç hâkimiyeti var.\n\nHayatında da planlı, düzenli ve farkında bir yapın olabilir. Rüyalar senin için bir oyun alanı gibi çalışıyor.\n\nLucid rüya potansiyelin yüksek.';
+
+  @override
+  String get profile6Name => 'Derin Dalgıç';
+
+  @override
+  String get profile6Desc =>
+      'Rüyaların yoğun ve bazen rahatsız edici olabilir.\n\nBilinçaltın bastırılmış duyguları sahneye çıkarıyor. Bu kötü bir şey değil; bir temizlik süreci gibi düşün.\n\nRüyalarını yazmak içsel yüklerini hafifletebilir.';
+
+  @override
+  String get profile7Name => 'Rüya Gezgini';
+
+  @override
+  String get profile7Desc =>
+      'Rüyalarında sakinlik ve akış hâli var.\n\nHayatı biraz uzaktan izleyen, duygularını derin yaşayan bir yapın olabilir. Rüyalar senin için zihinsel dinlenme alanı gibi çalışıyor.\n\nRüya günlüğü seni daha da güçlendirir.';
+
+  @override
+  String get profile8Name => 'Bilinç Eşiği Yolcusu';
+
+  @override
+  String get profile8Desc =>
+      'Rüyaların çok canlı ama bazen yorucu.\n\nBilinç ile bilinçaltı arasında gidip geliyorsun. Lucid rüyaya en yakın profillerden birisin.\n\nBiraz dengeyle rüyalarını bilinçli yönetebilirsin.';
+
+  @override
+  String get surveyDisclaimer =>
+      'Bu analiz bilimsel veya tıbbi bir değerlendirme değildir.\nSadece eğlence ve farkındalık amaçlıdır.';
+
+  @override
+  String get surveyResultTitle => 'Rüya Profilin';
+
+  @override
+  String get surveyContinue => 'DreamBoat\'a Başla';
+
+  @override
+  String get welcomeHeader => 'DreamBoat\'a Hoşgeldin';
+
+  @override
+  String stepProgress(Object current, Object total) {
+    return 'Adım $current / $total';
+  }
+
+  @override
+  String get emailLabelSupportId => 'Destek Kimliği (User ID)';
+
+  @override
+  String get emailLabelAppVersion => 'Uygulama Sürümü';
+
+  @override
+  String get emailLabelPlatform => 'Platform';
+
+  @override
+  String get emailLabelLanguage => 'Dil';
 }

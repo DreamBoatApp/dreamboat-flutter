@@ -404,5 +404,65 @@
     "analysisStep3": "Conectando arquétipos...",
     "analysisStep4": "Analisando profundidade psicológica...",
     "analysisStep5": "A interpretação está sendo preparada...",
-    "supportTechInfoNote": "Nota: As informações técnicas abaixo ajudam-nos a resolver o seu problema mais rapidamente. Por favor, não apague."
+    "supportTechInfoNote": "As informações técnicas abaixo ajudam-nos a resolver o seu problema mais rapidamente. Por favor, não apague.",
+
+    "onboardingWelcomeTitle": "Você pode não ter sonhado ainda",
+    "onboardingWelcomeSubtitle": "Enquanto isso, vamos descobrir seu perfil geral de sonhos.",
+    "surveyQ1": "Com que frequência você costuma lembrar dos seus sonhos?",
+    "surveyQ1Option1": "Nunca",
+    "surveyQ1Option2": "1-2 vezes por mês",
+    "surveyQ1Option3": "1-2 vezes por semana",
+    "surveyQ1Option4": "Quase todos os dias",
+
+    "surveyQ2": "Qual melhor descreve seu horário de sono?",
+    "surveyQ2Option1": "Muito irregular",
+    "surveyQ2Option2": "Um pouco irregular",
+    "surveyQ2Option3": "Geralmente regular",
+    "surveyQ2Option4": "Muito regular",
+
+    "surveyQ3": "Qual o tom geral dos seus sonhos?",
+    "surveyQ3Option1": "Pacífico",
+    "surveyQ3Option2": "Misto",
+    "surveyQ3Option3": "Tenso",
+    "surveyQ3Option4": "Assustador",
+
+    "surveyQ4": "Como você costuma se sentir em seus sonhos?",
+    "surveyQ4Option1": "No controle",
+    "surveyQ4Option2": "Como um observador",
+    "surveyQ4Option3": "Fugindo",
+    "surveyQ4Option4": "Explorando",
+
+    "profile1Name": "Viajante Sonhador",
+    "profile1Desc": "A exploração, a busca por significado e a consciência emocional se destacam em seus sonhos.\n\nSeu subconsciente geralmente fala com você em símbolos. Você sente que pequenos detalhes na vida realmente têm um grande significado.\n\nÀ medida que registra seus sonhos, você começará a ver seu mundo interior com mais clareza.",
+
+    "profile2Name": "Observador Silencioso",
+    "profile2Desc": "Você está nos eventos em seus sonhos, mas sente que não está no controle.\n\nSeu subconsciente está tentando digerir o que você experimentou. Pensamentos da vida diária penetram em seus sonhos com transições suaves.\n\nEscrever seus sonhos pode aliviar o fardo em sua mente.",
+
+    "profile3Name": "Explorador Emocional",
+    "profile3Desc": "Seus sonhos são intensos, detalhados e emocionalmente fortes.\n\nSeu subconsciente oferece cenas para você se conhecer. Você tem um vínculo forte com seu mundo interior.\n\nAcompanhar seus sonhos pode lhe dar insights sérios.",
+
+    "profile4Name": "Guerreiro Mental",
+    "profile4Desc": "Temas de pressão, fuga e luta se destacam em seus sonhos.\n\nO estresse diário pode ser refletido em seus sonhos. Seu subconsciente está sinalizando para você 'desacelerar'.\n\nEscrever seus sonhos pode proporcionar alívio mental.",
+
+    "profile5Name": "Arquiteto Controlador",
+    "profile5Desc": "Há um senso de direção e domínio consciente em seus sonhos.\n\nVocê pode ter uma estrutura planejada, organizada e consciente em sua vida. Os sonhos funcionam como um parquinho para você.\n\nSeu potencial de sonho lúcido é alto.",
+
+    "profile6Name": "Mergulhador Profundo",
+    "profile6Desc": "Seus sonhos podem ser intensos e às vezes perturbadores.\n\nSeu subconsciente traz emoções reprimidas ao palco. Isso não é uma coisa ruim; pense nisso como um processo de limpeza.\n\nEscrever seus sonhos pode aliviar seus fardos internos.",
+
+    "profile7Name": "Viajante dos Sonhos",
+    "profile7Desc": "Há um estado de calma e fluxo em seus sonhos.\n\nVocê pode ser alguém que observa a vida à distância e experimenta emoções profundamente. Os sonhos funcionam como uma área de descanso mental para você.\n\nUm diário de sonhos o fortalece ainda mais.",
+
+    "profile8Name": "Passageiro do Limiar Consciente",
+    "profile8Desc": "Seus sonhos são muito vívidos, mas às vezes cansativos.\n\nVocê vai e volta entre a consciência e o subconsciente. Você é um dos perfis mais próximos do sonho lúcido.\n\nVocê pode gerenciar seus sonhos conscientemente com um pouco de equilíbrio.",
+    
+    "surveyDisclaimer": "Esta análise não é uma avaliação científica ou médica.\nÉ apenas para fins de entretenimento e conscientização.",
+    "surveyResultTitle": "Seu Perfil de Sonhos",
+    "surveyContinue": "Iniciar DreamBoat",
+    "welcomeHeader": "Bem-vindo ao DreamBoat",
+    "stepProgress": "Passo {current} / {total}",
+    "emailLabelSupportId": "ID de Suporte (ID do Usuário)",
+    "emailLabelAppVersion": "Versão do App",
+    "emailLabelPlatform": "Plataforma",
+    "emailLabelLanguage": "Idioma"
 }

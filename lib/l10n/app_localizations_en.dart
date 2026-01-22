@@ -1251,5 +1251,158 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get supportTechInfoNote =>
-      'Note: The technical info below helps us resolve your issue faster. Please do not delete.';
+      'The technical info below helps us resolve your issue faster. Please do not delete.';
+
+  @override
+  String get onboardingWelcomeTitle => 'You might not have a dream yet';
+
+  @override
+  String get onboardingWelcomeSubtitle =>
+      'Let\'s discover your general dream profile in the meantime.';
+
+  @override
+  String get surveyQ1 => 'How often do you usually remember your dreams?';
+
+  @override
+  String get surveyQ1Option1 => 'Never';
+
+  @override
+  String get surveyQ1Option2 => '1-2 times a month';
+
+  @override
+  String get surveyQ1Option3 => '1-2 times a week';
+
+  @override
+  String get surveyQ1Option4 => 'Almost every day';
+
+  @override
+  String get surveyQ2 => 'Which best describes your sleep schedule?';
+
+  @override
+  String get surveyQ2Option1 => 'Very irregular';
+
+  @override
+  String get surveyQ2Option2 => 'Somewhat irregular';
+
+  @override
+  String get surveyQ2Option3 => 'Usually regular';
+
+  @override
+  String get surveyQ2Option4 => 'Very regular';
+
+  @override
+  String get surveyQ3 => 'What is the general tone of your dreams?';
+
+  @override
+  String get surveyQ3Option1 => 'Peaceful';
+
+  @override
+  String get surveyQ3Option2 => 'Mixed';
+
+  @override
+  String get surveyQ3Option3 => 'Tense';
+
+  @override
+  String get surveyQ3Option4 => 'Scary';
+
+  @override
+  String get surveyQ4 => 'How do you usually feel in your dreams?';
+
+  @override
+  String get surveyQ4Option1 => 'In control';
+
+  @override
+  String get surveyQ4Option2 => 'Like an observer';
+
+  @override
+  String get surveyQ4Option3 => 'Running away';
+
+  @override
+  String get surveyQ4Option4 => 'Exploring';
+
+  @override
+  String get profile1Name => 'Dreamer Voyager';
+
+  @override
+  String get profile1Desc =>
+      'Exploration, search for meaning, and emotional awareness stand out in your dreams.\n\nYour subconscious often speaks to you in symbols. You feel that small details in life actually carry great meaning.\n\nAs you record your dreams, you will start to see your inner world more clearly.';
+
+  @override
+  String get profile2Name => 'Silent Observer';
+
+  @override
+  String get profile2Desc =>
+      'You are in the events in your dreams, but you feel like you are not in control.\n\nYour subconscious is trying to digest what you have experienced. Thoughts from daily life seep into your dreams with soft transitions.\n\nWriting down your dreams can lighten the burden on your mind.';
+
+  @override
+  String get profile3Name => 'Emotional Explorer';
+
+  @override
+  String get profile3Desc =>
+      'Your dreams are intense, detailed, and emotionally strong.\n\nYour subconscious offers you scenes to get to know yourself. You have a strong bond with your inner world.\n\nTracking your dreams can give you serious insights.';
+
+  @override
+  String get profile4Name => 'Mental Warrior';
+
+  @override
+  String get profile4Desc =>
+      'Themes of pressure, escape, and struggle stand out in your dreams.\n\nDaily stresses may be reflected in your dreams. Your subconscious is signaling you to \"slow down\".\n\nWriting down your dreams can provide mental relief.';
+
+  @override
+  String get profile5Name => 'Controller Architect';
+
+  @override
+  String get profile5Desc =>
+      'There is a sense of direction and conscious dominance in your dreams.\n\nYou may have a planned, organized, and aware structure in your life. Dreams work as a playground for you.\n\nYour lucid dream potential is high.';
+
+  @override
+  String get profile6Name => 'Deep Diver';
+
+  @override
+  String get profile6Desc =>
+      'Your dreams can be intense and sometimes disturbing.\n\nYour subconscious brings repressed emotions to the stage. This is not a bad thing; think of it as a cleansing process.\n\nWriting down your dreams can lighten your internal burdens.';
+
+  @override
+  String get profile7Name => 'Dream Traveler';
+
+  @override
+  String get profile7Desc =>
+      'There is a state of calmness and flow in your dreams.\n\nYou may be someone who watches life from a distance and experiences emotions deeply. Dreams work as a mental rest area for you.\n\nA dream journal strengthens you even further.';
+
+  @override
+  String get profile8Name => 'Conscious Threshold Passenger';
+
+  @override
+  String get profile8Desc =>
+      'Your dreams are very vivid but sometimes tiring.\n\nYou go back and forth between consciousness and subconsciousness. You are one of the profiles closest to lucid dreaming.\n\nYou can manage your dreams consciously with a little balance.';
+
+  @override
+  String get surveyDisclaimer =>
+      'This analysis is not a scientific or medical evaluation.\nIt is for entertainment and awareness purposes only.';
+
+  @override
+  String get surveyResultTitle => 'Your Dream Profile';
+
+  @override
+  String get surveyContinue => 'Start DreamBoat';
+
+  @override
+  String get welcomeHeader => 'Welcome to DreamBoat';
+
+  @override
+  String stepProgress(Object current, Object total) {
+    return 'Step $current / $total';
+  }
+
+  @override
+  String get emailLabelSupportId => 'Support ID (User ID)';
+
+  @override
+  String get emailLabelAppVersion => 'App Version';
+
+  @override
+  String get emailLabelPlatform => 'Platform';
+
+  @override
+  String get emailLabelLanguage => 'Language';
 }

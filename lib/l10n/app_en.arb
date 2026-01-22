@@ -407,5 +407,65 @@
     "analysisStep3": "Connecting archetypes...",
     "analysisStep4": "Analyzing psychological depth...",
     "analysisStep5": "Interpretation is being prepared...",
-    "supportTechInfoNote": "Note: The technical info below helps us resolve your issue faster. Please do not delete."
+    "supportTechInfoNote": "The technical info below helps us resolve your issue faster. Please do not delete.",
+
+    "onboardingWelcomeTitle": "You might not have a dream yet",
+    "onboardingWelcomeSubtitle": "Let's discover your general dream profile in the meantime.",
+    "surveyQ1": "How often do you usually remember your dreams?",
+    "surveyQ1Option1": "Never",
+    "surveyQ1Option2": "1-2 times a month",
+    "surveyQ1Option3": "1-2 times a week",
+    "surveyQ1Option4": "Almost every day",
+
+    "surveyQ2": "Which best describes your sleep schedule?",
+    "surveyQ2Option1": "Very irregular",
+    "surveyQ2Option2": "Somewhat irregular",
+    "surveyQ2Option3": "Usually regular",
+    "surveyQ2Option4": "Very regular",
+
+    "surveyQ3": "What is the general tone of your dreams?",
+    "surveyQ3Option1": "Peaceful",
+    "surveyQ3Option2": "Mixed",
+    "surveyQ3Option3": "Tense",
+    "surveyQ3Option4": "Scary",
+
+    "surveyQ4": "How do you usually feel in your dreams?",
+    "surveyQ4Option1": "In control",
+    "surveyQ4Option2": "Like an observer",
+    "surveyQ4Option3": "Running away",
+    "surveyQ4Option4": "Exploring",
+
+    "profile1Name": "Dreamer Voyager",
+    "profile1Desc": "Exploration, search for meaning, and emotional awareness stand out in your dreams.\n\nYour subconscious often speaks to you in symbols. You feel that small details in life actually carry great meaning.\n\nAs you record your dreams, you will start to see your inner world more clearly.",
+
+    "profile2Name": "Silent Observer",
+    "profile2Desc": "You are in the events in your dreams, but you feel like you are not in control.\n\nYour subconscious is trying to digest what you have experienced. Thoughts from daily life seep into your dreams with soft transitions.\n\nWriting down your dreams can lighten the burden on your mind.",
+
+    "profile3Name": "Emotional Explorer",
+    "profile3Desc": "Your dreams are intense, detailed, and emotionally strong.\n\nYour subconscious offers you scenes to get to know yourself. You have a strong bond with your inner world.\n\nTracking your dreams can give you serious insights.",
+
+    "profile4Name": "Mental Warrior",
+    "profile4Desc": "Themes of pressure, escape, and struggle stand out in your dreams.\n\nDaily stresses may be reflected in your dreams. Your subconscious is signaling you to \"slow down\".\n\nWriting down your dreams can provide mental relief.",
+
+    "profile5Name": "Controller Architect",
+    "profile5Desc": "There is a sense of direction and conscious dominance in your dreams.\n\nYou may have a planned, organized, and aware structure in your life. Dreams work as a playground for you.\n\nYour lucid dream potential is high.",
+
+    "profile6Name": "Deep Diver",
+    "profile6Desc": "Your dreams can be intense and sometimes disturbing.\n\nYour subconscious brings repressed emotions to the stage. This is not a bad thing; think of it as a cleansing process.\n\nWriting down your dreams can lighten your internal burdens.",
+
+    "profile7Name": "Dream Traveler",
+    "profile7Desc": "There is a state of calmness and flow in your dreams.\n\nYou may be someone who watches life from a distance and experiences emotions deeply. Dreams work as a mental rest area for you.\n\nA dream journal strengthens you even further.",
+
+    "profile8Name": "Conscious Threshold Passenger",
+    "profile8Desc": "Your dreams are very vivid but sometimes tiring.\n\nYou go back and forth between consciousness and subconsciousness. You are one of the profiles closest to lucid dreaming.\n\nYou can manage your dreams consciously with a little balance.",
+    
+    "surveyDisclaimer": "This analysis is not a scientific or medical evaluation.\nIt is for entertainment and awareness purposes only.",
+    "surveyResultTitle": "Your Dream Profile",
+    "surveyContinue": "Start DreamBoat",
+    "welcomeHeader": "Welcome to DreamBoat",
+    "stepProgress": "Step {current} / {total}",
+    "emailLabelSupportId": "Support ID (User ID)",
+    "emailLabelAppVersion": "App Version",
+    "emailLabelPlatform": "Platform",
+    "emailLabelLanguage": "Language"
 }

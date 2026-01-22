@@ -1263,5 +1263,159 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get supportTechInfoNote =>
-      'Hinweis: Die folgenden technischen Informationen helfen uns, Ihr Problem schneller zu lösen. Bitte nicht löschen.';
+      'Die folgenden technischen Informationen helfen uns, Ihr Problem schneller zu lösen. Bitte nicht löschen.';
+
+  @override
+  String get onboardingWelcomeTitle => 'Du hast vielleicht noch nicht geträumt';
+
+  @override
+  String get onboardingWelcomeSubtitle =>
+      'Lass uns in der Zwischenzeit dein allgemeines Traumprofil entdecken.';
+
+  @override
+  String get surveyQ1 =>
+      'Wie oft erinnerst du dich normalerweise an deine Träume?';
+
+  @override
+  String get surveyQ1Option1 => 'Nie';
+
+  @override
+  String get surveyQ1Option2 => '1-2 Mal im Monat';
+
+  @override
+  String get surveyQ1Option3 => '1-2 Mal pro Woche';
+
+  @override
+  String get surveyQ1Option4 => 'Fast jeden Tag';
+
+  @override
+  String get surveyQ2 => 'Was beschreibt deinen Schlafrhythmus am besten?';
+
+  @override
+  String get surveyQ2Option1 => 'Sehr unregelmäßig';
+
+  @override
+  String get surveyQ2Option2 => 'Etwas unregelmäßig';
+
+  @override
+  String get surveyQ2Option3 => 'Meistens regelmäßig';
+
+  @override
+  String get surveyQ2Option4 => 'Sehr regelmäßig';
+
+  @override
+  String get surveyQ3 => 'Wie ist die allgemeine Stimmung deiner Träume?';
+
+  @override
+  String get surveyQ3Option1 => 'Friedlich';
+
+  @override
+  String get surveyQ3Option2 => 'Gemischt';
+
+  @override
+  String get surveyQ3Option3 => 'Angespannt';
+
+  @override
+  String get surveyQ3Option4 => 'Beängstigend';
+
+  @override
+  String get surveyQ4 => 'Wie fühlst du dich normalerweise in deinen Träumen?';
+
+  @override
+  String get surveyQ4Option1 => 'Unter Kontrolle';
+
+  @override
+  String get surveyQ4Option2 => 'Wie ein Beobachter';
+
+  @override
+  String get surveyQ4Option3 => 'Auf der Flucht';
+
+  @override
+  String get surveyQ4Option4 => 'Erforschend';
+
+  @override
+  String get profile1Name => 'Träumerischer Reisender';
+
+  @override
+  String get profile1Desc =>
+      'Erkundung, Suche nach Bedeutung und emotionales Bewusstsein stehen in deinen Träumen im Vordergrund.\n\nDein Unterbewusstsein spricht oft in Symbolen zu dir. Du hast das Gefühl, dass kleine Details im Leben tatsächlich eine große Bedeutung haben.\n\nWenn du deine Träume aufzeichnest, wirst du deine innere Welt klarer sehen.';
+
+  @override
+  String get profile2Name => 'Stiller Beobachter';
+
+  @override
+  String get profile2Desc =>
+      'Du bist mitten im Geschehen deiner Träume, hast aber das Gefühl, keine Kontrolle zu haben.\n\nDein Unterbewusstsein versucht zu verarbeiten, was du erlebt hast. Gedanken aus dem Alltag sickern mit sanften Übergängen in deine Träume.\n\nDas Aufschreiben deiner Träume kann die Last deines Geistes erleichtern.';
+
+  @override
+  String get profile3Name => 'Emotionaler Entdecker';
+
+  @override
+  String get profile3Desc =>
+      'Deine Träume sind intensiv, detailliert und emotional stark.\n\nDein Unterbewusstsein bietet dir Szenen an, um dich selbst kennenzulernen. Du hast eine starke Bindung zu deiner inneren Welt.\n\nDas Verfolgen deiner Träume kann dir ernsthafte Erkenntnisse liefern.';
+
+  @override
+  String get profile4Name => 'Mentaler Krieger';
+
+  @override
+  String get profile4Desc =>
+      'Themen wie Druck, Flucht und Kampf stehen in deinen Träumen im Vordergrund.\n\nTäglicher Stress kann sich in deinen Träumen widerspiegeln. Dein Unterbewusstsein signalisiert dir, „langsamer zu machen“.\n\nDas Aufschreiben deiner Träume kann geistige Erleichterung verschaffen.';
+
+  @override
+  String get profile5Name => 'Kontrollierender Architekt';
+
+  @override
+  String get profile5Desc =>
+      'In deinen Träumen gibt es ein Gefühl für Richtung und bewusste Dominanz.\n\nDu hast vielleicht eine geplante, organisierte und bewusste Struktur in deinem Leben. Träume dienen dir als Spielplatz.\n\nDein Potenzial für Klarträume ist hoch.';
+
+  @override
+  String get profile6Name => 'Tieftaucher';
+
+  @override
+  String get profile6Desc =>
+      'Deine Träume können intensiv und manchmal verstörend sein.\n\nDein Unterbewusstsein bringt unterdrückte Gefühle auf die Bühne. Das ist nichts Schlechtes; betrachte es als einen Reinigungsprozess.\n\nDas Aufschreiben deiner Träume kann deine inneren Lasten erleichtern.';
+
+  @override
+  String get profile7Name => 'Traumreisender';
+
+  @override
+  String get profile7Desc =>
+      'In deinen Träumen herrscht ein Zustand von Ruhe und Fluss.\n\nDu bist vielleicht jemand, der das Leben aus der Ferne beobachtet und Emotionen tief erlebt. Träume dienen dir als geistiger Ruhebereich.\n\nEin Traumtagebuch stärkt dich noch weiter.';
+
+  @override
+  String get profile8Name => 'Bewusstseins-Schwellen-Passagier';
+
+  @override
+  String get profile8Desc =>
+      'Deine Träume sind sehr lebendig, aber manchmal ermüdend.\n\nDu wechselst zwischen Bewusstsein und Unterbewusstsein hin und her. Du gehörst zu den Profilen, die dem Klarträumen am nächsten sind.\n\nMit etwas Balance kannst du deine Träume bewusst steuern.';
+
+  @override
+  String get surveyDisclaimer =>
+      'Diese Analyse ist keine wissenschaftliche oder medizinische Bewertung.\nSie dient nur zu Unterhaltungs- und Bewusstseinszwecken.';
+
+  @override
+  String get surveyResultTitle => 'Dein Traumprofil';
+
+  @override
+  String get surveyContinue => 'DreamBoat Starten';
+
+  @override
+  String get welcomeHeader => 'Willkommen bei DreamBoat';
+
+  @override
+  String stepProgress(Object current, Object total) {
+    return 'Schritt $current / $total';
+  }
+
+  @override
+  String get emailLabelSupportId => 'Support-ID (Benutzer-ID)';
+
+  @override
+  String get emailLabelAppVersion => 'App-Version';
+
+  @override
+  String get emailLabelPlatform => 'Plattform';
+
+  @override
+  String get emailLabelLanguage => 'Sprache';
 }

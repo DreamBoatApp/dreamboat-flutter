@@ -849,10 +849,10 @@ class _SupportDialogState extends State<_SupportDialog> {
                     
                     String body = "\n\n--------------------------------\n"
                         "${t.supportTechInfoNote}\n\n"
-                        "Destek Kimliği (User ID): ${_userId ?? 'Unknown'}\n"
-                        "Uygulama Sürümü: $version ($buildNumber)\n"
-                        "Platform: $os\n"
-                        "Dil: $locale";
+                        "${t.emailLabelSupportId}: ${_userId ?? 'Unknown'}\n"
+                        "${t.emailLabelAppVersion}: $version ($buildNumber)\n"
+                        "${t.emailLabelPlatform}: $os\n"
+                        "${t.emailLabelLanguage}: $locale";
 
                     final Uri emailLaunchUri = Uri(
                       scheme: 'mailto',

@@ -424,5 +424,65 @@
     "analysisStep3": "Arketipsel bağlantılar kuruluyor...",
     "analysisStep4": "Psikolojik derinlik çözümleniyor...",
     "analysisStep5": "Yorum hazırlanıyor...",
-    "supportTechInfoNote": "Not: Aşağıdaki teknik bilgiler, sorununuzu daha hızlı çözmemize yardımcı olur. Lütfen silmeyiniz."
+    "supportTechInfoNote": "Aşağıdaki teknik bilgiler, sorununuzu daha hızlı çözmemize yardımcı olur. Lütfen silmeyiniz.",
+
+    "onboardingWelcomeTitle": "Henüz bir rüya görmemiş olabilirsin",
+    "onboardingWelcomeSubtitle": "Bu sırada senin genel rüya profilini çıkaralım.",
+    "surveyQ1": "Genelde rüyalarını ne sıklıkla hatırlarsın?",
+    "surveyQ1Option1": "Hiç",
+    "surveyQ1Option2": "Ayda 1–2",
+    "surveyQ1Option3": "Haftada 1–2",
+    "surveyQ1Option4": "Neredeyse her gün",
+
+    "surveyQ2": "Uyku düzenini en iyi hangisi tanımlar?",
+    "surveyQ2Option1": "Çok düzensiz",
+    "surveyQ2Option2": "Biraz düzensiz",
+    "surveyQ2Option3": "Genelde düzenli",
+    "surveyQ2Option4": "Çok düzenli",
+
+    "surveyQ3": "Rüyalarının tonu genelde nasıl?",
+    "surveyQ3Option1": "Huzurlu",
+    "surveyQ3Option2": "Karışık",
+    "surveyQ3Option3": "Gergin",
+    "surveyQ3Option4": "Korkutucu",
+
+    "surveyQ4": "Rüyalarında kendini daha çok nasıl hissedersin?",
+    "surveyQ4Option1": "Kontrolde",
+    "surveyQ4Option2": "İzleyici gibi",
+    "surveyQ4Option3": "Kaçıyor gibi",
+    "surveyQ4Option4": "Keşfediyor gibi",
+
+    "profile1Name": "Hayalci Gezgin",
+    "profile1Desc": "Rüyalarında keşif, anlam arayışı ve duygusal farkındalık öne çıkıyor.\n\nBilinçaltın sana sık sık sembollerle konuşuyor. Hayatındaki küçük detayların aslında büyük anlamlar taşıdığını hissediyorsun.\n\nRüyalarını kaydettikçe iç dünyanı daha net görmeye başlayacaksın.",
+
+    "profile2Name": "Sessiz Gözlemci",
+    "profile2Desc": "Rüyalarında olayların içindesin ama kontrol sende değil gibi hissediyorsun.\n\nBilinçaltın yaşadıklarını sindirmeye çalışıyor. Günlük hayattaki düşüncelerin rüyalarına yumuşak geçişlerle sızıyor.\n\nRüyalarını yazmak, zihninin yükünü hafifletebilir.",
+
+    "profile3Name": "Duygusal Kaşif",
+    "profile3Desc": "Rüyaların yoğun, detaylı ve duygusal olarak güçlü.\n\nBilinçaltın sana kendini tanıman için sahneler sunuyor. İç dünyanla güçlü bir bağın var.\n\nRüyalarını takip etmek sana ciddi içgörüler kazandırabilir.",
+
+    "profile4Name": "Zihinsel Savaşçı",
+    "profile4Desc": "Rüyalarında baskı, kaçış ve mücadele temaları öne çıkıyor.\n\nGünlük streslerin rüyalarına yansıyor olabilir. Bilinçaltın sana “yavaşla” sinyali veriyor.\n\nRüyalarını yazmak zihinsel rahatlama sağlayabilir.",
+
+    "profile5Name": "Kontrolcü Mimar",
+    "profile5Desc": "Rüyalarında yön duygusu ve bilinç hâkimiyeti var.\n\nHayatında da planlı, düzenli ve farkında bir yapın olabilir. Rüyalar senin için bir oyun alanı gibi çalışıyor.\n\nLucid rüya potansiyelin yüksek.",
+
+    "profile6Name": "Derin Dalgıç",
+    "profile6Desc": "Rüyaların yoğun ve bazen rahatsız edici olabilir.\n\nBilinçaltın bastırılmış duyguları sahneye çıkarıyor. Bu kötü bir şey değil; bir temizlik süreci gibi düşün.\n\nRüyalarını yazmak içsel yüklerini hafifletebilir.",
+
+    "profile7Name": "Rüya Gezgini",
+    "profile7Desc": "Rüyalarında sakinlik ve akış hâli var.\n\nHayatı biraz uzaktan izleyen, duygularını derin yaşayan bir yapın olabilir. Rüyalar senin için zihinsel dinlenme alanı gibi çalışıyor.\n\nRüya günlüğü seni daha da güçlendirir.",
+
+    "profile8Name": "Bilinç Eşiği Yolcusu",
+    "profile8Desc": "Rüyaların çok canlı ama bazen yorucu.\n\nBilinç ile bilinçaltı arasında gidip geliyorsun. Lucid rüyaya en yakın profillerden birisin.\n\nBiraz dengeyle rüyalarını bilinçli yönetebilirsin.",
+    
+    "surveyDisclaimer": "Bu analiz bilimsel veya tıbbi bir değerlendirme değildir.\nSadece eğlence ve farkındalık amaçlıdır.",
+    "surveyResultTitle": "Rüya Profilin",
+    "surveyContinue": "DreamBoat'a Başla",
+    "welcomeHeader": "DreamBoat'a Hoşgeldin",
+    "stepProgress": "Adım {current} / {total}",
+    "emailLabelSupportId": "Destek Kimliği (User ID)",
+    "emailLabelAppVersion": "Uygulama Sürümü",
+    "emailLabelPlatform": "Platform",
+    "emailLabelLanguage": "Dil"
 }

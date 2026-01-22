@@ -331,6 +331,7 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
                       ),
                       child: TextField(
                         controller: _controller,
+                        focusNode: _focusNode,
                         maxLines: null,
                         expands: true, // Fills the container
                         maxLength: 3000,

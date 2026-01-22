@@ -4,6 +4,8 @@ import 'package:dream_boat_mobile/screens/home_screen.dart';
 import 'package:dream_boat_mobile/widgets/background_sky.dart';
 import 'package:dream_boat_mobile/services/firebase_ready_service.dart';
 import 'dart:math';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dream_boat_mobile/screens/dream_profile_survey_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -80,14 +82,30 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       FirebaseReadyService().waitWithTimeout(timeout: const Duration(seconds: 3)),
     ]);
 
+    if (!mounted) return;
+
+    // Check Onboarding Status
+    final prefs = await SharedPreferences.getInstance();
+    final hasSeenOnboarding = prefs.getBool('has_seen_onboarding_survey') ?? false;
+
     if (mounted) {
-      Navigator.of(context).pushReplacement(
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => const HomeScreen(),
-          transitionsBuilder: (_, animation, __, child) => FadeTransition(opacity: animation, child: child),
-          transitionDuration: const Duration(milliseconds: 500),
-        ),
-      );
+      if (!hasSeenOnboarding) {
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const DreamProfileSurveyScreen(),
+            transitionsBuilder: (_, animation, __, child) => FadeTransition(opacity: animation, child: child),
+            transitionDuration: const Duration(milliseconds: 500),
+          ),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const HomeScreen(),
+            transitionsBuilder: (_, animation, __, child) => FadeTransition(opacity: animation, child: child),
+            transitionDuration: const Duration(milliseconds: 500),
+          ),
+        );
+      }
     }
   }
 

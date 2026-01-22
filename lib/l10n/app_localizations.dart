@@ -2363,8 +2363,290 @@ abstract class AppLocalizations {
   /// No description provided for @supportTechInfoNote.
   ///
   /// In tr, this message translates to:
-  /// **'Not: Aşağıdaki teknik bilgiler, sorununuzu daha hızlı çözmemize yardımcı olur. Lütfen silmeyiniz.'**
+  /// **'Aşağıdaki teknik bilgiler, sorununuzu daha hızlı çözmemize yardımcı olur. Lütfen silmeyiniz.'**
   String get supportTechInfoNote;
+
+  /// No description provided for @onboardingWelcomeTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz bir rüya görmemiş olabilirsin'**
+  String get onboardingWelcomeTitle;
+
+  /// No description provided for @onboardingWelcomeSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu sırada senin genel rüya profilini çıkaralım.'**
+  String get onboardingWelcomeSubtitle;
+
+  /// No description provided for @surveyQ1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genelde rüyalarını ne sıklıkla hatırlarsın?'**
+  String get surveyQ1;
+
+  /// No description provided for @surveyQ1Option1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hiç'**
+  String get surveyQ1Option1;
+
+  /// No description provided for @surveyQ1Option2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayda 1–2'**
+  String get surveyQ1Option2;
+
+  /// No description provided for @surveyQ1Option3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftada 1–2'**
+  String get surveyQ1Option3;
+
+  /// No description provided for @surveyQ1Option4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Neredeyse her gün'**
+  String get surveyQ1Option4;
+
+  /// No description provided for @surveyQ2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku düzenini en iyi hangisi tanımlar?'**
+  String get surveyQ2;
+
+  /// No description provided for @surveyQ2Option1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çok düzensiz'**
+  String get surveyQ2Option1;
+
+  /// No description provided for @surveyQ2Option2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biraz düzensiz'**
+  String get surveyQ2Option2;
+
+  /// No description provided for @surveyQ2Option3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genelde düzenli'**
+  String get surveyQ2Option3;
+
+  /// No description provided for @surveyQ2Option4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çok düzenli'**
+  String get surveyQ2Option4;
+
+  /// No description provided for @surveyQ3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyalarının tonu genelde nasıl?'**
+  String get surveyQ3;
+
+  /// No description provided for @surveyQ3Option1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Huzurlu'**
+  String get surveyQ3Option1;
+
+  /// No description provided for @surveyQ3Option2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karışık'**
+  String get surveyQ3Option2;
+
+  /// No description provided for @surveyQ3Option3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gergin'**
+  String get surveyQ3Option3;
+
+  /// No description provided for @surveyQ3Option4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Korkutucu'**
+  String get surveyQ3Option4;
+
+  /// No description provided for @surveyQ4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyalarında kendini daha çok nasıl hissedersin?'**
+  String get surveyQ4;
+
+  /// No description provided for @surveyQ4Option1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kontrolde'**
+  String get surveyQ4Option1;
+
+  /// No description provided for @surveyQ4Option2.
+  ///
+  /// In tr, this message translates to:
+  /// **'İzleyici gibi'**
+  String get surveyQ4Option2;
+
+  /// No description provided for @surveyQ4Option3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaçıyor gibi'**
+  String get surveyQ4Option3;
+
+  /// No description provided for @surveyQ4Option4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Keşfediyor gibi'**
+  String get surveyQ4Option4;
+
+  /// No description provided for @profile1Name.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hayalci Gezgin'**
+  String get profile1Name;
+
+  /// No description provided for @profile1Desc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyalarında keşif, anlam arayışı ve duygusal farkındalık öne çıkıyor.\n\nBilinçaltın sana sık sık sembollerle konuşuyor. Hayatındaki küçük detayların aslında büyük anlamlar taşıdığını hissediyorsun.\n\nRüyalarını kaydettikçe iç dünyanı daha net görmeye başlayacaksın.'**
+  String get profile1Desc;
+
+  /// No description provided for @profile2Name.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sessiz Gözlemci'**
+  String get profile2Name;
+
+  /// No description provided for @profile2Desc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyalarında olayların içindesin ama kontrol sende değil gibi hissediyorsun.\n\nBilinçaltın yaşadıklarını sindirmeye çalışıyor. Günlük hayattaki düşüncelerin rüyalarına yumuşak geçişlerle sızıyor.\n\nRüyalarını yazmak, zihninin yükünü hafifletebilir.'**
+  String get profile2Desc;
+
+  /// No description provided for @profile3Name.
+  ///
+  /// In tr, this message translates to:
+  /// **'Duygusal Kaşif'**
+  String get profile3Name;
+
+  /// No description provided for @profile3Desc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyaların yoğun, detaylı ve duygusal olarak güçlü.\n\nBilinçaltın sana kendini tanıman için sahneler sunuyor. İç dünyanla güçlü bir bağın var.\n\nRüyalarını takip etmek sana ciddi içgörüler kazandırabilir.'**
+  String get profile3Desc;
+
+  /// No description provided for @profile4Name.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zihinsel Savaşçı'**
+  String get profile4Name;
+
+  /// No description provided for @profile4Desc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyalarında baskı, kaçış ve mücadele temaları öne çıkıyor.\n\nGünlük streslerin rüyalarına yansıyor olabilir. Bilinçaltın sana “yavaşla” sinyali veriyor.\n\nRüyalarını yazmak zihinsel rahatlama sağlayabilir.'**
+  String get profile4Desc;
+
+  /// No description provided for @profile5Name.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kontrolcü Mimar'**
+  String get profile5Name;
+
+  /// No description provided for @profile5Desc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyalarında yön duygusu ve bilinç hâkimiyeti var.\n\nHayatında da planlı, düzenli ve farkında bir yapın olabilir. Rüyalar senin için bir oyun alanı gibi çalışıyor.\n\nLucid rüya potansiyelin yüksek.'**
+  String get profile5Desc;
+
+  /// No description provided for @profile6Name.
+  ///
+  /// In tr, this message translates to:
+  /// **'Derin Dalgıç'**
+  String get profile6Name;
+
+  /// No description provided for @profile6Desc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyaların yoğun ve bazen rahatsız edici olabilir.\n\nBilinçaltın bastırılmış duyguları sahneye çıkarıyor. Bu kötü bir şey değil; bir temizlik süreci gibi düşün.\n\nRüyalarını yazmak içsel yüklerini hafifletebilir.'**
+  String get profile6Desc;
+
+  /// No description provided for @profile7Name.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüya Gezgini'**
+  String get profile7Name;
+
+  /// No description provided for @profile7Desc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyalarında sakinlik ve akış hâli var.\n\nHayatı biraz uzaktan izleyen, duygularını derin yaşayan bir yapın olabilir. Rüyalar senin için zihinsel dinlenme alanı gibi çalışıyor.\n\nRüya günlüğü seni daha da güçlendirir.'**
+  String get profile7Desc;
+
+  /// No description provided for @profile8Name.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilinç Eşiği Yolcusu'**
+  String get profile8Name;
+
+  /// No description provided for @profile8Desc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyaların çok canlı ama bazen yorucu.\n\nBilinç ile bilinçaltı arasında gidip geliyorsun. Lucid rüyaya en yakın profillerden birisin.\n\nBiraz dengeyle rüyalarını bilinçli yönetebilirsin.'**
+  String get profile8Desc;
+
+  /// No description provided for @surveyDisclaimer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu analiz bilimsel veya tıbbi bir değerlendirme değildir.\nSadece eğlence ve farkındalık amaçlıdır.'**
+  String get surveyDisclaimer;
+
+  /// No description provided for @surveyResultTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüya Profilin'**
+  String get surveyResultTitle;
+
+  /// No description provided for @surveyContinue.
+  ///
+  /// In tr, this message translates to:
+  /// **'DreamBoat\'a Başla'**
+  String get surveyContinue;
+
+  /// No description provided for @welcomeHeader.
+  ///
+  /// In tr, this message translates to:
+  /// **'DreamBoat\'a Hoşgeldin'**
+  String get welcomeHeader;
+
+  /// No description provided for @stepProgress.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adım {current} / {total}'**
+  String stepProgress(Object current, Object total);
+
+  /// No description provided for @emailLabelSupportId.
+  ///
+  /// In tr, this message translates to:
+  /// **'Destek Kimliği (User ID)'**
+  String get emailLabelSupportId;
+
+  /// No description provided for @emailLabelAppVersion.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama Sürümü'**
+  String get emailLabelAppVersion;
+
+  /// No description provided for @emailLabelPlatform.
+  ///
+  /// In tr, this message translates to:
+  /// **'Platform'**
+  String get emailLabelPlatform;
+
+  /// No description provided for @emailLabelLanguage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dil'**
+  String get emailLabelLanguage;
 }
 
 class _AppLocalizationsDelegate

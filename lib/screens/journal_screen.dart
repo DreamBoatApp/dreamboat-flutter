@@ -526,16 +526,16 @@ class _JournalScreenState extends State<JournalScreen> {
                               _ActionButton(
                                 icon: LucideIcons.share2,
                                 label: t.actionShareInterpretation,
-                                onTap: () async {
-                                  if (currentDream.interpretation.isNotEmpty) {
-                                    await ShareService.shareInterpretation(
-                                      context,
-                                      currentDream.interpretation,
-                                      t.shareCardWatermark,
-                                      t.shareCardHeader,
-                                    );
-                                  }
-                                },
+                                  onTap: () async {
+                                    if (currentDream.interpretation.isNotEmpty) {
+                                      await ShareService.shareInterpretation(
+                                        context,
+                                        currentDream.interpretation,
+                                        t.shareCardWatermark,
+                                        t.shareCardHeader,
+                                      );
+                                    }
+                                  },
                               ),
                               
                               // Sil
@@ -666,7 +666,10 @@ class _JournalScreenState extends State<JournalScreen> {
             ),
           ),
         ),
-        body: Column(
+        body: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          behavior: HitTestBehavior.opaque,
+          child: Column(
           children: [
              // Filter Tabs (hide in selection mode OR if filtered externally)
              if (!_isSelectionMode && widget.filter == null)
@@ -763,6 +766,7 @@ class _JournalScreenState extends State<JournalScreen> {
 
           ],
         ),
+      ),
       ),
     );
   }
