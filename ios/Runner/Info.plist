@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>dream_boat_mobile</string>
+	<string>DreamBoat</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -49,5 +49,18 @@
 	<string>ca-app-pub-3940256099942544~3347511713</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Rüya günlüğünüzü yalnızca sizin görebilmeniz için Face ID kullanıyoruz.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>DreamBoat needs camera access to attach images to dreams.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>DreamBoat needs microphone access for future voice dream notes.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>DreamBoat needs photo access to attach images to dreams.</string>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>DreamBoat sends reminders to log your dreams.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>
