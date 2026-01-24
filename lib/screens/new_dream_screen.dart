@@ -217,10 +217,7 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
           debugPrint('Interpret Error: ${result['error']}');
           if (result.containsKey('details')) debugPrint('Error Details: ${result['details']}');
           
-          // Show detailed error for TestFlight debugging
-          final errorType = result['error'] ?? 'unknown';
-          final errorDetails = result['details'] ?? 'No details';
-          interpretation = '${t.offlineInterpretation}\n\n[DEBUG: $errorType - $errorDetails]';
+          interpretation = t.offlineInterpretation;
           title = null;
         } else {
           interpretation = result['interpretation']!;
