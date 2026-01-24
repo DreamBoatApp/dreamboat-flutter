@@ -180,37 +180,94 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(
       context: context,
       barrierDismissible: true,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF1E293B),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-        title: Text(t.notifPermissionDenied, style: const TextStyle(color: Colors.white, fontSize: 16)),
-        content: Text(
-          t.notifOpenSettingsHint,
-          style: const TextStyle(color: Colors.white70, fontSize: 14),
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: const Color(0xFF1E1B35).withOpacity(0.95),
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: const Color(0xFFEF4444).withOpacity(0.3)),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFFEF4444).withOpacity(0.15),
+                blurRadius: 20,
+                spreadRadius: -5,
+              )
+            ]
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Icon
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEF4444).withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(LucideIcons.bellOff, color: Color(0xFFEF4444), size: 32),
+              ),
+              const SizedBox(height: 20),
+              
+              // Title
+              Text(
+                t.notifPermissionDenied,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+              
+              // Body
+              Text(
+                t.notifOpenSettingsHint,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white70, fontSize: 14, height: 1.5),
+              ),
+              const SizedBox(height: 24),
+              
+              // Buttons
+              Row(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                       onPressed: () => Navigator.pop(ctx),
+                       style: TextButton.styleFrom(
+                         padding: const EdgeInsets.symmetric(vertical: 12),
+                       ),
+                       child: Text(t.cancel, style: const TextStyle(color: Colors.white54, fontSize: 16)),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(colors: [Color(0xFF8B5CF6), Color(0xFFA78BFA)]),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(color: const Color(0xFF8B5CF6).withOpacity(0.3), blurRadius: 8, spreadRadius: 1)
+                        ]
+                      ),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                        onPressed: () {
+                           Navigator.pop(ctx);
+                           NotificationService().openNotificationSettings();
+                        },
+                        child: Text(t.notifOpenSettings, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-        actions: [
-          TextButton(
-            style: TextButton.styleFrom(
-              minimumSize: const Size(48, 48),
-              tapTargetSize: MaterialTapTargetSize.padded,
-            ),
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(t.cancel, style: const TextStyle(color: Colors.grey)),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              minimumSize: const Size(48, 48),
-              tapTargetSize: MaterialTapTargetSize.padded,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            ),
-            onPressed: () {
-              Navigator.pop(ctx);
-              NotificationService().openNotificationSettings();
-            },
-            child: Text(t.notifOpenSettings, style: const TextStyle(color: Colors.white)),
-          ),
-        ],
       ),
     );
   }
