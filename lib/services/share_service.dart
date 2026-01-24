@@ -63,10 +63,13 @@ class ShareService {
       
       debugPrint('ShareService: Image saved to: $filePath');
       
+      final box = context.findRenderObject() as RenderBox?;
+      
       // Share using native share sheet
       final result = await Share.shareXFiles(
         [XFile(filePath)],
         subject: 'Dream Interpretation',
+        sharePositionOrigin: box != null ? box.localToGlobal(Offset.zero) & box.size : null,
       );
       
       // Trigger review flow after successful share (user is happy/engaged)

@@ -211,6 +211,10 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
           interpretation = t.rateLimitWait(resetMinutes);
           title = null;
         } else if (result.containsKey('error') || result['interpretation'] == null) {
+          // Log the actual error for debugging
+          debugPrint('Interpret Error: ${result['error']}');
+          if (result.containsKey('details')) debugPrint('Error Details: ${result['details']}');
+          
           interpretation = t.offlineInterpretation; // Use offline message for any error
           title = null;
         } else {

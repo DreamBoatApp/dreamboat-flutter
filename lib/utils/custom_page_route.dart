@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'dart:io' show Platform;
 
 class FastSlidePageRoute<T> extends PageRouteBuilder<T> {
   final Widget child;
@@ -33,4 +35,8 @@ class FastSlidePageRoute<T> extends PageRouteBuilder<T> {
       );
     },
   );
+
+  // Enable iOS swipe-from-left-edge gesture for back navigation
+  @override
+  bool get popGestureEnabled => Platform.isIOS;
 }

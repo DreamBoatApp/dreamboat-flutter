@@ -41,6 +41,9 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
 
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = "";
+  
+  // Prevent Face ID loop during authentication
+  bool _isAuthenticating = false;
 
   @override
   void initState() {
@@ -68,10 +71,15 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
   }
   
   Future<void> _checkBiometricOnResume() async {
+    // Prevent repeated auth calls during biometric prompt
+    if (_isAuthenticating) return;
+    
     // Only check if lock is enabled
     if (await BiometricService.isJournalLockEnabled()) {
+      _isAuthenticating = true;
       final t = AppLocalizations.of(context)!;
       final authenticated = await BiometricService.authenticate(t.biometricLockReason);
+      _isAuthenticating = false;
       if (!authenticated && mounted) {
         // Authentication failed, pop back to home
         Navigator.of(context).pop();

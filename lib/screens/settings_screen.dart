@@ -237,13 +237,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       : "Off",
                     onTap: () => _showNotificationModal(context),
                   ),
-                  // Biometric Lock Toggle
-                  _BiometricSettingItem(
-                    t: t,
-                    isEnabled: _biometricLockEnabled,
-                    isAvailable: _biometricAvailable,
-                    onToggle: _toggleBiometricLock,
-                  ),
                   _SettingItem(
                     icon: LucideIcons.refreshCw,
                     title: t.settingsRestorePurchases,
@@ -269,10 +262,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     title: t.settingsSupport,
                     onTap: () => _showSupportModal(context),
                   ),
+                  // Biometric Lock Toggle (moved to bottom)
+                  _BiometricSettingItem(
+                    t: t,
+                    isEnabled: _biometricLockEnabled,
+                    isAvailable: _biometricAvailable,
+                    onToggle: _toggleBiometricLock,
+                  ),
                   // Support ID Item removed and moved to Support Modal
 
                    // DEBUG Toggle for Emulator Testing
-                  if (kDebugMode)
+                   // DEBUG Toggle for Testing (Visible in Release for TestFlight)
+                  if (true)
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: _SettingItem(
