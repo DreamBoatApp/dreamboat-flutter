@@ -39,6 +39,9 @@ class OpenAIService {
           androidProvider: kDebugMode 
               ? AndroidProvider.debug 
               : AndroidProvider.playIntegrity,
+          appleProvider: kDebugMode 
+              ? AppleProvider.debug 
+              : AppleProvider.appAttest,
         );
         _appCheckActivated = true;
         debugPrint('=== OpenAIService: App Check activated (${kDebugMode ? "DEBUG" : "PLAY_INTEGRITY"}) ===');
