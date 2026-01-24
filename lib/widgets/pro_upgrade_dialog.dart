@@ -37,20 +37,8 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
   }
 
   Future<void> _handlePurchase(bool isYearly) async {
-    final isConnected = await ConnectivityService.isConnected;
-    if (!isConnected) {
-      if (mounted) {
-        final t = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(t.offlinePurchase),
-            backgroundColor: Colors.redAccent,
-            behavior: SnackBarBehavior.floating,
-          )
-        );
-      }
-      return;
-    }
+    // REMOVED: ConnectivityService pre-check - iOS unreliable
+    // RevenueCat SDK handles offline state and will show appropriate error
 
     final provider = context.read<SubscriptionProvider>();
     final package = isYearly ? provider.yearlyPackage : provider.monthlyPackage;

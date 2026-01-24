@@ -202,18 +202,9 @@ class _StatsScreenState extends State<StatsScreen> {
 
   // FLOW: 1. User taps button -> 2. Show Dialog -> 3. Show Ad -> 4. Run Analysis
   Future<void> _handleAnalysisTap() async {
-      // Check connectivity first
-      final isConnected = await ConnectivityService.isConnected;
-      if (!isConnected) {
-        if (mounted) {
-           final t = AppLocalizations.of(context)!;
-           ScaffoldMessenger.of(context).showSnackBar(
-             SnackBar(content: Text(t.statsOffline), backgroundColor: Colors.redAccent)
-           );
-        }
-        return;
-      }
-
+      // REMOVED: ConnectivityService pre-check - iOS unreliable
+      // Let the actual API call fail naturally if offline
+      
       // Check limit again just in case
       // Check limit again just in case
       if (_lastAnalysisDate != null) {
