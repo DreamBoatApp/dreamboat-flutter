@@ -97,7 +97,7 @@ Future<void> _initNotificationsInBackground() async {
     
     // Restore scheduled notifications if previously enabled
     final prefs = await SharedPreferences.getInstance();
-    final notifEnabled = prefs.getBool('notif_enabled') ?? false;
+    final notifEnabled = prefs.getBool('notif_enabled') ?? true;
     if (notifEnabled) {
       final hour = prefs.getInt('notif_hour') ?? 9;
       final minute = prefs.getInt('notif_minute') ?? 0;

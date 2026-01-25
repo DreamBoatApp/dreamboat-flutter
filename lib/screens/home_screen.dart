@@ -66,10 +66,13 @@ class _HomeScreenState extends State<HomeScreen> {
     
     // If lock is enabled, require authentication
     if (await BiometricService.isJournalLockEnabled()) {
-      final authenticated = await BiometricService.authenticate(t.biometricLockReason);
-      if (!authenticated) {
-        // Authentication failed, don't navigate
-        return;
+      // Skip if user just authenticated (e.g., when enabling lock for the first time)
+      if (!BiometricService.recentlyAuthenticated) {
+        final authenticated = await BiometricService.authenticate(t.biometricLockReason);
+        if (!authenticated) {
+          // Authentication failed, don't navigate
+          return;
+        }
       }
     }
     
@@ -124,11 +127,14 @@ class _HomeScreenState extends State<HomeScreen> {
           Scaffold(
             backgroundColor: Colors.transparent, // Important transparency
             body: SafeArea(
-              child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(), // Changed from NeverScrollable for small screen compatibility
-                padding: const EdgeInsets.fromLTRB(20, 33, 20, 40),
-                child: Stack(
-                  children: [
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 600),
+                  child: SingleChildScrollView(
+                    physics: const ClampingScrollPhysics(), // Changed from NeverScrollable for small screen compatibility
+                    padding: const EdgeInsets.fromLTRB(20, 33, 20, 40),
+                    child: Stack(
+                      children: [
                     Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -140,26 +146,30 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // Menu Icon (left-aligned)
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                               Navigator.push(context, FastSlidePageRoute(child: const SettingsScreen()));
-                            },
-                            borderRadius: BorderRadius.circular(12),
-                            child: Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.05),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: Colors.white.withOpacity(0.1),
+                        Semantics(
+                          label: t.settingsTitle,
+                          button: true,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                 Navigator.push(context, FastSlidePageRoute(child: const SettingsScreen()));
+                              },
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.05),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Colors.white.withOpacity(0.1),
+                                  ),
                                 ),
-                              ),
-                              child: Icon(
-                                LucideIcons.menu,
-                                color: Colors.white.withOpacity(0.8),
-                                size: 20,
+                                child: Icon(
+                                  LucideIcons.menu,
+                                  color: Colors.white.withOpacity(0.8),
+                                  size: 20,
+                                ),
                               ),
                             ),
                           ),
@@ -171,13 +181,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    "DreamBoat",
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold, 
-                                      color: isPro ? const Color(0xFFFBBF24) : const Color(0xFFE8ECFF), // Soft lavender-white
-                                      letterSpacing: 0.5
+                                  FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      "DreamBoat",
+                                      style: GoogleFonts.quicksand(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold, 
+                                        color: isPro ? const Color(0xFFFBBF24) : const Color(0xFFE8ECFF), // Soft lavender-white
+                                        letterSpacing: 0.5
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(width: 4),
@@ -207,33 +220,37 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         // Language Code (right-aligned)
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                backgroundColor: Colors.transparent,
-                                builder: (ctx) => const LanguageSelectorModal(),
-                              );
-                            },
-                            borderRadius: BorderRadius.circular(12),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.05),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: Colors.white.withOpacity(0.1),
+                        Semantics(
+                          label: t.settingsLanguage,
+                          button: true,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (ctx) => const LanguageSelectorModal(),
+                                );
+                              },
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.05),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Colors.white.withOpacity(0.1),
+                                  ),
                                 ),
-                              ),
-                              child: Text(
-                                Localizations.localeOf(context).languageCode.toUpperCase(),
-                                style: TextStyle(
-                                  color: Colors.white.withOpacity(0.8),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1,
+                                child: Text(
+                                  Localizations.localeOf(context).languageCode.toUpperCase(),
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.8),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1,
+                                  ),
                                 ),
                               ),
                             ),
@@ -353,6 +370,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ],
+            ),
+              ),
             ),
               ),
             ),

@@ -20,41 +20,50 @@ class CalendarPreview extends StatelessWidget {
           ),
           const SizedBox(height: 2), // Reduced spacing
           Expanded(
-            child: GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 7,
-                mainAxisSpacing: 2, // Reduced spacing
-                crossAxisSpacing: 4,
-              ),
-              itemCount: 28, // 4 weeks
-                itemBuilder: (context, index) {
-                final day = index + 1;
-                // Highlight specific days requested by user: 6, 7, 13, 14, 20, 21, 27, 28
-                // Removed 5 (default), Added 6 (highlight)
-                final isDreamDay = [6, 7, 13, 14, 20, 21, 27, 28].contains(day);
-                // 18 is now default color, so isToday logic removed or set to false effectively
-                final isToday = false; 
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                // Calculate ratio to keep cells short even on wide screens
+                // Width = (7 items * itemWidth) + (6 spaces * 4px)
+                // We want height to be around 24px fixed.
+                // Ratio = itemWidth / itemHeight
+                final width = constraints.maxWidth;
+                final itemWidth = (width - 24) / 7; // 24 = 6 spaces * 4px
+                final desiredHeight = 24.0;
+                final ratio = itemWidth / desiredHeight;
                 
-                return Container(
-                  decoration: BoxDecoration(
-                    color: isDreamDay ? const Color(0xFFA78BFA).withOpacity(0.6) : Colors.transparent,
-                    shape: BoxShape.circle,
-                    // Remove border for non-highlighted days to match "default" look request, or keep faint border?
-                    // "make others default color" implies just text color 
-                    border: null, 
+                return GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 7,
+                    mainAxisSpacing: 2, 
+                    crossAxisSpacing: 4,
+                    childAspectRatio: ratio, // Dynamic ratio fix
                   ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "$day",
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.7),
-                      fontSize: 10,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
+                  itemCount: 28, // 4 weeks
+                    itemBuilder: (context, index) {
+                    final day = index + 1;
+                    // Highlight specific days requested by user: 6, 7, 13, 14, 20, 21, 27, 28
+                    final isDreamDay = [6, 7, 13, 14, 20, 21, 27, 28].contains(day);
+                    
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: isDreamDay ? const Color(0xFFA78BFA).withOpacity(0.6) : Colors.transparent,
+                        shape: BoxShape.circle,
+                        border: null, 
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "$day",
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.7),
+                          fontSize: 10,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    );
+                  },
                 );
-              },
+              }
             ),
           ),
         ],
@@ -69,13 +78,8 @@ class StatsPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      // Centered resize logic:
-      // Target Center Y = 97.
-      // New Size 102 (114 * 0.9). Top = 97 - 51 = 46.
-      padding: const EdgeInsets.only(top: 46), 
-      child: Align(
-        alignment: Alignment.topCenter,
+    return Align(
+      alignment: const Alignment(0.0, 0.5), // Pushed down to visually balance with title
         child: SizedBox(
           width: 102, 
           height: 102,
@@ -83,7 +87,7 @@ class StatsPreview extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              ClipOval( // Clip the scaled overflow to keep it circular
+              ClipOval(
                 child: ShaderMask(
                   shaderCallback: (Rect bounds) {
                     return const RadialGradient(
@@ -105,8 +109,8 @@ class StatsPreview extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
+
   }
 }
 

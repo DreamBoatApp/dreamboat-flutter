@@ -7,6 +7,7 @@ import 'package:dream_boat_mobile/theme/app_theme.dart';
 import 'package:dream_boat_mobile/widgets/background_sky.dart';
 import 'package:dream_boat_mobile/widgets/glass_card.dart';
 import 'package:dream_boat_mobile/widgets/custom_button.dart';
+import 'package:dream_boat_mobile/widgets/platform_widgets.dart';
 import 'package:dream_boat_mobile/l10n/app_localizations.dart';
 import 'package:dream_boat_mobile/services/openai_service.dart';
 import 'package:dream_boat_mobile/services/dream_service.dart';
@@ -619,7 +620,7 @@ class _StatsScreenState extends State<StatsScreen> {
                     ),
                     const SizedBox(height: 12),
                     if (_isTipLoading)
-                      const Center(child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.amber)))
+                      Center(child: PlatformWidgets.activityIndicator(color: Colors.amber, radius: 10, strokeWidth: 2))
                     else
                       Text(
                         _dailyTip.isNotEmpty ? _dailyTip : t.statsTipContent, // Fallback to localized default if empty
@@ -766,7 +767,7 @@ class _StatsScreenState extends State<StatsScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const CircularProgressIndicator(color: Color(0xFFFBBF24)),
+            PlatformWidgets.activityIndicator(color: const Color(0xFFFBBF24), radius: 16),
             const SizedBox(height: 20),
             Text(t.statsProcessing, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontSize: 16)),
           ],
@@ -999,7 +1000,7 @@ class _StatsScreenState extends State<StatsScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const CircularProgressIndicator(color: Color(0xFF60A5FA)),
+            PlatformWidgets.activityIndicator(color: const Color(0xFF60A5FA), radius: 16),
             const SizedBox(height: 20),
             Text(t.moonSyncProcessing, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontSize: 16)),
           ],

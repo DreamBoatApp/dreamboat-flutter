@@ -44,9 +44,9 @@ class NotificationService {
 
       // iOS Settings (Darwin)
       const fln.DarwinInitializationSettings iosSettings = fln.DarwinInitializationSettings(
-        requestAlertPermission: false, 
-        requestBadgePermission: false, 
-        requestSoundPermission: false,
+        requestAlertPermission: true, 
+        requestBadgePermission: true, 
+        requestSoundPermission: true,
       );
 
       const fln.InitializationSettings initSettings = fln.InitializationSettings(

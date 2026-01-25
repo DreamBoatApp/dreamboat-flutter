@@ -82,70 +82,72 @@ class BentoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlassBento(
-      onTap: onTap,
-      height: height,
-      padding: EdgeInsets.zero, // Reset padding for background to fill
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // 1. Background Visual
-          if (background != null)
-            background!,
-
-          // 2. Content Overlay
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16), // Reduced horizontal padding for more text space
-            child: Column(
-              children: [
-                // Title at the top-center
-                if (titleWidget != null)
-                  titleWidget!
-                else
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      title,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      softWrap: false,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14, // Reduced base size
-                        fontWeight: FontWeight.bold,
-                        shadows: [Shadow(color: Colors.black26, blurRadius: 4)]
+    return MergeSemantics(
+      child: GlassBento(
+        onTap: onTap,
+        height: height,
+        padding: EdgeInsets.zero, // Reset padding for background to fill
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            // 1. Background Visual
+            if (background != null)
+              background!,
+  
+            // 2. Content Overlay
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16), // Reduced horizontal padding for more text space
+              child: Column(
+                children: [
+                  // Title at the top-center
+                  if (titleWidget != null)
+                    titleWidget!
+                  else
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        title,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        softWrap: false,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14, // Reduced base size
+                          fontWeight: FontWeight.bold,
+                          shadows: [Shadow(color: Colors.black26, blurRadius: 4)]
+                        ),
                       ),
                     ),
-                  ),
-                
-                if (subtitle != null) ...[
-                   const SizedBox(height: 2),
-                   Text(subtitle!, style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 10, letterSpacing: 1.0, shadows: const [Shadow(color: Colors.black26, blurRadius: 4)])),
-                ] else
-                   const SizedBox(height: 12),
-
-                const Spacer(),
-                
-                // Content or Icon
-                if (content != null) ...[
-                   const SizedBox(height: 12),
-                   Expanded(child: content!),
-                ] else if (icon != null) ...[
-                   Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: (iconColor ?? Colors.white).withOpacity(0.1),
-                      shape: BoxShape.circle,
-                      border: Border.all(color: (iconColor ?? Colors.white).withOpacity(0.2)),
+                  
+                  if (subtitle != null) ...[
+                     const SizedBox(height: 2),
+                     Text(subtitle!, style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 10, letterSpacing: 1.0, shadows: const [Shadow(color: Colors.black26, blurRadius: 4)])),
+                  ] else
+                     const SizedBox(height: 12),
+  
+                  if (content == null) const Spacer(),
+                  
+                  // Content or Icon
+                  if (content != null) ...[
+                     const SizedBox(height: 12),
+                     Expanded(child: content!),
+                  ] else if (icon != null) ...[
+                     Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: (iconColor ?? Colors.white).withOpacity(0.1),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: (iconColor ?? Colors.white).withOpacity(0.2)),
+                      ),
+                      child: Icon(icon, color: iconColor ?? Colors.white, size: 24),
                     ),
-                    child: Icon(icon, color: iconColor ?? Colors.white, size: 24),
-                  ),
-                  const Spacer(),
-                ]
-              ],
+                    const Spacer(),
+                  ]
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

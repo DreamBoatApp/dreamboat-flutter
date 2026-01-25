@@ -5,6 +5,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:dream_boat_mobile/l10n/app_localizations.dart';
 import 'package:dream_boat_mobile/widgets/gradient_text.dart';
 import 'package:dream_boat_mobile/widgets/custom_button.dart';
+import 'package:dream_boat_mobile/widgets/platform_widgets.dart';
 
 class MoodSelectionSheet extends StatefulWidget {
   final Function(String mood, List<String> secondaryMoods, int intensity, int vividness) onSave;
@@ -90,14 +91,17 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                    ],
                  ),
                  const SizedBox(height: 12),
-                 Slider( // Simplified Custom Slider could be better, but standard for now
-                   value: _vividness.toDouble(),
-                   min: 1, max: 3, divisions: 2,
-                   activeColor: const Color(0xFFA78BFA),
-                   inactiveColor: Colors.white.withOpacity(0.1),
-                   label: _vividness == 1 ? t.moodVividnessLow : (_vividness == 2 ? t.moodVividnessMedium : t.moodVividnessHigh),
-                   onChanged: (v) => setState(() => _vividness = v.round()),
-                 ),
+                 Semantics(
+                    label: t.moodVividnessQuestion,
+                    value: _vividness == 1 ? t.moodVividnessLow : (_vividness == 2 ? t.moodVividnessMedium : t.moodVividnessHigh),
+                    child: PlatformWidgets.adaptiveSlider(
+                      value: _vividness.toDouble(),
+                      min: 1, max: 3, divisions: 2,
+                      activeColor: const Color(0xFFA78BFA),
+                      label: _vividness == 1 ? t.moodVividnessLow : (_vividness == 2 ? t.moodVividnessMedium : t.moodVividnessHigh),
+                      onChanged: (v) => setState(() => _vividness = v.round()),
+                    ),
+                  ),
                  Row(
                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                    children: [
@@ -125,65 +129,71 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                      final isSelected = _selectedMood == m['key'];
                      final color = m['color'] as Color;
                      
-                     return GestureDetector(
-                       onTap: () {
-                         setState(() {
-                           if (_selectedMood == m['key']) {
-                              // Deselect: tapping the same mood again clears selection
-                             _selectedMood = null;
-                           } else {
-                             _selectedMood = m['key'] as String;
-                           }
-                         });
-                       },
-                       child: AnimatedContainer(
-                         duration: const Duration(milliseconds: 300),
-                         curve: Curves.easeOutCubic, 
-                         width: itemWidth,
-                         height: itemHeight,
-                         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
-                         decoration: BoxDecoration(
-                           // Unselected: Transparent with colored border
-                           // Selected: Slight tint, colored border, glowing shadow
-                           color: isSelected ? color.withOpacity(0.1) : Colors.transparent,
-                           borderRadius: BorderRadius.circular(24),
-                           border: Border.all(
-                             color: isSelected ? color : color.withOpacity(0.3), // Colored border always
-                             width: isSelected ? 1.5 : 1
-                           ),
-                           boxShadow: isSelected ? [
-                             BoxShadow(color: color.withOpacity(0.6), blurRadius: 12, spreadRadius: -2), // Inner/Outer Glow
-                             BoxShadow(color: color.withOpacity(0.3), blurRadius: 20, spreadRadius: 2), // Outer Haze
-                           ] : [],
-                         ),
-                         child: Column(
-                           mainAxisSize: MainAxisSize.min,
-                           mainAxisAlignment: MainAxisAlignment.center,
-                           children: [
-                             // Icon: Color always, slightly dim when not selected
-                             Icon(
-                               m['icon'] as IconData, 
-                               color: isSelected ? color : color.withOpacity(0.8), 
-                               size: 26
-                             ),
-                             const SizedBox(height: 8),
-                             Text(
-                               m['label'] as String,
-                               textAlign: TextAlign.center,
-                               maxLines: 2,
-                               overflow: TextOverflow.ellipsis,
-                               style: TextStyle(
-                                 color: isSelected ? Colors.white : color.withOpacity(0.8), // Text colored when unselected
-                                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                                 fontSize: 11, // Slightly smaller to fit 2 lines
-                                 letterSpacing: 0.3,
-                                 height: 1.1,
-                               ),
-                             ),
-                           ],
-                         ),
-                       ),
-                     );
+                      return Semantics(
+                        label: m['label'] as String,
+                        hint: isSelected ? 'Selected' : 'Double tap to select',
+                        button: true,
+                        selected: isSelected,
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (_selectedMood == m['key']) {
+                                 // Deselect: tapping the same mood again clears selection
+                                _selectedMood = null;
+                              } else {
+                                _selectedMood = m['key'] as String;
+                              }
+                            });
+                          },
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeOutCubic, 
+                            width: itemWidth,
+                            height: itemHeight,
+                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+                            decoration: BoxDecoration(
+                              // Unselected: Transparent with colored border
+                              // Selected: Slight tint, colored border, glowing shadow
+                              color: isSelected ? color.withOpacity(0.1) : Colors.transparent,
+                              borderRadius: BorderRadius.circular(24),
+                              border: Border.all(
+                                color: isSelected ? color : color.withOpacity(0.3), // Colored border always
+                                width: isSelected ? 1.5 : 1
+                              ),
+                              boxShadow: isSelected ? [
+                                BoxShadow(color: color.withOpacity(0.6), blurRadius: 12, spreadRadius: -2), // Inner/Outer Glow
+                                BoxShadow(color: color.withOpacity(0.3), blurRadius: 20, spreadRadius: 2), // Outer Haze
+                              ] : [],
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Icon: Color always, slightly dim when not selected
+                                Icon(
+                                  m['icon'] as IconData, 
+                                  color: isSelected ? color : color.withOpacity(0.8), 
+                                  size: 26
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  m['label'] as String,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: isSelected ? Colors.white : color.withOpacity(0.8), // Text colored when unselected
+                                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                    fontSize: 11, // Slightly smaller to fit 2 lines
+                                    letterSpacing: 0.3,
+                                    height: 1.1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
                    }).toList(),
                  ),
                
@@ -198,14 +208,17 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                        style: const TextStyle(color: Colors.white70, fontSize: 14, fontWeight: FontWeight.w600),
                      ),
                      const SizedBox(height: 8),
-                     Slider(
-                        value: _intensity.toDouble(),
-                        min: 1, max: 3, divisions: 2,
-                        activeColor:  moods.firstWhere((m) => m['key'] == _selectedMood)['color'] as Color,
-                        inactiveColor: Colors.white.withOpacity(0.1),
-                        label: _intensity == 1 ? t.moodIntensityLow : (_intensity == 2 ? t.moodIntensityMedium : t.moodIntensityHigh),
-                        onChanged: (v) => setState(() => _intensity = v.round()),
-                     ),
+                      Semantics(
+                        label: t.moodIntensityLabel,
+                        value: _intensity == 1 ? t.moodIntensityLow : (_intensity == 2 ? t.moodIntensityMedium : t.moodIntensityHigh),
+                        child: PlatformWidgets.adaptiveSlider(
+                          value: _intensity.toDouble(),
+                          min: 1, max: 3, divisions: 2,
+                          activeColor: moods.firstWhere((m) => m['key'] == _selectedMood)['color'] as Color,
+                          label: _intensity == 1 ? t.moodIntensityLow : (_intensity == 2 ? t.moodIntensityMedium : t.moodIntensityHigh),
+                          onChanged: (v) => setState(() => _intensity = v.round()),
+                        ),
+                      ),
                       Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                        children: [

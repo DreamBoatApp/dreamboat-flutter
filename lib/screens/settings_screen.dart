@@ -7,6 +7,7 @@ import 'package:dream_boat_mobile/theme/app_theme.dart';
 import 'package:dream_boat_mobile/widgets/background_sky.dart';
 import 'package:dream_boat_mobile/widgets/glass_card.dart';
 import 'package:dream_boat_mobile/widgets/custom_button.dart';
+import 'package:dream_boat_mobile/widgets/platform_widgets.dart';
 import 'package:dream_boat_mobile/l10n/app_localizations.dart';
 import 'package:dream_boat_mobile/main.dart'; // To access MyApp for Locale change
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,7 +59,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
 
     setState(() {
-      _notifEnabled = prefs.getBool('notif_enabled') ?? false;
+      _notifEnabled = prefs.getBool('notif_enabled') ?? true;
       _use24HourFormat = prefs.getBool('use_24h_format') ?? true;
       
       final hour = prefs.getInt('notif_hour') ?? 9;
@@ -248,13 +249,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     icon: LucideIcons.refreshCw,
                     title: t.settingsRestorePurchases,
                     trailing: context.watch<SubscriptionProvider>().isRestoring 
-                      ? const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white54),
-                          ),
+                      ? PlatformWidgets.activityIndicator(
+                          color: Colors.white54,
+                          radius: 8,
+                          strokeWidth: 2,
                         )
                       : null,
                     onTap: () => _handleRestorePurchases(context),
@@ -410,7 +408,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(t.settingsNotifOpen, style: const TextStyle(color: Colors.white)),
-                    Switch(
+                    PlatformWidgets.adaptiveSwitch(
                       value: _notifEnabled, 
                       onChanged: (val) async {
                         setState(() => _notifEnabled = val);
@@ -428,7 +426,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(t.timeFormat24h, style: const TextStyle(color: Colors.white70)),
-                      Switch(
+                      PlatformWidgets.adaptiveSwitch(
                         value: _use24HourFormat,
                         onChanged: (val) async {
                           setState(() => _use24HourFormat = val);
@@ -660,7 +658,7 @@ class _BiometricSettingItem extends StatelessWidget {
               ],
             ),
           ),
-          Switch(
+          PlatformWidgets.adaptiveSwitch(
             value: isEnabled,
             onChanged: isAvailable ? onToggle : null,
             activeColor: const Color(0xFF8B5CF6),
@@ -994,9 +992,10 @@ class _SupportDialogState extends State<_SupportDialog> {
                    Text(t.settingsSupportId, style: const TextStyle(color: Colors.white54, fontSize: 12)),
                    const SizedBox(width: 8),
                    if (_isLoading)
-                     const SizedBox(
-                        width: 14, height: 14, 
-                        child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(Colors.white38))
+                     PlatformWidgets.activityIndicator(
+                        color: Colors.white38,
+                        radius: 7,
+                        strokeWidth: 2,
                      )
                    else
                      Text(

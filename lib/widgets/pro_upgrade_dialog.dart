@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dream_boat_mobile/widgets/custom_button.dart';
+import 'package:dream_boat_mobile/widgets/platform_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:dream_boat_mobile/providers/subscription_provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -464,9 +465,10 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                   color: Colors.black.withOpacity(0.7),
                   borderRadius: BorderRadius.circular(28),
                 ),
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    color: Color(0xFFFBBF24),
+                child: Center(
+                  child: PlatformWidgets.activityIndicator(
+                    color: const Color(0xFFFBBF24),
+                    radius: 16,
                   ),
                 ),
               ),

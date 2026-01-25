@@ -3,6 +3,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:dream_boat_mobile/theme/app_theme.dart';
 import 'package:dream_boat_mobile/widgets/background_sky.dart';
 import 'package:dream_boat_mobile/widgets/glass_card.dart';
+import 'package:dream_boat_mobile/widgets/platform_widgets.dart';
 
 import 'package:dream_boat_mobile/l10n/app_localizations.dart';
 import 'package:dream_boat_mobile/models/dream_entry.dart';
@@ -622,7 +623,7 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
       final filtered = _filterDreams(dreams);
       
       if (_isLoading) {
-          return const Center(child: CircularProgressIndicator(color: Color(0xFFA78BFA)));
+          return Center(child: PlatformWidgets.activityIndicator(color: const Color(0xFFA78BFA), radius: 14));
       }
       
       if (filtered.isEmpty) {
@@ -1220,22 +1221,26 @@ class _ActionButton extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: onTap,
-              borderRadius: BorderRadius.circular(24),
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.08),
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.1),
-                    width: 1,
+          Semantics(
+            label: label,
+            button: true,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: onTap,
+                borderRadius: BorderRadius.circular(24),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.08),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.1),
+                      width: 1,
+                    ),
                   ),
+                  child: Icon(icon, color: iconColor ?? Colors.white.withOpacity(0.9), size: 24),
                 ),
-                child: Icon(icon, color: iconColor ?? Colors.white.withOpacity(0.9), size: 24),
               ),
             ),
           ),
