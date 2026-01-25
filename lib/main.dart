@@ -40,10 +40,6 @@ void main() async {
 
   debugPrint('=== WidgetsFlutterBinding initialized ===');
   
-  // Initialize MobileAds (non-blocking)
-  MobileAds.instance.initialize();
-  AdManager.instance.initialize();
-  
   debugPrint('=== Starting runApp ===');
   runApp(
     ChangeNotifierProvider(
@@ -56,9 +52,25 @@ void main() async {
   );
   debugPrint('=== runApp completed ===');
   
-  // Do Firebase/AppCheck and notification setup AFTER app is running (non-blocking)
-  _initFirebaseInBackground();
-  _initNotificationsInBackground();
+  // Defer heavy initialization until after the first frame is drawn
+  // This prevents the native splash screen from hanging due to main thread contention
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    debugPrint('=== First Frame Rendered: Starting Background Init (Delayed) ===');
+    
+    // YIELD execution to let the engine actually present the frame to the user
+    // This allows the native splash to disappear and our Flutter Splash to show
+    await Future.delayed(const Duration(milliseconds: 1500));
+    
+    debugPrint('=== Background Init: Waking up ===');
+
+    // Initialize MobileAds (non-blocking)
+    MobileAds.instance.initialize();
+    AdManager.instance.initialize();
+    
+    // Do Firebase/AppCheck and notification setup
+    _initFirebaseInBackground();
+    _initNotificationsInBackground();
+  });
 }
 
 // Background Firebase initialization - does not block app startup

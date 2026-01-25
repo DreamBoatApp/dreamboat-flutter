@@ -201,10 +201,12 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                AnimatedSize(
                  duration: const Duration(milliseconds: 300),
                  child: _selectedMood != null ? Column(
+                   crossAxisAlignment: CrossAxisAlignment.stretch,
                    children: [
                      const SizedBox(height: 32),
                      Text(
                        t.moodIntensityLabel,
+                       textAlign: TextAlign.center,
                        style: const TextStyle(color: Colors.white70, fontSize: 14, fontWeight: FontWeight.w600),
                      ),
                      const SizedBox(height: 8),

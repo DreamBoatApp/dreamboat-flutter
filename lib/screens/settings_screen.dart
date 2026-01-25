@@ -93,7 +93,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
   
-  Future<void> _saveNotificationSettings() async {
+  Future<void> _saveNotificationSettings({bool checkPermissions = true}) async {
     final prefs = await SharedPreferences.getInstance();
     final t = AppLocalizations.of(context)!;
     
@@ -107,27 +107,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await prefs.setString('notif_message', localizedMessage);
 
     if (_notifEnabled) {
-      // Check if permission already granted
-      final isGranted = await NotificationService().isPermissionGranted();
-      if (isGranted) {
-        // Permission already granted, just schedule
-        await NotificationService().scheduleDailyNotification(_notifTime, message: localizedMessage);
-      } else {
-        // Need to request permission
-        final granted = await NotificationService().requestPermissions();
-        if (granted == true) {
+      if (checkPermissions) {
+        // Check if permission already granted
+        final isGranted = await NotificationService().isPermissionGranted();
+        if (isGranted) {
+          // Permission already granted, just schedule
           await NotificationService().scheduleDailyNotification(_notifTime, message: localizedMessage);
         } else {
-          // Permission denied - check if permanently denied
-          final isPermanentlyDenied = await NotificationService().isPermissionPermanentlyDenied();
-          if (isPermanentlyDenied && mounted) {
-            // Show dialog to open settings
-            _showOpenSettingsDialog();
+          // Need to request permission
+          final granted = await NotificationService().requestPermissions();
+          if (granted == true) {
+            await NotificationService().scheduleDailyNotification(_notifTime, message: localizedMessage);
+          } else {
+            // Permission denied - check if permanently denied
+            final isPermanentlyDenied = await NotificationService().isPermissionPermanentlyDenied();
+            if (isPermanentlyDenied && mounted) {
+              // Show dialog to open settings
+              _showOpenSettingsDialog();
+            }
+            // Disable the toggle since permission not granted
+            setState(() => _notifEnabled = false);
+            await prefs.setBool('notif_enabled', false);
           }
-          // Disable the toggle since permission not granted
-          setState(() => _notifEnabled = false);
-          await prefs.setBool('notif_enabled', false);
         }
+      } else {
+         // Skip permission check, just schedule (assumes permission holds since enabled is true)
+         await NotificationService().scheduleDailyNotification(_notifTime, message: localizedMessage);
       }
     } else {
       await NotificationService().cancelAll();
@@ -431,7 +436,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         onChanged: (val) async {
                           setState(() => _use24HourFormat = val);
                           setModalState(() {});
-                          await _saveNotificationSettings();
+                          await _saveNotificationSettings(checkPermissions: false);
                         },
                         activeColor: AppTheme.secondary,
                       )
@@ -469,7 +474,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     child: Text(t.save, style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.bold)),
                                     onPressed: () async {
                                       Navigator.of(context).pop();
-                                      await _saveNotificationSettings();
+                                      await _saveNotificationSettings(checkPermissions: false);
                                     },
                                   )
                                 ],

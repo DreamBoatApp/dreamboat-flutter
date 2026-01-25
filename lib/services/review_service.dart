@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/satisfaction_modal.dart';
@@ -56,7 +57,21 @@ class ReviewService {
     // NOTE: We no longer mark as requested immediately.
     // We update cooldown AFTER user interaction with appropriate outcome.
 
-    // 2. Show Satisfaction Modal
+    // 2. Platform-specific flow
+    
+    // iOS: Native Prompt Directly (Apple Requirement/Best Practice)
+    if (Platform.isIOS) {
+      final InAppReview inAppReview = InAppReview.instance;
+
+      if (await inAppReview.isAvailable()) {
+        await inAppReview.requestReview();
+        // Treat as 'interacted' to enforce the full 30-day cooldown
+        await _updateLastReviewRequestDate(outcome: 'interacted');
+      }
+      return;
+    }
+
+    // Android: Custom Satisfaction Flow
     if (!context.mounted) return;
     
     final dialogResult = await showDialog<String>(
