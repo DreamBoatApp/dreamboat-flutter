@@ -643,36 +643,36 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get privacyNoticeContent =>
-      'Bei NovaBloom Studio schätzen wir deine Privatsphäre auf höchstem Niveau. DreamBoat wurde entwickelt, damit du deine Träume sicher aufzeichnen und analysieren kannst.';
+      'DreamBoat wird von dem unabhängigen Entwickler Guney Yilmazer unter der Marke NovaBloom Studio entwickelt. Ihre Privatsphäre hat für uns höchste Priorität. DreamBoat wurde entwickelt, damit Sie Ihre Träume sicher aufzeichnen und für Ihr persönliches Bewusstsein analysieren können.';
 
   @override
-  String get privacySection1Title => '1. Datensicherheit und Verarbeitung:';
+  String get privacySection1Title => '1. Datensicherheit und Verarbeitung';
 
   @override
   String get privacySection1Content =>
-      'Deine Träume werden verschlüsselt gespeichert. Daten, die zur KI-Analyse gesendet werden, sind anonymisiert und werden niemals zum Trainieren von KI-Modellen verwendet. Deine Daten sind gemäß DSGVO-Standards geschützt.';
+      'Ihre Traumaufzeichnungen und In-App-Daten werden sicher gespeichert.\nIhre Träume werden nur verarbeitet, um die von der Anwendung angebotenen Funktionen auszuführen.\n\nTrauminhalte werden niemals mit Dritten geteilt\n\nDaten werden nicht für Werbung, Marketing oder Benutzerprofilierung verwendet\n\nKI-gestützte Analysen werden ausschließlich zur Verbesserung der Benutzererfahrung durchgeführt\n\nTraumtexte werden nicht zum Trainieren von KI-Modellen verwendet\n\nAlle Vorgänge werden in Übereinstimmung mit KVKK- und DSGVO-Standards durchgeführt';
 
   @override
-  String get privacySection2Title => '2. Konto und Nutzung:';
+  String get privacySection2Title => '2. Konto und Nutzung';
 
   @override
   String get privacySection2Content =>
-      'Die App wird völlig anonym genutzt und erfordert keine Mitgliedschaft. Deine persönlichen Daten und Traumaufzeichnungen werden nur auf deinem Gerät gespeichert. Es gibt keinen Kontoerstellungsprozess oder Erhebung personenbezogener Daten.';
+      'DreamBoat funktioniert ohne die Notwendigkeit, ein Konto zu erstellen.\n\nDie Anwendung kann anonym genutzt werden\n\nIhre Träume und Einstellungen werden nur auf Ihrem Gerät oder in sicheren Bereichen der Anwendung gespeichert\n\nPersonenbezogene Identitätsdaten (Name, E-Mail usw.) werden nicht zwingend erhoben';
 
   @override
-  String get privacySection3Title => '3. Kontakt:';
+  String get privacySection3Title => '3. Datenschutz- und Sperrfunktionen';
 
   @override
   String get privacySection3Content =>
-      'Für Fragen, Vorschläge und Datenanfragen kannst du uns unter info@novabloomstudio.com kontaktieren.';
+      'DreamBoat bietet zusätzliche Sicherheitsoptionen zum Schutz der Privatsphäre:\n\nDas Traumtagebuch kann mit Face ID oder Fingerabdruck gesperrt werden\n\nTräume sind standardmäßig vollkommen privat\n\nDie Teilen-Funktion ist optional und funktioniert nur, wenn der Benutzer ausdrücklich entscheidet zu teilen\n\nTräume werden niemals automatisch oder mit Dritten geteilt';
 
   @override
   String get privacySection4Title =>
-      '4. Gesundheits- und medizinischer Haftungsausschluss (WICHTIG):';
+      '4. Gesundheits- und medizinischer Haftungsausschluss (WICHTIG)';
 
   @override
   String get privacySection4Content =>
-      'Diese App ist kein medizinisches Gerät. Die bereitgestellten Traumdeutungen und Analysen dienen ausschließlich Unterhaltungs- und Persönlichkeitsentwicklungszwecken und stellen keine medizinische Beratung dar. Unsere App sammelt oder verarbeitet keine biometrischen oder gesundheitsbezogenen Daten.';
+      'DreamBoat ist keine Gesundheits- oder medizinische Anwendung.\n\nDie bereitgestellten Traumdeutungen und Analysen dienen ausschließlich Unterhaltungs- und Persönlichkeitsentwicklungszwecken\n\nSie stellen keine medizinische, psychologische oder professionelle Beratung dar\n\nDie Anwendung sammelt oder verarbeitet keine biometrischen oder gesundheitsbezogenen Daten\n\n5. Kontakt\n\nSie können unsere detaillierte Datenschutzrichtlinie auch auf unserer Website einsehen:\nhttps://www.novabloomstudio.com/de/privacy';
 
   @override
   String get supportTitle => 'Kontaktieren Sie uns';

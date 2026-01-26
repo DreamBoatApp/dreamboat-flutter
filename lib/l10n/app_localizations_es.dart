@@ -643,36 +643,36 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get privacyNoticeContent =>
-      'En NovaBloom Studio, valoramos tu privacidad al más alto nivel. DreamBoat está diseñado para que registres y analices tus sueños de forma segura.';
+      'DreamBoat es desarrollado por el desarrollador independiente Guney Yilmazer bajo la marca NovaBloom Studio. Tu privacidad es nuestra máxima prioridad. DreamBoat está diseñado para que registres y analices tus sueños de forma segura para la conciencia personal.';
 
   @override
-  String get privacySection1Title => '1. Seguridad y Procesamiento de Datos:';
+  String get privacySection1Title => '1. Seguridad y Procesamiento de Datos';
 
   @override
   String get privacySection1Content =>
-      'Tus sueños se almacenan encriptados. Los datos enviados para análisis de IA se anonimizan y nunca se usan para entrenar modelos de IA. Tus datos están protegidos en cumplimiento con los estándares RGPD.';
+      'Tus registros de sueños y datos en la aplicación se almacenan de forma segura.\nTus sueños se procesan solo para operar las funciones ofrecidas por la aplicación.\n\nLos contenidos de los sueños nunca se comparten con terceros\n\nLos datos no se utilizan para fines de publicidad, marketing o elaboración de perfiles de usuario\n\nLos análisis impulsados por IA se realizan únicamente para mejorar la experiencia del usuario\n\nLos textos de los sueños no se utilizan para entrenar modelos de IA\n\nTodas las operaciones se llevan a cabo de acuerdo con los estándares KVKK y RGPD';
 
   @override
-  String get privacySection2Title => '2. Cuenta y Uso:';
+  String get privacySection2Title => '2. Cuenta y Uso';
 
   @override
   String get privacySection2Content =>
-      'La aplicación se usa de forma completamente anónima y no requiere ninguna membresía. Tus datos personales y registros de sueños solo se almacenan en tu dispositivo. No hay proceso de creación de cuenta ni recopilación de datos personales.';
+      'DreamBoat funciona sin necesidad de crear una cuenta.\n\nLa aplicación se puede utilizar de forma anónima\n\nTus sueños y configuraciones se almacenan solo en tu dispositivo o en áreas seguras pertenecientes a la aplicación\n\nLa información de identidad personal (nombre, correo electrónico, etc.) no se recopila obligatoriamente';
 
   @override
-  String get privacySection3Title => '3. Contacto:';
+  String get privacySection3Title => '3. Privacidad y Funciones de Bloqueo';
 
   @override
   String get privacySection3Content =>
-      'Para cualquier pregunta, sugerencia y solicitud de datos, puedes contactarnos en info@novabloomstudio.com.';
+      'DreamBoat ofrece opciones de seguridad adicionales para proteger la privacidad:\n\nEl diario de sueños se puede bloquear con Face ID o huella digital\n\nLos sueños son completamente privados por defecto\n\nLa función de compartir es opcional y solo funciona cuando el usuario elige explícitamente compartir\n\nLos sueños nunca se comparten automáticamente ni con terceros';
 
   @override
   String get privacySection4Title =>
-      '4. Descargo de Responsabilidad Médica (IMPORTANTE):';
+      '4. Descargo de Responsabilidad Médica (IMPORTANTE)';
 
   @override
   String get privacySection4Content =>
-      'Esta aplicación no es un dispositivo médico. Las interpretaciones y análisis de sueños proporcionados son únicamente para entretenimiento y desarrollo personal y no constituyen consejo médico. Nuestra aplicación no recopila ni procesa ningún dato biométrico o de salud.';
+      'DreamBoat no es una aplicación de salud o médica.\n\nLas interpretaciones y análisis de sueños proporcionados son únicamente para fines de entretenimiento y conciencia personal\n\nNo constituye consejo médico, psicológico o profesional\n\nLa aplicación no recopila ni procesa datos biométricos o de salud\n\n5. Contacto\n\nTambién puedes acceder a nuestra política de privacidad detallada en nuestro sitio web:\nhttps://www.novabloomstudio.com/es/privacy';
 
   @override
   String get supportTitle => 'Contáctanos';

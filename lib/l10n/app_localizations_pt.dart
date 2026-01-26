@@ -643,36 +643,36 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get privacyNoticeContent =>
-      'No NovaBloom Studio, valorizamos sua privacidade no nível mais alto. DreamBoat foi projetado para você registrar e analisar seus sonhos com segurança.';
+      'O DreamBoat é desenvolvido pelo desenvolvedor independente Guney Yilmazer sob a marca NovaBloom Studio. Sua privacidade é nossa maior prioridade. O DreamBoat foi projetado para que você registre e analise seus sonhos com segurança para conscientização pessoal.';
 
   @override
-  String get privacySection1Title => '1. Segurança de Dados e Processamento:';
+  String get privacySection1Title => '1. Segurança de Dados e Processamento';
 
   @override
   String get privacySection1Content =>
-      'Seus sonhos são armazenados criptografados. Dados enviados para análise de IA são anonimizados e nunca usados para treinar modelos de IA. Seus dados são protegidos em conformidade com os padrões GDPR e LGPD.';
+      'Seus registros de sonhos e dados no aplicativo são armazenados com segurança.\nSeus sonhos são processados apenas para operar os recursos oferecidos pelo aplicativo.\n\nConteúdos de sonhos nunca são compartilhados com terceiros\n\nDados não são usados para fins de publicidade, marketing ou perfil de usuário\n\nAnálises impulsionadas por IA são realizadas exclusivamente para melhorar a experiência do usuário\n\nTextos de sonhos não são usados para treinar modelos de IA\n\nTodas as operações são realizadas de acordo com os padrões KVKK e GDPR';
 
   @override
-  String get privacySection2Title => '2. Conta e Uso:';
+  String get privacySection2Title => '2. Conta e Uso';
 
   @override
   String get privacySection2Content =>
-      'O aplicativo é usado de forma completamente anônima e não requer nenhuma assinatura. Seus dados pessoais e registros de sonhos são armazenados apenas no seu dispositivo. Não há processo de criação de conta ou coleta de dados pessoais.';
+      'O DreamBoat funciona sem a necessidade de criar uma conta.\n\nO aplicativo pode ser usado anonimamente\n\nSeus sonhos e configurações são armazenados apenas no seu dispositivo ou em áreas seguras pertencentes ao aplicativo\n\nInformações de identidade pessoal (nome, e-mail, etc.) não são coletadas obrigatoriamente';
 
   @override
-  String get privacySection3Title => '3. Contato:';
+  String get privacySection3Title => '3. Privacidade e Recursos de Bloqueio';
 
   @override
   String get privacySection3Content =>
-      'Para quaisquer dúvidas, sugestões e solicitações de dados, você pode nos contatar em info@novabloomstudio.com.';
+      'O DreamBoat oferece opções adicionais de segurança para proteger a privacidade:\n\nO diário de sonhos pode ser bloqueado com Face ID ou impressão digital\n\nOs sonhos são completamente privados por padrão\n\nO recurso de compartilhamento é opcional e funciona apenas quando o usuário escolhe explicitamente compartilhar\n\nOs sonhos nunca são compartilhados automaticamente ou com terceiros';
 
   @override
   String get privacySection4Title =>
-      '4. Aviso Legal de Saúde e Médico (IMPORTANTE):';
+      '4. Aviso Legal de Saúde e Médico (IMPORTANTE)';
 
   @override
   String get privacySection4Content =>
-      'Este aplicativo não é um dispositivo médico. Interpretações e análises de sonhos fornecidas são apenas para fins de entretenimento e desenvolvimento pessoal e não constituem aconselhamento médico. Nosso aplicativo não coleta nem processa dados biométricos ou de saúde.';
+      'Este aplicativo não é um dispositivo médico.\n\nInterpretações e análises de sonhos fornecidas são apenas para fins de entretenimento e conscientização pessoal\n\nNão constitui aconselhamento médico, psicológico ou profissional\n\nO aplicativo não coleta nem processa dados biométricos ou de saúde\n\n5. Contato\n\nVocê também pode acessar nossa política de privacidade detalhada em nosso site:\nhttps://www.novabloomstudio.com/pt/privacy';
 
   @override
   String get supportTitle => 'Fale Conosco';

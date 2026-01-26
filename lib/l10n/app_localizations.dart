@@ -1247,55 +1247,55 @@ abstract class AppLocalizations {
   /// No description provided for @privacyNoticeContent.
   ///
   /// In tr, this message translates to:
-  /// **'NovaBloom Studio olarak gizliliğinize en üst düzeyde önem veriyoruz. DreamBoat, rüyalarınızı güvenle kaydetmeniz ve analiz etmeniz için tasarlanmıştır.'**
+  /// **'DreamBoat, bağımsız geliştirici Guney Yilmazer tarafından NovaBloom Studio markası altında geliştirilmiştir. Gizliliğiniz bizim için en yüksek önceliktir. DreamBoat, rüyalarınızı güvenle kaydetmeniz ve kişisel farkındalık için analiz etmeniz amacıyla tasarlanmıştır.'**
   String get privacyNoticeContent;
 
   /// No description provided for @privacySection1Title.
   ///
   /// In tr, this message translates to:
-  /// **'1. Veri Güvenliği ve İşleme:'**
+  /// **'1. Veri Güvenliği ve İşleme'**
   String get privacySection1Title;
 
   /// No description provided for @privacySection1Content.
   ///
   /// In tr, this message translates to:
-  /// **'Rüyalarınız şifrelenmiş olarak saklanır. Yapay zeka analizleri için gönderilen veriler anonimleştirilir ve asla AI modellerinin eğitimi için kullanılmaz. Verileriniz KVKK ve GDPR standartlarına uygun olarak korunur.'**
+  /// **'Rüya kayıtlarınız ve uygulama içi verileriniz güvenli bir şekilde saklanır.\nRüyalarınız yalnızca uygulamanın sunduğu özellikleri çalıştırmak için işlenir.\n\nRüya içerikleri üçüncü kişilerle asla paylaşılmaz\n\nVeriler reklam, pazarlama veya kullanıcı profilleme amacıyla kullanılmaz\n\nYapay zekâ destekli analizler yalnızca kullanıcı deneyimini geliştirmek için yapılır\n\nRüya metinleri AI modellerinin eğitimi için kullanılmaz\n\nTüm işlemler KVKK ve GDPR standartlarına uygun şekilde yürütülür'**
   String get privacySection1Content;
 
   /// No description provided for @privacySection2Title.
   ///
   /// In tr, this message translates to:
-  /// **'2. Hesap ve Kullanım:'**
+  /// **'2. Hesap ve Kullanım'**
   String get privacySection2Title;
 
   /// No description provided for @privacySection2Content.
   ///
   /// In tr, this message translates to:
-  /// **'Uygulama tamamen anonim olarak kullanılır ve herhangi bir üyelik gerektirmez. Kişisel verileriniz ve rüya kayıtlarınız sadece cihazınızda saklanır. Herhangi bir hesap oluşturma işlemi veya kişisel veri toplama süreci bulunmamaktadır.'**
+  /// **'DreamBoat, hesap oluşturma zorunluluğu olmadan çalışır.\n\nUygulama anonim olarak kullanılabilir\n\nRüyalarınız ve ayarlarınız yalnızca cihazınızda veya uygulamaya ait güvenli alanlarda saklanır\n\nKişisel kimlik bilgileri (isim, e-posta vb.) zorunlu olarak toplanmaz'**
   String get privacySection2Content;
 
   /// No description provided for @privacySection3Title.
   ///
   /// In tr, this message translates to:
-  /// **'3. İletişim:'**
+  /// **'3. Gizlilik ve Kilitleme Özellikleri'**
   String get privacySection3Title;
 
   /// No description provided for @privacySection3Content.
   ///
   /// In tr, this message translates to:
-  /// **'Her türlü soru, öneri ve veri talepleriniz için info@novabloomstudio.com adresi üzerinden bizimle iletişime geçebilirsiniz.'**
+  /// **'DreamBoat, gizliliği korumak için ek güvenlik seçenekleri sunar:\n\nRüya günlüğü Face ID veya parmak izi ile kilitlenebilir\n\nRüyalar varsayılan olarak tamamen özeldir\n\nPaylaşım özelliği isteğe bağlıdır ve yalnızca kullanıcı açıkça paylaşmayı seçtiğinde çalışır\n\nRüyalar hiçbir zaman otomatik olarak veya üçüncü taraflarla paylaşılmaz'**
   String get privacySection3Content;
 
   /// No description provided for @privacySection4Title.
   ///
   /// In tr, this message translates to:
-  /// **'4. Sağlık ve Tıbbi Feragat (ÖNEMLİ):'**
+  /// **'4. Sağlık ve Tıbbi Feragat (ÖNEMLİ)'**
   String get privacySection4Title;
 
   /// No description provided for @privacySection4Content.
   ///
   /// In tr, this message translates to:
-  /// **'Bu uygulama tıbbi bir cihaz değildir. Sunulan rüya yorumları ve analizler tamamen eğlence ve kişisel gelişim amaçlıdır, tıbbi tavsiye niteliği taşımaz. Uygulamamız herhangi bir biyometrik veya sağlık verisi toplamaz ve işlemez.'**
+  /// **'DreamBoat bir sağlık veya tıbbi uygulama değildir.\n\nSunulan rüya yorumları ve analizler eğlence ve kişisel farkındalık amaçlıdır\n\nTıbbi, psikolojik veya profesyonel tavsiye niteliği taşımaz\n\nUygulama biyometrik veya sağlık verisi toplamaz ve işlemez\n\n5. İletişim\n\nDetaylı gizlilik politikamıza web sitemiz üzerinden de ulaşabilirsiniz:\nhttps://www.novabloomstudio.com/tr/privacy'**
   String get privacySection4Content;
 
   /// No description provided for @supportTitle.

@@ -283,21 +283,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       padding: const EdgeInsets.only(top: 20),
                       child: _SettingItem(
                         icon: LucideIcons.bug,
-                        title: "DEBUG: Toggle PRO",
+                        title: "Review Mode (PRO Enabled)",
                         value: isPro ? "ACTIVE" : "INACTIVE",
                         trailing: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: isPro ? Colors.green.withOpacity(0.2) : Colors.amber.withOpacity(0.2),
+                            color: isPro ? const Color(0xFFFFD700).withOpacity(0.2) : Colors.white.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: isPro ? Colors.green.withOpacity(0.5) : Colors.amber.withOpacity(0.5)
+                              color: isPro ? const Color(0xFFFFD700).withOpacity(0.5) : Colors.white.withOpacity(0.3)
                             ),
                           ),
                           child: Text(
                             isPro ? "PRO" : "STD",
                             style: TextStyle(
-                              color: isPro ? Colors.greenAccent : Colors.amberAccent,
+                              color: isPro ? const Color(0xFFFFD700) : Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.bold
                             ),
