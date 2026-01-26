@@ -419,6 +419,12 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                           const SizedBox(height: 12),
                           
                           // Maybe later button
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              minimumSize: const Size(48, 48),
+                              tapTargetSize: MaterialTapTargetSize.padded,
+                            ),
+                            onPressed: () => Navigator.pop(context),
                             child: Text(
                               t.upgradeCancel, 
                               style: TextStyle(
