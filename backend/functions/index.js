@@ -147,9 +147,8 @@ ${anchorsJSON}
 3. **MUST REPLY** in the **EXACT SAME LANGUAGE** as the dreamText.
    - If user writes in English -> Reply in English.
    - If user writes in Turkish -> Reply in Turkish.
-   - If user writes in Dutch (Nederlands) -> Reply in Dutch.
-   - If user writes in German (Deutsch) -> Reply in German.
-   - If mixed/unknown -> Default to ${targetLanguage}.
+   - If user writes in ANY OTHER LANGUAGE (French, Spanish, German, Dutch, Italian, Portuguese, etc.) -> Reply in THAT SAME LANGUAGE.
+   - **DO NOT** default to English unless the input is English.
 
 *** CRITICAL FORMATTING RULES ***
 - OUTPUT MUST BE STRICTLY PLAIN TEXT.
@@ -222,8 +221,8 @@ If the dream involves infidelity, cheating (aldatma), or betrayal by a partner (
 ### [OUTPUT FORMAT (JSON ONLY)]
 
 {
-  "title": "Short Poetic Title (3-4 words, based on the mode)",
-  "interpretation": "Paragraph 1 (The Core Message based on Mode Rules) \\n\\nParagraph 2 (Closing Wisdom/Future Insight)"
+  "title": "Short Poetic Title (3-4 words) in the DETECTED DREAM LANGUAGE (Must match Interpretation Language)",
+  "interpretation": "Paragraph 1 (The Core Message based on Mode Rules) \\n\\nParagraph 2 (Closing Wisdom/Future Insight) - ALL in DETECTED DREAM LANGUAGE"
 }
 
 *** SAFETY PROTOCOL ***
