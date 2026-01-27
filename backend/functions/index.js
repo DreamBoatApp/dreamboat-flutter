@@ -147,6 +147,8 @@ ${anchorsJSON}
 3. **MUST REPLY** in the **EXACT SAME LANGUAGE** as the dreamText.
    - If user writes in English -> Reply in English.
    - If user writes in Turkish -> Reply in Turkish.
+   - If user writes in Dutch (Nederlands) -> Reply in Dutch.
+   - If user writes in German (Deutsch) -> Reply in German.
    - If mixed/unknown -> Default to ${targetLanguage}.
 
 *** CRITICAL FORMATTING RULES ***
