@@ -92,14 +92,14 @@ exports.interpretDream = onCall({ secrets: [openaiApiKey] }, async (request) => 
     const prompts = {
         tr: {
             forbiddenExample: 'Örn: "deniz (duygular)", "balık (kısmet)"',
-            visitation: '"Onu rüyanda görmek, kalbindeki sevgi bağının sonsuz olduğunu fısıldıyor..."',
-            trauma: '"Bu rüyanın sana ağır hissettirdiğini biliyorum. Ancak unutma ki rüyalar aleminde veda, aslında bir dönüşümdür."',
-            relationshipRule: 'If cheating/divorce -> "Bu, senin kendine olan güveninle ilgili bir içsel çatışma, ilişkinin gerçeği değil."',
+            visitation: 'Examples: "Onu rüyanda görmek..." (TR) or "Seeing them..." (EN) (Translate to Dream Language)',
+            trauma: 'Examples: "Bu deneyim..." (TR) or "This experience..." (EN) (Translate to Dream Language)',
+            relationshipRule: 'If cheating/divorce -> Interpret as INTERNAL conflict (Match Dream Language).',
             badExample: '"Asansör değişimi, anahtar çözümü simgeler."',
             goodExample: '"Yaşadığın bu içsel seviye değişimi, henüz elinde olmayan bir çözüm aracıyla birleştiğinde, belirsizliğin aslında bir davet olduğunu gösteriyor."',
             complexExample: '"Ayaklarının yere basmamasıyla yaşadığın istikrar kaybı, boğazındaki ifade düğümüyle birleşerek, şu an üzerinde hissettiğin baskıdan kaçıp uzaklaşma isteğini tetikliyor."',
             closingBan: '"Her şey güzel olacak", "Başaracaksın"',
-            closingWisdom: '"Bazen kapalı kapının önünde durmak, onu açmaktan daha değerlidir."',
+            closingWisdom: '"Bazen kapalı kapının önünde durmak, onu açmaktan daha değerlidir." (Translate to Dream Language)',
             safetyTitle: '"Aldatılma Şüphesi", "Güvensizlik"'
         },
         en: {
@@ -137,15 +137,14 @@ You are the "Wise Friend" (Bilge Dost).
 Your first task is to DETECT THE SCENARIO MODE based on the user's dream.
 
 *** CORE INPUT DATA ***
-User App Language: ${targetLanguage} (Context only)
 User Mood: ${mood}
 Dictionary Anchors: 
 ${anchorsJSON}
 
-*** LANGUAGE OVERRIDE RULE ***
+*** LANGUAGE DETECTION & OUTPUT RULE ***
 1. **DETECT** the language of the user's dreamText.
-2. **IGNORE** the "User App Language" for the output generation.
-3. **MUST REPLY** in the **SAME LANGUAGE** as the dreamText.
+2. **IGNORE** any previous instructions about app locale.
+3. **MUST REPLY** in the **EXACT SAME LANGUAGE** as the dreamText.
    - If user writes in English -> Reply in English.
    - If user writes in Turkish -> Reply in Turkish.
    - If mixed/unknown -> Default to ${targetLanguage}.
