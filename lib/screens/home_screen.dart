@@ -1,3 +1,4 @@
+import 'dart:io'; // [NEW] For Platform check
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:dream_boat_mobile/widgets/background_sky.dart';
@@ -112,7 +113,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         } else {
-          SystemNavigator.pop();
+          // [FIX] Only exit programmatically on Android. 
+          // iOS apps should suspend, not quit.
+          if (Platform.isAndroid) {
+            SystemNavigator.pop();
+          }
         }
       },
       child: NightSkyBackground(

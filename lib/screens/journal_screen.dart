@@ -1,3 +1,4 @@
+import 'dart:ui'; // For BackdropFilter
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:dream_boat_mobile/theme/app_theme.dart';
@@ -45,6 +46,9 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
   
   // Prevent Face ID loop during authentication
   bool _isAuthenticating = false;
+  
+  // Privacy: Hide content in background/multitasking/auth
+  bool _isSensitiveContentHidden = false;
 
   @override
   void initState() {
@@ -54,8 +58,18 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
     // Defer Ad loading to check PRO status
     WidgetsBinding.instance.addPostFrameCallback((_) {
        // Pro check logic removed/simplified if needed
+       // Check initial lock state (in case we started on this screen somehow, though unlikely)
+       _checkJournalLockStatus(); 
     });
     _loadDreams();
+  }
+  
+  Future<void> _checkJournalLockStatus() async {
+    if (await BiometricService.isJournalLockEnabled()) {
+        // If we opened this screen and lock is on, ensure it's hidden until auth
+        // But usually auth happens before navigation. 
+        // This is mostly for state syncing.
+    }
   }
   
   @override
@@ -66,6 +80,13 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
   
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Hide content immediately when leaving app (multitasking view, home screen, etc.)
+    if (state == AppLifecycleState.inactive || state == AppLifecycleState.paused) {
+      setState(() {
+        _isSensitiveContentHidden = true;
+      });
+    }
+    
     if (state == AppLifecycleState.resumed) {
       _checkBiometricOnResume();
     }
@@ -73,17 +94,42 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
   
   Future<void> _checkBiometricOnResume() async {
     // Prevent repeated auth calls during biometric prompt or immediately after success
-    if (_isAuthenticating || BiometricService.recentlyAuthenticated) return;
+    if (_isAuthenticating || BiometricService.recentlyAuthenticated) {
+       // If we just authenticated, make sure content is visible
+       if (BiometricService.recentlyAuthenticated && mounted) {
+          setState(() {
+             _isSensitiveContentHidden = false;
+          });
+       }
+       return;
+    }
     
-    // Only check if lock is enabled
+    // Check if lock is enabled
     if (await BiometricService.isJournalLockEnabled()) {
+      // Ensure hidden while checking
+      if (mounted) setState(() => _isSensitiveContentHidden = true);
+      
       _isAuthenticating = true;
       final t = AppLocalizations.of(context)!;
       final authenticated = await BiometricService.authenticate(t.biometricLockReason);
       _isAuthenticating = false;
-      if (!authenticated && mounted) {
-        // Authentication failed, pop back to home
-        Navigator.of(context).pop();
+      
+      if (mounted) {
+        if (authenticated) {
+          setState(() {
+            _isSensitiveContentHidden = false;
+          });
+        } else {
+          // Authentication failed, pop back to home
+          Navigator.of(context).pop();
+        }
+      }
+    } else {
+      // No lock enabled, reveal content
+      if (mounted) {
+        setState(() {
+          _isSensitiveContentHidden = false;
+        });
       }
     }
   }
@@ -702,11 +748,13 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
             ),
           ),
         ),
-        body: GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          behavior: HitTestBehavior.opaque,
-          child: Column(
+        body: Stack(
           children: [
+            GestureDetector(
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+              behavior: HitTestBehavior.opaque,
+              child: Column(
+                children: [
              // Filter Tabs (hide in selection mode OR if filtered externally)
              if (!_isSelectionMode && widget.filter == null)
                Padding(
@@ -800,9 +848,40 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
              ),
              
 
+                  ],
+                ),
+            ),
+            
+            // Privacy Blur Layer (BackdropFilter)
+            if (_isSensitiveContentHidden)
+              Positioned.fill(
+                child: ClipRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                    child: Container(
+                      color: Colors.black.withOpacity(0.4),
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(LucideIcons.lock, size: 48, color: Colors.white.withOpacity(0.6)),
+                          const SizedBox(height: 16),
+                          Text(
+                            t.biometricLockSettingsTitle,
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.8),
+                              fontSize: 14,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
-      ),
       ),
     );
   }

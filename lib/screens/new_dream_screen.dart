@@ -91,10 +91,30 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
   }
   
   Future<void> _checkAdAndProcess(String mood, List<String> secondaryMoods, int intensity, int vividness) async {
+    if (_isSaving) return; // Prevent double taps
+
     // Lock everything down - aggressive keyboard dismissal
     _focusNode.unfocus();
     FocusManager.instance.primaryFocus?.unfocus();
     SystemChannels.textInput.invokeMethod('TextInput.hide');
+
+    // 0. Check Connectivity (Safety First)
+    bool isOnline = false;
+    try {
+      // Short timeout to prevent UI freeze
+      isOnline = await ConnectivityService.isConnected.timeout(const Duration(seconds: 3));
+    } catch (e) {
+      debugPrint('Connectivity check failed: $e');
+      isOnline = false; // Fallback to offline on sensitive networks
+    }
+
+    if (!mounted) return;
+
+    if (!isOnline) {
+       // [NEW] Offline: Show explicit "No Internet" dialog
+       _showOfflineDialog(mood, secondaryMoods, intensity, vividness);
+       return;
+    }
 
     // 1. Check PRO Status
     final isPro = context.read<SubscriptionProvider>().isPro;
@@ -116,13 +136,24 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
     // 3. Ad Flow for Standard Users
     if (!mounted) return;
     
-    // We show Dialog ON TOP of Sheet. Sheet remains open if user cancels.
+    // [FIX] Frictionless Fallback:
+    // If Ad is NOT ready, do NOT show the error dialog "Ad Load Failed".
+    // Instead, just bypass the ad flow and let the user save their dream.
+    // This solves the issue where users get stuck in the error dialog.
+    if (!AdManager.instance.isAdLoaded) {
+       debugPrint('Ad not ready. Skipping ad flow gracefully.');
+       if (mounted) Navigator.pop(context); // Close Mood Sheet
+       await _processDream(mood, secondaryMoods, intensity, vividness);
+       return;
+    }
+
+    // Only show dialog if Ad is actually ready to show
     final result = await showDialog<String>(
       context: context,
       barrierDismissible: false,
       builder: (context) => AdConsentDialog(
-        isAdLoaded: AdManager.instance.isAdLoaded,
-        adLoadFailed: AdManager.instance.adLoadFailed,
+        isAdLoaded: true, // Known true
+        adLoadFailed: false,
       )
     );
 
@@ -139,7 +170,6 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
          if (mounted) Navigator.pop(context);
 
          // [FIX] Show simple black screen transition instead of full overlay
-         // This prevents the "half-second glitch" of the analysis screen appearing before ad
          if (mounted) {
            setState(() {
              _preparingAd = true;
@@ -147,24 +177,25 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
            });
          }
 
-         // Logic to show ad
-         final shown = await AdManager.instance.showInterstitial(context);
-         
-         if (mounted) {
-            setState(() => _preparingAd = false); // Hide transition screen
-         }
+         try {
+           // Logic to show ad
+           // Wrap in try-catch to ensure we NEVER leave the user stuck if Ad SDK crashes
+           final shown = await AdManager.instance.showInterstitial(context);
+           
+           if (mounted) {
+              setState(() => _preparingAd = false); // Hide transition screen
+           }
 
-         if (shown) {
-             // Ad shown & completed. Proceed to processing (Overlay will appear now)
-             if (mounted) await _processDream(mood, secondaryMoods, intensity, vividness);
-         } else {
-             // Failed.
-             if (mounted) {
-                setState(() => _isSaving = false);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Failed to load ad. Please try again.'))
-                );
-             }
+           // Whether shown or not, we proceed. Use the result 'shown' if needed for analytics.
+           if (mounted) await _processDream(mood, secondaryMoods, intensity, vividness);
+           
+         } catch (e) {
+           debugPrint("Ad Show Critical Error: $e");
+           // FAILS PREDICATE: Proceed to save anyway
+           if (mounted) {
+             setState(() => _preparingAd = false);
+             await _processDream(mood, secondaryMoods, intensity, vividness);
+           }
          }
     } else if (result == 'retry') {
         // Retry logic - wait a bit then re-check
@@ -176,6 +207,41 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
         if (mounted) _processDream(mood, secondaryMoods, intensity, vividness);
     }
     // If result is null (back button), do nothing. User is at Mood Sheet.
+  }
+
+  void _showOfflineDialog(String mood, List<String> secondaryMoods, int intensity, int vividness) {
+    final t = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppTheme.bgMid,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(t.offlineSaveTitle, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        content: Text(
+          t.offlineSaveContent,
+          style: const TextStyle(color: Colors.white70),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(t.offlineSaveCancel, style: const TextStyle(color: Colors.white54)),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close Dialog
+              if (mounted) Navigator.pop(context); // Close Mood Sheet
+              
+              // Proceed to save without interpretation
+              Future.delayed(const Duration(milliseconds: 100), () {
+                 if (mounted) _processDream(mood, secondaryMoods, intensity, vividness);
+              });
+            },
+            child: Text(t.offlineSaveConfirm, style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _processDream(String mood, List<String> secondaryMoods, int intensity, int vividness, {bool isFirstDream = false}) async {
@@ -193,9 +259,12 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
       String? title;
       
       // Check for internet connection first
-      // REMOVED BLOCKING CHECK: Firebase handles connectivity better
-      // final isConnected = await ConnectivityService.isConnected;
-      const isConnected = true; // Assume true and let try/catch handle errors
+      bool isConnected = false;
+      try {
+        isConnected = await ConnectivityService.isConnected.timeout(const Duration(seconds: 3));
+      } catch (e) {
+        isConnected = false;
+      }
       
       if (!isConnected) {
         interpretation = t.offlineInterpretation;

@@ -1458,4 +1458,23 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get biometricAuthFailed => 'Autenticação falhou';
+
+  @override
+  String get offlineSaveTitle => 'Sem Conexão com a Internet';
+
+  @override
+  String get offlineSaveContent =>
+      'Você pode salvar seu sonho no diário, mas ele não pode ser interpretado sem internet.';
+
+  @override
+  String get offlineSaveConfirm => 'Salvar Sem Interpretação';
+
+  @override
+  String get offlineSaveCancel => 'Cancelar';
+
+  @override
+  String get errorNoInternet => 'Sem conexão com a internet.';
+
+  @override
+  String get errorGeneric => 'Ocorreu um erro inesperado.';
 }

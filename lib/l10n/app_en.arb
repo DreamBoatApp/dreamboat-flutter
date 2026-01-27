@@ -481,5 +481,11 @@
     "biometricLockSettingsTitle": "Dream Journal Lock",
     "biometricLockSettingsSubtitle": "Protect with fingerprint / Face ID",
     "biometricNotAvailable": "Biometric feature not found on your device. You can add biometric data in Settings > Security.",
-    "biometricAuthFailed": "Authentication failed"
+    "biometricAuthFailed": "Authentication failed",
+    "offlineSaveTitle": "No Internet Connection",
+    "offlineSaveContent": "You can save your dream to the journal, but it cannot be interpreted without internet.",
+    "offlineSaveConfirm": "Save Without Interpretation",
+    "offlineSaveCancel": "Cancel",
+    "errorNoInternet": "No internet connection.",
+    "errorGeneric": "An unexpected error occurred."
 }

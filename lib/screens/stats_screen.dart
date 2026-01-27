@@ -307,6 +307,18 @@ class _StatsScreenState extends State<StatsScreen> {
 
 
   Future<void> _runAnalysis() async {
+    // [FIX] 1. Check Connectivity First
+    final isConnected = await ConnectivityService.isConnected;
+    if (!isConnected) {
+       final t = AppLocalizations.of(context)!;
+       if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+             SnackBar(content: Text(t.errorNoInternet)),
+          );
+       }
+       return;
+    }
+
     setState(() => _isLoading = true);
 
     try {
@@ -320,19 +332,26 @@ class _StatsScreenState extends State<StatsScreen> {
       final locale = Localizations.localeOf(context).languageCode;
       final result = await _openAIService.analyzeDreams(recentDreams, locale);
 
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('last_analysis_result', result);
-      await prefs.setString('last_analysis_date', DateTime.now().toIso8601String());
+      // [FIX] 2. Critical Check: Only save if result is valid
+      if (result.isNotEmpty && !result.toLowerCase().contains('error')) {
+         final prefs = await SharedPreferences.getInstance();
+         await prefs.setString('last_analysis_result', result);
+         await prefs.setString('last_analysis_date', DateTime.now().toIso8601String());
 
-      if (mounted) {
-        setState(() {
-          _analysisResult = result;
-          _lastAnalysisDate = DateTime.now();
-        });
+         if (mounted) {
+           setState(() {
+             _analysisResult = result;
+             _lastAnalysisDate = DateTime.now();
+           });
+         }
+      } else {
+         // Service returned empty/error string (handled gracefully in service but we shouldn't lock user)
+         throw Exception("Analysis service returned empty result (likely offline or timeout).");
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+        final t = AppLocalizations.of(context)!;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.errorGeneric)));
       }
     } finally {
       if (mounted) {
@@ -344,6 +363,19 @@ class _StatsScreenState extends State<StatsScreen> {
   // Moon Sync Analysis (30-day cooldown)
   Future<void> _runMoonSyncAnalysis() async {
     if (_isMoonSyncLoading) return;
+    
+    // [FIX] 1. Check Connectivity First
+    final isConnected = await ConnectivityService.isConnected;
+    if (!isConnected) {
+       final t = AppLocalizations.of(context)!;
+       if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+             SnackBar(content: Text(t.errorNoInternet)),
+          );
+       }
+       return;
+    }
+
     if (!mounted) return;
     
     setState(() => _isMoonSyncLoading = true);
@@ -376,19 +408,26 @@ class _StatsScreenState extends State<StatsScreen> {
       final locale = Localizations.localeOf(context).languageCode;
       final result = await _openAIService.analyzeMoonSync(dreamData, locale);
       
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('last_moon_sync_result', result);
-      await prefs.setString('last_moon_sync_date', DateTime.now().toIso8601String());
-      
-      if (mounted) {
-        setState(() {
-          _moonSyncResult = result;
-          _lastMoonSyncDate = DateTime.now();
-        });
+      // [FIX] 2. Critical Check: Only save if result is valid
+      if (result.isNotEmpty && !result.toLowerCase().contains('error')) {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('last_moon_sync_result', result);
+          await prefs.setString('last_moon_sync_date', DateTime.now().toIso8601String());
+          
+          if (mounted) {
+            setState(() {
+              _moonSyncResult = result;
+              _lastMoonSyncDate = DateTime.now();
+            });
+          }
+      } else {
+         // Service returned empty/error string
+         throw Exception("Moon Sync service returned empty result (likely offline or timeout).");
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+        final t = AppLocalizations.of(context)!;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.errorGeneric)));
       }
     } finally {
       if (mounted) {

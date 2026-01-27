@@ -1462,4 +1462,23 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get biometricAuthFailed => 'Authentifizierung fehlgeschlagen';
+
+  @override
+  String get offlineSaveTitle => 'Keine Internetverbindung';
+
+  @override
+  String get offlineSaveContent =>
+      'Du kannst deinen Traum im Tagebuch speichern, aber ohne Internet kann er nicht gedeutet werden.';
+
+  @override
+  String get offlineSaveConfirm => 'Ohne Deutung Speichern';
+
+  @override
+  String get offlineSaveCancel => 'Abbrechen';
+
+  @override
+  String get errorNoInternet => 'Keine Internetverbindung.';
+
+  @override
+  String get errorGeneric => 'Ein unerwarteter Fehler ist aufgetreten.';
 }

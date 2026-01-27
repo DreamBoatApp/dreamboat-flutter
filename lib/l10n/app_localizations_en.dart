@@ -1449,4 +1449,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get biometricAuthFailed => 'Authentication failed';
+
+  @override
+  String get offlineSaveTitle => 'No Internet Connection';
+
+  @override
+  String get offlineSaveContent =>
+      'You can save your dream to the journal, but it cannot be interpreted without internet.';
+
+  @override
+  String get offlineSaveConfirm => 'Save Without Interpretation';
+
+  @override
+  String get offlineSaveCancel => 'Cancel';
+
+  @override
+  String get errorNoInternet => 'No internet connection.';
+
+  @override
+  String get errorGeneric => 'An unexpected error occurred.';
 }

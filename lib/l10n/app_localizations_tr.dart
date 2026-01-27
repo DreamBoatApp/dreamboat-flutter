@@ -1446,4 +1446,23 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get biometricAuthFailed => 'Doğrulama başarısız';
+
+  @override
+  String get offlineSaveTitle => 'İnternet Bağlantısı Yok';
+
+  @override
+  String get offlineSaveContent =>
+      'Rüyanızı günlüğe kaydedebilirsiniz fakat şu an internet olmadığı için yorumlanamaz.';
+
+  @override
+  String get offlineSaveConfirm => 'Yorumsuz Kaydet';
+
+  @override
+  String get offlineSaveCancel => 'Vazgeç';
+
+  @override
+  String get errorNoInternet => 'İnternet bağlantısı yok.';
+
+  @override
+  String get errorGeneric => 'Beklenmedik bir hata oluştu.';
 }

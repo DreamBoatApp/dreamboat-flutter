@@ -478,5 +478,11 @@
     "biometricLockSettingsTitle": "Bloqueio do Diário de Sonhos",
     "biometricLockSettingsSubtitle": "Proteger com impressão digital / Face ID",
     "biometricNotAvailable": "Recurso biométrico não encontrado no seu dispositivo. Você pode adicionar dados biométricos em Configurações > Segurança.",
-    "biometricAuthFailed": "Autenticação falhou"
+    "biometricAuthFailed": "Autenticação falhou",
+    "offlineSaveTitle": "Sem Conexão com a Internet",
+    "offlineSaveContent": "Você pode salvar seu sonho no diário, mas ele não pode ser interpretado sem internet.",
+    "offlineSaveConfirm": "Salvar Sem Interpretação",
+    "offlineSaveCancel": "Cancelar",
+    "errorNoInternet": "Sem conexão com a internet.",
+    "errorGeneric": "Ocorreu um erro inesperado."
 }

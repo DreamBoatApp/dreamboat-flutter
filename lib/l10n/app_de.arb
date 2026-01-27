@@ -479,5 +479,11 @@
     "biometricLockSettingsTitle": "Traumtagebuch-Sperre",
     "biometricLockSettingsSubtitle": "Mit Fingerabdruck / Face ID schützen",
     "biometricNotAvailable": "Biometrische Funktion auf deinem Gerät nicht gefunden. Du kannst biometrische Daten in Einstellungen > Sicherheit hinzufügen.",
-    "biometricAuthFailed": "Authentifizierung fehlgeschlagen"
+    "biometricAuthFailed": "Authentifizierung fehlgeschlagen",
+    "offlineSaveTitle": "Keine Internetverbindung",
+    "offlineSaveContent": "Du kannst deinen Traum im Tagebuch speichern, aber ohne Internet kann er nicht gedeutet werden.",
+    "offlineSaveConfirm": "Ohne Deutung Speichern",
+    "offlineSaveCancel": "Abbrechen",
+    "errorNoInternet": "Keine Internetverbindung.",
+    "errorGeneric": "Ein unerwarteter Fehler ist aufgetreten."
 }

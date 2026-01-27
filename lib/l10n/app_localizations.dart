@@ -2725,6 +2725,42 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Doğrulama başarısız'**
   String get biometricAuthFailed;
+
+  /// No description provided for @offlineSaveTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İnternet Bağlantısı Yok'**
+  String get offlineSaveTitle;
+
+  /// No description provided for @offlineSaveContent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyanızı günlüğe kaydedebilirsiniz fakat şu an internet olmadığı için yorumlanamaz.'**
+  String get offlineSaveContent;
+
+  /// No description provided for @offlineSaveConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorumsuz Kaydet'**
+  String get offlineSaveConfirm;
+
+  /// No description provided for @offlineSaveCancel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vazgeç'**
+  String get offlineSaveCancel;
+
+  /// No description provided for @errorNoInternet.
+  ///
+  /// In tr, this message translates to:
+  /// **'İnternet bağlantısı yok.'**
+  String get errorNoInternet;
+
+  /// No description provided for @errorGeneric.
+  ///
+  /// In tr, this message translates to:
+  /// **'Beklenmedik bir hata oluştu.'**
+  String get errorGeneric;
 }
 
 class _AppLocalizationsDelegate

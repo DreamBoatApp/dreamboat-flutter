@@ -221,6 +221,9 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>We use Face ID to keep your dream journal private.</string>
 
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This identifier will be used to deliver personalized ads to you.</string>
+
 	<key>NSUserNotificationUsageDescription</key>
 	<string>DreamBoat sends reminders to log your dreams.</string>
 

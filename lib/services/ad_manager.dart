@@ -138,7 +138,16 @@ class AdManager {
 
     await _interstitialAd!.show();
     
-    return completer.future;
+    // [FIX] Add timeout to prevent app freeze if SDK callback never fires
+    return completer.future.timeout(
+      const Duration(seconds: 5), 
+      onTimeout: () {
+        debugPrint('AdManager: Show timeout (5s). Unfreezing UI.');
+        _isAdLoaded = false; // Reset state
+        _interstitialAd = null;
+        return false; // Treat as failed
+      }
+    );
   }
   
   /// Dispose resources. calls on app termination if needed.
