@@ -491,7 +491,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsVersion.
   ///
   /// In tr, this message translates to:
-  /// **'Sürüm 1.0.0'**
+  /// **'Sürüm:'**
   String get settingsVersion;
 
   /// No description provided for @settingsNotifOpen.

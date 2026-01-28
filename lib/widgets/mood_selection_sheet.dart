@@ -142,7 +142,7 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                         selected: isSelected,
                         child: GestureDetector(
                           onTap: () {
-                            HapticFeedback.selectionClick();
+                                HapticFeedback.lightImpact();
                             setState(() {
                               if (_selectedMood == m['key']) {
                                  // Deselect: tapping the same mood again clears selection

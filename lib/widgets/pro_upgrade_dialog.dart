@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:dream_boat_mobile/widgets/custom_button.dart';
 import 'package:dream_boat_mobile/widgets/platform_widgets.dart';
 import 'package:provider/provider.dart';
@@ -183,15 +184,27 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
     debugPrint('Monthly Intro: $monthlyIntro');
     debugPrint('==============================');
     
-    // Trial period in days
-    final yearlyTrialDays = yearlyIntro?.cycles != null && yearlyIntro!.price == 0 
-        ? (yearlyIntro.periodNumberOfUnits ?? 0) * (yearlyIntro.periodUnit == 'DAY' ? 1 : yearlyIntro.periodUnit == 'WEEK' ? 7 : 30)
-        : 0;
-    final monthlyTrialDays = monthlyIntro?.cycles != null && monthlyIntro!.price == 0 
-        ? (monthlyIntro.periodNumberOfUnits ?? 0) * (monthlyIntro.periodUnit == 'DAY' ? 1 : monthlyIntro.periodUnit == 'WEEK' ? 7 : 30)
-        : 0;
+    // Helper to robustly calculate days from period unit
+    int calculateDays(IntroductoryPrice? discount) {
+      if (discount == null || discount.price != 0) return 0;
+      
+      final units = discount.periodNumberOfUnits;
+      // Convert to string and upper case to handle Enums or Strings (Week, WEEK, PeriodUnit.week)
+      final unit = discount.periodUnit.toString().toUpperCase(); 
+      
+      int daysPerUnit = 0;
+      if (unit.contains('DAY')) daysPerUnit = 1;
+      else if (unit.contains('WEEK')) daysPerUnit = 7;
+      else if (unit.contains('MONTH')) daysPerUnit = 30;
+      else if (unit.contains('YEAR')) daysPerUnit = 365;
+      
+      return units * daysPerUnit;
+    }
+
+    final yearlyTrialDays = calculateDays(yearlyIntro);
+    final monthlyTrialDays = calculateDays(monthlyIntro);
     
-    debugPrint('Calculated Trial Days - Yearly: $yearlyTrialDays, Monthly: $monthlyTrialDays');
+    debugPrint('Calculated Trial Days - Yearly: $yearlyTrialDays, Monthly: $monthlyTrialDays, Unit: ${yearlyIntro?.periodUnit}');
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -395,7 +408,10 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                               ],
                             ),
                             child: ElevatedButton(
-                              onPressed: () => _handlePurchase(_isYearlySelected),
+                              onPressed: () {
+                                HapticFeedback.lightImpact();
+                                _handlePurchase(_isYearlySelected);
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFFBBF24),
                                 foregroundColor: Colors.black,
@@ -424,7 +440,10 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                               minimumSize: const Size(48, 48),
                               tapTargetSize: MaterialTapTargetSize.padded,
                             ),
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              HapticFeedback.lightImpact();
+                              Navigator.pop(context);
+                            },
                             child: Text(
                               t.upgradeCancel, 
                               style: TextStyle(
@@ -442,7 +461,10 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                               tapTargetSize: MaterialTapTargetSize.padded,
                               visualDensity: VisualDensity.compact,
                             ),
-                            onPressed: _handleRestore,
+                            onPressed: () {
+                              HapticFeedback.lightImpact();
+                              _handleRestore();
+                            },
                             child: Text(
                               t.settingsRestorePurchases,
                               style: TextStyle(
@@ -511,7 +533,10 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
             child: Material(
               type: MaterialType.transparency,
               child: InkWell(
-                onTap: () => Navigator.pop(context),
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  Navigator.pop(context);
+                },
                 borderRadius: BorderRadius.circular(16),
                 splashColor: Colors.white.withOpacity(0.15),
                 highlightColor: Colors.white.withOpacity(0.08),
@@ -569,7 +594,10 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
     required String subscribeText,
   }) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTap();
+      },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.only(top: 16, left: 12, right: 12, bottom: 12),
@@ -619,7 +647,10 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: onSubscribe,
+                    onPressed: () {
+                      HapticFeedback.lightImpact();
+                      onSubscribe();
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: isSelected 
                         ? const Color(0xFFFBBF24) 
@@ -763,21 +794,23 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
           const SizedBox(height: 2),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center, // Align text baselines
             children: [
               Text(
                 '${t.then} ',
                 style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.black.withOpacity(0.7),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black.withOpacity(0.8),
                 ),
               ),
               Text(
                 price,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.black.withOpacity(0.5),
-                  decoration: TextDecoration.lineThrough,
-                  decorationColor: Colors.black.withOpacity(0.5),
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold, // Make price stand out
+                  color: Colors.black, // Full black for clarity
+                  decoration: TextDecoration.none, // Explicitly no strikethrough
                 ),
               ),
             ],

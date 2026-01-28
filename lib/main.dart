@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:dream_boat_mobile/l10n/app_localizations.dart';
@@ -20,65 +21,81 @@ import 'package:dream_boat_mobile/services/firebase_ready_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:dream_boat_mobile/models/dream_entry.dart';
 
-void main() async {
+void main() {
   debugPrint('=== MAIN START ===');
-  WidgetsFlutterBinding.ensureInitialized();
   
-  // Initialize Hive
-  await Hive.initFlutter();
-  Hive.registerAdapter(DreamEntryAdapter());
-  await Hive.openBox<DreamEntry>('dreams');
-  
-  
-  // Edge-to-Edge Config
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.light, 
-    systemNavigationBarColor: Colors.transparent,
-    systemNavigationBarIconBrightness: Brightness.light,
-  ));
-  
-  // Lock Orientation to Portrait
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-  
-  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  // Guard the entire app execution to catch startup errors
+  runZonedGuarded<Future<void>>(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    
+    // Initialize Hive (Lightweight, keep in main flow)
+    await Hive.initFlutter();
+    Hive.registerAdapter(DreamEntryAdapter());
+    await Hive.openBox<DreamEntry>('dreams');
+    
+    // Edge-to-Edge Config
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light, 
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.light,
+    ));
+    
+    // Lock Orientation to Portrait
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-  debugPrint('=== WidgetsFlutterBinding initialized ===');
-  
-  debugPrint('=== Starting runApp ===');
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) {
-        debugPrint('=== Creating SubscriptionProvider ===');
-        return SubscriptionProvider();
-      },
-      child: const MyApp(),
-    ),
-  );
-  debugPrint('=== runApp completed ===');
-  
-  // Defer heavy initialization until after the first frame is drawn
-  // This prevents the native splash screen from hanging due to main thread contention
-  WidgetsBinding.instance.addPostFrameCallback((_) async {
-    debugPrint('=== First Frame Rendered: Starting Background Init (Delayed) ===');
+    debugPrint('=== Starting runApp ===');
+    runApp(
+      ChangeNotifierProvider(
+        create: (_) => SubscriptionProvider(),
+        child: const MyApp(),
+      ),
+    );
+    debugPrint('=== runApp completed ===');
     
-    // YIELD execution to let the engine actually present the frame to the user
-    // This allows the native splash to disappear and our Flutter Splash to show
-    await Future.delayed(const Duration(milliseconds: 1500));
+    // STRICT BACKGROUND INITIALIZATION
+    // We explicitly wait for the first frame to render before touching any heavy SDKs.
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      debugPrint('=== First Frame Rendered ===');
+      
+      // Delay to ensure smooth splash animation start
+      await Future.delayed(const Duration(milliseconds: 500));
+      debugPrint('=== Starting Background Tasks ===');
+      
+      // Initialize in parallel
+      Future.wait([
+        _initAds(),
+        _initFirebase(),
+        _initNotifications()
+      ]);
+    });
     
-    debugPrint('=== Background Init: Waking up ===');
-
-    // Initialize MobileAds (non-blocking)
-    MobileAds.instance.initialize();
-    AdManager.instance.initialize();
-    
-    // Do Firebase/AppCheck and notification setup
-    _initFirebaseInBackground();
-    _initNotificationsInBackground();
+  }, (error, stack) {
+    debugPrint('=== UNCAUGHT ERROR: $error ===');
+    debugPrint(stack.toString());
   });
+}
+
+// Separated Init Functions
+Future<void> _initAds() async {
+  try {
+    // Check connectivity first? Optional.
+    await MobileAds.instance.initialize();
+    AdManager.instance.initialize(); // Assuming this is lightweight
+  } catch(e) { debugPrint('Ad Init Failed: $e'); }
+}
+
+Future<void> _initFirebase() async {
+   await _initFirebaseInBackground(); // Reuse existing function
+}
+
+Future<void> _initNotifications() async {
+   await _initNotificationsInBackground(); // Reuse existing function
 }
 
 // Background Firebase initialization - does not block app startup

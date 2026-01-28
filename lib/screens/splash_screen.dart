@@ -163,6 +163,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                                 height: 160,
                                 fit: BoxFit.contain,
                                 color: Colors.white,
+
                               ),
                             ),
                           ),

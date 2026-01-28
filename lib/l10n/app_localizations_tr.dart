@@ -208,7 +208,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsSupport => 'Destek';
 
   @override
-  String get settingsVersion => 'Sürüm 1.0.0';
+  String get settingsVersion => 'Sürüm:';
 
   @override
   String get settingsNotifOpen => 'Bildirimleri Aç';

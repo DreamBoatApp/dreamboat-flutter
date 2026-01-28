@@ -37,6 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   TimeOfDay _notifTime = const TimeOfDay(hour: 9, minute: 0);
   bool _use24HourFormat = true;
   String _debugTimeZone = '';
+  String _version = '';
   
   // Biometric Lock State
   bool _biometricLockEnabled = false;
@@ -69,11 +70,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _debugTimeZone = timezone;
     });
     
+
+    
+    // Load package info
+    final packageInfo = await PackageInfo.fromPlatform();
+    
     // Load biometric state
     final biometricAvailable = await BiometricService.isBiometricAvailable();
     final biometricEnabled = await BiometricService.isJournalLockEnabled();
     if (mounted) {
       setState(() {
+        _version = packageInfo.version;
         _biometricAvailable = biometricAvailable;
         _biometricLockEnabled = biometricEnabled;
       });
@@ -317,7 +324,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Text(t.settingsVersion, style: TextStyle(color: AppTheme.textMuted)),
+              child: Text('${t.settingsVersion} $_version', style: TextStyle(color: AppTheme.textMuted)),
             )
           ],
         ),
@@ -630,16 +637,11 @@ class _BiometricSettingItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       margin: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          Icon(
-            LucideIcons.lock, 
-            color: isAvailable ? Colors.white : Colors.grey,
-            size: 20,
-          ),
-          const SizedBox(width: 12),
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

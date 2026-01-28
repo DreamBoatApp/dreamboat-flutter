@@ -199,6 +199,13 @@ Return JSON: {"title": "Restricted Content", "interpretation": "Safety guideline
             parsed = { title: defaultTitle, interpretation: responseText };
         }
 
+        // Clean up formatting: remove spaces after newlines
+        if (parsed.interpretation) {
+            parsed.interpretation = parsed.interpretation
+                .trim()
+                .replace(/\n\s+/g, '\n');
+        }
+
         return {
             title: parsed.title || defaultTitle,
             interpretation: parsed.interpretation || responseText,

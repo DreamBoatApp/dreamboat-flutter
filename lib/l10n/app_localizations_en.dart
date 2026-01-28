@@ -208,7 +208,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsSupport => 'Support';
 
   @override
-  String get settingsVersion => 'Version 1.0.0';
+  String get settingsVersion => 'Version:';
 
   @override
   String get settingsNotifOpen => 'Enable Notifications';

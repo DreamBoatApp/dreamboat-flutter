@@ -209,7 +209,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsSupport => 'Soporte';
 
   @override
-  String get settingsVersion => 'Versión 1.0.0';
+  String get settingsVersion => 'Versión:';
 
   @override
   String get settingsNotifOpen => 'Activar Notificaciones';

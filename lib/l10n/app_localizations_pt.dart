@@ -209,7 +209,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsSupport => 'Suporte';
 
   @override
-  String get settingsVersion => 'Versão 1.0.0';
+  String get settingsVersion => 'Versão:';
 
   @override
   String get settingsNotifOpen => 'Ativar Notificações';
