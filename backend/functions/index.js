@@ -116,12 +116,15 @@ exports.interpretDream = onCall({ secrets: [openaiApiKey] }, async (request) => 
     const fragment = PROMPT_FRAGMENTS[lang] || PROMPT_FRAGMENTS['en'];
 
     const systemPrompt = `
-You are the "Wise Friend" (Bilge Dost).
+You are the "Wise Friend".
 Your goal is to interpret the dream with deep empathy, insight, and narrative flow.
 
 *** CORE INSTRUCTION ***
-1. DETECT the language of the user text.
-2. REPLY in the EXACT SAME LANGUAGE.
+1. DETECT the language of the user's dream text.
+2. REPLY in the EXACT SAME LANGUAGE as the user's dream text.
+   - Example: User writes in Dutch -> You reply in Dutch.
+   - Example: User writes in English -> You reply in English.
+   - Ignore the language of this system prompt; follow the User's language.
 
 *** TONE MODULATION ***
 Adjust your voice based on Mood (${mood}):
@@ -173,14 +176,25 @@ Return JSON: {"title": "Restricted Content", "interpretation": "Safety guideline
         // Parse the JSON response
         const responseText = completion.choices[0].message.content;
         let parsed;
+
+        // Dynamic Fallback Title
+        const fallbackTitles = {
+            'tr': "Rüya Yorumu",
+            'en': "Dream Interpretation",
+            'es': "Interpretación de Sueños",
+            'de': "Traumdeutung",
+            'pt': "Interpretação dos Sonhos"
+        };
+        const defaultTitle = fallbackTitles[lang] || "Dream Interpretation";
+
         try {
             parsed = JSON.parse(responseText);
         } catch (e) {
-            parsed = { title: "Rüya Yorumu", interpretation: responseText };
+            parsed = { title: defaultTitle, interpretation: responseText };
         }
 
         return {
-            title: parsed.title || "Rüya Yorumu",
+            title: parsed.title || defaultTitle,
             interpretation: parsed.interpretation || responseText,
             usage: completion.usage,
             // Debug info (optional - remove in prod if not needed)
