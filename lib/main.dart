@@ -17,10 +17,18 @@ import 'package:flutter/foundation.dart'; // for kDebugMode
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:dream_boat_mobile/services/firebase_ready_service.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:dream_boat_mobile/models/dream_entry.dart';
 
 void main() async {
   debugPrint('=== MAIN START ===');
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Hive
+  await Hive.initFlutter();
+  Hive.registerAdapter(DreamEntryAdapter());
+  await Hive.openBox<DreamEntry>('dreams');
+  
   
   // Edge-to-Edge Config
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

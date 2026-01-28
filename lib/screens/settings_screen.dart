@@ -278,7 +278,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                    // DEBUG Toggle for Emulator Testing
                    // DEBUG Toggle for Testing (Visible in Release for TestFlight)
-                  if (true)
+                  // DEBUG Toggle for Testing (Visible in Release for TestFlight)
+                  if (kDebugMode)
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: _SettingItem(

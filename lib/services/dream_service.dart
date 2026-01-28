@@ -1,67 +1,52 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dream_boat_mobile/models/dream_entry.dart';
 
 class DreamService {
-  static const String _storageKey = 'dreams_data';
+  static const String _boxName = 'dreams';
+
+  /// Get the open box. It must be opened in main.dart before accessing this.
+  Box<DreamEntry> get _box => Hive.box<DreamEntry>(_boxName);
 
   Future<List<DreamEntry>> getDreams() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? dreamsJson = prefs.getString(_storageKey);
-    if (dreamsJson == null) return [];
-
-    try {
-      final List<dynamic> decoded = jsonDecode(dreamsJson);
-      return decoded.map((e) => DreamEntry.fromJson(e as Map<String, dynamic>)).toList();
-    } catch (e) {
-      // JSON parsing failed - data might be corrupted
-      debugPrint('DreamService: Error parsing dreams data: $e');
-      // Return empty list to prevent app crash
-      // Future improvement: backup corrupted data and notify user
-      return [];
-    }
+    // Hive keeps data in memory, so values.toList() is fast.
+    // We sort them by date descending (newest first)
+    final dreams = _box.values.toList();
+    dreams.sort((a, b) => b.date.compareTo(a.date));
+    return dreams;
   }
 
   Future<void> saveDream(DreamEntry dream) async {
-    final dreams = await getDreams();
-    dreams.insert(0, dream); // Add new dream to the top
-    await _saveList(dreams);
+    // We use the ID as the key for O(1) lookups
+    await _box.put(dream.id, dream);
+    debugPrint("DreamService (Hive): Saved dream ${dream.id}");
   }
 
   Future<void> deleteDream(String id) async {
-    final dreams = await getDreams();
-    dreams.removeWhere((element) => element.id == id);
-    await _saveList(dreams);
+    await _box.delete(id);
+    debugPrint("DreamService (Hive): Deleted dream $id");
   }
 
   Future<void> updateDream(DreamEntry updatedDream) async {
-    final dreams = await getDreams();
-    final index = dreams.indexWhere((element) => element.id == updatedDream.id);
-    if (index != -1) {
-      dreams[index] = updatedDream;
-      await _saveList(dreams);
-    }
+    // In Hive, 'put' updates if key exists
+    await _box.put(updatedDream.id, updatedDream);
+    debugPrint("DreamService (Hive): Updated dream ${updatedDream.id}");
   }
 
   Future<void> toggleFavorite(String id) async {
-    final dreams = await getDreams();
-    final index = dreams.indexWhere((element) => element.id == id);
-    if (index != -1) {
-      final old = dreams[index];
-      dreams[index] = old.copyWith(isFavorite: !old.isFavorite);
-      await _saveList(dreams);
+    final dream = _box.get(id);
+    if (dream != null) {
+      final updated = dream.copyWith(isFavorite: !dream.isFavorite);
+      await _box.put(id, updated);
     }
   }
 
+  // --- First Dream Logic (Still using SharedPrefs for simple flags) ---
   static const String _firstDreamKey = 'is_first_dream_used';
 
   Future<bool> isFirstDream() async {
     final prefs = await SharedPreferences.getInstance();
-    // Default to true (first dream NOT used yet)
-    // If key exists and is true, it means used.
-    // Wait, let's allow "isFirst" meaning "Am I treated as first?". 
-    // If key is missing, it is first.
     final used = prefs.getBool(_firstDreamKey) ?? false;
     return !used;
   }
@@ -71,14 +56,7 @@ class DreamService {
     await prefs.setBool(_firstDreamKey, true);
   }
 
-  Future<void> _saveList(List<DreamEntry> dreams) async {
-    final prefs = await SharedPreferences.getInstance();
-    final String encoded = jsonEncode(dreams.map((e) => e.toJson()).toList());
-    debugPrint("DreamService: Persisting ${dreams.length} dreams to storage.");
-    await prefs.setString(_storageKey, encoded);
-  }
-
-  // --- Daily Usage Logic ---
+  // --- Daily Usage Logic (Still using SharedPrefs for ephemeral limits) ---
   static const String _dailyUsageDateKey = 'daily_usage_date';
   static const String _dailyUsageCountKey = 'daily_usage_count';
 
@@ -99,7 +77,7 @@ class DreamService {
 
   Future<void> incrementDailyUsage() async {
     final prefs = await SharedPreferences.getInstance();
-    final count = await getDailyUsage(); // Ensures date is effectively checked/reset
+    final count = await getDailyUsage(); 
     await prefs.setInt(_dailyUsageCountKey, count + 1);
   }
 }
