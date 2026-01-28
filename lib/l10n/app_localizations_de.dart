@@ -928,7 +928,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get moonSyncDescription =>
-      'Die Mond- und Planetensynchronisation analysiert deine Träume des letzten Monats zusammen mit der Mondphase am Tag, an dem du sie hattest, und kosmischen Ereignissen in diesem Zeitraum (wie Blutmond, Finsternisse). Indem sie die Emotionen, Intensität und Stimmung deiner Träume mit dem Mondzyklus abgleicht, zeigt sie dir, was dich diesen Monat beeinflusst hat und worauf du in bestimmten Mondphasen (Vollmond, Halbmond usw.) achten solltest. Da sie sich auf den Mondzyklus konzentriert, wird sie einmal im Monat erstellt.';
+      'Die Mond- und Planetensynchronisation analysiert deine Träume des letzten Monats zusammen mit der Mondphase am Tag, an dem du sie hattest, und kosmischen Ereignissen in diesem Zeitraum (wie Blutmond, Finsternisse). Indem sie die Emotionen, Intensität und Stimmung deiner Träume mit dem Mondzyklus abgleicht, offenbart sie die Harmonie zwischen deinem inneren Zustand und den kosmischen Rhythmen und worauf du in bestimmten Mondphasen (Vollmond, Halbmond usw.) achten solltest. Da sie sich auf den Mondzyklus konzentriert, wird sie einmal im Monat erstellt.';
 
   @override
   String get moonSyncDescriptionShort =>

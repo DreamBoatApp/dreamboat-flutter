@@ -280,7 +280,7 @@
     
     "moonSyncTitle": "Monthly Moon & Planet Synchronization",
     "moonSyncSubtitle": "Can be done once a month",
-    "moonSyncDescription": "Moon and Planet Synchronization analyzes your dreams from the past month alongside the Moon phase on the day you had them and cosmic events during that period (such as Blood Moon, eclipses). By matching the emotions, intensity, and mood in your dreams with the Moon cycle, it shows what influenced you this month and what you should pay attention to during specific lunar phases (full moon, half moon, etc.). Since it focuses on the Moon's cycle, it is generated once a month.",
+    "moonSyncDescription": "Moon and Planet Synchronization analyzes your dreams from the past month alongside the Moon phase on the day you had them and cosmic events during that period (such as Blood Moon, eclipses). By matching the emotions, intensity, and mood in your dreams with the Moon cycle, it reveals the harmony between your inner state and cosmic rhythms and what you should pay attention to during specific lunar phases (full moon, half moon, etc.). Since it focuses on the Moon's cycle, it is generated once a month.",
     "moonSyncDescriptionShort": "Interprets your dreams alongside Moon cycles and cosmic events. Learn what influenced you this month and what you should pay attention to.",
     "moonSyncBtn": "Start Cosmic Analysis",
     "moonSyncWait": "You must wait {days} days for a new analysis.",

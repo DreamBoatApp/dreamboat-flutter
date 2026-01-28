@@ -1751,7 +1751,7 @@ abstract class AppLocalizations {
   /// No description provided for @moonSyncDescription.
   ///
   /// In tr, this message translates to:
-  /// **'Ay ve Gezegen Senkronizasyonu, son bir ay içindeki rüyalarını gördüğün güne ait Ay evresi ve o dönemdeki kozmik olaylarla (Kanlı Ay, tutulmalar gibi) birlikte analiz eder. Rüyalarındaki duygu, yoğunluk ve ruh hâlini Ay döngüsüyle eşleştirerek, bu ay seni nelerin etkilediğini ve belirli ay döngülerinde (dolunay, yarım ay gibi) nelere dikkat etmen gerektiğini gösterir. Ay\'ın döngüsüne odaklı olduğu için ayda bir kez oluşturulur.'**
+  /// **'Ay ve Gezegen Senkronizasyonu, son bir ay içindeki rüyalarını gördüğün güne ait Ay evresi ve o dönemdeki kozmik olaylarla (Kanlı Ay, tutulmalar gibi) birlikte analiz eder. Rüyalarındaki duygu, yoğunluk ve ruh hâlini Ay döngüsüyle eşleştirerek, bu ay iç dünyan ile kozmik döngüler arasındaki uyumu ve belirli ay döngülerinde (dolunay, yarım ay gibi) nelere dikkat etmen gerektiğini gösterir. Ay\'ın döngüsüne odaklı olduğu için ayda bir kez oluşturulur.'**
   String get moonSyncDescription;
 
   /// No description provided for @moonSyncDescriptionShort.

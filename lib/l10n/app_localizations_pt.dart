@@ -923,7 +923,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get moonSyncDescription =>
-      'A Sincronização de Lua e Planetas analisa seus sonhos do último mês junto com a fase lunar do dia em que os teve e os eventos cósmicos desse período (como Lua de Sangue, eclipses). Ao relacionar as emoções, intensidade e estado de espírito dos seus sonhos com o ciclo lunar, mostra o que influenciou você este mês e ao que deve prestar atenção durante fases lunares específicas (lua cheia, quarto, etc.). Como foca no ciclo lunar, é gerada uma vez por mês.';
+      'A Sincronização de Lua e Planetas analisa seus sonhos do último mês junto com a fase lunar do dia em que os teve e os eventos cósmicos desse período (como Lua de Sangue, eclipses). Ao relacionar as emoções, intensidade e estado de espírito dos seus sonhos com o ciclo lunar, revela a harmonia entre seu estado interior e os ritmos cósmicos e ao que deve prestar atenção durante fases lunares específicas (lua cheia, quarto, etc.). Como foca no ciclo lunar, é gerada uma vez por mês.';
 
   @override
   String get moonSyncDescriptionShort =>

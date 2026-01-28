@@ -919,7 +919,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moonSyncDescription =>
-      'Moon and Planet Synchronization analyzes your dreams from the past month alongside the Moon phase on the day you had them and cosmic events during that period (such as Blood Moon, eclipses). By matching the emotions, intensity, and mood in your dreams with the Moon cycle, it shows what influenced you this month and what you should pay attention to during specific lunar phases (full moon, half moon, etc.). Since it focuses on the Moon\'s cycle, it is generated once a month.';
+      'Moon and Planet Synchronization analyzes your dreams from the past month alongside the Moon phase on the day you had them and cosmic events during that period (such as Blood Moon, eclipses). By matching the emotions, intensity, and mood in your dreams with the Moon cycle, it reveals the harmony between your inner state and cosmic rhythms and what you should pay attention to during specific lunar phases (full moon, half moon, etc.). Since it focuses on the Moon\'s cycle, it is generated once a month.';
 
   @override
   String get moonSyncDescriptionShort =>

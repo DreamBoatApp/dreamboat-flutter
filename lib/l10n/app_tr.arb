@@ -297,7 +297,7 @@
     
     "moonSyncTitle": "Aylık Ay ve Gezegen Senkronizasyonu",
     "moonSyncSubtitle": "Ayda bir kez yapılabilir",
-    "moonSyncDescription": "Ay ve Gezegen Senkronizasyonu, son bir ay içindeki rüyalarını gördüğün güne ait Ay evresi ve o dönemdeki kozmik olaylarla (Kanlı Ay, tutulmalar gibi) birlikte analiz eder. Rüyalarındaki duygu, yoğunluk ve ruh hâlini Ay döngüsüyle eşleştirerek, bu ay seni nelerin etkilediğini ve belirli ay döngülerinde (dolunay, yarım ay gibi) nelere dikkat etmen gerektiğini gösterir. Ay'ın döngüsüne odaklı olduğu için ayda bir kez oluşturulur.",
+    "moonSyncDescription": "Ay ve Gezegen Senkronizasyonu, son bir ay içindeki rüyalarını gördüğün güne ait Ay evresi ve o dönemdeki kozmik olaylarla (Kanlı Ay, tutulmalar gibi) birlikte analiz eder. Rüyalarındaki duygu, yoğunluk ve ruh hâlini Ay döngüsüyle eşleştirerek, bu ay iç dünyan ile kozmik döngüler arasındaki uyumu ve belirli ay döngülerinde (dolunay, yarım ay gibi) nelere dikkat etmen gerektiğini gösterir. Ay'ın döngüsüne odaklı olduğu için ayda bir kez oluşturulur.",
     "moonSyncDescriptionShort": "Rüyalarını Ay döngüleri ve kozmik olaylarla birlikte yorumlar. Bu ay seni nelerin etkilediğini ve nelere dikkat etmen gerektiğini öğrenirsin.",
     "moonSyncBtn": "Kozmik Analizi Başlat",
     "moonSyncWait": "Yeni analiz için {days} gün beklemelisiniz.",
