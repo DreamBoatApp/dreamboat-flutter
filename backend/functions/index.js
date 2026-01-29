@@ -203,7 +203,11 @@ Return JSON: {"title": "Restricted Content", "interpretation": "Safety guideline
         if (parsed.interpretation) {
             parsed.interpretation = parsed.interpretation
                 .trim()
-                .replace(/\n\s+/g, '\n');
+                .trim()
+                // Replace 3+ newlines with 2 (max paragraph spacing)
+                .replace(/(\n\s*){3,}/g, '\n\n')
+                // Remove spaces at start of lines (indentation)
+                .replace(/^[ \t]+/gm, '');
         }
 
         return {

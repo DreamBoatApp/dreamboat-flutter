@@ -1,5 +1,7 @@
+import 'dart:io'; // For Platform check
 import 'dart:ui'; // For BackdropFilter
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // For HapticFeedback
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:dream_boat_mobile/theme/app_theme.dart';
 import 'package:dream_boat_mobile/widgets/background_sky.dart';
@@ -257,6 +259,11 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
   }
 
   Future<void> _toggleFavorite(DreamEntry dream) async {
+      if (Platform.isAndroid) {
+        await HapticFeedback.vibrate();
+      } else {
+        await HapticFeedback.mediumImpact();
+      }
       final updated = dream.copyWith(isFavorite: !dream.isFavorite);
       await DreamService().updateDream(updated);
       _loadDreams();
@@ -583,6 +590,11 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
                                 // Change icon color based on state
                                 iconColor: currentDream.isFavorite ? Colors.redAccent : Colors.white,
                                 onTap: () async {
+                                  if (Platform.isAndroid) {
+                                    await HapticFeedback.vibrate();
+                                  } else {
+                                    await HapticFeedback.mediumImpact();
+                                  }
                                   // 1. Calculate new state
                                   final newStatus = !currentDream.isFavorite;
                                   final updated = currentDream.copyWith(isFavorite: newStatus);
