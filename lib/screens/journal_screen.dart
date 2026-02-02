@@ -1465,24 +1465,66 @@ class _DreamCard extends StatelessWidget {
                                 children: [
                                   // Mood section (expanded to fill available space)
                                   Expanded(
-                                    child: dream.mood != null
-                                      ? Row(
-                                          children: [
-                                            Flexible(
-                                              child: Text(
-                                                '${t.feltMood} $moodLabel',
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: Colors.white.withOpacity(0.5),
-                                                  fontSize: 12,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        // Primary Mood
+                                        if (dream.mood.isNotEmpty)
+                                          Row(
+                                            children: [
+                                              Flexible(
+                                                child: Text(
+                                                  '${t.feltMood} $moodLabel',
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    color: Colors.white.withOpacity(0.5),
+                                                    fontSize: 12,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            const SizedBox(width: 6),
-                                            Icon(moodData['icon'] as IconData, size: 16, color: moodColor),
-                                          ],
-                                        )
-                                      : const SizedBox.shrink(),
+                                              const SizedBox(width: 6),
+                                              Icon(moodData['icon'] as IconData, size: 16, color: moodColor),
+                                            ],
+                                          ),
+                                          
+                                        // Secondary Mood (if exists)
+                                        if (dream.secondaryMoods != null && dream.secondaryMoods!.isNotEmpty) ...[
+                                           const SizedBox(height: 4),
+                                           Row(
+                                            children: [
+                                              Flexible(
+                                                child: Builder(
+                                                  builder: (context) {
+                                                     final secMood = dream.secondaryMoods!.first;
+                                                     final secData = moodMap[secMood] ?? moodMap['neutral']!;
+                                                     final secLabel = secData['label'] as String;
+                                                     final secColor = secData['color'] as Color;
+                                                     final secIcon = secData['icon'] as IconData;
+                                                     
+                                                     return Row(
+                                                       children: [
+                                                         Flexible(
+                                                           child: Text(
+                                                             secLabel, // Just label, no prefix for 2nd line
+                                                             overflow: TextOverflow.ellipsis,
+                                                             style: TextStyle(
+                                                               color: Colors.white.withOpacity(0.5),
+                                                               fontSize: 12,
+                                                             ),
+                                                           ),
+                                                         ),
+                                                         const SizedBox(width: 6),
+                                                         Icon(secIcon, size: 16, color: secColor),
+                                                       ],
+                                                     );
+                                                  }
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ]
+                                      ],
+                                    ),
                                   ),
                                   
                                   

@@ -137,11 +137,16 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
       return;
     }
 
-    // 3. [REMOVED] Weekly Limit Check - Disabled for unlimited free interpretations
-    // Unit economics: Ad revenue ($0.003-0.008) >> API cost ($0.0006) = 5-13x margin
-    // Weekly usage tracking preserved for analytics only
-    // final weeklyUsage = await dreamService.getWeeklyUsage();
-    // if (weeklyUsage >= DreamService.weeklyFreeLimit) { ... }
+    // 4. Check Short Dream (Skip Ad & Interpretation)
+    // If dream is too short to interpret (< 50 chars), we don't show ad.
+    // We just save it directly.
+    if (_controller.text.length < 50) {
+      if (mounted) Navigator.pop(context); // Close Mood Sheet
+      await _processDream(mood, secondaryMoods, intensity, vividness);
+      return;
+    }
+
+    // 5. Ad Flow for Standard Users
 
     // 4. Ad Flow for Standard Users
     if (!mounted) return;
@@ -483,6 +488,8 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
                       ),
                       child: TextField(
                         controller: _controller,
+                        textCapitalization: TextCapitalization.sentences,
+                        keyboardType: TextInputType.multiline,
                         focusNode: _focusNode,
                         maxLines: null,
                         expands: true, // Fills the container

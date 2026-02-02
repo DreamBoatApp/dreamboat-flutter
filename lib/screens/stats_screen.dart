@@ -137,11 +137,34 @@ class _StatsScreenState extends State<StatsScreen> {
        final moodStats = <String, _MoodStat>{};
        
        for (var d in monthlyDreams) {
-         if (!moodStats.containsKey(d.mood)) {
-            moodStats[d.mood] = _MoodStat();
+         // Collect all moods for this dream (Primary + Secondary)
+         final moodsToProcess = [d.mood];
+         if (d.secondaryMoods != null) {
+            moodsToProcess.addAll(d.secondaryMoods!);
          }
-         moodStats[d.mood]!.count++;
-         moodStats[d.mood]!.totalIntensity += (d.moodIntensity ?? 2); // Default to medium if null
+
+         // Calculate Intensity (Normalized)
+         int intensity = d.moodIntensity ?? 0;
+         if (intensity == 0) {
+            // Handle legacy nulls
+            intensity = d.date.isBefore(DateTime(2026, 2, 3)) ? 2 : 3;
+         }
+         
+         // Mapping Logic for Old Data (Before Feb 3, 2026)
+         if (d.date.isBefore(DateTime(2026, 2, 3)) && intensity <= 3) {
+            if (intensity == 2) intensity = 3;      // Medium 2 -> 3
+            else if (intensity == 3) intensity = 5; // High 3 -> 5
+            // Low 1 stays 1
+         }
+
+         // Add stats for ALL moods
+         for (var m in moodsToProcess) {
+             if (!moodStats.containsKey(m)) {
+                moodStats[m] = _MoodStat();
+             }
+             moodStats[m]!.count++;
+             moodStats[m]!.totalIntensity += intensity;
+         }
        }
        
        if (mounted) setState(() => _moodStats = moodStats);
@@ -149,7 +172,6 @@ class _StatsScreenState extends State<StatsScreen> {
        if (mounted) setState(() => _moodStats = {});
     }
     
-    // Trigger rebuild to update UI with loaded data
     // Trigger rebuild to update UI with loaded data
     if (mounted) {
        setState(() {
@@ -159,7 +181,10 @@ class _StatsScreenState extends State<StatsScreen> {
     }
   }
 
+  // ... (rest of simple methods skipped logic same) ...
+
   Future<void> _loadDailyTip(SharedPreferences prefs, String locale) async {
+    // ... (unchanged)
     final todayStr = DateTime.now().toString().split(' ')[0];
     final dateKey = 'tip_date_$locale';
     final contentKey = 'tip_content_$locale';
@@ -175,7 +200,8 @@ class _StatsScreenState extends State<StatsScreen> {
   }
 
   Future<void> _generateNewTip(SharedPreferences prefs, String todayStr, String locale, String dateKey, String contentKey) async {
-    if (!mounted) return;
+    // ... (unchanged)
+     if (!mounted) return;
     setState(() => _isTipLoading = true);
     
     try {
@@ -203,10 +229,6 @@ class _StatsScreenState extends State<StatsScreen> {
 
   // FLOW: 1. User taps button -> 2. Show Dialog -> 3. Show Ad -> 4. Run Analysis
   Future<void> _handleAnalysisTap() async {
-      // REMOVED: ConnectivityService pre-check - iOS unreliable
-      // Let the actual API call fail naturally if offline
-      
-      // Check limit again just in case
       // Check limit again just in case
       if (_lastAnalysisDate != null) {
         final difference = DateTime.now().difference(_lastAnalysisDate!);
@@ -235,24 +257,20 @@ class _StatsScreenState extends State<StatsScreen> {
             children: [
                const Icon(LucideIcons.brainCircuit, size: 48, color: Color(0xFFD8B4FE)), // Brain Icon
                const SizedBox(height: 16),
-                const Text(
-                  "Haftalık Desen Analizi",
+                Text(
+                  t.statsAnalysisIntroTitle,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Color(0xFFD8B4FE), fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(color: Color(0xFFD8B4FE), fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  "Bu analizi haftada yalnızca 1 kez yapabilirsin. Daha kapsamlı sonuç için daha fazla rüya girmen gerekebilir.",
+                Text(
+                  t.statsAnalysisIntroContent,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, height: 1.5, fontSize: 14),
+                  style: const TextStyle(color: Colors.white, height: 1.5, fontSize: 14),
                 ),
-                const SizedBox(height: 24),
                 const SizedBox(height: 24),
                 Consumer<SubscriptionProvider>(
                   builder: (context, subProvider, child) {
-                    // ignore: unused_local_variable
-                    final isPro = subProvider.isPro; 
-                    
                     return Row(
                           children: [
                             Expanded(
@@ -278,7 +296,6 @@ class _StatsScreenState extends State<StatsScreen> {
                                 child: ElevatedButton(
                                   onPressed: () {
                                     Navigator.pop(context); // Close dialog
-                                    // Always analyze here, as safety checks are done before dialog
                                     _runAnalysis();
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -303,8 +320,6 @@ class _StatsScreenState extends State<StatsScreen> {
       ),
     );
   }
-
-
 
   Future<void> _runAnalysis() async {
     // [FIX] 1. Check Connectivity First
@@ -345,8 +360,8 @@ class _StatsScreenState extends State<StatsScreen> {
            });
          }
       } else {
-         // Service returned empty/error string (handled gracefully in service but we shouldn't lock user)
-         throw Exception("Analysis service returned empty result (likely offline or timeout).");
+         // Service returned empty/error string
+         throw Exception("Analysis service returned empty result.");
       }
     } catch (e) {
       if (mounted) {
@@ -399,7 +414,6 @@ class _StatsScreenState extends State<StatsScreen> {
           'vividness': d.vividness,
           'astronomicalEvents': d.astronomicalEvents,
           'date': d.date.toIso8601String(),
-          'wordCount': d.text.split(' ').length,
           'moonPhase': moonPhaseService.getPhaseNameEn(phase),
           'isWaxing': moonPhaseService.isWaxing(d.date),
         };
@@ -421,8 +435,7 @@ class _StatsScreenState extends State<StatsScreen> {
             });
           }
       } else {
-         // Service returned empty/error string
-         throw Exception("Moon Sync service returned empty result (likely offline or timeout).");
+         throw Exception("Moon Sync service returned empty result.");
       }
     } catch (e) {
       if (mounted) {
@@ -436,8 +449,9 @@ class _StatsScreenState extends State<StatsScreen> {
     }
   }
 
-  // Helper for Soft Aesthetic Colors
+  // ... helper colors ...
   Color _getMoodColor(String mood) {
+     // ... (unchanged)
     switch (mood) {
       case 'love': return const Color(0xFFF24C9A);      // Canlı Pembe
       case 'happy': return const Color(0xFFFFFF00);     // Mutluluk (güncellendi)
@@ -509,14 +523,14 @@ class _StatsScreenState extends State<StatsScreen> {
             double avgIntensity = stat.totalIntensity / stat.count;
             Color finalColor = baseColor;
             
-            // [LOGIC] Intensity Visual Feedback
-            // High Intensity (>2.3) -> Full Vivid Color (Canlı)
-            // Low Intensity (<1.4)  -> Faded/Pale (Silik)
-            // Medium Intensity      -> Slightly Reduced Opacity (Normal)
+            // [LOGIC] Intensity Visual Feedback (Updated for 5-Point Scale)
+            // Low (1-2) -> <= 2.6
+            // High (4-5) -> >= 3.4
+            // Medium (3) -> In between
             
-            if (avgIntensity <= 1.4) {
+            if (avgIntensity <= 2.6) {
                finalColor = baseColor.withOpacity(0.4); // Hafif: Çok daha silik (0.4)
-            } else if (avgIntensity >= 2.3) {
+            } else if (avgIntensity >= 3.4) {
                 finalColor = baseColor; // Şiddetli: Tam Canlı
             } else {
                finalColor = baseColor.withOpacity(0.8); // Orta: Normal
@@ -565,18 +579,19 @@ class _StatsScreenState extends State<StatsScreen> {
             String intensityText = t.intensityFeltMedium;
             Color finalColor = baseColor;
             
-            if (avgIntensity <= 1.4) {
+            if (avgIntensity <= 2.6) {
                intensityText = t.intensityFeltLight;
-               finalColor = baseColor.withOpacity(0.4); // Hafif: Çok daha silik (0.4)
-            } else if (avgIntensity >= 2.3) {
+               finalColor = baseColor.withOpacity(0.4); // Hafif
+            } else if (avgIntensity >= 3.4) {
                 intensityText = t.intensityFeltIntense;
-                finalColor = baseColor; // Şiddetli: Tam Canlı
+                finalColor = baseColor; // Şiddetli
             } else {
                intensityText = t.intensityFeltMedium;
                finalColor = baseColor.withOpacity(0.8); // Orta
             }
             
             final percent = (stat.count / total * 100).round();
+
             
             // Legend Item
             legendItems.add(
