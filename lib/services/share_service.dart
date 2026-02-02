@@ -7,6 +7,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:dream_boat_mobile/widgets/dream_share_card.dart';
 import 'package:dream_boat_mobile/widgets/dream_image_share_card.dart'; // [NEW]
 import 'package:dream_boat_mobile/services/review_service.dart';
+import 'package:dream_boat_mobile/l10n/app_localizations.dart';
 
 /// Service for creating and sharing dream interpretation cards.
 /// 

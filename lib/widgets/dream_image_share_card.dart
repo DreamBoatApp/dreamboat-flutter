@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DreamImageShareCard extends StatelessWidget {
   final String imageUrl;
@@ -34,28 +35,33 @@ class DreamImageShareCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 32),
             decoration: const BoxDecoration(
-              color: Color(0xFF0F0F23),
+              color: Color(0xFF2A2640), // Premium Soft Purple
               border: Border(top: BorderSide(color: Colors.white10)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Logo
-                Image.asset(
-                  'assets/images/db_logo_icon.png',
-                  height: 40,
-                  width: 40,
+                // Logo (White)
+                ColorFiltered(
+                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  child: Image.asset(
+                    'assets/images/db_logo_icon.png',
+                    height: 32,
+                    width: 32,
+                  ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 12),
                 // Text
                 Text(
-                  watermarkText,
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 20,
-                    fontFamily: 'Inter', // Assuming Inter is available or default
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.2,
+                  watermarkText, // Now localized as "DreamBoat app ile Görselleştirildi" from Service
+                  style: GoogleFonts.quicksand(
+                    textStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5,
+                    ),
                   ),
                 ),
               ],
