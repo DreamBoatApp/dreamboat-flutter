@@ -75,6 +75,7 @@ class OpenAIService {
       return {
         'title': data['title'] as String?,
         'interpretation': data['interpretation'] as String?,
+        'cosmicAnalysis': data['cosmicAnalysis'] as String?, // [NEW] Parse Journal content
       };
     } on FirebaseFunctionsException catch (e) {
       debugPrint('=== interpretDream FirebaseError ===');

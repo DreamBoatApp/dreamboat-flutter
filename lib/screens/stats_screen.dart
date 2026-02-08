@@ -790,7 +790,17 @@ class _StatsScreenState extends State<StatsScreen> {
               Builder(
                 builder: (context) {
                   final isPro = context.watch<SubscriptionProvider>().isPro;
-                  final widget = _analysisResult == null 
+                  
+                  // Check if 7 days have passed
+                  bool isAnalysisExpired = false;
+                  if (_lastAnalysisDate != null) {
+                      final diff = DateTime.now().difference(_lastAnalysisDate!);
+                      if (diff.inDays >= 7) {
+                          isAnalysisExpired = true;
+                      }
+                  }
+
+                  final widget = (_analysisResult == null || isAnalysisExpired) 
                     ? _buildIntroState(t, isPro)
                     : _buildResultState(t, isPro);
                   
@@ -811,7 +821,17 @@ class _StatsScreenState extends State<StatsScreen> {
               Builder(
                 builder: (context) {
                   final isPro = context.watch<SubscriptionProvider>().isPro;
-                  final widget = _moonSyncResult == null
+
+                  // Check if 30 days have passed
+                  bool isMoonSyncExpired = false;
+                  if (_lastMoonSyncDate != null) {
+                      final diff = DateTime.now().difference(_lastMoonSyncDate!);
+                      if (diff.inDays >= 30) {
+                          isMoonSyncExpired = true;
+                      }
+                  }
+
+                  final widget = (_moonSyncResult == null || isMoonSyncExpired)
                     ? _buildMoonSyncIntroState(t, isPro)
                     : _buildMoonSyncResultState(t, isPro);
                   

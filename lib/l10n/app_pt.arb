@@ -263,10 +263,12 @@
     "proUpgradeSubtitle": "Sem assinatura. Compra única, acesso vitalício.",
     "proFeatureAdsTitle": "Experiência Sem Anúncios",
     "proFeatureAdsSubtitle": "Sem anúncios nas interpretações de sonhos.\nConcentre-se apenas nos seus sonhos e no que eles querem lhe dizer.",
+    "proFeatureCosmicTitle": "Desbloqueie Conexões Cósmicas",
+    "proFeatureCosmicSubtitle": "Revela conexões cósmicas adicionais nas interpretações.\nInterpreta seus sonhos junto com as fases da lua e influências planetárias.",
     "proFeatureAnalysisTitle": "Análise Semanal de Padrões de Sonhos",
-    "proFeatureAnalysisSubtitle": "Revela conexões ocultas entre seus sonhos. Descubra temas recorrentes, emoções e mensagens do subconsciente ao longo do tempo.",
+    "proFeatureAnalysisSubtitle": "Revela conexões ocultas entre seus sonhos.\nDescubra temas recorrentes, emoções e mensagens do subconsciente ao longo do tempo.",
     "proFeatureGuideTitle": "Guia de Sonhos Lúcidos",
-    "proFeatureGuideSubtitle": "Assuma o controle dos seus sonhos. Técnicas guiadas passo a passo do iniciante ao avançado.",
+    "proFeatureGuideSubtitle": "Assuma o controle dos seus sonhos.\nTécnicas guiadas passo a passo do iniciante ao avançado.",
     "proProcessing": "Processando...",
     "notifDialogTitle": "Ativar Notificações",
     "notifDialogBody": "Permita que o DreamBoat o lembre de registrar seus sonhos todas as manhãs.",
@@ -520,7 +522,7 @@
     },
     "streakSubtitle": "Sua jornada de sonhos continua",
     "proFeatureImageGenTitle": "Gerar Imagem de Sonho Diária",
-    "proFeatureImageGenSubtitle": "Visualize seus sonhos com IA. 1 imagem vívida por dia.",
+    "proFeatureImageGenSubtitle": "Transforme seus sonhos em arte vívida. Dê vida a um sonho todos os dias.",
     "visualizeDream": "Visualizar Sonho",
     "visualizingDream": "Visualizando...",
     "imageGenLimitReached": "Limite Diário Atingido",
@@ -532,5 +534,8 @@
     "offlineImageGenContent": "Não foi possível gerar imagem. Verifique sua conexão. O limite não foi consumido.",
     "limitReachedTitle": "Limite Atingido",
     "trialImageLimitReached": "Você usou sua visualização de teste gratuita. Após o período de teste, você pode criar uma nova imagem diária com PRO!",
-    "dailyImageLimitReached": "Você usou sua visualização diária. Volte amanhã para uma nova imagem!"
+    "dailyImageLimitReached": "Você usou sua visualização diária. Volte amanhã para uma nova imagem!",
+    "visualizeDreamSubtitle": "Interpretação visual do seu sonho com IA",
+    "cosmicConnectionTitle": "Conexão Cósmica",
+    "unlockProConnection": "Ver Tudo"
 }

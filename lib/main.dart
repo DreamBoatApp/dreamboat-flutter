@@ -22,6 +22,8 @@ import 'package:dream_boat_mobile/services/firebase_ready_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:dream_boat_mobile/models/dream_entry.dart';
 
+import 'package:intl/date_symbol_data_local.dart'; // [NEW] For date formatting
+
 void main() {
   debugPrint('=== MAIN START ===');
   
@@ -33,6 +35,9 @@ void main() {
     await Hive.initFlutter();
     Hive.registerAdapter(DreamEntryAdapter());
     await Hive.openBox<DreamEntry>('dreams');
+
+    // Initialize Date Formatting for all locales
+    await initializeDateFormatting(); // [NEW] Fix for localized dates
     
     // Edge-to-Edge Config
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

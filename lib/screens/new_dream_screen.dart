@@ -303,6 +303,8 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
         isConnected = false;
       }
       
+      String? cosmicAnalysis;
+      
       if (!isConnected) {
         interpretation = t.offlineInterpretation;
         title = null;
@@ -332,8 +334,13 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
         } else {
           interpretation = result['interpretation']!;
           title = result['title'];
+          // [NEW] Cosmic Analysis from API
+          if (result.containsKey('cosmicAnalysis')) {
+            cosmicAnalysis = result['cosmicAnalysis'];
+          }
         }
       }
+
       
       // Save Dream
       final now = DateTime.now();
@@ -355,6 +362,7 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
         title: title,
         astronomicalEvents: astronomicalEvents,
         guideStage: guideStage,
+        cosmicAnalysis: cosmicAnalysis,
       );
       
       final dreamService = DreamService();

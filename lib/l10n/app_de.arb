@@ -264,10 +264,12 @@
     "proUpgradeSubtitle": "Kein Abo. Einmalkauf, lebenslanger Zugriff.",
     "proFeatureAdsTitle": "Werbefreie Erfahrung",
     "proFeatureAdsSubtitle": "Keine Werbung bei Traumdeutungen.\nKonzentriere dich nur auf deine Träume und was sie dir sagen wollen.",
+    "proFeatureCosmicTitle": "Kosmische Verbindungen Freischalten",
+    "proFeatureCosmicSubtitle": "Zeigt zusätzliche kosmische Verbindungen in Traumdeutungen.\nInterpretiert deine Träume zusammen mit Mondphasen und planetaren Einflüssen.",
     "proFeatureAnalysisTitle": "Wöchentliche Traummuster-Analyse",
-    "proFeatureAnalysisSubtitle": "Deckt verborgene Verbindungen zwischen deinen Träumen auf. Entdecke wiederkehrende Themen, Emotionen und Botschaften des Unterbewusstseins im Laufe der Zeit.",
+    "proFeatureAnalysisSubtitle": "Deckt verborgene Verbindungen zwischen deinen Träumen auf.\nEntdecke wiederkehrende Themen, Emotionen und Botschaften des Unterbewusstseins im Laufe der Zeit.",
     "proFeatureGuideTitle": "Klartraum-Leitfaden",
-    "proFeatureGuideSubtitle": "Übernimm die Kontrolle über deine Träume. Schritt-für-Schritt angeleitete Klartraumtechniken von Anfänger bis Fortgeschritten.",
+    "proFeatureGuideSubtitle": "Übernimm die Kontrolle über deine Träume.\nSchritt-für-Schritt angeleitete Klartraumtechniken von Anfänger bis Fortgeschritten.",
     "proProcessing": "Verarbeitung...",
     "notifDialogTitle": "Benachrichtigungen Aktivieren",
     "notifDialogBody": "Erlaube DreamBoat, dich jeden Morgen daran zu erinnern, deine Träume aufzuzeichnen.",
@@ -521,7 +523,7 @@
     },
     "streakSubtitle": "Deine Traumreise geht weiter",
     "proFeatureImageGenTitle": "Täglich Traumbilder generieren",
-    "proFeatureImageGenSubtitle": "Visualisiere deine Träume mit KI. 1 Bild pro Tag.",
+    "proFeatureImageGenSubtitle": "Verwandle deine Träume in lebendige Kunst. Erwecke jeden Tag einen Traum zum Leben.",
     "visualizeDream": "Traum visualisieren",
     "visualizingDream": "Wird visualisiert...",
     "imageGenLimitReached": "Tageslimit erreicht",
@@ -533,5 +535,8 @@
     "offlineImageGenContent": "Bild konnte nicht erstellt werden. Prüfe deine Verbindung. Limit wurde nicht verbraucht.",
     "limitReachedTitle": "Limit Erreicht",
     "trialImageLimitReached": "Du hast deine kostenlose Testvisualisierung verwendet. Nach Ablauf der Testversion kannst du mit PRO täglich ein neues Bild erstellen!",
-    "dailyImageLimitReached": "Du hast deine tägliche Visualisierung verwendet. Komm morgen für ein neues Bild zurück!"
+    "dailyImageLimitReached": "Du hast deine tägliche Visualisierung verwendet. Komm morgen für ein neues Bild zurück!",
+    "visualizeDreamSubtitle": "Visuelle Interpretation deines Traums mit KI",
+    "cosmicConnectionTitle": "Kosmische Verbindung",
+    "unlockProConnection": "Alles Sehen"
 }

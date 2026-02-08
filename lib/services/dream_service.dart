@@ -135,6 +135,7 @@ class DreamService {
         'dreamText': dreamText,
         'dreamId': dreamId,
         'isTrial': isTrial,
+        'isDebug': kDebugMode, // Bypass limits on Emulator/Debug
       }).timeout(const Duration(seconds: 60)); // DALL-E takes ~15s
       
       final data = result.data as Map<String, dynamic>;

@@ -30,13 +30,14 @@ class DreamEntryAdapter extends TypeAdapter<DreamEntry> {
       astronomicalEvents: (fields[10] as List?)?.cast<String>(),
       guideStage: fields[11] as int?,
       imageUrl: fields[12] as String?,
+      cosmicAnalysis: fields[13] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, DreamEntry obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -45,6 +46,8 @@ class DreamEntryAdapter extends TypeAdapter<DreamEntry> {
       ..write(obj.date)
       ..writeByte(3)
       ..write(obj.mood)
+      ..writeByte(13)
+      ..write(obj.cosmicAnalysis)
       ..writeByte(4)
       ..write(obj.secondaryMoods)
       ..writeByte(5)

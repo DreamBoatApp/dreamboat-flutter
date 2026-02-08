@@ -1655,8 +1655,20 @@ abstract class AppLocalizations {
   /// No description provided for @proFeatureAdsSubtitle.
   ///
   /// In tr, this message translates to:
-  /// **'Rüya yorumlamalarında reklam yok.\nSadece rüyalarınıza ve size anlatmak istediklerine odaklanın.'**
+  /// **'Rüya yorumlamalarında reklam yok.\nSadece rüyalarına ve sana anlatmak istediklerine odaklan.'**
   String get proFeatureAdsSubtitle;
+
+  /// No description provided for @proFeatureCosmicTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kozmik Bağlantıların Kilidini Aç'**
+  String get proFeatureCosmicTitle;
+
+  /// No description provided for @proFeatureCosmicSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüya yorumlarına ek kozmik bağlantıları ortaya çıkarır.\nRüyalarını Ay evreleri ve gezegen etkileriyle birlikte yorumlar.'**
+  String get proFeatureCosmicSubtitle;
 
   /// No description provided for @proFeatureAnalysisTitle.
   ///
@@ -1667,7 +1679,7 @@ abstract class AppLocalizations {
   /// No description provided for @proFeatureAnalysisSubtitle.
   ///
   /// In tr, this message translates to:
-  /// **'Rüyalarınız arasındaki gizli bağlantıları ortaya çıkarır. Tekrarlayan temaları, duyguları ve bilinçaltı mesajlarını zamanla keşfedin.'**
+  /// **'Rüyaların arasındaki gizli bağlantıları ortaya çıkarır.\nTekrarlayan temaları, duyguları ve bilinçaltı mesajlarını zamanla keşfet.'**
   String get proFeatureAnalysisSubtitle;
 
   /// No description provided for @proFeatureGuideTitle.
@@ -1679,7 +1691,7 @@ abstract class AppLocalizations {
   /// No description provided for @proFeatureGuideSubtitle.
   ///
   /// In tr, this message translates to:
-  /// **'Rüyalarınızın kontrolünü elinize alın. Sıfırdan ileri seviyeye, adım adım rehberli lucid rüya teknikleri.'**
+  /// **'Rüyalarının kontrolünü eline al.\nAdım adım rehberli lucid rüya teknikleri.'**
   String get proFeatureGuideSubtitle;
 
   /// No description provided for @proProcessing.
@@ -1787,7 +1799,7 @@ abstract class AppLocalizations {
   /// No description provided for @moonSyncDescriptionShort.
   ///
   /// In tr, this message translates to:
-  /// **'Rüyalarını Ay döngüleri ve kozmik olaylarla birlikte yorumlar. Bu ay seni nelerin etkilediğini ve nelere dikkat etmen gerektiğini öğrenirsin.'**
+  /// **'Kozmik olayları rüyalarınla birlikte yorumlar.\nBu ay seni nelerin etkilediğini öğren.'**
   String get moonSyncDescriptionShort;
 
   /// No description provided for @moonSyncBtn.
@@ -1817,7 +1829,7 @@ abstract class AppLocalizations {
   /// No description provided for @moonSyncProcessing.
   ///
   /// In tr, this message translates to:
-  /// **'Kozmik Analiz hazırlanıyor,\nlütfen kısa bir süre bekleyiniz.'**
+  /// **'Kozmik Analiz hazırlanıyor,\nlütfen bekleyiniz.'**
   String get moonSyncProcessing;
 
   /// No description provided for @moonPhaseNewMoon.
@@ -1829,7 +1841,7 @@ abstract class AppLocalizations {
   /// No description provided for @moonPhaseWaxingCrescent.
   ///
   /// In tr, this message translates to:
-  /// **'Hilal (Büyüyen)'**
+  /// **'Büyüyen Hilal'**
   String get moonPhaseWaxingCrescent;
 
   /// No description provided for @moonPhaseFirstQuarter.
@@ -1841,7 +1853,7 @@ abstract class AppLocalizations {
   /// No description provided for @moonPhaseWaxingGibbous.
   ///
   /// In tr, this message translates to:
-  /// **'Şişkin Ay (Büyüyen)'**
+  /// **'Büyüyen Şişkin Ay'**
   String get moonPhaseWaxingGibbous;
 
   /// No description provided for @moonPhaseFullMoon.
@@ -1853,7 +1865,7 @@ abstract class AppLocalizations {
   /// No description provided for @moonPhaseWaningGibbous.
   ///
   /// In tr, this message translates to:
-  /// **'Şişkin Ay (Küçülen)'**
+  /// **'Küçülen Şişkin Ay'**
   String get moonPhaseWaningGibbous;
 
   /// No description provided for @moonPhaseThirdQuarter.
@@ -1865,13 +1877,13 @@ abstract class AppLocalizations {
   /// No description provided for @moonPhaseWaningCrescent.
   ///
   /// In tr, this message translates to:
-  /// **'Hilal (Küçülen)'**
+  /// **'Küçülen Hilal'**
   String get moonPhaseWaningCrescent;
 
   /// No description provided for @actionShareInterpretation.
   ///
   /// In tr, this message translates to:
-  /// **'Yorumu\nPaylaş'**
+  /// **'Yorumu Paylaş'**
   String get actionShareInterpretation;
 
   /// No description provided for @shareImage.
@@ -2891,7 +2903,7 @@ abstract class AppLocalizations {
   /// No description provided for @proFeatureImageGenSubtitle.
   ///
   /// In tr, this message translates to:
-  /// **'Rüyanı AI ile görselleştir. Günde 1 canlı görsel.'**
+  /// **'Rüyalarını büyüleyici bir sanata dönüştürür. \nHer gün bir rüyanı canlandırabilirsin.'**
   String get proFeatureImageGenSubtitle;
 
   /// No description provided for @visualizeDream.
@@ -2933,8 +2945,14 @@ abstract class AppLocalizations {
   /// No description provided for @shareVisualizedBy.
   ///
   /// In tr, this message translates to:
-  /// **'DreamBoat ile Görselleştirildi'**
+  /// **'DreamBoat app ile Görselleştirildi'**
   String get shareVisualizedBy;
+
+  /// No description provided for @shareVisualSubject.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüya Görselleştirmem'**
+  String get shareVisualSubject;
 
   /// No description provided for @offlineImageGenTitle.
   ///
@@ -2963,8 +2981,26 @@ abstract class AppLocalizations {
   /// No description provided for @dailyImageLimitReached.
   ///
   /// In tr, this message translates to:
-  /// **'Bugünkü görselleştirme hakkınızı kullandınız. Yarın yeni bir görsel oluşturabilirsiniz.'**
+  /// **'Günlük görselleştirme hakkını kullandın. Yeni bir görsel için yarın tekrar gel!'**
   String get dailyImageLimitReached;
+
+  /// No description provided for @visualizeDreamSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapay zekâ ile rüyanın görsel yorumu'**
+  String get visualizeDreamSubtitle;
+
+  /// No description provided for @cosmicConnectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kozmik Bağlantı'**
+  String get cosmicConnectionTitle;
+
+  /// No description provided for @unlockProConnection.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tamamını Gör'**
+  String get unlockProConnection;
 }
 
 class _AppLocalizationsDelegate

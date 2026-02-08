@@ -1,13 +1,16 @@
 {
   "de": [
-    "adSkipThisTime"
+    "adSkipThisTime",
+    "shareVisualSubject"
   ],
 
   "es": [
-    "adSkipThisTime"
+    "adSkipThisTime",
+    "shareVisualSubject"
   ],
 
   "pt": [
-    "adSkipThisTime"
+    "adSkipThisTime",
+    "shareVisualSubject"
   ]
 }

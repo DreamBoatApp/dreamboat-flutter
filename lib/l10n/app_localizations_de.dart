@@ -876,18 +876,25 @@ class AppLocalizationsDe extends AppLocalizations {
       'Keine Werbung bei Traumdeutungen.\nKonzentriere dich nur auf deine Träume und was sie dir sagen wollen.';
 
   @override
+  String get proFeatureCosmicTitle => 'Kosmische Verbindungen Freischalten';
+
+  @override
+  String get proFeatureCosmicSubtitle =>
+      'Zeigt zusätzliche kosmische Verbindungen in Traumdeutungen.\nInterpretiert deine Träume zusammen mit Mondphasen und planetaren Einflüssen.';
+
+  @override
   String get proFeatureAnalysisTitle => 'Wöchentliche Traummuster-Analyse';
 
   @override
   String get proFeatureAnalysisSubtitle =>
-      'Deckt verborgene Verbindungen zwischen deinen Träumen auf. Entdecke wiederkehrende Themen, Emotionen und Botschaften des Unterbewusstseins im Laufe der Zeit.';
+      'Deckt verborgene Verbindungen zwischen deinen Träumen auf.\nEntdecke wiederkehrende Themen, Emotionen und Botschaften des Unterbewusstseins im Laufe der Zeit.';
 
   @override
   String get proFeatureGuideTitle => 'Klartraum-Leitfaden';
 
   @override
   String get proFeatureGuideSubtitle =>
-      'Übernimm die Kontrolle über deine Träume. Schritt-für-Schritt angeleitete Klartraumtechniken von Anfänger bis Fortgeschritten.';
+      'Übernimm die Kontrolle über deine Träume.\nSchritt-für-Schritt angeleitete Klartraumtechniken von Anfänger bis Fortgeschritten.';
 
   @override
   String get proProcessing => 'Verarbeitung...';
@@ -1559,7 +1566,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get proFeatureImageGenSubtitle =>
-      'Visualisiere deine Träume mit KI. 1 Bild pro Tag.';
+      'Verwandle deine Träume in lebendige Kunst. Erwecke jeden Tag einen Traum zum Leben.';
 
   @override
   String get visualizeDream => 'Traum visualisieren';
@@ -1585,6 +1592,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get shareVisualizedBy => 'Visualisiert mit DreamBoat App';
 
   @override
+  String get shareVisualSubject => 'Rüya Görselleştirmem';
+
+  @override
   String get offlineImageGenTitle => 'Verbindungsfehler';
 
   @override
@@ -1601,4 +1611,14 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get dailyImageLimitReached =>
       'Du hast deine tägliche Visualisierung verwendet. Komm morgen für ein neues Bild zurück!';
+
+  @override
+  String get visualizeDreamSubtitle =>
+      'Visuelle Interpretation deines Traums mit KI';
+
+  @override
+  String get cosmicConnectionTitle => 'Kosmische Verbindung';
+
+  @override
+  String get unlockProConnection => 'Alles Sehen';
 }

@@ -873,19 +873,26 @@ class AppLocalizationsEs extends AppLocalizations {
       'Sin anuncios al interpretar sueños.\nEnfócate solo en tus sueños y lo que quieren contarte.';
 
   @override
+  String get proFeatureCosmicTitle => 'Desbloquea Conexiones Cósmicas';
+
+  @override
+  String get proFeatureCosmicSubtitle =>
+      'Revela conexiones cósmicas adicionales en las interpretaciones.\nInterpreta tus sueños junto con las fases lunares e influencias planetarias.';
+
+  @override
   String get proFeatureAnalysisTitle =>
       'Análisis Semanal de Patrones de Sueños';
 
   @override
   String get proFeatureAnalysisSubtitle =>
-      'Revela conexiones ocultas entre tus sueños. Descubre temas recurrentes, emociones y mensajes del subconsciente con el tiempo.';
+      'Revela conexiones ocultas entre tus sueños.\nDescubre temas recurrentes, emociones y mensajes del subconsciente con el tiempo.';
 
   @override
   String get proFeatureGuideTitle => 'Guía de Sueños Lúcidos';
 
   @override
   String get proFeatureGuideSubtitle =>
-      'Toma el control de tus sueños. Técnicas guiadas paso a paso desde principiante hasta avanzado.';
+      'Toma el control de tus sueños.\nTécnicas guiadas paso a paso desde principiante hasta avanzado.';
 
   @override
   String get proProcessing => 'Procesando...';
@@ -1553,7 +1560,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get proFeatureImageGenSubtitle =>
-      'Visualiza tus sueños con IA. 1 imagen vívida al día.';
+      'Transforma tus sueños en arte vívido. Da vida a un sueño cada día.';
 
   @override
   String get visualizeDream => 'Visualizar Sueño';
@@ -1579,6 +1586,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get shareVisualizedBy => 'Visualizado con DreamBoat App';
 
   @override
+  String get shareVisualSubject => 'Rüya Görselleştirmem';
+
+  @override
   String get offlineImageGenTitle => 'Error de Conexión';
 
   @override
@@ -1595,4 +1605,14 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get dailyImageLimitReached =>
       'Has usado tu visualización diaria. ¡Vuelve mañana para una nueva imagen!';
+
+  @override
+  String get visualizeDreamSubtitle =>
+      'Interpretación visual de tu sueño con IA';
+
+  @override
+  String get cosmicConnectionTitle => 'Conexión Cósmica';
+
+  @override
+  String get unlockProConnection => 'Ver Todo';
 }

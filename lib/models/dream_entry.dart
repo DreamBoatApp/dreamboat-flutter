@@ -13,6 +13,8 @@ class DreamEntry {
   final DateTime date;
   @HiveField(3)
   final String mood;
+  @HiveField(13)
+  final String? cosmicAnalysis; // Content from Journal API
   @HiveField(4)
   final List<String>? secondaryMoods;
   @HiveField(5)
@@ -46,6 +48,7 @@ class DreamEntry {
     this.astronomicalEvents,
     this.guideStage,
     this.imageUrl,
+    this.cosmicAnalysis,
   });
 
   Map<String, dynamic> toJson() {
@@ -63,6 +66,7 @@ class DreamEntry {
       'astronomicalEvents': astronomicalEvents,
       'guideStage': guideStage,
       'imageUrl': imageUrl,
+      'cosmicAnalysis': cosmicAnalysis,
     };
   }
 
@@ -89,6 +93,7 @@ class DreamEntry {
       astronomicalEvents: (json['astronomicalEvents'] as List<dynamic>?)?.map((e) => e.toString()).toList(),
       guideStage: json['guideStage'] as int?,
       imageUrl: json['imageUrl']?.toString(),
+      cosmicAnalysis: json['cosmicAnalysis']?.toString(),
     );
   }
 
@@ -106,6 +111,7 @@ class DreamEntry {
     List<String>? astronomicalEvents,
     int? guideStage,
     String? imageUrl,
+    String? cosmicAnalysis,
   }) {
     return DreamEntry(
       id: id ?? this.id,
@@ -121,6 +127,7 @@ class DreamEntry {
       astronomicalEvents: astronomicalEvents ?? this.astronomicalEvents,
       guideStage: guideStage ?? this.guideStage,
       imageUrl: imageUrl ?? this.imageUrl,
+      cosmicAnalysis: cosmicAnalysis ?? this.cosmicAnalysis,
     );
   }
 }

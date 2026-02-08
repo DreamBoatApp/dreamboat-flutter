@@ -463,12 +463,16 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
 
                           // PRO Features with descriptions (no icons)
                           _buildFeatureWithSubtitle(
-                            title: t.proFeatureImageGenTitle,
-                            subtitle: t.proFeatureImageGenSubtitle,
-                          ),
-                          _buildFeatureWithSubtitle(
                             title: t.proFeatureAdsTitle,
                             subtitle: t.proFeatureAdsSubtitle,
+                          ),
+                          _buildFeatureWithSubtitle(
+                            title: t.proFeatureCosmicTitle,
+                            subtitle: t.proFeatureCosmicSubtitle,
+                          ),
+                          _buildFeatureWithSubtitle(
+                            title: t.proFeatureImageGenTitle,
+                            subtitle: t.proFeatureImageGenSubtitle,
                           ),
                           _buildFeatureWithSubtitle(
                             title: t.proFeatureAnalysisTitle,
@@ -973,48 +977,45 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
     required String title,
     required String subtitle,
   }) {
-    // Use SizedBox for guaranteed fixed height
+    // Fixed height for consistent card sizing
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: SizedBox(
-        height: 115, // Fixed height for ALL cards
+        height: 125, // Fixed height for ALL cards
         child: Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             color: Colors.white.withOpacity(0.05),
             border: Border.all(
-              color: Colors.white.withOpacity(0.08),
+              color: const Color(0xFFFBBF24).withOpacity(0.3), // Gold border
               width: 1,
             ),
           ),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  title, 
-                  style: const TextStyle(
-                    color: Color(0xFFFBBF24), 
-                    fontWeight: FontWeight.w600, 
-                    fontSize: 15,
-                  ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title, 
+                style: const TextStyle(
+                  color: Color(0xFFFBBF24), 
+                  fontWeight: FontWeight.w600, 
+                  fontSize: 15,
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  subtitle, 
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.6), 
-                    fontSize: 12,
-                    height: 1.4,
-                  ),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 6),
+              Text(
+                subtitle, 
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.6), 
+                  fontSize: 12,
+                  height: 1.4,
                 ),
-              ],
-            ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
         ),
       ),

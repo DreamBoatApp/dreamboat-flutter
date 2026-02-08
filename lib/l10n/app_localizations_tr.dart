@@ -864,21 +864,28 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get proFeatureAdsSubtitle =>
-      'Rüya yorumlamalarında reklam yok.\nSadece rüyalarınıza ve size anlatmak istediklerine odaklanın.';
+      'Rüya yorumlamalarında reklam yok.\nSadece rüyalarına ve sana anlatmak istediklerine odaklan.';
+
+  @override
+  String get proFeatureCosmicTitle => 'Kozmik Bağlantıların Kilidini Aç';
+
+  @override
+  String get proFeatureCosmicSubtitle =>
+      'Rüya yorumlarına ek kozmik bağlantıları ortaya çıkarır.\nRüyalarını Ay evreleri ve gezegen etkileriyle birlikte yorumlar.';
 
   @override
   String get proFeatureAnalysisTitle => 'Haftalık Rüya Desen Analizi';
 
   @override
   String get proFeatureAnalysisSubtitle =>
-      'Rüyalarınız arasındaki gizli bağlantıları ortaya çıkarır. Tekrarlayan temaları, duyguları ve bilinçaltı mesajlarını zamanla keşfedin.';
+      'Rüyaların arasındaki gizli bağlantıları ortaya çıkarır.\nTekrarlayan temaları, duyguları ve bilinçaltı mesajlarını zamanla keşfet.';
 
   @override
   String get proFeatureGuideTitle => 'Lucid Rüya Rehberi';
 
   @override
   String get proFeatureGuideSubtitle =>
-      'Rüyalarınızın kontrolünü elinize alın. Sıfırdan ileri seviyeye, adım adım rehberli lucid rüya teknikleri.';
+      'Rüyalarının kontrolünü eline al.\nAdım adım rehberli lucid rüya teknikleri.';
 
   @override
   String get proProcessing => 'İşleniyor...';
@@ -937,7 +944,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get moonSyncDescriptionShort =>
-      'Rüyalarını Ay döngüleri ve kozmik olaylarla birlikte yorumlar. Bu ay seni nelerin etkilediğini ve nelere dikkat etmen gerektiğini öğrenirsin.';
+      'Kozmik olayları rüyalarınla birlikte yorumlar.\nBu ay seni nelerin etkilediğini öğren.';
 
   @override
   String get moonSyncBtn => 'Kozmik Analizi Başlat';
@@ -955,34 +962,34 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get moonSyncProcessing =>
-      'Kozmik Analiz hazırlanıyor,\nlütfen kısa bir süre bekleyiniz.';
+      'Kozmik Analiz hazırlanıyor,\nlütfen bekleyiniz.';
 
   @override
   String get moonPhaseNewMoon => 'Yeni Ay';
 
   @override
-  String get moonPhaseWaxingCrescent => 'Hilal (Büyüyen)';
+  String get moonPhaseWaxingCrescent => 'Büyüyen Hilal';
 
   @override
   String get moonPhaseFirstQuarter => 'İlk Dördün';
 
   @override
-  String get moonPhaseWaxingGibbous => 'Şişkin Ay (Büyüyen)';
+  String get moonPhaseWaxingGibbous => 'Büyüyen Şişkin Ay';
 
   @override
   String get moonPhaseFullMoon => 'Dolunay';
 
   @override
-  String get moonPhaseWaningGibbous => 'Şişkin Ay (Küçülen)';
+  String get moonPhaseWaningGibbous => 'Küçülen Şişkin Ay';
 
   @override
   String get moonPhaseThirdQuarter => 'Son Dördün';
 
   @override
-  String get moonPhaseWaningCrescent => 'Hilal (Küçülen)';
+  String get moonPhaseWaningCrescent => 'Küçülen Hilal';
 
   @override
-  String get actionShareInterpretation => 'Yorumu\nPaylaş';
+  String get actionShareInterpretation => 'Yorumu Paylaş';
 
   @override
   String get shareImage => 'Görseli\nPaylaş';
@@ -1540,7 +1547,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get proFeatureImageGenSubtitle =>
-      'Rüyanı AI ile görselleştir. Günde 1 canlı görsel.';
+      'Rüyalarını büyüleyici bir sanata dönüştürür. \nHer gün bir rüyanı canlandırabilirsin.';
 
   @override
   String get visualizeDream => 'Rüyayı Görselleştir';
@@ -1563,7 +1570,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Deneme süresi 1 ücretsiz görsel içerir. Her gün görsel için PRO\'ya geç.';
 
   @override
-  String get shareVisualizedBy => 'DreamBoat ile Görselleştirildi';
+  String get shareVisualizedBy => 'DreamBoat app ile Görselleştirildi';
+
+  @override
+  String get shareVisualSubject => 'Rüya Görselleştirmem';
 
   @override
   String get offlineImageGenTitle => 'Bağlantı Hatası';
@@ -1581,5 +1591,14 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get dailyImageLimitReached =>
-      'Bugünkü görselleştirme hakkınızı kullandınız. Yarın yeni bir görsel oluşturabilirsiniz.';
+      'Günlük görselleştirme hakkını kullandın. Yeni bir görsel için yarın tekrar gel!';
+
+  @override
+  String get visualizeDreamSubtitle => 'Yapay zekâ ile rüyanın görsel yorumu';
+
+  @override
+  String get cosmicConnectionTitle => 'Kozmik Bağlantı';
+
+  @override
+  String get unlockProConnection => 'Tamamını Gör';
 }
