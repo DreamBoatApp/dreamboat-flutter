@@ -53,6 +53,7 @@ class _StatsScreenState extends State<StatsScreen> {
   // 2: Done
   int _analysisState = 0; 
   bool _canAnalyze = false;
+  bool _isAnalysisLoading = false;
 
 
   bool _isTipLoading = false;
@@ -97,87 +98,96 @@ class _StatsScreenState extends State<StatsScreen> {
   }
 
   Future<void> _loadData() async {
-    final prefs = await SharedPreferences.getInstance();
-    
-    // 1. Load Analysis State
-    final dateStr = prefs.getString('last_analysis_date');
-    final result = prefs.getString('last_analysis_result');
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      
+      // 1. Load Analysis State
+      final dateStr = prefs.getString('last_analysis_date');
+      final result = prefs.getString('last_analysis_result');
 
-    if (dateStr != null && result != null) {
-        _lastAnalysisDate = DateTime.parse(dateStr);
-        _analysisResult = result;
-    }
+      if (dateStr != null && result != null) {
+          _lastAnalysisDate = DateTime.parse(dateStr);
+          _analysisResult = result;
+      }
 
-    // 1b. Load Moon Sync State
-    final moonSyncDateStr = prefs.getString('last_moon_sync_date');
-    final moonSyncResult = prefs.getString('last_moon_sync_result');
-    if (moonSyncDateStr != null && moonSyncResult != null) {
-        _lastMoonSyncDate = DateTime.parse(moonSyncDateStr);
-        _moonSyncResult = moonSyncResult;
-    }
+      // 1b. Load Moon Sync State
+      final moonSyncDateStr = prefs.getString('last_moon_sync_date');
+      final moonSyncResult = prefs.getString('last_moon_sync_result');
+      if (moonSyncDateStr != null && moonSyncResult != null) {
+          _lastMoonSyncDate = DateTime.parse(moonSyncDateStr);
+          _moonSyncResult = moonSyncResult;
+      }
 
-    // 2. Load Daily Tip (Moved to PostFrame for context access)
-    // We defer this to ensure we have the correct locale
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-        final locale = Localizations.localeOf(context).languageCode;
-        _loadDailyTip(prefs, locale);
-    });
-    
-    // 3. Load Real Chart Data
-    final allDreams = await _dreamService.getDreams();
-    // Count interpreted dreams
-    _totalDreamsCount = allDreams.length; 
+      // 2. Load Daily Tip (Moved to PostFrame for context access)
+      // We defer this to ensure we have the correct locale
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+          final locale = Localizations.localeOf(context).languageCode;
+          _loadDailyTip(prefs, locale);
+      });
+      
+      // 3. Load Real Chart Data
+      final allDreams = await _dreamService.getDreams();
+      // Count interpreted dreams
+      _totalDreamsCount = allDreams.length; 
 
-    final now = DateTime.now();
-    
-    // Filter for current month
-    final monthlyDreams = allDreams.where((d) => d.date.year == now.year && d.date.month == now.month).toList();
+      final now = DateTime.now();
+      
+      // Filter for current month
+      final monthlyDreams = allDreams.where((d) => d.date.year == now.year && d.date.month == now.month).toList();
 
-    if (monthlyDreams.isNotEmpty) {
-       final moodStats = <String, _MoodStat>{};
-       
-       for (var d in monthlyDreams) {
-         // Collect all moods for this dream (Primary + Secondary)
-         final moodsToProcess = [d.mood];
-         if (d.secondaryMoods != null) {
-            moodsToProcess.addAll(d.secondaryMoods!);
-         }
+      if (monthlyDreams.isNotEmpty) {
+         final moodStats = <String, _MoodStat>{};
+         
+         for (var d in monthlyDreams) {
+           // Collect all moods for this dream (Primary + Secondary)
+           final moodsToProcess = [d.mood];
+           if (d.secondaryMoods != null) {
+              moodsToProcess.addAll(d.secondaryMoods!);
+           }
 
-         // Calculate Intensity (Normalized)
-         int intensity = d.moodIntensity ?? 0;
-         if (intensity == 0) {
-            // Handle legacy nulls
-            intensity = d.date.isBefore(DateTime(2026, 2, 3)) ? 2 : 3;
+           // Calculate Intensity (Normalized)
+           int intensity = d.moodIntensity ?? 0;
+           if (intensity == 0) {
+              // Handle legacy nulls
+              intensity = d.date.isBefore(DateTime(2026, 2, 3)) ? 2 : 3;
+           }
+           
+           // Mapping Logic for Old Data (Before Feb 3, 2026)
+           if (d.date.isBefore(DateTime(2026, 2, 3)) && intensity <= 3) {
+              if (intensity == 2) intensity = 3;      // Medium 2 -> 3
+              else if (intensity == 3) intensity = 5; // High 3 -> 5
+              // Low 1 stays 1
+           }
+
+           // Add stats for ALL moods
+           for (var m in moodsToProcess) {
+               if (!moodStats.containsKey(m)) {
+                  moodStats[m] = _MoodStat();
+               }
+               moodStats[m]!.count++;
+               moodStats[m]!.totalIntensity += intensity;
+           }
          }
          
-         // Mapping Logic for Old Data (Before Feb 3, 2026)
-         if (d.date.isBefore(DateTime(2026, 2, 3)) && intensity <= 3) {
-            if (intensity == 2) intensity = 3;      // Medium 2 -> 3
-            else if (intensity == 3) intensity = 5; // High 3 -> 5
-            // Low 1 stays 1
-         }
-
-         // Add stats for ALL moods
-         for (var m in moodsToProcess) {
-             if (!moodStats.containsKey(m)) {
-                moodStats[m] = _MoodStat();
-             }
-             moodStats[m]!.count++;
-             moodStats[m]!.totalIntensity += intensity;
-         }
-       }
-       
-       if (mounted) setState(() => _moodStats = moodStats);
-    } else {
-       if (mounted) setState(() => _moodStats = {});
-    }
-    
-    // Trigger rebuild to update UI with loaded data
-    if (mounted) {
-       setState(() {
-          _isLoading = false;
-          _totalDreamsCount = allDreams.length;
-       });
+         if (mounted) setState(() => _moodStats = moodStats);
+      } else {
+         if (mounted) setState(() => _moodStats = {});
+      }
+      
+      if (mounted) {
+         setState(() {
+            _totalDreamsCount = allDreams.length;
+         });
+      }
+    } catch (e) {
+      debugPrint('_loadData Error: $e');
+    } finally {
+      // Always clear loading state, even on error
+      if (mounted) {
+         setState(() {
+            _isLoading = false;
+         });
+      }
     }
   }
 
@@ -334,21 +344,23 @@ class _StatsScreenState extends State<StatsScreen> {
        return;
     }
 
-    setState(() => _isLoading = true);
+    setState(() => _isAnalysisLoading = true);
 
     try {
-      // Fetch real dreams from the last 7 days
+      // Fetch ALL dreams (not just last 7 days) for pattern analysis
       final allDreams = await _dreamService.getDreams();
-      final now = DateTime.now();
-      final lastWeek = now.subtract(const Duration(days: 7));
       
-      final recentDreams = allDreams.where((d) => d.date.isAfter(lastWeek)).take(20).map((d) => d.text).toList();
+      final recentDreams = allDreams.take(20).map((d) => d.text).toList();
+      
+      if (recentDreams.isEmpty) {
+        throw Exception("No dreams available for analysis.");
+      }
       
       final locale = Localizations.localeOf(context).languageCode;
       final result = await _openAIService.analyzeDreams(recentDreams, locale);
 
-      // [FIX] 2. Critical Check: Only save if result is valid
-      if (result.isNotEmpty && !result.toLowerCase().contains('error')) {
+      // Only save if result is non-empty
+      if (result.isNotEmpty) {
          final prefs = await SharedPreferences.getInstance();
          await prefs.setString('last_analysis_result', result);
          await prefs.setString('last_analysis_date', DateTime.now().toIso8601String());
@@ -360,17 +372,18 @@ class _StatsScreenState extends State<StatsScreen> {
            });
          }
       } else {
-         // Service returned empty/error string
+         // Service returned empty string (API error)
          throw Exception("Analysis service returned empty result.");
       }
     } catch (e) {
+      debugPrint('_runAnalysis Error: $e');
       if (mounted) {
         final t = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.errorGeneric)));
       }
     } finally {
       if (mounted) {
-        setState(() => _isLoading = false);
+        setState(() => _isAnalysisLoading = false);
       }
     }
   }
@@ -422,8 +435,8 @@ class _StatsScreenState extends State<StatsScreen> {
       final locale = Localizations.localeOf(context).languageCode;
       final result = await _openAIService.analyzeMoonSync(dreamData, locale);
       
-      // [FIX] 2. Critical Check: Only save if result is valid
-      if (result.isNotEmpty && !result.toLowerCase().contains('error')) {
+      // Only save if result is non-empty
+      if (result.isNotEmpty) {
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('last_moon_sync_result', result);
           await prefs.setString('last_moon_sync_date', DateTime.now().toIso8601String());
@@ -438,6 +451,7 @@ class _StatsScreenState extends State<StatsScreen> {
          throw Exception("Moon Sync service returned empty result.");
       }
     } catch (e) {
+      debugPrint('_runMoonSyncAnalysis Error: $e');
       if (mounted) {
         final t = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.errorGeneric)));
@@ -855,7 +869,7 @@ class _StatsScreenState extends State<StatsScreen> {
   }
 
   Widget _buildIntroState(AppLocalizations t, bool isPro) {
-    if (_isLoading) {
+    if (_isAnalysisLoading) {
       return Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -944,7 +958,7 @@ class _StatsScreenState extends State<StatsScreen> {
                onPressed: _totalDreamsCount >= 5 
                   ? _runAnalysis // Direct analysis for PRO
                   : null, // Disabled if < 5
-               isLoading: _isLoading,
+               isLoading: _isAnalysisLoading,
                gradient: _totalDreamsCount >= 5 
                   ? const LinearGradient(colors: [Color(0xFFFBBF24), Color(0xFFD97706)]) // Gold for Action
                   : LinearGradient(colors: [Colors.grey.withOpacity(0.5), Colors.grey.withOpacity(0.5)]),
@@ -957,7 +971,7 @@ class _StatsScreenState extends State<StatsScreen> {
                   : t.proRequiredDetail,  // "PRO Versiyon ve En Az 5 Kaydedilmiş Rüya Gerekir"
                onPressed: () => showDialog(context: context, builder: (ctx) => const ProUpgradeDialog()),
                gradient: const LinearGradient(colors: [Color(0xFFA78BFA), Color(0xFFEC4899)]), // Gradient for Upgrade
-               isLoading: _isLoading,
+               isLoading: _isAnalysisLoading,
              )
         ],
       ),
