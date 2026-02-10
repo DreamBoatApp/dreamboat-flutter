@@ -1,5 +1,6 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/foundation.dart';
 
@@ -8,6 +9,7 @@ class OpenAIService {
   
   static bool _firebaseInitialized = false;
   static bool _appCheckActivated = false;
+  static bool _authReady = false;
   
   /// Ensure Firebase is initialized before making calls
   Future<void> _ensureFirebaseReady() async {
@@ -28,6 +30,25 @@ class OpenAIService {
           debugPrint('=== OpenAIService: Firebase init error: $e ===');
           rethrow;
         }
+      }
+    }
+    
+    // Ensure anonymous auth is ready (required by Cloud Functions)
+    if (!_authReady) {
+      try {
+        final currentUser = FirebaseAuth.instance.currentUser;
+        if (currentUser == null) {
+          debugPrint('=== OpenAIService: No user, signing in anonymously... ===');
+          await FirebaseAuth.instance.signInAnonymously();
+          debugPrint('=== OpenAIService: Signed in anonymously ===');
+        } else {
+          debugPrint('=== OpenAIService: Already signed in (uid: ${currentUser.uid}) ===');
+        }
+        _authReady = true;
+      } catch (e) {
+        debugPrint('=== OpenAIService: Auth error: $e ===');
+        // Don't block - try anyway, main.dart might handle auth
+        _authReady = true;
       }
     }
     
