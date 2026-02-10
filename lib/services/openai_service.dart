@@ -150,7 +150,7 @@ class OpenAIService {
     final result = await FirebaseFunctions.instance.httpsCallable('analyzeDreams').call({
       'dreams': dreams,
       'language': language,
-    }).timeout(const Duration(seconds: 60));
+    }).timeout(const Duration(seconds: 90));
     
     final data = result.data as Map<String, dynamic>;
     
@@ -170,7 +170,7 @@ class OpenAIService {
     final result = await FirebaseFunctions.instance.httpsCallable('analyzeMoonSync').call({
       'dreamData': dreamData,
       'language': language,
-    }).timeout(const Duration(seconds: 60));
+    }).timeout(const Duration(seconds: 90));
     
     final data = result.data as Map<String, dynamic>;
     

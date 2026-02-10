@@ -381,8 +381,8 @@ class _StatsScreenState extends State<StatsScreen> {
       if (mounted) {
         final t = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('${t.errorGeneric} (${e.code})'),
-          duration: const Duration(seconds: 5),
+          content: Text('${t.errorGeneric}\nCode: ${e.code}\nMsg: ${e.message}'),
+          duration: const Duration(seconds: 10),
         ));
       }
     } catch (e) {
@@ -390,8 +390,8 @@ class _StatsScreenState extends State<StatsScreen> {
       if (mounted) {
         final t = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('${t.errorGeneric} (${e.runtimeType})'),
-          duration: const Duration(seconds: 5),
+          content: Text('${t.errorGeneric}\n${e.toString()}'),
+          duration: const Duration(seconds: 10),
         ));
       }
     } finally {
@@ -468,8 +468,8 @@ class _StatsScreenState extends State<StatsScreen> {
       if (mounted) {
         final t = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('${t.errorGeneric} (${e.code})'),
-          duration: const Duration(seconds: 5),
+          content: Text('${t.errorGeneric}\nCode: ${e.code}\nMsg: ${e.message}'),
+          duration: const Duration(seconds: 10),
         ));
       }
     } catch (e) {
@@ -477,8 +477,8 @@ class _StatsScreenState extends State<StatsScreen> {
       if (mounted) {
         final t = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('${t.errorGeneric} (${e.runtimeType})'),
-          duration: const Duration(seconds: 5),
+          content: Text('${t.errorGeneric}\n${e.toString()}'),
+          duration: const Duration(seconds: 10),
         ));
       }
     } finally {

@@ -390,19 +390,24 @@ Reply in ${targetLanguage} language.
 });
 
 exports.analyzeDreams = onCall({ secrets: [openaiApiKey] }, async (request) => {
-    // Rate limit check
-    await enforceRateLimit('analyzeDreams', request);
+    try {
+        // Rate limit check
+        await enforceRateLimit('analyzeDreams', request);
 
-    const openai = new OpenAI({ apiKey: openaiApiKey.value() });
+        const openai = new OpenAI({ apiKey: openaiApiKey.value() });
 
-    const { dreams, language } = request.data;
-    const lang = language || 'en';
+        if (!request.data) {
+            throw new HttpsError('invalid-argument', 'Missing data payload');
+        }
 
-    if (!dreams || !Array.isArray(dreams)) {
-        throw new HttpsError('invalid-argument', 'Missing dreams array');
-    }
+        const { dreams, language } = request.data;
+        const lang = language || 'en';
 
-    const systemPrompt = `
+        if (!dreams || !Array.isArray(dreams)) {
+            throw new HttpsError('invalid-argument', 'Missing dreams array');
+        }
+
+        const systemPrompt = `
 You are a weekly Dream Pattern Analysis assistant.
 
 Your task is NOT to interpret a single dream, but to look at all dreams provided for the week and identify patterns, recurring themes, emotional trends, and symbolic clusters.Your tone should be calm, observational, and insightful.
@@ -459,7 +464,6 @@ Your response must be in ${lang === 'tr' ? 'Turkish' : 'English'}.
 REMEMBER: No "kullanıcı", no ** bold **, no bullet points.Always "sen/senin"(you / your).Use "1)" numbering format NOT "1." format.
 `;
 
-    try {
         const completion = await openai.chat.completions.create({
             messages: [
                 { role: "system", content: systemPrompt },
@@ -474,35 +478,41 @@ REMEMBER: No "kullanıcı", no ** bold **, no bullet points.Always "sen/senin"(y
             usage: completion.usage
         };
     } catch (error) {
-        console.error("Error analysis:", error);
-        throw new HttpsError('internal', error.message);
+        console.error("Error analyzeDreams:", error);
+        if (error instanceof HttpsError) throw error;
+        throw new HttpsError('internal', error.message || 'Unknown internal error');
     }
 });
 
 // Moon & Planet Synchronization Analysis
 exports.analyzeMoonSync = onCall({ secrets: [openaiApiKey] }, async (request) => {
-    // Rate limit check
-    await enforceRateLimit('analyzeMoonSync', request);
+    try {
+        // Rate limit check
+        await enforceRateLimit('analyzeMoonSync', request);
 
-    const openai = new OpenAI({ apiKey: openaiApiKey.value() });
+        const openai = new OpenAI({ apiKey: openaiApiKey.value() });
 
-    const { dreamData, language } = request.data;
-    const lang = language || 'en';
+        if (!request.data) {
+            throw new HttpsError('invalid-argument', 'Missing data payload');
+        }
 
-    if (!dreamData || !Array.isArray(dreamData)) {
-        throw new HttpsError('invalid-argument', 'Missing dreamData array');
-    }
+        const { dreamData, language } = request.data;
+        const lang = language || 'en';
 
-    const langMap = {
-        'tr': 'Turkish',
-        'en': 'English',
-        'es': 'Spanish',
-        'de': 'German',
-        'pt': 'Portuguese'
-    };
-    const targetLanguage = langMap[lang] || 'English';
+        if (!dreamData || !Array.isArray(dreamData)) {
+            throw new HttpsError('invalid-argument', 'Missing dreamData array');
+        }
 
-    const systemPrompt = `
+        const langMap = {
+            'tr': 'Turkish',
+            'en': 'English',
+            'es': 'Spanish',
+            'de': 'German',
+            'pt': 'Portuguese'
+        };
+        const targetLanguage = langMap[lang] || 'English';
+
+        const systemPrompt = `
 You are a Cosmic Dream Analysis assistant specializing in Moon Phase correlations and Astronomical Events.
 
 Your task is to analyze the relationship between the user's dream journal data and the lunar/cosmic cycle.
@@ -561,18 +571,17 @@ TONE & STYLE:
 
 `;
 
-    // Format dream data for the prompt
-    const formattedDreams = dreamData.map((d, i) =>
-        `Dream ${i + 1} (${d.date.split('T')[0]}):
+        // Format dream data for the prompt
+        const formattedDreams = dreamData.map((d, i) =>
+            `Dream ${i + 1} (${d.date.split('T')[0]}):
 Phase: ${d.moonPhase} (${d.isWaxing ? 'Waxing' : 'Waning'})
    Cosmic Events: ${d.astronomicalEvents && d.astronomicalEvents.length > 0 ? d.astronomicalEvents.join(', ') : 'None'}
 Mood: ${d.mood} (Intensity: ${d.moodIntensity}/3)
 Vividness: ${d.vividness}/3
    Word Count: ${d.wordCount}
 Content: ${d.text.substring(0, 300)}...`
-    ).join('\n\n');
+        ).join('\n\n');
 
-    try {
         const completion = await openai.chat.completions.create({
             messages: [
                 { role: "system", content: systemPrompt },
@@ -587,8 +596,9 @@ Content: ${d.text.substring(0, 300)}...`
             usage: completion.usage
         };
     } catch (error) {
-        console.error("Error moon sync:", error);
-        throw new HttpsError('internal', error.message);
+        console.error("Error analyzeMoonSync:", error);
+        if (error instanceof HttpsError) throw error;
+        throw new HttpsError('internal', error.message || 'Unknown internal error');
     }
 });
 // Image Generation Feature
