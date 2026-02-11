@@ -143,8 +143,21 @@ Future<void> _initFirebaseInBackground() async {
     debugPrint('=== Background: Firebase initialized ===');
     
     // Authenticate Anonymously for Cloud Functions & Storage Security
-    final userCredential = await FirebaseAuth.instance.signInAnonymously();
-    debugPrint('=== Background: Signed in anonymously UID: ${userCredential.user?.uid} ===');
+    // Retry up to 3 times to handle transient network failures
+    UserCredential? userCredential;
+    for (int i = 1; i <= 3; i++) {
+      try {
+        userCredential = await FirebaseAuth.instance.signInAnonymously();
+        debugPrint('=== Background: Signed in anonymously UID: ${userCredential.user?.uid} ===');
+        break;
+      } catch (authErr) {
+        debugPrint('=== Background: Auth attempt $i/3 failed: $authErr ===');
+        if (i < 3) await Future.delayed(const Duration(seconds: 1));
+      }
+    }
+    if (userCredential == null) {
+      debugPrint('=== Background: WARNING — All auth attempts failed! OpenAIService will handle re-auth. ===');
+    }
 
     // Initialize App Check (Security)
     await FirebaseAppCheck.instance.activate(

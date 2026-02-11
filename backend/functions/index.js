@@ -28,6 +28,43 @@ admin.initializeApp();
 // Deploy öncesi: firebase functions:secrets:set OPENAI_API_KEY
 const openaiApiKey = defineSecret("OPENAI_API_KEY");
 
+/**
+ * Detects the dominant language of dream texts using GPT-4o-mini.
+ * Samples up to 3 dreams for efficiency.
+ * @param {OpenAI} openai - OpenAI client instance
+ * @param {string[]} dreamTexts - Array of dream text strings
+ * @returns {Promise<{lang: string, fullName: string}>} e.g. {lang: 'tr', fullName: 'Turkish'}
+ */
+async function detectDreamLanguage(openai, dreamTexts) {
+    // Sample up to 3 dreams for detection
+    const sample = dreamTexts.slice(0, 3).join('\n---\n');
+
+    try {
+        const detection = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+                { role: "system", content: `Detect the language of the following dream texts. Reply with ONLY the standard English name of the language (e.g., "Turkish", "English", "Spanish", "German", "Portuguese"). If texts are in multiple languages, reply with the DOMINANT language.` },
+                { role: "user", content: sample }
+            ],
+            max_tokens: 10,
+            temperature: 0,
+        });
+
+        const rawLang = (detection.choices[0].message.content || 'English').trim().toLowerCase();
+        const fullName = LANG_NORMALIZE_MAP[rawLang] || (rawLang.charAt(0).toUpperCase() + rawLang.slice(1));
+
+        // Reverse map to get short code
+        const langCodeMap = { 'Turkish': 'tr', 'English': 'en', 'Spanish': 'es', 'German': 'de', 'Portuguese': 'pt', 'Dutch': 'nl', 'Italian': 'it', 'Russian': 'ru', 'French': 'fr' };
+        const lang = langCodeMap[fullName] || 'en';
+
+        console.log(`Language detected: ${fullName} (${lang})`);
+        return { lang, fullName };
+    } catch (e) {
+        console.error('Language detection failed, falling back to English:', e);
+        return { lang: 'en', fullName: 'English' };
+    }
+}
+
 exports.interpretDream = onCall({ secrets: [openaiApiKey] }, async (request) => {
     // Rate limit check
     await enforceRateLimit('interpretDream', request);
@@ -400,12 +437,20 @@ exports.analyzeDreams = onCall({ secrets: [openaiApiKey] }, async (request) => {
             throw new HttpsError('invalid-argument', 'Missing data payload');
         }
 
-        const { dreams, language } = request.data;
-        const lang = language || 'en';
+        const { dreams } = request.data;
+        // Detect language from dream content instead of UI locale
+        let lang = 'en';
+        let detectedFullName = 'English';
 
         if (!dreams || !Array.isArray(dreams)) {
             throw new HttpsError('invalid-argument', 'Missing dreams array');
         }
+
+        // Detect language from actual dream texts
+        const detected = await detectDreamLanguage(openai, dreams);
+        lang = detected.lang;
+        detectedFullName = detected.fullName;
+        console.log(`analyzeDreams: Using detected language: ${detectedFullName} (${lang})`);
 
         const systemPrompt = `
 You are a weekly Dream Pattern Analysis assistant.
@@ -460,7 +505,7 @@ Write a deeply personal summary paragraph.Speak directly using "sen/senin".Make 
 ### 6) ${lang === 'tr' ? 'FARKINDALIK İPUCU' : 'AWARENESS TIP'}
 Provide a highly personalized and impactful tip speaking directly to "sen/you".Suggest specific actions like music, art, sports, walking, nature, work - life balance, relationships, creative outlets, or mindfulness.Make it actionable and genuinely helpful.
 
-Your response must be in ${lang === 'tr' ? 'Turkish' : 'English'}.
+Your response must be in ${detectedFullName}.
 REMEMBER: No "kullanıcı", no ** bold **, no bullet points.Always "sen/senin"(you / your).Use "1)" numbering format NOT "1." format.
 `;
 
@@ -496,21 +541,18 @@ exports.analyzeMoonSync = onCall({ secrets: [openaiApiKey] }, async (request) =>
             throw new HttpsError('invalid-argument', 'Missing data payload');
         }
 
-        const { dreamData, language } = request.data;
-        const lang = language || 'en';
+        const { dreamData } = request.data;
 
         if (!dreamData || !Array.isArray(dreamData)) {
             throw new HttpsError('invalid-argument', 'Missing dreamData array');
         }
 
-        const langMap = {
-            'tr': 'Turkish',
-            'en': 'English',
-            'es': 'Spanish',
-            'de': 'German',
-            'pt': 'Portuguese'
-        };
-        const targetLanguage = langMap[lang] || 'English';
+        // Detect language from actual dream texts
+        const dreamTexts = dreamData.map(d => d.text).filter(Boolean);
+        const detected = await detectDreamLanguage(openai, dreamTexts);
+        const lang = detected.lang;
+        const targetLanguage = detected.fullName;
+        console.log(`analyzeMoonSync: Using detected language: ${targetLanguage} (${lang})`);
 
         const systemPrompt = `
 You are a Cosmic Dream Analysis assistant specializing in Moon Phase correlations and Astronomical Events.
