@@ -829,6 +829,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get dreamTooShort => 'Traum war zu kurz zum Deuten.';
 
   @override
+  String get dreamGibberish =>
+      'Ihr Traum konnte nicht gedeutet werden, da er nicht genügend aussagekräftigen Inhalt enthielt.';
+
+  @override
   String get dailyLimitReached =>
       'Du hast das tägliche Traumdeutungslimit erreicht (100/100).';
 

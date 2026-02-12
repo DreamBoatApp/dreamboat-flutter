@@ -85,26 +85,31 @@ exports.interpretDream = onCall({ secrets: [openaiApiKey] }, async (request) => 
         
         TASK:
         1. Read the user's dream text.
-        2. DETECT the language of the dream (Output as 'detected_language').
-        3. EXTRACT 2-4 dominant symbols. ONLY extract concrete objects, beings, places, or natural elements. Do NOT extract actions (chase, cry) or emotions (fear, joy).
-        4. **CRITICAL**: ALL symbols MUST be in **ENGLISH**. Translate every symbol to its English equivalent. NEVER output symbols in the dream's original language.
-        5. **SINGLE WORD ONLY**: Each symbol must be exactly ONE word. No adjectives, no colors, no compounds.
+        2. VALIDITY CHECK: Determine if the text is a valid dream description.
+           - is_valid_dream: true if the text describes ANY kind of dream, personal experience, story, thought, or has ANY semantic meaning in ANY language.
+           - is_valid_dream: false ONLY if the text is random characters, keyboard spam (e.g. "asdfghjkl"), repeated nonsense, or completely meaningless gibberish with NO semantic content in ANY language.
+           - CRITICAL: When in doubt, ALWAYS return true. Creative, unusual, short, or poetic dreams are VALID. Single words that are real words are VALID. Only pure gibberish with zero meaning is invalid.
+        3. DETECT the language of the dream (Output as 'detected_language').
+        4. EXTRACT 2-4 dominant symbols. ONLY extract concrete objects, beings, places, or natural elements. Do NOT extract actions (chase, cry) or emotions (fear, joy).
+        5. **CRITICAL**: ALL symbols MUST be in **ENGLISH**. Translate every symbol to its English equivalent. NEVER output symbols in the dream's original language.
+        6. **SINGLE WORD ONLY**: Each symbol must be exactly ONE word. No adjectives, no colors, no compounds.
         
         WRONG: "ÖĞRENCİ", "AT", "EV", "BAHÇE", "YEMEK", "ZÜRAFA", "BLACK HORSE", "BIG SNAKE"
         CORRECT: "STUDENT", "HORSE", "HOME", "GARDEN", "FOOD", "GIRAFFE", "HORSE", "SNAKE"
         
         Examples:
         Input: "Rüyamda koca bir yılanın beni kovaladığını gördüm."
-        Output: { "detected_language": "Turkish", "symbols": ["SNAKE"] }
+        Output: { "is_valid_dream": true, "detected_language": "Turkish", "symbols": ["SNAKE"] }
         
-        Input: "Rüyamda bir at bahçede duruyordu ve öğrencim eve geldi."
-        Output: { "detected_language": "Turkish", "symbols": ["HORSE", "GARDEN", "STUDENT"] }
+        Input: "asdfghjklqwerty zxcvbnm"
+        Output: { "is_valid_dream": false, "detected_language": "Unknown", "symbols": [] }
         
         Input: "A baby was crying and then an angel appeared near the ocean."
-        Output: { "detected_language": "English", "symbols": ["BABY", "ANGEL", "OCEAN"] }
+        Output: { "is_valid_dream": true, "detected_language": "English", "symbols": ["BABY", "ANGEL", "OCEAN"] }
         
         OUTPUT FORMAT (JSON ONLY):
         {
+          "is_valid_dream": true/false,
           "detected_language": "Standard English Name (e.g., Turkish, English, Spanish)",
           "symbols": ["SYMBOL1", "SYMBOL2"]
         }
@@ -127,6 +132,18 @@ exports.interpretDream = onCall({ secrets: [openaiApiKey] }, async (request) => 
 
         try {
             const raw = JSON.parse(extractionCompletion.choices[0].message.content);
+
+            // --- GIBBERISH CHECK ---
+            if (raw.is_valid_dream === false) {
+                console.log("Dream rejected: gibberish/nonsense input detected");
+                return {
+                    title: null,
+                    interpretation: null,
+                    cosmicAnalysis: "",
+                    rejected: true,
+                    rejectionReason: 'gibberish'
+                };
+            }
 
             // Extract & Normalize Language
             if (raw.detected_language) {

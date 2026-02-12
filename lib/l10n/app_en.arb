@@ -251,6 +251,7 @@
     "dreamInterpretationTitle": "Dream Interpretation",
     "dreamInterpretationReadMore": "Read More",
     "dreamTooShort": "Dream was too short to interpret.",
+    "dreamGibberish": "Your dream could not be interpreted as it did not contain enough meaningful content.",
     "dailyLimitReached": "You've reached the daily dream interpretation limit (100/100).",
     "settingsRestorePurchases": "Restore Purchases",
     "restoreSuccess": "PRO version restored successfully!",

@@ -826,6 +826,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dreamTooShort => 'El sueño fue demasiado corto para interpretar.';
 
   @override
+  String get dreamGibberish =>
+      'Tu sueño no pudo ser interpretado porque no contenía suficiente contenido significativo.';
+
+  @override
   String get dailyLimitReached =>
       'Has alcanzado el límite diario de interpretación de sueños (100/100).';
 

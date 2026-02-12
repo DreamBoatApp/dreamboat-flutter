@@ -1580,6 +1580,12 @@ abstract class AppLocalizations {
   /// **'Rüya çok kısa olduğundan yorumlanamadı.'**
   String get dreamTooShort;
 
+  /// No description provided for @dreamGibberish.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyanız yeterli anlam içermediği için yorumlanamadı.'**
+  String get dreamGibberish;
+
   /// No description provided for @dailyLimitReached.
   ///
   /// In tr, this message translates to:

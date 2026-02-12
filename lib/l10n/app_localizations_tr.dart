@@ -821,6 +821,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get dreamTooShort => 'Rüya çok kısa olduğundan yorumlanamadı.';
 
   @override
+  String get dreamGibberish =>
+      'Rüyanız yeterli anlam içermediği için yorumlanamadı.';
+
+  @override
   String get dailyLimitReached =>
       'Günlük rüya yorumlama limitine ulaştınız (100/100).';
 

@@ -257,6 +257,7 @@
     "dreamInterpretationTitle": "Traumdeutung",
     "dreamInterpretationReadMore": "Mehr lesen",
     "dreamTooShort": "Traum war zu kurz zum Deuten.",
+    "dreamGibberish": "Ihr Traum konnte nicht gedeutet werden, da er nicht genügend aussagekräftigen Inhalt enthielt.",
     "dailyLimitReached": "Du hast das tägliche Traumdeutungslimit erreicht (100/100).",
     "offlineInterpretation": "Traum konnte mangels Internetverbindung nicht gedeutet werden.",
     "offlinePurchase": "Für den Kauf ist eine Internetverbindung erforderlich.",

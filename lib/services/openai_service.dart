@@ -153,6 +153,16 @@ class OpenAIService {
         'language': language,
       }, timeout: const Duration(seconds: 45));
       
+      // --- GIBBERISH REJECTION CHECK ---
+      if (data['rejected'] == true) {
+        debugPrint('Dream rejected: ${data['rejectionReason']}');
+        return {
+          'title': null,
+          'interpretation': null,
+          'error': 'gibberish',
+        };
+      }
+
       // Log Token Usage if present
       if (data.containsKey('usage')) {
         final usage = data['usage'];

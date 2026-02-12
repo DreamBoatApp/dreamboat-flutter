@@ -324,6 +324,10 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
           setState(() => _rateLimitMinutes = resetMinutes);
           interpretation = t.rateLimitWait(resetMinutes);
           title = null;
+        } else if (result['error'] == 'gibberish') {
+          // Dream text was detected as meaningless gibberish
+          interpretation = t.dreamGibberish;
+          title = null;
         } else if (result.containsKey('error') || result['interpretation'] == null) {
           // Log the actual error for debugging
           debugPrint('Interpret Error: ${result['error']}');

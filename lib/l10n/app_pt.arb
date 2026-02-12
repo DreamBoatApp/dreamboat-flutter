@@ -256,6 +256,7 @@
     "dreamInterpretationTitle": "Interpretação do Sonho",
     "dreamInterpretationReadMore": "Ler Mais",
     "dreamTooShort": "O sonho foi muito curto para interpretar.",
+    "dreamGibberish": "Seu sonho não pôde ser interpretado porque não continha conteúdo significativo suficiente.",
     "dailyLimitReached": "Você atingiu o limite diário de interpretação de sonhos (100/100).",
     "offlineInterpretation": "O sonho não pôde ser interpretado devido à falta de internet.",
     "offlinePurchase": "Conexão à internet necessária para realizar compras.",
