@@ -6,7 +6,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:dream_boat_mobile/widgets/dream_share_card.dart';
 import 'package:dream_boat_mobile/widgets/dream_image_share_card.dart'; // [NEW]
-import 'package:dream_boat_mobile/services/review_service.dart';
 import 'package:dream_boat_mobile/l10n/app_localizations.dart';
 
 /// Service for creating and sharing dream interpretation cards.
@@ -74,11 +73,6 @@ class ShareService {
         sharePositionOrigin: box != null ? box.localToGlobal(Offset.zero) & box.size : null,
       );
       
-      // Trigger review flow after successful share (user is happy/engaged)
-      if (context.mounted) {
-        ReviewService.triggerReviewFlow(context);
-      }
-      
       debugPrint('ShareService: Share result: ${result.status}');
       
       // Clean up temp file after a delay
@@ -136,11 +130,6 @@ class ShareService {
         subject: 'My Dream Visualization',
          sharePositionOrigin: box != null ? box.localToGlobal(Offset.zero) & box.size : null,
       );
-
-       // Review Prompt
-       if (context.mounted) {
-        ReviewService.triggerReviewFlow(context);
-      }
       
        // Cleanup
       Future.delayed(const Duration(minutes: 5), () {

@@ -18,28 +18,20 @@ class ConnectivityService {
   /// Tries multiple endpoints for global compatibility.
   /// Returns `true` if connected, `false` otherwise.
   static Future<bool> get isConnected async {
-    for (final endpoint in _endpoints) {
-      try {
-        final result = await InternetAddress.lookup(endpoint)
-            .timeout(const Duration(seconds: 3));
-        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-          debugPrint('ConnectivityService: Connected via $endpoint');
-          return true;
-        }
-      } on SocketException catch (_) {
-        debugPrint('ConnectivityService: $endpoint failed (SocketException)');
-        continue; // Try next endpoint
-      } on TimeoutException catch (_) {
-        debugPrint('ConnectivityService: $endpoint failed (Timeout)');
-        continue; // Try next endpoint
-      } catch (e) {
-        debugPrint('ConnectivityService: $endpoint failed ($e)');
-        continue; // Try next endpoint
+    try {
+      final result = await Future.any(
+        _endpoints.map((endpoint) =>
+          InternetAddress.lookup(endpoint).timeout(const Duration(seconds: 3))
+        ),
+      );
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        debugPrint('ConnectivityService: Connected');
+        return true;
       }
+      return false;
+    } catch (e) {
+      debugPrint('ConnectivityService: All endpoints failed - no internet');
+      return false;
     }
-    
-    // All endpoints failed
-    debugPrint('ConnectivityService: All endpoints failed - no internet');
-    return false;
   }
 }

@@ -159,22 +159,8 @@ class _PremiumVisualizeButtonState extends State<PremiumVisualizeButton> with Ti
                 ),
               ),
 
-              // 1. Icon Layer (Blurred, Left)
-              Positioned(
-                left: -10,
-                bottom: -10,
-                child: Transform.rotate(
-                  angle: _iconRotationAnimation.value,
-                  child: ImageFiltered(
-                    imageFilter: ImageFilter.blur(sigmaX: 2, sigmaY: 2), // Soft Blur
-                    child: Icon(
-                      LucideIcons.sparkles,
-                      size: 80,
-                      color: Colors.white.withOpacity(0.15), // Very subtle
-                    ),
-                  ),
-                ),
-              ),
+
+
 
               // 2. Content Layer
               Center(

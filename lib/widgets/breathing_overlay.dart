@@ -15,7 +15,6 @@ class BreathingOverlay extends StatefulWidget {
 class _BreathingOverlayState extends State<BreathingOverlay>
     with TickerProviderStateMixin {
   late AnimationController _breathController;
-  late AnimationController _starController;
   
   // Breathing phases (in seconds)
   static const int inhaleSeconds = 4;
@@ -23,42 +22,21 @@ class _BreathingOverlayState extends State<BreathingOverlay>
   static const int exhaleSeconds = 6;
   static const int totalSeconds = inhaleSeconds + holdSeconds + exhaleSeconds; // 14s
   
-  // Star particles
-  final List<_Star> _stars = [];
+
   
   @override
   void initState() {
     super.initState();
     
-    // Breathing animation: 14 second cycle, repeating
     _breathController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: totalSeconds),
     )..repeat();
-    
-    // Star animation for flowing effect
-    _starController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 20),
-    )..repeat();
-    
-    // Generate stars
-    final random = math.Random();
-    for (int i = 0; i < 50; i++) {
-      _stars.add(_Star(
-        x: random.nextDouble(),
-        y: random.nextDouble(),
-        size: random.nextDouble() * 2 + 1,
-        speed: random.nextDouble() * 0.5 + 0.2,
-        opacity: random.nextDouble() * 0.5 + 0.3,
-      ));
-    }
   }
   
   @override
   void dispose() {
     _breathController.dispose();
-    _starController.dispose();
     super.dispose();
   }
   
@@ -116,18 +94,7 @@ class _BreathingOverlayState extends State<BreathingOverlay>
         backgroundColor: Colors.transparent,
         body: Stack(
           children: [
-            // Dark background with flowing stars
-            AnimatedBuilder(
-              animation: _starController,
-              builder: (context, child) {
-                return CustomPaint(
-                  size: MediaQuery.of(context).size,
-                  painter: _StarPainter(_stars, _starController.value),
-                );
-              },
-            ),
-            
-            // Dark overlay - fully opaque for calm experience
+            // Dark background
             Container(
               color: Colors.black,
             ),
@@ -247,47 +214,3 @@ class _BreathingOverlayState extends State<BreathingOverlay>
 }
 
 enum _BreathPhase { inhale, hold, exhale }
-
-class _Star {
-  double x;
-  double y;
-  final double size;
-  final double speed;
-  final double opacity;
-  
-  _Star({
-    required this.x,
-    required this.y,
-    required this.size,
-    required this.speed,
-    required this.opacity,
-  });
-}
-
-class _StarPainter extends CustomPainter {
-  final List<_Star> stars;
-  final double animationValue;
-  
-  _StarPainter(this.stars, this.animationValue);
-  
-  @override
-  void paint(Canvas canvas, Size size) {
-    for (final star in stars) {
-      // Calculate flowing position (moving down slowly)
-      final y = (star.y + animationValue * star.speed) % 1.0;
-      
-      final paint = Paint()
-        ..color = Colors.white.withOpacity(star.opacity * 0.5)
-        ..style = PaintingStyle.fill;
-      
-      canvas.drawCircle(
-        Offset(star.x * size.width, y * size.height),
-        star.size,
-        paint,
-      );
-    }
-  }
-  
-  @override
-  bool shouldRepaint(covariant _StarPainter oldDelegate) => true;
-}

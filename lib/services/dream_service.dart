@@ -151,10 +151,10 @@ class DreamService {
       return imageUrl;
     } on FirebaseFunctionsException catch (e) {
       debugPrint('Cloud Function Error: ${e.code} - ${e.message}');
-      throw e; // Rethrow to show UI dialog
+      rethrow; // Rethrow to show UI dialog
     } catch (e) {
       debugPrint('Generator Error: $e');
-      throw e;
+      rethrow;
     }
   }
 }

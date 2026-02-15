@@ -102,21 +102,24 @@ class _StatsScreenState extends State<StatsScreen> {
     try {
       final prefs = await SharedPreferences.getInstance();
       
-      // 1. Load Analysis State
+      // 1. Load Analysis State into local variables first
       final dateStr = prefs.getString('last_analysis_date');
       final result = prefs.getString('last_analysis_result');
+      DateTime? loadedAnalysisDate;
+      String? loadedAnalysisResult;
 
       if (dateStr != null && result != null) {
-          _lastAnalysisDate = DateTime.parse(dateStr);
-          _analysisResult = result;
+          loadedAnalysisDate = DateTime.parse(dateStr);
+          loadedAnalysisResult = result;
       }
 
-      // 1b. Load Moon Sync State
+      // 1b. Load Moon Sync State into local variables
       final moonSyncDateStr = prefs.getString('last_moon_sync_date');
-      final moonSyncResult = prefs.getString('last_moon_sync_result');
-      if (moonSyncDateStr != null && moonSyncResult != null) {
-          _lastMoonSyncDate = DateTime.parse(moonSyncDateStr);
-          _moonSyncResult = moonSyncResult;
+      final loadedMoonSyncResult = prefs.getString('last_moon_sync_result');
+      DateTime? loadedMoonSyncDate;
+
+      if (moonSyncDateStr != null && loadedMoonSyncResult != null) {
+          loadedMoonSyncDate = DateTime.parse(moonSyncDateStr);
       }
 
       // 2. Load Daily Tip (Moved to PostFrame for context access)
@@ -128,17 +131,15 @@ class _StatsScreenState extends State<StatsScreen> {
       
       // 3. Load Real Chart Data
       final allDreams = await _dreamService.getDreams();
-      // Count interpreted dreams
-      _totalDreamsCount = allDreams.length; 
 
       final now = DateTime.now();
       
       // Filter for current month
       final monthlyDreams = allDreams.where((d) => d.date.year == now.year && d.date.month == now.month).toList();
 
+      Map<String, _MoodStat> moodStats = {};
+
       if (monthlyDreams.isNotEmpty) {
-         final moodStats = <String, _MoodStat>{};
-         
          for (var d in monthlyDreams) {
            // Collect all moods for this dream (Primary + Secondary)
            final moodsToProcess = [d.mood];
@@ -169,14 +170,17 @@ class _StatsScreenState extends State<StatsScreen> {
                moodStats[m]!.totalIntensity += intensity;
            }
          }
-         
-         if (mounted) setState(() => _moodStats = moodStats);
-      } else {
-         if (mounted) setState(() => _moodStats = {});
       }
       
+      // [FIX] Single setState with ALL loaded data — ensures dates are
+      // available for countdown calculation on the very first rebuild
       if (mounted) {
          setState(() {
+            _lastAnalysisDate = loadedAnalysisDate;
+            _analysisResult = loadedAnalysisResult;
+            _lastMoonSyncDate = loadedMoonSyncDate;
+            _moonSyncResult = loadedMoonSyncResult;
+            _moodStats = moodStats;
             _totalDreamsCount = allDreams.length;
          });
       }

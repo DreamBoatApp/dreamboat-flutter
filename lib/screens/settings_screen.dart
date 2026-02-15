@@ -117,6 +117,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       t.notifReminder4,
       t.notifReminder5,
     ];
+    // Save all messages so main.dart can rotate on cold start
+    await prefs.setStringList('notif_messages', messages);
     final randomIndex = DateTime.now().day % messages.length; // Deterministic daily rotation
     final localizedMessage = messages[randomIndex];
     await prefs.setString('notif_message', localizedMessage);

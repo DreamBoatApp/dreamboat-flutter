@@ -1028,11 +1028,6 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
                                   // 3. Backend Update
                                   await DreamService().updateDream(updated);
                                   _loadDreams(); // Notify parent list
-                                  
-                                  // Trigger review flow if added to favorites
-                                  if (newStatus && context.mounted) {
-                                    ReviewService.triggerReviewFlow(context);
-                                  }
                                 },
                               ),
                               

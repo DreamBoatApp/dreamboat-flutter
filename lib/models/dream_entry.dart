@@ -13,6 +13,7 @@ class DreamEntry {
   final DateTime date;
   @HiveField(3)
   final String mood;
+  // HiveField(13) — added after fields 0-12; index is permanent, do NOT reuse
   @HiveField(13)
   final String? cosmicAnalysis; // Content from Journal API
   @HiveField(4)
@@ -97,6 +98,9 @@ class DreamEntry {
     );
   }
 
+  // Sentinel for explicitly setting nullable fields to null in copyWith
+  static const _sentinel = _Sentinel();
+
   DreamEntry copyWith({
     String? id,
     String? text,
@@ -106,12 +110,12 @@ class DreamEntry {
     int? moodIntensity,
     int? vividness,
     String? interpretation,
-    String? title,
+    Object? title = _sentinel,
     bool? isFavorite,
     List<String>? astronomicalEvents,
     int? guideStage,
-    String? imageUrl,
-    String? cosmicAnalysis,
+    Object? imageUrl = _sentinel,
+    Object? cosmicAnalysis = _sentinel,
   }) {
     return DreamEntry(
       id: id ?? this.id,
@@ -122,13 +126,17 @@ class DreamEntry {
       moodIntensity: moodIntensity ?? this.moodIntensity,
       vividness: vividness ?? this.vividness,
       interpretation: interpretation ?? this.interpretation,
-      title: title ?? this.title,
+      title: title == _sentinel ? this.title : title as String?,
       isFavorite: isFavorite ?? this.isFavorite,
       astronomicalEvents: astronomicalEvents ?? this.astronomicalEvents,
       guideStage: guideStage ?? this.guideStage,
-      imageUrl: imageUrl ?? this.imageUrl,
-      cosmicAnalysis: cosmicAnalysis ?? this.cosmicAnalysis,
+      imageUrl: imageUrl == _sentinel ? this.imageUrl : imageUrl as String?,
+      cosmicAnalysis: cosmicAnalysis == _sentinel ? this.cosmicAnalysis : cosmicAnalysis as String?,
     );
   }
+}
+
+class _Sentinel {
+  const _Sentinel();
 }
 

@@ -666,7 +666,7 @@ Content: ${d.text.substring(0, 300)}...`
     }
 });
 // Image Generation Feature
-exports.generateDreamImage = onCall({ secrets: [openaiApiKey] }, async (request) => {
+exports.generateDreamImage = onCall({ secrets: [openaiApiKey], memory: '512MiB', timeoutSeconds: 120 }, async (request) => {
     // Rate limit check (Generic)
     await enforceRateLimit('generateDreamImage', request);
 
@@ -759,22 +759,36 @@ exports.generateDreamImage = onCall({ secrets: [openaiApiKey] }, async (request)
         const refinement = await openai.chat.completions.create({
             messages: [
                 {
-                    role: "system", content: `You are an AI Art Director. 
-                
-                Transform the user's dream into a DALL-E 3 prompt using the following STRICT TEMPLATE.
-                
-                TEMPLATE:
-                "Create a dreamlike color field composition with softly integrated silhouettes, interpreting the following dream through emotion, atmosphere, and symbolic presence rather than literal imagery.
-                Human and animal forms should appear as simple, indistinct silhouettes, gently blended into the scene, with no facial features, age, gender, or identifiable traits.
-                Convey a sense of place through layered color fields, soft depth, and gradual transitions of light, allowing the environment to feel spacious and immersive without concrete details.
-                Use natural asymmetry and subtle variation in scale and distance so figures feel part of a flowing dream space rather than arranged or posed.
-                The overall mood should remain calm, soothing, and quietly uplifting, with harmonious colors and balanced, organic composition that avoids darkness, sharp contrast, or unsettling imagery.
-                This image is a symbolic, emotional visualization of a dream, not a realistic scene: [INSERT CONCISE VISUAL SUMMARY OF DREAM HERE]"
+                    role: "system", content: `You are a Dream Art Director specializing in symbolic, emotionally resonant dream visualization.
 
-                INSTRUCTIONS:
-                1. Extract the key visual elements from the user's dream.
-                2. Insert them into the [INSERT CONCISE VISUAL SUMMARY OF DREAM HERE] slot.
-                3. Output ONLY the final populated prompt.` },
+                TASK: Transform the user's dream into a DALL-E 3 prompt that captures the SPECIFIC atmosphere, setting, and emotional core of THIS particular dream — not a generic dreamscape.
+
+                ANALYSIS STEPS (internal, do not output these — use them to guide your prompt):
+                1. Identify the PRIMARY SETTING (school? forest? ocean? home? city? sky? underground?)
+                2. Identify the EMOTIONAL CORE (anxiety? wonder? nostalgia? fear? peace? confusion? joy?)
+                3. Identify 1-3 KEY VISUAL ANCHORS — the specific objects or elements that make this dream unique
+                4. Choose a COLOR MOOD that matches the emotion (cool blues for loneliness, warm ambers for nostalgia, deep purples for mystery, soft greens for peace, etc.)
+
+                OUTPUT: A single DALL-E prompt following this structure — fill in the bracketed sections with dream-specific content:
+
+                "A soft color field painting depicting [SPECIFIC SETTING — describe the actual place as it would realistically look, but rendered with soft focus and gentle light. A school corridor should look like a real school corridor with plain walls and rectangular doors, NOT a cathedral with arches. A home kitchen should look like a kitchen, NOT a palace hall].
+
+                [KEY VISUAL ANCHORS as soft symbolic elements woven into the scene — e.g. a small solitary silhouette searching through the space, a distant figure gesturing from the far end, a key floating in mid-air, a door slightly ajar with light spilling through].
+
+                The palette is [EMOTION-DRIVEN COLORS — e.g. cool institutional blues and greys with warm amber light spilling from one distant doorway, evoking nostalgic longing and gentle unease].
+
+                All living beings — humans AND animals — appear as simple, featureless silhouettes with no facial details, breed, size specificity, age, or gender indicators. A dog is just a generic dog-shaped silhouette, not a specific breed. A person is just a human-shaped silhouette.
+
+                The overall composition feels like looking into a memory — softly focused, emotionally vivid, quietly atmospheric. Use layered depth, gentle light transitions, and natural asymmetry. Avoid darkness, horror, sharp contrast, or unsettling imagery.
+
+                ABSOLUTELY NO TEXT, LETTERS, WORDS, NUMBERS, OR WRITING OF ANY KIND anywhere in the image."
+
+                RULES:
+                1. Output ONLY the final prompt — no commentary, no explanation.
+                2. The setting MUST be architecturally accurate to the dream — a school looks like a school, a house looks like a house. Do NOT embellish with grandiose elements like arches, columns, domes, or cathedral ceilings unless the dream specifically mentions them.
+                3. Include at most 1-3 figures/silhouettes — avoid crowd scenes.
+                4. NEVER include any instruction that would result in text or writing in the image.
+                5. Keep the prompt under 250 words.` },
                 { role: "user", content: `Dream: ${dreamText}` }
             ],
             model: "gpt-4o-mini",

@@ -192,7 +192,16 @@ Future<void> _initNotificationsInBackground() async {
     if (notifEnabled) {
       final hour = prefs.getInt('notif_hour') ?? 9;
       final minute = prefs.getInt('notif_minute') ?? 0;
-      final message = prefs.getString('notif_message');
+      // Rotate notification message daily from saved localized variants
+      final messages = prefs.getStringList('notif_messages');
+      String? message;
+      if (messages != null && messages.isNotEmpty) {
+        final index = DateTime.now().day % messages.length;
+        message = messages[index];
+        await prefs.setString('notif_message', message);
+      } else {
+        message = prefs.getString('notif_message');
+      }
       await NotificationService().scheduleDailyNotification(TimeOfDay(hour: hour, minute: minute), message: message);
       debugPrint('=== Background: Restored scheduled notification for $hour:$minute ===');
     }

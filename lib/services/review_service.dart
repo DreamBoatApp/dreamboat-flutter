@@ -13,7 +13,7 @@ class ReviewService {
 
   // Cooldown periods
   static const int _fullCooldownDays = 30; // For users who interacted (rated/gave feedback)
-  static const int _dismissedCooldownDays = 3; // For users who dismissed without interaction
+  static const int _dismissedCooldownDays = 30; // For users who dismissed without interaction
 
   /// Checks if the user is eligible for a review request based on last outcome.
   static Future<bool> isReviewPeriodEligible() async {
