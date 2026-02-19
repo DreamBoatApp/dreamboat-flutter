@@ -13,17 +13,15 @@
 - **Multilingual** — Available in English, Turkish, German, French, Spanish, Italian, and Portuguese
 - **Breathing Exercises** — Guided relaxation for better dream recall
 
-## Download
+## Product Demo
 
-<p align="center">
-  <a href="https://apps.apple.com/app/dreamboat-ai-dream-journal/id6740545818">
-    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" height="50" alt="Download on the App Store">
-  </a>
-  &nbsp;&nbsp;
-  <a href="https://play.google.com/store/apps/details?id=com.novabloomstudio.dreamboat">
-    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="50" alt="Get it on Google Play">
-  </a>
-</p>
+A full visual walkthrough and demo video is available on:
+https://www.novabloomstudio.com/en/dreamboat
+
+## Status
+
+DreamBoat is currently in closed testing / submission phase.
+Public App Store and Google Play links will be added after launch.
 
 ## Tech Stack
 
