@@ -40,9 +40,8 @@ migrate_working_dir/
 firebase-debug.log
 .firebase/
 
-# Backend
-backend/node_modules/
-backend/functions/node_modules/
+# Backend (moved to private repo: dreamboat-backend)
+backend/
 
 # Environment files (keep examples, ignore actual)
 .env
