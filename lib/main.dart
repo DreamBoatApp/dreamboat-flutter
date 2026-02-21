@@ -87,11 +87,17 @@ void main() {
     
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-    debugPrint('=== Starting runApp ===');
+    // Load saved locale (default to 'tr' if not set)
+    final savedLocale = prefs.getString('app_locale');
+    final initialLocale = savedLocale != null
+        ? Locale(savedLocale)
+        : const Locale('tr');
+
+    debugPrint('=== Starting runApp (locale: ${initialLocale.languageCode}) ===');
     runApp(
       ChangeNotifierProvider(
         create: (_) => SubscriptionProvider(),
-        child: const MyApp(),
+        child: MyApp(initialLocale: initialLocale),
       ),
     );
     debugPrint('=== runApp completed ===');
@@ -206,7 +212,8 @@ Future<void> _initNotificationsInBackground() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final Locale initialLocale;
+  const MyApp({super.key, required this.initialLocale});
 
   static void setLocale(BuildContext context, Locale newLocale) {
     _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
@@ -218,12 +225,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _locale = const Locale('tr');
+  late Locale _locale;
 
-  void setLocale(Locale locale) {
+  @override
+  void initState() {
+    super.initState();
+    _locale = widget.initialLocale;
+  }
+
+  void setLocale(Locale locale) async {
     setState(() {
       _locale = locale;
     });
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('app_locale', locale.languageCode);
   }
 
   @override

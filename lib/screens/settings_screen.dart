@@ -283,10 +283,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                   // Support ID Item removed and moved to Support Modal
 
-                   // DEBUG Toggle for Emulator Testing
-                   // DEBUG Toggle for Testing (Visible in Release for TestFlight)
-                  // DEBUG Toggle for Testing (Visible in Release for TestFlight)
-                  if (kDebugMode)
+                   // Review Mode Toggle (temporarily enabled for all builds)
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: _SettingItem(
