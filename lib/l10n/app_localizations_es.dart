@@ -1070,7 +1070,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get billingAnnual =>
-      'Suscripción anual con renovación automática.\nSe factura una vez al año.';
+      'Suscripción anual con renovación automática. Se factura una vez al año. Cancela en cualquier momento.';
 
   @override
   String get proFeatureAds => 'Experiencia Sin Anuncios';

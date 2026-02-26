@@ -68,7 +68,7 @@ class ShareService {
       
       // Share using native share sheet
       final result = await Share.shareXFiles(
-        [XFile(filePath)],
+        [XFile(filePath, mimeType: 'image/png')],
         subject: 'Dream Interpretation',
         sharePositionOrigin: box != null ? box.localToGlobal(Offset.zero) & box.size : null,
       );
@@ -126,7 +126,7 @@ class ShareService {
       // Share
       final box = context.findRenderObject() as RenderBox?;
       final result = await Share.shareXFiles(
-        [XFile(filePath)],
+        [XFile(filePath, mimeType: 'image/png')],
         subject: 'My Dream Visualization',
          sharePositionOrigin: box != null ? box.localToGlobal(Offset.zero) & box.size : null,
       );

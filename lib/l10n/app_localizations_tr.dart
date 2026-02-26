@@ -1062,7 +1062,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get billingAnnual =>
-      'Yıllık otomatik yenilenen abonelik.\nHer yıl bir kez faturalandırılır.';
+      'Yıllık otomatik yenilenen abonelik. Her yıl bir kez faturalandırılır. İstediğin zaman iptal edebilirsin.';
 
   @override
   String get proFeatureAds => 'Reklamsız Deneyim';

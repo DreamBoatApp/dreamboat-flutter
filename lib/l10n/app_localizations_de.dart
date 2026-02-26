@@ -1076,7 +1076,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get billingAnnual =>
-      'Jährliches Abo mit automatischer Verlängerung.\nEinmal pro Jahr abgerechnet.';
+      'Jährliches Abo mit automatischer Verlängerung. Einmal pro Jahr abgerechnet. Jederzeit kündbar.';
 
   @override
   String get proFeatureAds => 'Werbefreie Erfahrung';

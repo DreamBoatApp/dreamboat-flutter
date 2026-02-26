@@ -1064,7 +1064,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get billingAnnual =>
-      'Yearly auto-renewing subscription.\nBilled once per year.';
+      'Yearly auto-renewing subscription. Billed once per year. Cancel anytime.';
 
   @override
   String get proFeatureAds => 'Ad-Free Experience';

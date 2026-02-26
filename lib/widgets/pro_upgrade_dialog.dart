@@ -345,7 +345,9 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                           Stack(
                             clipBehavior: Clip.none,
                             children: [
-                              Row(
+                              IntrinsicHeight(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   // Monthly Card
                                   Expanded(
@@ -384,10 +386,11 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                                   ),
                                 ],
                               ),
+                              ),
                             ],
                           ),
                           
-                          const SizedBox(height: 28),
+                          const SizedBox(height: 52),
                           
                           // Show Retry button if prices failed, otherwise show Free Trial Badge
                           if (pricesLoadFailed)
@@ -459,7 +462,7 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                               ),
                             ),
                           
-                          const SizedBox(height: 18),
+                          const SizedBox(height: 20),
 
                           // PRO Features with descriptions (no icons)
                           _buildFeatureWithSubtitle(
@@ -617,35 +620,26 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
             ),
           ),
           
-          // X Close Button at top right
+          // X Close Button — Apple-style subtle
           Positioned(
-            top: 8,
-            right: 8,
-            child: Material(
-              type: MaterialType.transparency,
-              child: InkWell(
-                onTap: () {
-                  HapticFeedback.lightImpact();
-                  Navigator.pop(context);
-                },
-                borderRadius: BorderRadius.circular(16),
-                splashColor: Colors.white.withOpacity(0.15),
-                highlightColor: Colors.white.withOpacity(0.08),
-                child: Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.1),
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.2),
-                    ),
-                  ),
-                  child: const Icon(
-                    Icons.close,
-                    color: Colors.white70,
-                    size: 18,
-                  ),
+            top: 12,
+            right: 12,
+            child: GestureDetector(
+              onTap: () {
+                HapticFeedback.lightImpact();
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.08),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.close_rounded,
+                  color: Colors.white.withOpacity(0.4),
+                  size: 16,
                 ),
               ),
             ),
@@ -821,12 +815,13 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
             // Discount badge (bottom)
             if (discountLabel != null)
               Positioned(
-                bottom: -28,
-                left: 0,
-                right: 0,
+                bottom: -42,
+                left: -4,
+                right: -4,
                 child: Center(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    constraints: const BoxConstraints(maxWidth: 160),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [Color(0xFF10B981), Color(0xFF059669)],
@@ -840,13 +835,16 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                         ),
                       ],
                     ),
-                    child: Text(
-                      discountLabel,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.5,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        discountLabel,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ),
                   ),

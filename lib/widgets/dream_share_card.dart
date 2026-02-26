@@ -151,20 +151,28 @@ class DreamShareCard extends StatelessWidget {
                   
                   const SizedBox(height: 32),
                   
-                  // === MAIN CONTENT (Full text, no truncation) ===
-                  // No Expanded here since we are in a centered column with safe zones
-                  // We let text take what it needs, ensuring it fits with padding
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      children: _buildTextSpans(interpretation),
-                      style: TextStyle(
-                         color: Colors.white,
-                         fontSize: fontSize,
-                         height: 1.6,
-                         letterSpacing: 0.3,
-                         fontFamily: 'Nunito',
-                         decoration: TextDecoration.none,
+                  // === MAIN CONTENT (Auto-shrinks to fit) ===
+                  Expanded(
+                    child: Center(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: SizedBox(
+                          width: cardWidth - 96, // Match horizontal padding (48*2)
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              children: _buildTextSpans(interpretation),
+                              style: TextStyle(
+                                 color: Colors.white,
+                                 fontSize: fontSize,
+                                 height: 1.6,
+                                 letterSpacing: 0.3,
+                                 fontFamily: 'Nunito',
+                                 decoration: TextDecoration.none,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),

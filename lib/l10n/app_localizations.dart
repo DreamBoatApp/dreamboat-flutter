@@ -2009,7 +2009,7 @@ abstract class AppLocalizations {
   /// No description provided for @billingAnnual.
   ///
   /// In tr, this message translates to:
-  /// **'Yıllık otomatik yenilenen abonelik.\nHer yıl bir kez faturalandırılır.'**
+  /// **'Yıllık otomatik yenilenen abonelik. Her yıl bir kez faturalandırılır. İstediğin zaman iptal edebilirsin.'**
   String get billingAnnual;
 
   /// No description provided for @proFeatureAds.

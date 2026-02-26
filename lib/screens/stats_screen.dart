@@ -122,12 +122,24 @@ class _StatsScreenState extends State<StatsScreen> {
           loadedMoonSyncDate = DateTime.parse(moonSyncDateStr);
       }
 
-      // 2. Load Daily Tip (Moved to PostFrame for context access)
-      // We defer this to ensure we have the correct locale
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      // 2. Load Daily Tip — check cache synchronously first
+      final todayStr = DateTime.now().toString().split(' ')[0];
+      final savedLocale = prefs.getString('app_locale') ?? 'tr';
+      final tipDateKey = 'tip_date_$savedLocale';
+      final tipContentKey = 'tip_content_$savedLocale';
+      final lastTipDate = prefs.getString(tipDateKey);
+      final cachedTip = prefs.getString(tipContentKey);
+
+      if (lastTipDate == todayStr && cachedTip != null && cachedTip.length > 50) {
+        // Cache hit — show immediately, no spinner
+        _dailyTip = cachedTip;
+      } else {
+        // Cache miss — generate after first frame (needs locale context)
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           final locale = Localizations.localeOf(context).languageCode;
-          _loadDailyTip(prefs, locale);
-      });
+          _generateNewTip(prefs, todayStr, locale, 'tip_date_$locale', 'tip_content_$locale');
+        });
+      }
       
       // 3. Load Real Chart Data
       final allDreams = await _dreamService.getDreams();
