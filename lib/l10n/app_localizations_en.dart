@@ -554,6 +554,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get journalDeleteCancel => 'Cancel';
 
   @override
+  String journalDeleteMultiTitle(int count) {
+    return 'Delete $count Dreams?';
+  }
+
+  @override
+  String get journalDeleteMultiContent =>
+      'Are you sure you want to delete the selected dreams? This action cannot be undone.';
+
+  @override
   String get proVersion => 'PRO';
 
   @override
@@ -1514,6 +1523,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorGeneric => 'An unexpected error occurred.';
+
+  @override
+  String get errorGenericRetry => 'An error occurred. Please try again.';
 
   @override
   String get dreamSavedNoInterpretation => 'Dream saved to journal.';

@@ -207,7 +207,7 @@ class _StatsScreenState extends State<StatsScreen> {
     final lastDate = prefs.getString(dateKey);
     final cachedContent = prefs.getString(contentKey);
 
-    if (lastDate == todayStr && cachedContent != null && cachedContent.isNotEmpty) {
+    if (lastDate == todayStr && cachedContent != null && cachedContent.length > 50) {
        if (mounted) setState(() => _dailyTip = cachedContent);
     } else {
        await _generateNewTip(prefs, todayStr, locale, dateKey, contentKey);
@@ -215,15 +215,24 @@ class _StatsScreenState extends State<StatsScreen> {
   }
 
   Future<void> _generateNewTip(SharedPreferences prefs, String todayStr, String locale, String dateKey, String contentKey) async {
-    // ... (unchanged)
-     if (!mounted) return;
+    if (!mounted) return;
     setState(() => _isTipLoading = true);
     
     try {
       final allDreams = await _dreamService.getDreams();
-      final recentDreams = allDreams.take(5).map((d) => d.text).toList(); // Send last 5 dreams for context
+      final recentDreams = allDreams.take(5).map((d) => d.text).toList();
       
       final tip = await _openAIService.generateDailyTip(recentDreams, locale);
+      
+      // Guard: reject suspiciously short/truncated responses
+      if (tip.length < 50) {
+        debugPrint('Daily tip too short (${tip.length} chars), using fallback');
+        if (mounted) {
+          final t = AppLocalizations.of(context)!;
+          setState(() => _dailyTip = t.statsTipContent);
+        }
+        return;
+      }
       
       await prefs.setString(dateKey, todayStr);
       await prefs.setString(contentKey, tip);

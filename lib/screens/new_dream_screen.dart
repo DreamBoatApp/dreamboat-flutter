@@ -9,14 +9,12 @@ import 'package:dream_boat_mobile/services/connectivity_service.dart';
 import 'package:dream_boat_mobile/widgets/glass_card.dart';
 import 'package:dream_boat_mobile/widgets/custom_button.dart';
 import 'package:dream_boat_mobile/widgets/mood_selection_sheet.dart';
-import 'package:dream_boat_mobile/widgets/ad_consent_dialog.dart'; // [NEW]
 import 'package:dream_boat_mobile/widgets/dream_analysis_overlay.dart'; // [NEW]
-import 'package:dream_boat_mobile/widgets/pro_upgrade_dialog.dart'; // [NEW] For Pro flow
 
 import 'package:dream_boat_mobile/l10n/app_localizations.dart';
 import 'package:dream_boat_mobile/services/openai_service.dart';
 import 'package:dream_boat_mobile/services/dream_service.dart';
-import 'package:dream_boat_mobile/services/ad_manager.dart';
+
 import 'package:dream_boat_mobile/services/astronomy_service.dart'; // [NEW]
 import 'package:dream_boat_mobile/models/dream_entry.dart';
 import 'package:dream_boat_mobile/screens/journal_screen.dart';
@@ -39,10 +37,8 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
   final FocusNode _focusNode = FocusNode(); // [NEW] Focus Control
   bool _isSaving = false;
   bool _isModalOpen = false; // [NEW] To prevent scaffold resize
-  bool _isAdDialogOpen = false; // [NEW] To prevent premature unlock
   int? _rateLimitMinutes; // [NEW] Rate limit countdown minutes
   bool _showAnalysisOverlay = false; // [NEW] Analysis overlay visibility
-  bool _preparingAd = false; // [NEW] Transition state for ad loading
   // [REMOVED] _weeklyUsage - Weekly limit disabled for unlimited free interpretations
 
   @override
@@ -86,8 +82,7 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
         }
       ),
     ).whenComplete(() {
-       // Only unlock if we are NOT opening the ad dialog (or it's already open via checks)
-       if (mounted && !_isAdDialogOpen) {
+       if (mounted) {
          setState(() => _isModalOpen = false);
          _focusNode.unfocus();
        }
@@ -105,143 +100,22 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
     // 0. Check Connectivity (Safety First)
     bool isOnline = false;
     try {
-      // Short timeout to prevent UI freeze
       isOnline = await ConnectivityService.isConnected.timeout(const Duration(seconds: 3));
     } catch (e) {
       debugPrint('Connectivity check failed: $e');
-      isOnline = false; // Fallback to offline on sensitive networks
+      isOnline = false;
     }
 
     if (!mounted) return;
 
     if (!isOnline) {
-       // [NEW] Offline: Show explicit "No Internet" dialog
        await _showOfflineDialog(mood, secondaryMoods, intensity, vividness);
        return;
     }
 
-    // 1. Check PRO Status
-    final isPro = context.read<SubscriptionProvider>().isPro;
-    if (isPro) {
-      if (mounted) Navigator.pop(context); // Close Mood Sheet
-      await _processDream(mood, secondaryMoods, intensity, vividness);
-      return;
-    }
-
-    // 2. Check First Dream Status
-    final dreamService = DreamService();
-    final isFirstDream = await dreamService.isFirstDream();
-    if (isFirstDream) {
-      if (mounted) Navigator.pop(context); // Close Mood Sheet
-      await _processDream(mood, secondaryMoods, intensity, vividness, isFirstDream: true);
-      return;
-    }
-
-    // 4. Check Short Dream (Skip Ad & Interpretation)
-    // If dream is too short to interpret (< 50 chars), we don't show ad.
-    // We just save it directly.
-    if (_controller.text.length < 50) {
-      if (mounted) Navigator.pop(context); // Close Mood Sheet
-      await _processDream(mood, secondaryMoods, intensity, vividness);
-      return;
-    }
-
-    // 5. Ad Flow for Standard Users
-
-    // 4. Ad Flow for Standard Users
-    if (!mounted) return;
-    
-    // [FIX] Strict Monetization:
-    // If Ad is NOT ready, we must NOT give free interpretation.
-    // Instead, we skip the ad flow but also SKIP the interpretation.
-    if (!AdManager.instance.isAdLoaded) {
-       debugPrint('Ad not ready. Skipping ad flow & interpretation.');
-       if (mounted) Navigator.pop(context); // Close Mood Sheet
-       
-       // Process WITHOUT interpretation (Strict)
-       await _processDream(mood, secondaryMoods, intensity, vividness, skipInterpretation: true);
-       
-       // Show specific feedback for this case if needed (Optional, but _processDream shows generic "Saved" snackbar)
-       // We can rely on _processDream to show "Dream saved without interpretation".
-       return;
-    }
-
-    // Only show dialog if Ad is actually ready to show
-    final result = await showDialog<String>(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AdConsentDialog(
-        isAdLoaded: true, // Known true
-        adLoadFailed: false,
-      )
-    );
-
-    if (!mounted) return;
-
-    if (result == 'pro') {
-       if (mounted) Navigator.pop(context); // Close Mood Sheet
-       
-       // Show Paywall
-       await showDialog(
-         context: context, 
-         builder: (context) => const ProUpgradeDialog()
-       );
-       
-       if (!mounted) return;
-       // Re-check PRO status after return
-       final isNowPro = context.read<SubscriptionProvider>().isPro;
-       
-       // Proceed: If PRO, interpret. If NOT PRO, save without interpret (Skip).
-       await _processDream(mood, secondaryMoods, intensity, vividness, skipInterpretation: !isNowPro);
-       return;
-    }
-
-    if (result == 'watch') {
-         // Close Mood Sheet FIRST
-         if (mounted) Navigator.pop(context);
-
-         // [FIX] Show simple black screen transition instead of full overlay
-         if (mounted) {
-           setState(() {
-             _preparingAd = true;
-             _isSaving = true; // Lock UI
-           });
-         }
-
-         try {
-           // Logic to show ad
-           // Wrap in try-catch to ensure we NEVER leave the user stuck if Ad SDK crashes
-           final shown = await AdManager.instance.showInterstitial(context);
-           
-           if (mounted) {
-              setState(() => _preparingAd = false); // Hide transition screen
-           }
-
-           // If shown, process (Standard). 
-           // If NOT shown (failed/timeout), we MUST skip interpretation to prevent leak.
-           if (mounted) {
-             await _processDream(mood, secondaryMoods, intensity, vividness, skipInterpretation: !shown);
-           }
-           
-         } catch (e) {
-           debugPrint("Ad Show Critical Error: $e");
-           // FAILS PREDICATE: Proceed to save anyway, but SKIP INTERPRETATION
-           if (mounted) {
-             setState(() => _preparingAd = false);
-             await _processDream(mood, secondaryMoods, intensity, vividness, skipInterpretation: true);
-           }
-         }
-    } else if (result == 'retry') {
-        // Retry logic - wait a bit then re-check
-        Future.delayed(const Duration(milliseconds: 200), () { 
-           if (mounted) _checkAdAndProcess(mood, secondaryMoods, intensity, vividness);
-        });
-    } else if (result == 'skip') {
-        if (mounted) Navigator.pop(context); // Close Mood Sheet
-        // [FIX] Skip Interpretation if user explicitly skips ad
-        if (mounted) await _processDream(mood, secondaryMoods, intensity, vividness, skipInterpretation: true);
-    }
-    // If result is null (back button), do nothing. User is at Mood Sheet.
+    // Close Mood Sheet and proceed directly to dream processing
+    if (mounted) Navigator.pop(context);
+    await _processDream(mood, secondaryMoods, intensity, vividness);
   }
 
   Future<void> _showOfflineDialog(String mood, List<String> secondaryMoods, int intensity, int vividness) async {
@@ -629,11 +503,6 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
             child: DreamAnalysisOverlay(),
           ),
 
-        // [NEW] Simple transition screen while ad loads
-        if (_preparingAd)
-          Positioned.fill(
-            child: Container(color: const Color(0xFF0F0F23)), // Theme background color
-          ),
       ],
     );
   }

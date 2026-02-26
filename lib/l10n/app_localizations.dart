@@ -1082,6 +1082,18 @@ abstract class AppLocalizations {
   /// **'Vazgeç'**
   String get journalDeleteCancel;
 
+  /// No description provided for @journalDeleteMultiTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} Rüya Silinsin Mi?'**
+  String journalDeleteMultiTitle(int count);
+
+  /// No description provided for @journalDeleteMultiContent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçili rüyaları silmek istediğine emin misin? Bu işlem geri alınamaz.'**
+  String get journalDeleteMultiContent;
+
   /// No description provided for @proVersion.
   ///
   /// In tr, this message translates to:
@@ -2845,6 +2857,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Beklenmedik bir hata oluştu.'**
   String get errorGeneric;
+
+  /// No description provided for @errorGenericRetry.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir hata oluştu. Lütfen tekrar deneyin.'**
+  String get errorGenericRetry;
 
   /// No description provided for @dreamSavedNoInterpretation.
   ///

@@ -557,6 +557,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get journalDeleteCancel => 'Cancelar';
 
   @override
+  String journalDeleteMultiTitle(int count) {
+    return 'Excluir $count Sonhos?';
+  }
+
+  @override
+  String get journalDeleteMultiContent =>
+      'Tem certeza de que deseja excluir os sonhos selecionados? Esta ação não pode ser desfeita.';
+
+  @override
   String get proVersion => 'PRO';
 
   @override
@@ -1525,6 +1534,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get errorGeneric => 'Ocorreu um erro inesperado.';
+
+  @override
+  String get errorGenericRetry =>
+      'Ocorreu um erro. Por favor, tente novamente.';
 
   @override
   String get dreamSavedNoInterpretation => 'Sonho salvo no diário.';

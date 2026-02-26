@@ -557,6 +557,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get journalDeleteCancel => 'Abbrechen';
 
   @override
+  String journalDeleteMultiTitle(int count) {
+    return '$count Träume löschen?';
+  }
+
+  @override
+  String get journalDeleteMultiContent =>
+      'Bist du sicher, dass du die ausgewählten Träume löschen möchtest? Dies kann nicht rückgängig gemacht werden.';
+
+  @override
   String get proVersion => 'PRO';
 
   @override
@@ -1529,6 +1538,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get errorGeneric => 'Ein unerwarteter Fehler ist aufgetreten.';
+
+  @override
+  String get errorGenericRetry =>
+      'Ein Fehler ist aufgetreten. Bitte versuche es erneut.';
 
   @override
   String get dreamSavedNoInterpretation => 'Traum im Tagebuch gespeichert.';

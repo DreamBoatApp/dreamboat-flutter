@@ -4,13 +4,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:dream_boat_mobile/l10n/app_localizations.dart';
 import 'package:dream_boat_mobile/theme/app_theme.dart';
 
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+
 import 'package:dream_boat_mobile/screens/splash_screen.dart';
 
 import 'package:provider/provider.dart';
 import 'package:dream_boat_mobile/providers/subscription_provider.dart';
 import 'package:dream_boat_mobile/services/notification_service.dart';
-import 'package:dream_boat_mobile/services/ad_manager.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/services.dart';
@@ -113,7 +113,6 @@ void main() {
       
       // Initialize in parallel
       Future.wait([
-        _initAds(),
         _initFirebase(),
         _initNotifications()
       ]);
@@ -126,13 +125,6 @@ void main() {
 }
 
 // Separated Init Functions
-Future<void> _initAds() async {
-  try {
-    // Check connectivity first? Optional.
-    await MobileAds.instance.initialize();
-    AdManager.instance.initialize(); // Assuming this is lightweight
-  } catch(e) { debugPrint('Ad Init Failed: $e'); }
-}
 
 Future<void> _initFirebase() async {
    await _initFirebaseInBackground(); // Reuse existing function

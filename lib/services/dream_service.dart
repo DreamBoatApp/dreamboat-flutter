@@ -13,9 +13,14 @@ class DreamService {
 
   Future<List<DreamEntry>> getDreams() async {
     // Hive keeps data in memory, so values.toList() is fast.
-    // We sort them by date descending (newest first)
+    // Sort by ID (epoch milliseconds) descending — newest first.
+    // Using ID instead of date avoids Hive DateTime serialization issues.
     final dreams = _box.values.toList();
-    dreams.sort((a, b) => b.date.compareTo(a.date));
+    dreams.sort((a, b) {
+      final aId = int.tryParse(a.id) ?? 0;
+      final bId = int.tryParse(b.id) ?? 0;
+      return bId.compareTo(aId);
+    });
     return dreams;
   }
 

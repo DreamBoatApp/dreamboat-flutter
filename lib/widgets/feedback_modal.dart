@@ -202,10 +202,10 @@ class FeedbackModal extends StatelessWidget {
 
     String body = "\n\n--------------------------------\n"
         "${t.supportTechInfoNote}\n\n"
-        "Destek Kimliği (User ID): $userId\n"
-        "Uygulama Sürümü: $version ($buildNumber)\n"
+        "${t.emailLabelSupportId}: $userId\n"
+        "${t.emailLabelAppVersion}: $version ($buildNumber)\n"
         "Platform: $os\n"
-        "Dil: $locale";
+        "${t.emailLabelLanguage}: $locale";
 
     final Uri emailLaunchUri = Uri(
       scheme: 'mailto',

@@ -463,10 +463,6 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
 
                           // PRO Features with descriptions (no icons)
                           _buildFeatureWithSubtitle(
-                            title: t.proFeatureAdsTitle,
-                            subtitle: t.proFeatureAdsSubtitle,
-                          ),
-                          _buildFeatureWithSubtitle(
                             title: t.proFeatureCosmicTitle,
                             subtitle: t.proFeatureCosmicSubtitle,
                           ),

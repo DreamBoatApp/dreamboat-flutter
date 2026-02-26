@@ -28,8 +28,6 @@
 -dontwarn com.google.errorprone.annotations.**
 -dontwarn com.revenuecat.**
 
-# AdMob
--keep class com.google.android.gms.ads.** { *; }
 
 # Firebase (General Safety)
 -keep class com.google.firebase.** { *; }

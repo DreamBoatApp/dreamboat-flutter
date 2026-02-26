@@ -552,6 +552,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get journalDeleteCancel => 'Vazgeç';
 
   @override
+  String journalDeleteMultiTitle(int count) {
+    return '$count Rüya Silinsin Mi?';
+  }
+
+  @override
+  String get journalDeleteMultiContent =>
+      'Seçili rüyaları silmek istediğine emin misin? Bu işlem geri alınamaz.';
+
+  @override
   String get proVersion => 'PRO';
 
   @override
@@ -1510,6 +1519,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get errorGeneric => 'Beklenmedik bir hata oluştu.';
+
+  @override
+  String get errorGenericRetry => 'Bir hata oluştu. Lütfen tekrar deneyin.';
 
   @override
   String get dreamSavedNoInterpretation => 'Rüya günlüğe kaydedildi.';

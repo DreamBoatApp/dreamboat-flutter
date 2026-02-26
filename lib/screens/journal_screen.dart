@@ -203,14 +203,14 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
             mainAxisSize: MainAxisSize.min,
             children: [
 
-               const Text(
-                 "Rüya Silinsin Mi?",
-                 style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+               Text(
+                 t.journalDeleteTitle,
+                 style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                  textAlign: TextAlign.center,
                ),
                const SizedBox(height: 8),
                Text(
-                 "Bu rüyayı silmek istediğine emin misin? Bu işlem geri alınamaz.",
+                 t.journalDeleteContent,
                  style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 14, height: 1.5),
                  textAlign: TextAlign.center,
                ),
@@ -338,13 +338,13 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
             mainAxisSize: MainAxisSize.min,
             children: [
                Text(
-                 "$count Rüya Silinsin Mi?",
+                 t.journalDeleteMultiTitle(count),
                  style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                  textAlign: TextAlign.center,
                ),
                const SizedBox(height: 8),
                Text(
-                 "Seçili rüyaları silmek istediğine emin misin? Bu işlem geri alınamaz.",
+                 t.journalDeleteMultiContent,
                  style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 14, height: 1.5),
                  textAlign: TextAlign.center,
                ),
@@ -982,7 +982,7 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
                                                   // Generic error snackbar for other errors
                                                   ScaffoldMessenger.of(context).showSnackBar(
                                                     SnackBar(
-                                                      content: Text('Bir hata oluştu. Lütfen tekrar deneyin.'), 
+                                                      content: Text(t.errorGenericRetry), 
                                                       backgroundColor: Colors.red.withOpacity(0.8)
                                                     )
                                                   );
