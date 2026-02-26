@@ -241,7 +241,11 @@ class _StatsScreenState extends State<StatsScreen> {
         debugPrint('Daily tip too short (${tip.length} chars), using fallback');
         if (mounted) {
           final t = AppLocalizations.of(context)!;
-          setState(() => _dailyTip = t.statsTipContent);
+          final fallback = t.statsTipContent;
+          // Cache the fallback so we don't keep re-calling the API
+          await prefs.setString(dateKey, todayStr);
+          await prefs.setString(contentKey, fallback);
+          setState(() => _dailyTip = fallback);
         }
         return;
       }
@@ -253,10 +257,13 @@ class _StatsScreenState extends State<StatsScreen> {
         setState(() => _dailyTip = tip);
       }
     } catch (e) {
-       // Fallback
+       // Fallback — also cache it to prevent repeated calls
        if (mounted) {
           final t = AppLocalizations.of(context)!;
-          setState(() => _dailyTip = t.statsTipContent);
+          final fallback = t.statsTipContent;
+          await prefs.setString(dateKey, todayStr);
+          await prefs.setString(contentKey, fallback);
+          setState(() => _dailyTip = fallback);
        }
     } finally {
       if (mounted) setState(() => _isTipLoading = false);

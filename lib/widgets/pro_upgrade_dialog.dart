@@ -390,7 +390,7 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                             ],
                           ),
                           
-                          const SizedBox(height: 52),
+                          const SizedBox(height: 30),
                           
                           // Show Retry button if prices failed, otherwise show Free Trial Badge
                           if (pricesLoadFailed)
@@ -815,13 +815,12 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
             // Discount badge (bottom)
             if (discountLabel != null)
               Positioned(
-                bottom: -42,
+                bottom: -16,
                 left: -4,
                 right: -4,
                 child: Center(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    constraints: const BoxConstraints(maxWidth: 160),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [Color(0xFF10B981), Color(0xFF059669)],
@@ -839,9 +838,10 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                       fit: BoxFit.scaleDown,
                       child: Text(
                         discountLabel,
+                        maxLines: 1,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 13,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 0.5,
                         ),
