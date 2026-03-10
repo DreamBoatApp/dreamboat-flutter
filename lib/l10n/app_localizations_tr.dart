@@ -1623,4 +1623,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String dreamMoonPhasePrefix(Object phase) {
     return '(Rüyanızı Gördüğünüz Ay Evresi: $phase)';
   }
+
+  @override
+  String get ok => 'Tamam';
+
+  @override
+  String get notifOff => 'Kapalı';
+
+  @override
+  String get notifChannelName => 'Günlük Hatırlatmalar';
 }

@@ -3025,6 +3025,24 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'(Rüyanızı Gördüğünüz Ay Evresi: {phase})'**
   String dreamMoonPhasePrefix(Object phase);
+
+  /// No description provided for @ok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tamam'**
+  String get ok;
+
+  /// No description provided for @notifOff.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı'**
+  String get notifOff;
+
+  /// No description provided for @notifChannelName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük Hatırlatmalar'**
+  String get notifChannelName;
 }
 
 class _AppLocalizationsDelegate

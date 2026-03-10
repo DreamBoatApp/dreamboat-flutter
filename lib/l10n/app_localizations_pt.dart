@@ -1639,4 +1639,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String dreamMoonPhasePrefix(Object phase) {
     return '(Fase da Lua do seu Sonho: $phase)';
   }
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get notifOff => 'Desligado';
+
+  @override
+  String get notifChannelName => 'Lembretes Diários';
 }

@@ -545,5 +545,8 @@
     "unlockProConnection": "Freischalten",
     "dreamMoonPhasePrefix": "(Mondphase Ihres Traums: {phase})",
     "visualizeDream": "Traum visualisieren",
-    "visualizingDream": "KI verwandelt Ihren Traum in ein einzigartiges Kunstwerk... Dieser Vorgang kann etwa 30-45 Sekunden dauern."
+    "visualizingDream": "KI verwandelt Ihren Traum in ein einzigartiges Kunstwerk... Dieser Vorgang kann etwa 30-45 Sekunden dauern.",
+    "ok": "OK",
+    "notifOff": "Aus",
+    "notifChannelName": "Tägliche Erinnerungen"
 }

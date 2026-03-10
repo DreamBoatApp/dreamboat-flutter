@@ -1637,4 +1637,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String dreamMoonPhasePrefix(Object phase) {
     return '(Fase Lunar de tu Sueño: $phase)';
   }
+
+  @override
+  String get ok => 'Aceptar';
+
+  @override
+  String get notifOff => 'Desactivado';
+
+  @override
+  String get notifChannelName => 'Recordatorios Diarios';
 }

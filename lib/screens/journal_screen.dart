@@ -839,7 +839,7 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
                                                       actions: [
                                                         TextButton(
                                                           onPressed: () => Navigator.pop(ctx),
-                                                          child: const Text('OK', style: TextStyle(color: Color(0xFFFBBF24))),
+                                                          child: Text(t.ok, style: const TextStyle(color: Color(0xFFFBBF24))),
                                                         )
                                                       ],
                                                     )
@@ -956,7 +956,7 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
                                                                           ),
                                                                         ),
                                                                         child: Text(
-                                                                          'Tamam',
+                                                                          t.ok,
                                                                           style: const TextStyle(
                                                                             color: Color(0xFF3EE6C4),
                                                                             fontSize: 15,

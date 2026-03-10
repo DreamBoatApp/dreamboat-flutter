@@ -568,5 +568,8 @@
     "visualizeDreamSubtitle": "Yapay zeka ile rüyandan ilham alınan bir tablo.",
     "cosmicConnectionTitle": "Kozmik Bağlantı",
     "unlockProConnection": "Kilidi Aç",
-    "dreamMoonPhasePrefix": "(Rüyanızı Gördüğünüz Ay Evresi: {phase})"
+    "dreamMoonPhasePrefix": "(Rüyanızı Gördüğünüz Ay Evresi: {phase})",
+    "ok": "Tamam",
+    "notifOff": "Kapalı",
+    "notifChannelName": "Günlük Hatırlatmalar"
 }

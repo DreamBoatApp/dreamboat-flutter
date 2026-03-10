@@ -546,5 +546,8 @@
     "unlockProConnection": "Desbloquear",
     "dreamMoonPhasePrefix": "(Fase Lunar de tu Sueño: {phase})",
     "visualizeDream": "Visualizar sueño",
-    "visualizingDream": "La IA está convirtiendo tu sueño en una obra de arte única... Este proceso puede tardar entre 30 y 45 segundos."
+    "visualizingDream": "La IA está convirtiendo tu sueño en una obra de arte única... Este proceso puede tardar entre 30 y 45 segundos.",
+    "ok": "Aceptar",
+    "notifOff": "Desactivado",
+    "notifChannelName": "Recordatorios Diarios"
 }

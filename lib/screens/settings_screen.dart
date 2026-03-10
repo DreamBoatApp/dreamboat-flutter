@@ -256,7 +256,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ? (_use24HourFormat 
                           ? "${_notifTime.hour}:${_notifTime.minute.toString().padLeft(2, '0')}"
                           : "${_notifTime.hourOfPeriod == 0 ? 12 : _notifTime.hourOfPeriod}:${_notifTime.minute.toString().padLeft(2, '0')} ${_notifTime.period == DayPeriod.am ? 'AM' : 'PM'}")
-                      : "Off",
+                      : t.notifOff,
                     onTap: () => _showNotificationModal(context),
                   ),
                   _SettingItem(
