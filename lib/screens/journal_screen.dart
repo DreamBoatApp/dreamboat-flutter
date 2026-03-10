@@ -558,7 +558,7 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
                             const SizedBox(height: 8), // Smaller gap when no title
                           
                           // Dream Text
-                          Text(
+                          SelectableText(
                             currentDream.text,
                             style: TextStyle(
                               color: Colors.white.withOpacity(0.85),
@@ -604,7 +604,7 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
                                   ),
                                   const SizedBox(height: 12),
                                   // Interpretation text
-                                  Text(
+                                  SelectableText(
                                     currentDream.interpretation,
                                     style: TextStyle(
                                       color: Colors.white.withOpacity(0.8),
@@ -1737,11 +1737,10 @@ class _CollapsibleInterpretation extends StatelessWidget {
                
                const SizedBox(height: 8),
                
-               // Preview text (2 lines)
-               Text(
+               // Preview text (2 lines) — selectable
+               SelectableText(
                  text,
                  maxLines: 2,
-                 overflow: TextOverflow.ellipsis,
                  style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 13, height: 1.5),
                ),
                
@@ -1844,16 +1843,16 @@ class _ExpandableDreamTextState extends State<_ExpandableDreamText> {
     final isLongText = widget.text.length > 200;
 
     if (!isLongText) {
-      return Text(widget.text, style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 15, height: 1.5));
+      return SelectableText(widget.text, style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 15, height: 1.5));
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AnimatedCrossFade(
-          firstChild: Text(widget.text, maxLines: 5, overflow: TextOverflow.ellipsis,
+          firstChild: SelectableText(widget.text, maxLines: 5,
             style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 15, height: 1.5)),
-          secondChild: Text(widget.text,
+          secondChild: SelectableText(widget.text,
             style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 15, height: 1.5)),
           crossFadeState: _isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
           duration: const Duration(milliseconds: 300),
