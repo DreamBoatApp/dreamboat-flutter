@@ -1168,28 +1168,29 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
     final favoriteDreams = _dreams.where((d) => d.isFavorite).toList();
 
     return NightSkyBackground(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false, // Prevent keyboard from resizing background weirdly
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
-            onPressed: () => Navigator.pop(context),
-          ),
-          centerTitle: true,
-          title: Text(
-            widget.filterTitle ?? t.journalTitle,
-            style: const TextStyle(
-              fontSize: 20, 
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+      child: Stack(
+        children: [
+          // Main Scaffold content
+          Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: IconButton(
+                icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
+                onPressed: () => Navigator.pop(context),
+              ),
+              centerTitle: true,
+              title: Text(
+                widget.filterTitle ?? t.journalTitle,
+                style: const TextStyle(
+                  fontSize: 20, 
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
             ),
-          ),
-        ),
-        body: Stack(
-          children: [
-            GestureDetector(
+            body: GestureDetector(
               onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
               behavior: HitTestBehavior.opaque,
               child: Column(
@@ -1290,37 +1291,37 @@ class _JournalScreenState extends State<JournalScreen> with WidgetsBindingObserv
                   ],
                 ),
             ),
-            
-            // Privacy Blur Layer (BackdropFilter)
-            if (_isSensitiveContentHidden)
-              Positioned.fill(
-                child: ClipRect(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-                    child: Container(
-                      color: Colors.black.withOpacity(0.4),
-                      alignment: Alignment.center,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(LucideIcons.lock, size: 48, color: Colors.white.withOpacity(0.6)),
-                          const SizedBox(height: 16),
-                          Text(
-                            t.biometricLockSettingsTitle,
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.8),
-                              fontSize: 14,
-                              letterSpacing: 0.5,
-                            ),
+          ),
+          
+          // Privacy Blur Layer — FULL SCREEN (covers AppBar + body)
+          if (_isSensitiveContentHidden)
+            Positioned.fill(
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                  child: Container(
+                    color: Colors.black.withOpacity(0.7),
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(LucideIcons.lock, size: 48, color: Colors.white.withOpacity(0.6)),
+                        const SizedBox(height: 16),
+                        Text(
+                          t.biometricLockSettingsTitle,
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                            fontSize: 14,
+                            letterSpacing: 0.5,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
