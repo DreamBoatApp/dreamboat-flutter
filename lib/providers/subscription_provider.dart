@@ -93,28 +93,33 @@ class SubscriptionProvider extends ChangeNotifier {
       debugPrint('RevenueCat configured successfully');
       notifyListeners();
       
-      // Get customer info with timeout
-      try {
-        _customerInfo = await Purchases.getCustomerInfo()
-            .timeout(const Duration(seconds: 5));
-        _updateProStatus(_customerInfo);
-        debugPrint('Customer info retrieved');
-      } catch (e) {
-        debugPrint('Customer info error: $e');
-      }
-      
-      // Load offerings with timeout
-      try {
-        _offerings = await Purchases.getOfferings()
-            .timeout(const Duration(seconds: 5));
-        _offeringsLoadFailed = false;
-        debugPrint('Offerings loaded: ${_offerings?.current?.identifier ?? "none"}');
-        notifyListeners();
-      } catch (e) {
-        debugPrint('Offerings error: $e');
-        _offeringsLoadFailed = true;
-        notifyListeners();
-      }
+      // Get customer info AND offerings in parallel (both independent after configure)
+      await Future.wait([
+        // Customer info
+        () async {
+          try {
+            _customerInfo = await Purchases.getCustomerInfo()
+                .timeout(const Duration(seconds: 5));
+            _updateProStatus(_customerInfo);
+            debugPrint('Customer info retrieved');
+          } catch (e) {
+            debugPrint('Customer info error: $e');
+          }
+        }(),
+        // Offerings
+        () async {
+          try {
+            _offerings = await Purchases.getOfferings()
+                .timeout(const Duration(seconds: 5));
+            _offeringsLoadFailed = false;
+            debugPrint('Offerings loaded: ${_offerings?.current?.identifier ?? "none"}');
+          } catch (e) {
+            debugPrint('Offerings error: $e');
+            _offeringsLoadFailed = true;
+          }
+        }(),
+      ]);
+      notifyListeners();
       
       // Listen for customer info updates
       Purchases.addCustomerInfoUpdateListener((customerInfo) {
