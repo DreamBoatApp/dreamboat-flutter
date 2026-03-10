@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dream_boat_mobile/widgets/platform_widgets.dart';
+import 'package:dream_boat_mobile/l10n/app_localizations.dart';
 
 class DreamImageWidget extends StatelessWidget {
   final String imageUrl;
@@ -46,18 +47,18 @@ class DreamImageWidget extends StatelessWidget {
               ),
               errorWidget: (context, url, error) => Container(
                 color: Colors.white.withOpacity(0.05),
-                child: const Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.broken_image_rounded, 
                       color: Colors.white24,
                       size: 48,
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
-                      "Could not load image",
-                      style: TextStyle(color: Colors.white38, fontSize: 12),
+                      AppLocalizations.of(context)!.imageLoadError,
+                      style: const TextStyle(color: Colors.white38, fontSize: 12),
                     )
                   ],
                 ),

@@ -552,5 +552,6 @@
     "notifChannelName": "Recordatorios Diarios",
     "notifChannelDesc": "Recordatorio diario para registrar tus sueños",
     "subscriptionNotAvailable": "Los paquetes de suscripción no están disponibles",
-    "surveyAnalyzing": "Analizando..."
+    "surveyAnalyzing": "Analizando...",
+    "imageLoadError": "No se pudo cargar la imagen"
 }

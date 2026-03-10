@@ -1643,4 +1643,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get surveyAnalyzing => 'Analiz ediliyor...';
+
+  @override
+  String get imageLoadError => 'Görsel yüklenemedi';
 }

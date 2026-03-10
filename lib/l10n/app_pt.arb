@@ -550,5 +550,6 @@
     "notifChannelName": "Lembretes Diários",
     "notifChannelDesc": "Lembrete diário para registrar seus sonhos",
     "subscriptionNotAvailable": "Pacotes de assinatura não disponíveis",
-    "surveyAnalyzing": "Analisando..."
+    "surveyAnalyzing": "Analisando...",
+    "imageLoadError": "Não foi possível carregar a imagem"
 }

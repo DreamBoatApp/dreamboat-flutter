@@ -1657,4 +1657,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get surveyAnalyzing => 'Analizando...';
+
+  @override
+  String get imageLoadError => 'No se pudo cargar la imagen';
 }

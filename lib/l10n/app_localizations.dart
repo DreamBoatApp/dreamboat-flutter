@@ -3061,6 +3061,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Analiz ediliyor...'**
   String get surveyAnalyzing;
+
+  /// No description provided for @imageLoadError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görsel yüklenemedi'**
+  String get imageLoadError;
 }
 
 class _AppLocalizationsDelegate

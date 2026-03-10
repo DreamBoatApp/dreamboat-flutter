@@ -574,5 +574,6 @@
     "notifChannelName": "Günlük Hatırlatmalar",
     "notifChannelDesc": "Rüyalarınızı kaydetmeniz için günlük hatırlatma",
     "subscriptionNotAvailable": "Abonelik paketleri şu anda kullanılamıyor",
-    "surveyAnalyzing": "Analiz ediliyor..."
+    "surveyAnalyzing": "Analiz ediliyor...",
+    "imageLoadError": "Görsel yüklenemedi"
 }

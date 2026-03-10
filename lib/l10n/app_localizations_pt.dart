@@ -1658,4 +1658,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get surveyAnalyzing => 'Analisando...';
+
+  @override
+  String get imageLoadError => 'Não foi possível carregar a imagem';
 }

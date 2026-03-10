@@ -551,5 +551,6 @@
     "notifChannelName": "Tägliche Erinnerungen",
     "notifChannelDesc": "Tägliche Erinnerung, deine Träume aufzuzeichnen",
     "subscriptionNotAvailable": "Abonnement-Pakete sind derzeit nicht verfügbar",
-    "surveyAnalyzing": "Wird analysiert..."
+    "surveyAnalyzing": "Wird analysiert...",
+    "imageLoadError": "Bild konnte nicht geladen werden"
 }
