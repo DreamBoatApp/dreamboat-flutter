@@ -87,11 +87,21 @@ void main() {
     
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-    // Load saved locale (default to 'tr' if not set)
+    // Load saved locale, or detect from OS language on first launch
     final savedLocale = prefs.getString('app_locale');
-    final initialLocale = savedLocale != null
-        ? Locale(savedLocale)
-        : const Locale('tr');
+    final Locale initialLocale;
+    if (savedLocale != null) {
+      initialLocale = Locale(savedLocale);
+    } else {
+      // First launch: detect OS language
+      final osLang = WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+      const supportedCodes = ['tr', 'en', 'es', 'de', 'pt'];
+      initialLocale = supportedCodes.contains(osLang)
+          ? Locale(osLang)
+          : const Locale('en'); // Unsupported OS language → English
+      // Save so next launch uses the same
+      await prefs.setString('app_locale', initialLocale.languageCode);
+    }
 
     debugPrint('=== Starting runApp (locale: ${initialLocale.languageCode}) ===');
     runApp(
