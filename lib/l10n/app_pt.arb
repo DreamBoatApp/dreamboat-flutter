@@ -547,5 +547,7 @@
     "visualizingDream": "A IA está transformando seu sonho em uma obra de arte única... Esse processo pode levar cerca de 30 a 45 segundos.",
     "ok": "OK",
     "notifOff": "Desligado",
-    "notifChannelName": "Lembretes Diários"
+    "notifChannelName": "Lembretes Diários",
+    "notifChannelDesc": "Lembrete diário para registrar seus sonhos",
+    "subscriptionNotAvailable": "Pacotes de assinatura não disponíveis"
 }

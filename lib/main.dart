@@ -211,9 +211,12 @@ Future<void> _initNotificationsInBackground() async {
         await prefs.setString('notif_messages_locale', savedLocale);
         debugPrint('=== Background: Generated localized messages for locale: $savedLocale (was: $cachedLocale) ===');
       }
+      final channelInfo = NotificationService.getLocalizedChannelInfo(Locale(savedLocale));
       await NotificationService().scheduleRotatingNotifications(
         TimeOfDay(hour: hour, minute: minute),
         messages: messages,
+        channelName: channelInfo.name,
+        channelDesc: channelInfo.desc,
       );
       debugPrint('=== Background: Scheduled rotating notifications for $hour:$minute ===');
     }

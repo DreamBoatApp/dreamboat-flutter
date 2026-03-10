@@ -3043,6 +3043,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Günlük Hatırlatmalar'**
   String get notifChannelName;
+
+  /// No description provided for @notifChannelDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüyalarınızı kaydetmeniz için günlük hatırlatma'**
+  String get notifChannelDesc;
+
+  /// No description provided for @subscriptionNotAvailable.
+  ///
+  /// In tr, this message translates to:
+  /// **'Abonelik paketleri şu anda kullanılamıyor'**
+  String get subscriptionNotAvailable;
 }
 
 class _AppLocalizationsDelegate

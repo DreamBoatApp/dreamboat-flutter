@@ -559,5 +559,7 @@
     "visualizingDream": "AI is turning your dream into a unique piece of art... This process may take about 30-45 seconds.",
     "ok": "OK",
     "notifOff": "Off",
-    "notifChannelName": "Daily Reminders"
+    "notifChannelName": "Daily Reminders",
+    "notifChannelDesc": "Daily reminder to log your dreams",
+    "subscriptionNotAvailable": "Subscription packages not available"
 }

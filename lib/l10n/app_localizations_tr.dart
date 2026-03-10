@@ -1632,4 +1632,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get notifChannelName => 'Günlük Hatırlatmalar';
+
+  @override
+  String get notifChannelDesc =>
+      'Rüyalarınızı kaydetmeniz için günlük hatırlatma';
+
+  @override
+  String get subscriptionNotAvailable =>
+      'Abonelik paketleri şu anda kullanılamıyor';
 }

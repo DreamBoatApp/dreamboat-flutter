@@ -548,5 +548,7 @@
     "visualizingDream": "KI verwandelt Ihren Traum in ein einzigartiges Kunstwerk... Dieser Vorgang kann etwa 30-45 Sekunden dauern.",
     "ok": "OK",
     "notifOff": "Aus",
-    "notifChannelName": "Tägliche Erinnerungen"
+    "notifChannelName": "Tägliche Erinnerungen",
+    "notifChannelDesc": "Tägliche Erinnerung, deine Träume aufzuzeichnen",
+    "subscriptionNotAvailable": "Abonnement-Pakete sind derzeit nicht verfügbar"
 }

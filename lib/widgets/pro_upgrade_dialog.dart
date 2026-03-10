@@ -61,9 +61,10 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
     
     if (package == null) {
       if (mounted) {
+        final t = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Subscription packages not available'),
+          SnackBar(
+            content: Text(t.subscriptionNotAvailable),
             backgroundColor: Colors.redAccent,
             behavior: SnackBarBehavior.floating,
           )

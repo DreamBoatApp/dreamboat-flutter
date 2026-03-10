@@ -1652,4 +1652,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get notifChannelName => 'Tägliche Erinnerungen';
+
+  @override
+  String get notifChannelDesc =>
+      'Tägliche Erinnerung, deine Träume aufzuzeichnen';
+
+  @override
+  String get subscriptionNotAvailable =>
+      'Abonnement-Pakete sind derzeit nicht verfügbar';
 }

@@ -204,7 +204,7 @@ class FeedbackModal extends StatelessWidget {
         "${t.supportTechInfoNote}\n\n"
         "${t.emailLabelSupportId}: $userId\n"
         "${t.emailLabelAppVersion}: $version ($buildNumber)\n"
-        "Platform: $os\n"
+        "${t.emailLabelPlatform}: $os\n"
         "${t.emailLabelLanguage}: $locale";
 
     final Uri emailLaunchUri = Uri(

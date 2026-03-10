@@ -1646,4 +1646,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get notifChannelName => 'Recordatorios Diarios';
+
+  @override
+  String get notifChannelDesc =>
+      'Recordatorio diario para registrar tus sueños';
+
+  @override
+  String get subscriptionNotAvailable =>
+      'Los paquetes de suscripción no están disponibles';
 }

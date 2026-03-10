@@ -1648,4 +1648,11 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get notifChannelName => 'Lembretes Diários';
+
+  @override
+  String get notifChannelDesc => 'Lembrete diário para registrar seus sonhos';
+
+  @override
+  String get subscriptionNotAvailable =>
+      'Pacotes de assinatura não disponíveis';
 }

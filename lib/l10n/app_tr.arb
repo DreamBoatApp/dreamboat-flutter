@@ -571,5 +571,7 @@
     "dreamMoonPhasePrefix": "(Rüyanızı Gördüğünüz Ay Evresi: {phase})",
     "ok": "Tamam",
     "notifOff": "Kapalı",
-    "notifChannelName": "Günlük Hatırlatmalar"
+    "notifChannelName": "Günlük Hatırlatmalar",
+    "notifChannelDesc": "Rüyalarınızı kaydetmeniz için günlük hatırlatma",
+    "subscriptionNotAvailable": "Abonelik paketleri şu anda kullanılamıyor"
 }

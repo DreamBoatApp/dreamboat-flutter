@@ -1636,4 +1636,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifChannelName => 'Daily Reminders';
+
+  @override
+  String get notifChannelDesc => 'Daily reminder to log your dreams';
+
+  @override
+  String get subscriptionNotAvailable => 'Subscription packages not available';
 }

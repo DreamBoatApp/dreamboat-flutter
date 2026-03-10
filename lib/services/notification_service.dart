@@ -119,6 +119,12 @@ class NotificationService {
     ];
   }
 
+  /// Get localized Android notification channel name & description.
+  static ({String name, String desc}) getLocalizedChannelInfo(Locale locale) {
+    final t = lookupAppLocalizations(locale);
+    return (name: t.notifChannelName, desc: t.notifChannelDesc);
+  }
+
   /// Schedule 5 rotating notifications on exact future dates.
   /// Each notification has a unique message so the OS delivers variety
   /// without requiring the app to be re-opened.
@@ -167,18 +173,18 @@ class NotificationService {
     return scheduleRotatingNotifications(time, messages: messages);
   }
 
-  Future<bool> showInstantNotification({required String title, required String body}) async {
+  Future<bool> showInstantNotification({required String title, required String body, String? channelName, String? channelDesc}) async {
     try {
       debugPrint('NotificationService: Showing instant notification...');
       await _notificationsPlugin.show(
         999,
         title,
         body,
-        const fln.NotificationDetails(
+        fln.NotificationDetails(
           android: fln.AndroidNotificationDetails(
             'daily_reminder_channel',
-            'Daily Reminders',
-            channelDescription: 'Daily reminder to log your dreams',
+            channelName ?? 'Daily Reminders',
+            channelDescription: channelDesc ?? 'Daily reminder to log your dreams',
             importance: fln.Importance.max,
             priority: fln.Priority.high,
           ),

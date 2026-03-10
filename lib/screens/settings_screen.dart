@@ -126,11 +126,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       if (checkPermissions) {
         final isGranted = await NotificationService().isPermissionGranted();
         if (isGranted) {
-          await NotificationService().scheduleRotatingNotifications(_notifTime, messages: messages);
+          await NotificationService().scheduleRotatingNotifications(_notifTime, messages: messages, channelName: AppLocalizations.of(context)!.notifChannelName, channelDesc: AppLocalizations.of(context)!.notifChannelDesc);
         } else {
           final granted = await NotificationService().requestPermissions();
           if (granted == true) {
-            await NotificationService().scheduleRotatingNotifications(_notifTime, messages: messages);
+            await NotificationService().scheduleRotatingNotifications(_notifTime, messages: messages, channelName: AppLocalizations.of(context)!.notifChannelName, channelDesc: AppLocalizations.of(context)!.notifChannelDesc);
           } else {
             final isPermanentlyDenied = await NotificationService().isPermissionPermanentlyDenied();
             if (isPermanentlyDenied && mounted) {
@@ -141,7 +141,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           }
         }
       } else {
-         await NotificationService().scheduleRotatingNotifications(_notifTime, messages: messages);
+         await NotificationService().scheduleRotatingNotifications(_notifTime, messages: messages, channelName: AppLocalizations.of(context)!.notifChannelName, channelDesc: AppLocalizations.of(context)!.notifChannelDesc);
       }
     } else {
       await NotificationService().cancelAll();
@@ -781,10 +781,13 @@ class _LanguageModal extends StatelessWidget {
            if (notifEnabled) {
              final hour = prefs.getInt('notif_hour') ?? 7;
              final minute = prefs.getInt('notif_minute') ?? 0;
-             await NotificationService().scheduleRotatingNotifications(
-               TimeOfDay(hour: hour, minute: minute),
-               messages: newMessages,
-             );
+              final channelInfo = NotificationService.getLocalizedChannelInfo(Locale(code));
+              await NotificationService().scheduleRotatingNotifications(
+                TimeOfDay(hour: hour, minute: minute),
+                messages: newMessages,
+                channelName: channelInfo.name,
+                channelDesc: channelInfo.desc,
+              );
            }
         },
         borderRadius: BorderRadius.circular(16),
