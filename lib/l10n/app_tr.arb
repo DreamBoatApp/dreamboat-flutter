@@ -1,4 +1,4 @@
-﻿{
+{
     "@@locale": "tr",
     "homeTitle": "DreamBoat",
     "homeSubtitle": "Rüya Dünyanızda Bir Yolculuğa Çıkın",
@@ -23,6 +23,9 @@
     "statsOffline": "İnternet gerekli",
     "statsNoData": "Detaylı verilere erişebilmek için rüyalarını her gün kaydet",
     "statsProcessing": "Rüya Deseni hazırlanıyor, lütfen kısa bir süre bekleyin.",
+    "analysisConfirmBody": "Rüya Desen Analizi, zaman içinde değişen kalıpları daha net görebilmeniz için haftada bir kez yapılabilir.\n\nDevam etmek istiyor musunuz?",
+    "moonSyncConfirmBody": "Ay ve Gezegen Senkronizasyonu, kozmik döngülerdeki değişimleri doğru takip edebilmeniz için ayda bir kez yapılabilir.\n\nDevam etmek istiyor musunuz?",
+    "confirmContinue": "Devam Et",
 
     "guideTitle": "Lucid Rüya Rehberi",
     "guideIntroTitle": "Lucid Rüya Nedir?",
@@ -86,8 +89,6 @@
     "newDreamPlaceholder": "Rüyanı buraya detaylandır...",
     "guideCompletionTitle": "Tebrikler!",
     "guideCompletionContent": "Lucid Rüya Rehberinin tüm aşamalarını tamamladın.\n\nArtık tüm teknikler üzerinde ustalaşarak Lucid Rüya dünyasında serbestçe ilerleyebilirsin!",
-    "guideStage1Title": "1. MILD Tekniği (Mnemonic Induction of Lucid Dreams)",
-    
     "guideStage1Title": "1. MILD Tekniği (Mnemonic Induction of Lucid Dreams)",
     "guideStage1Subtitle": "Rüyalarınıza uyanış tohumunu ekmek",
     "guideStage1Content": "Lucid dreaming yolculuğunun başlangıç noktasıdır. MILD, yani \"Mnemonic Induction of Lucid Dreams\", uykuya dalmadan önce bilinçaltına net bir niyet yerleştirme tekniğidir. Bu niyet, rüya sırasında \"ben rüyadayım\" farkındalığını yakalamanı sağlar. Bilinçli rüyaların ilk kapısını bu aşamada aralayacağız.",

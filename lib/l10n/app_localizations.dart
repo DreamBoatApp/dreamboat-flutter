@@ -242,6 +242,24 @@ abstract class AppLocalizations {
   /// **'Rüya Deseni hazırlanıyor, lütfen kısa bir süre bekleyin.'**
   String get statsProcessing;
 
+  /// No description provided for @analysisConfirmBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüya Desen Analizi, zaman içinde değişen kalıpları daha net görebilmeniz için haftada bir kez yapılabilir.\n\nDevam etmek istiyor musunuz?'**
+  String get analysisConfirmBody;
+
+  /// No description provided for @moonSyncConfirmBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ay ve Gezegen Senkronizasyonu, kozmik döngülerdeki değişimleri doğru takip edebilmeniz için ayda bir kez yapılabilir.\n\nDevam etmek istiyor musunuz?'**
+  String get moonSyncConfirmBody;
+
+  /// No description provided for @confirmContinue.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam Et'**
+  String get confirmContinue;
+
   /// No description provided for @guideTitle.
   ///
   /// In tr, this message translates to:

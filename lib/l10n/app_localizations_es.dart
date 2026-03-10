@@ -85,6 +85,17 @@ class AppLocalizationsEs extends AppLocalizations {
       'El Patrón de Sueño se está preparando, por favor espere un momento.';
 
   @override
+  String get analysisConfirmBody =>
+      'El Análisis de Patrones de Sueños se puede realizar una vez por semana para que puedas ver claramente cómo cambian tus patrones con el tiempo.\n\n¿Deseas continuar?';
+
+  @override
+  String get moonSyncConfirmBody =>
+      'La Sincronización Lunar y Planetaria se puede realizar una vez al mes para seguir con precisión los cambios en los ciclos cósmicos.\n\n¿Deseas continuar?';
+
+  @override
+  String get confirmContinue => 'Continuar';
+
+  @override
   String get guideTitle => 'Guía de Sueños Lúcidos';
 
   @override

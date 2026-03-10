@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dream_boat_mobile/widgets/custom_button.dart';
@@ -212,16 +213,6 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
     final yearlyIntro = provider.yearlyPackage?.storeProduct.introductoryPrice;
     final monthlyIntro = provider.monthlyPackage?.storeProduct.introductoryPrice;
     
-    // DEBUG: Log what RevenueCat returns
-    debugPrint('=== REVENUECAT TRIAL DEBUG ===');
-    debugPrint('Yearly Package: ${provider.yearlyPackage?.storeProduct.identifier}');
-    debugPrint('Yearly Intro: $yearlyIntro');
-    debugPrint('Yearly Intro Price: ${yearlyIntro?.price}');
-    debugPrint('Yearly Intro Cycles: ${yearlyIntro?.cycles}');
-    debugPrint('Yearly Intro Period: ${yearlyIntro?.periodNumberOfUnits} ${yearlyIntro?.periodUnit}');
-    debugPrint('Monthly Intro: $monthlyIntro');
-    debugPrint('==============================');
-    
     // Helper to robustly calculate days from period unit
     int calculateDays(IntroductoryPrice? discount) {
       if (discount == null || discount.price != 0) return 0;
@@ -241,10 +232,10 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
 
     final yearlyTrialDays = calculateDays(yearlyIntro);
     final monthlyTrialDays = calculateDays(monthlyIntro);
-    
-    debugPrint('Calculated Trial Days - Yearly: $yearlyTrialDays, Monthly: $monthlyTrialDays, Unit: ${yearlyIntro?.periodUnit}');
 
-    return Dialog(
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+      child: Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Stack(
@@ -662,6 +653,7 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
               ),
             ),
         ],
+      ),
       ),
     );
   }

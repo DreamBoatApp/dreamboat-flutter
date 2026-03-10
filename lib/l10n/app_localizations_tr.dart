@@ -84,6 +84,17 @@ class AppLocalizationsTr extends AppLocalizations {
       'Rüya Deseni hazırlanıyor, lütfen kısa bir süre bekleyin.';
 
   @override
+  String get analysisConfirmBody =>
+      'Rüya Desen Analizi, zaman içinde değişen kalıpları daha net görebilmeniz için haftada bir kez yapılabilir.\n\nDevam etmek istiyor musunuz?';
+
+  @override
+  String get moonSyncConfirmBody =>
+      'Ay ve Gezegen Senkronizasyonu, kozmik döngülerdeki değişimleri doğru takip edebilmeniz için ayda bir kez yapılabilir.\n\nDevam etmek istiyor musunuz?';
+
+  @override
+  String get confirmContinue => 'Devam Et';
+
+  @override
   String get guideTitle => 'Lucid Rüya Rehberi';
 
   @override

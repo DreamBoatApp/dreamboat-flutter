@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +16,7 @@ import 'package:dream_boat_mobile/models/dream_entry.dart';
 import 'package:dream_boat_mobile/widgets/gradient_text.dart';
 import 'package:dream_boat_mobile/services/connectivity_service.dart';
 import 'package:dream_boat_mobile/widgets/pro_badge.dart';
+import 'package:dream_boat_mobile/services/review_service.dart';
 import 'package:provider/provider.dart';
 import 'package:dream_boat_mobile/providers/subscription_provider.dart';
 import 'package:dream_boat_mobile/widgets/pro_upgrade_dialog.dart';
@@ -270,36 +271,25 @@ class _StatsScreenState extends State<StatsScreen> {
     }
   }
 
-  // FLOW: 1. User taps button -> 2. Show Dialog -> 3. Show Ad -> 4. Run Analysis
-  Future<void> _handleAnalysisTap() async {
-      // Check limit again just in case
-      if (_lastAnalysisDate != null) {
-        final difference = DateTime.now().difference(_lastAnalysisDate!);
-        if (difference.inDays < 7) return; 
-      }
-      _showAnalysisInfoDialog();
-  }
 
   void _showAnalysisInfoDialog() {
     final t = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       barrierDismissible: true,
-      barrierColor: Colors.black.withOpacity(0.8), // Darken background like screenshot
+      barrierColor: Colors.black.withOpacity(0.8),
       builder: (context) => Dialog(
         backgroundColor: Colors.transparent,
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: const Color(0xFF1E1B35).withOpacity(0.95), // Dark opaque background
+            color: const Color(0xFF1E1B35).withOpacity(0.95),
             borderRadius: BorderRadius.circular(28),
             border: Border.all(color: const Color(0xFF8B5CF6).withOpacity(0.3)),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-               const Icon(LucideIcons.brainCircuit, size: 48, color: Color(0xFFD8B4FE)), // Brain Icon
-               const SizedBox(height: 16),
                 Text(
                   t.statsAnalysisIntroTitle,
                   textAlign: TextAlign.center,
@@ -307,55 +297,51 @@ class _StatsScreenState extends State<StatsScreen> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  t.statsAnalysisIntroContent,
+                  t.analysisConfirmBody,
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.white, height: 1.5, fontSize: 14),
                 ),
                 const SizedBox(height: 24),
-                Consumer<SubscriptionProvider>(
-                  builder: (context, subProvider, child) {
-                    return Row(
-                          children: [
-                            Expanded(
-                              child: TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                style: TextButton.styleFrom(
-                                   minimumSize: const Size(48, 48),
-                                   tapTargetSize: MaterialTapTargetSize.padded,
-                                   padding: const EdgeInsets.symmetric(vertical: 12),
-                                   side: const BorderSide(color: Colors.white24),
-                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
-                                ),
-                                child: Text(t.cancel, style: const TextStyle(color: Colors.white70)),
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: const LinearGradient(colors: [Color(0xFFA78BFA), Color(0xFFEC4899)]),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context); // Close dialog
-                                    _runAnalysis();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.transparent,
-                                    shadowColor: Colors.transparent,
-                                    minimumSize: const Size(48, 48),
-                                    tapTargetSize: MaterialTapTargetSize.padded,
-                                    padding: const EdgeInsets.symmetric(vertical: 12),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
-                                  ),
-                                  child: Text(t.understand, style: const TextStyle(color: Colors.white, fontSize: 13), textAlign: TextAlign.center),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                  }
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: TextButton.styleFrom(
+                           minimumSize: const Size(48, 48),
+                           tapTargetSize: MaterialTapTargetSize.padded,
+                           padding: const EdgeInsets.symmetric(vertical: 12),
+                           side: const BorderSide(color: Colors.white24),
+                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                        ),
+                        child: Text(t.journalDeleteCancel, style: const TextStyle(color: Colors.white70)),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(colors: [Color(0xFFA78BFA), Color(0xFFEC4899)]),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _runAnalysis();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            minimumSize: const Size(48, 48),
+                            tapTargetSize: MaterialTapTargetSize.padded,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                          ),
+                          child: Text(t.confirmContinue, style: const TextStyle(color: Colors.white, fontSize: 13), textAlign: TextAlign.center),
+                        ),
+                      ),
+                    ),
+                  ],
                 )
             ],
           ),
@@ -364,16 +350,125 @@ class _StatsScreenState extends State<StatsScreen> {
     );
   }
 
+  void _showMoonSyncInfoDialog() {
+    final t = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.8),
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: const Color(0xFF1E1B35).withOpacity(0.95),
+            borderRadius: BorderRadius.circular(28),
+            border: Border.all(color: const Color(0xFF3B82F6).withOpacity(0.3)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+                Text(
+                  t.moonSyncTitle,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Color(0xFF60A5FA), fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  t.moonSyncConfirmBody,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white, height: 1.5, fontSize: 14),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: TextButton.styleFrom(
+                           minimumSize: const Size(48, 48),
+                           tapTargetSize: MaterialTapTargetSize.padded,
+                           padding: const EdgeInsets.symmetric(vertical: 12),
+                           side: const BorderSide(color: Colors.white24),
+                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                        ),
+                        child: Text(t.journalDeleteCancel, style: const TextStyle(color: Colors.white70)),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(colors: [Color(0xFF3B82F6), Color(0xFF6366F1)]),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _runMoonSyncAnalysis();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            minimumSize: const Size(48, 48),
+                            tapTargetSize: MaterialTapTargetSize.padded,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                          ),
+                          child: Text(t.confirmContinue, style: const TextStyle(color: Colors.white, fontSize: 13), textAlign: TextAlign.center),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showStyledError(String message, {bool isOffline = false}) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: const Color(0xFF1E1B35),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: isOffline
+              ? const Color(0xFFFBBF24).withOpacity(0.3)
+              : Colors.redAccent.withOpacity(0.3),
+        ),
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      duration: const Duration(seconds: 4),
+      content: Row(
+        children: [
+          Icon(
+            isOffline ? LucideIcons.wifiOff : LucideIcons.alertTriangle,
+            color: isOffline ? const Color(0xFFFBBF24) : Colors.redAccent,
+            size: 20,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              message,
+              style: const TextStyle(color: Colors.white, fontSize: 13, height: 1.3),
+            ),
+          ),
+        ],
+      ),
+    ));
+  }
+
   Future<void> _runAnalysis() async {
     // [FIX] 1. Check Connectivity First
     final isConnected = await ConnectivityService.isConnected;
     if (!isConnected) {
        final t = AppLocalizations.of(context)!;
-       if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-             SnackBar(content: Text(t.errorNoInternet)),
-          );
-       }
+       _showStyledError(t.errorNoInternet, isOffline: true);
        return;
     }
 
@@ -403,6 +498,13 @@ class _StatsScreenState extends State<StatsScreen> {
              _analysisResult = result;
              _lastAnalysisDate = DateTime.now();
            });
+
+           // Review trigger: 2nd weekly analysis
+           final analysisCount = (prefs.getInt('total_weekly_analyses') ?? 0) + 1;
+           await prefs.setInt('total_weekly_analyses', analysisCount);
+           if (analysisCount == 2) {
+             ReviewService.triggerReviewFlow(context);
+           }
          }
       } else {
          // Service returned empty string (API error)
@@ -410,22 +512,14 @@ class _StatsScreenState extends State<StatsScreen> {
       }
     } on FirebaseFunctionsException catch (e) {
       debugPrint('_runAnalysis FirebaseError: code=${e.code}, message=${e.message}, details=${e.details}');
-      if (mounted) {
-        final t = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('${t.errorGeneric}\nCode: ${e.code}\nMsg: ${e.message}'),
-          duration: const Duration(seconds: 10),
-        ));
-      }
+      final t = AppLocalizations.of(context)!;
+      final isOffline = e.message?.contains('çevrimdışı') == true || e.message?.contains('offline') == true;
+      _showStyledError(t.errorGeneric, isOffline: isOffline);
     } catch (e) {
       debugPrint('_runAnalysis Error: $e');
-      if (mounted) {
-        final t = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('${t.errorGeneric}\n${e.toString()}'),
-          duration: const Duration(seconds: 10),
-        ));
-      }
+      final t = AppLocalizations.of(context)!;
+      final isOffline = e.toString().contains('çevrimdışı') || e.toString().contains('offline');
+      _showStyledError(t.errorGeneric, isOffline: isOffline);
     } finally {
       if (mounted) {
         setState(() => _isAnalysisLoading = false);
@@ -441,11 +535,7 @@ class _StatsScreenState extends State<StatsScreen> {
     final isConnected = await ConnectivityService.isConnected;
     if (!isConnected) {
        final t = AppLocalizations.of(context)!;
-       if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-             SnackBar(content: Text(t.errorNoInternet)),
-          );
-       }
+       _showStyledError(t.errorNoInternet, isOffline: true);
        return;
     }
 
@@ -491,28 +581,27 @@ class _StatsScreenState extends State<StatsScreen> {
               _moonSyncResult = result;
               _lastMoonSyncDate = DateTime.now();
             });
+
+            // Review trigger: 2nd monthly analysis
+            final moonCount = (prefs.getInt('total_moon_sync_analyses') ?? 0) + 1;
+            await prefs.setInt('total_moon_sync_analyses', moonCount);
+            if (moonCount == 2) {
+              ReviewService.triggerReviewFlow(context);
+            }
           }
       } else {
          throw Exception("Moon Sync service returned empty result.");
       }
     } on FirebaseFunctionsException catch (e) {
       debugPrint('_runMoonSyncAnalysis FirebaseError: code=${e.code}, message=${e.message}, details=${e.details}');
-      if (mounted) {
-        final t = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('${t.errorGeneric}\nCode: ${e.code}\nMsg: ${e.message}'),
-          duration: const Duration(seconds: 10),
-        ));
-      }
+      final t = AppLocalizations.of(context)!;
+      final isOffline = e.message?.contains('çevrimdışı') == true || e.message?.contains('offline') == true;
+      _showStyledError(t.errorGeneric, isOffline: isOffline);
     } catch (e) {
       debugPrint('_runMoonSyncAnalysis Error: $e');
-      if (mounted) {
-        final t = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('${t.errorGeneric}\n${e.toString()}'),
-          duration: const Duration(seconds: 10),
-        ));
-      }
+      final t = AppLocalizations.of(context)!;
+      final isOffline = e.toString().contains('çevrimdışı') || e.toString().contains('offline');
+      _showStyledError(t.errorGeneric, isOffline: isOffline);
     } finally {
       if (mounted) {
         setState(() => _isMoonSyncLoading = false);
@@ -1013,7 +1102,7 @@ class _StatsScreenState extends State<StatsScreen> {
              CustomButton(
                text: _totalDreamsCount >= 5 ? t.statsAnalyzeBtn : t.statsAnalysisMinDreams,
                onPressed: _totalDreamsCount >= 5 
-                  ? _runAnalysis // Direct analysis for PRO
+                  ? _showAnalysisInfoDialog // Show confirmation dialog
                   : null, // Disabled if < 5
                isLoading: _isAnalysisLoading,
                gradient: _totalDreamsCount >= 5 
@@ -1246,7 +1335,7 @@ class _StatsScreenState extends State<StatsScreen> {
              CustomButton(
                text: _totalDreamsCount >= 5 ? t.moonSyncBtn : t.moonSyncMinDreams,
                onPressed: _totalDreamsCount >= 5 
-                  ? _runMoonSyncAnalysis
+                  ? _showMoonSyncInfoDialog
                   : null,
                isLoading: _isMoonSyncLoading,
                gradient: _totalDreamsCount >= 5 

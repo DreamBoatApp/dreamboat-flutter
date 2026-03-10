@@ -110,7 +110,7 @@ class ReviewService {
 
     // User dismissed dialog (tapped outside or pressed back)
     if (dialogResult == null && context.mounted) {
-      // Short cooldown - ask again in 3 days
+      // 30 day cooldown before asking again
       await _updateLastReviewRequestDate(outcome: 'dismissed');
       debugPrint('ReviewService: Dialog dismissed, will ask again in $_dismissedCooldownDays days');
     }
@@ -146,8 +146,8 @@ class ReviewService {
       await prefs.setInt(_kLoginStreak, newStreak);
       await prefs.setInt(_kLastLoginDate, today.millisecondsSinceEpoch);
 
-      // Trigger if streak hits exactly 3
-      if (newStreak == 3) {
+      // Trigger if streak hits exactly 5
+      if (newStreak == 5) {
         if (context.mounted) {
           triggerReviewFlow(context);
         }

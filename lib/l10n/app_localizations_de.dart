@@ -85,6 +85,17 @@ class AppLocalizationsDe extends AppLocalizations {
       'Traummuster wird vorbereitet, bitte warten Sie einen Moment.';
 
   @override
+  String get analysisConfirmBody =>
+      'Die Traummuster-Analyse kann einmal pro Woche durchgeführt werden, damit Sie Veränderungen Ihrer Muster im Laufe der Zeit klar erkennen können.\n\nMöchten Sie fortfahren?';
+
+  @override
+  String get moonSyncConfirmBody =>
+      'Die Mond- und Planetensynchronisation kann einmal im Monat durchgeführt werden, um Veränderungen in den kosmischen Zyklen genau zu verfolgen.\n\nMöchten Sie fortfahren?';
+
+  @override
+  String get confirmContinue => 'Fortfahren';
+
+  @override
   String get guideTitle => 'Klartraum-Leitfaden';
 
   @override

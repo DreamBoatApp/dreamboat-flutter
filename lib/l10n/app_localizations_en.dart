@@ -83,6 +83,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Dream Pattern is being prepared, please wait a moment.';
 
   @override
+  String get analysisConfirmBody =>
+      'Dream Pattern Analysis can be done once a week so you can clearly see how your patterns change over time.\n\nWould you like to continue?';
+
+  @override
+  String get moonSyncConfirmBody =>
+      'Moon & Planet Synchronization can be done once a month to accurately track changes in cosmic cycles.\n\nWould you like to continue?';
+
+  @override
+  String get confirmContinue => 'Continue';
+
+  @override
   String get guideTitle => 'Lucid Dream Guide';
 
   @override

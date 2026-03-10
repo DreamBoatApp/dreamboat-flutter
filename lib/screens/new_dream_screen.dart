@@ -24,6 +24,7 @@ import 'package:dream_boat_mobile/utils/custom_page_route.dart';
 import 'package:provider/provider.dart';
 import 'package:dream_boat_mobile/providers/subscription_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dream_boat_mobile/services/review_service.dart';
 
 class NewDreamScreen extends StatefulWidget {
   const NewDreamScreen({super.key});
@@ -265,6 +266,16 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
       }
       
       print("MyDream: Dream Saved: ${dreamEntry.id}");
+
+      // Review trigger: 10th successful interpretation
+      if (gotInterpretation) {
+        final prefs = await SharedPreferences.getInstance();
+        final count = (prefs.getInt('total_interpretations') ?? 0) + 1;
+        await prefs.setInt('total_interpretations', count);
+        if (count == 10 && mounted) {
+          ReviewService.triggerReviewFlow(context);
+        }
+      }
 
       // Success Haptic
       HapticFeedback.mediumImpact();
