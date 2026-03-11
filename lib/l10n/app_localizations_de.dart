@@ -853,6 +853,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'Ihr Traum konnte nicht gedeutet werden, da er nicht genügend aussagekräftigen Inhalt enthielt.';
 
   @override
+  String get titleNotInterpreted => 'Nicht Gedeutet';
+
+  @override
   String get dailyLimitReached =>
       'Du hast das tägliche Traumdeutungslimit erreicht (100/100).';
 

@@ -5,7 +5,7 @@ import 'dart:io' show Platform;
 class FastSlidePageRoute<T> extends PageRoute<T> with CupertinoRouteTransitionMixin<T> {
   final Widget child;
 
-  FastSlidePageRoute({required this.child});
+  FastSlidePageRoute({required this.child, RouteSettings? settings}) : super(settings: settings);
 
   @override
   Widget buildContent(BuildContext context) => child;

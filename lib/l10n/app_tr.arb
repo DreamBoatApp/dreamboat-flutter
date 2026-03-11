@@ -273,6 +273,7 @@
     "dreamInterpretationReadMore": "Devamını Oku",
     "dreamTooShort": "Rüya çok kısa olduğundan yorumlanamadı.",
     "dreamGibberish": "Rüyanız yeterli anlam içermediği için yorumlanamadı.",
+    "titleNotInterpreted": "Yorumlanamadı",
     "dailyLimitReached": "Günlük rüya yorumlama limitine ulaştınız (100/100).",
     "settingsRestorePurchases": "Satın Alımları Geri Yükle",
     "restoreSuccess": "PRO sürümü başarıyla geri yüklendi!",

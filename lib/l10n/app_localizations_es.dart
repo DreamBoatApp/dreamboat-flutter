@@ -850,6 +850,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Tu sueño no pudo ser interpretado porque no contenía suficiente contenido significativo.';
 
   @override
+  String get titleNotInterpreted => 'No Interpretado';
+
+  @override
   String get dailyLimitReached =>
       'Has alcanzado el límite diario de interpretación de sueños (100/100).';
 

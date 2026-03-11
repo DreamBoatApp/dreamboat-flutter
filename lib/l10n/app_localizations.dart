@@ -1616,6 +1616,12 @@ abstract class AppLocalizations {
   /// **'Rüyanız yeterli anlam içermediği için yorumlanamadı.'**
   String get dreamGibberish;
 
+  /// No description provided for @titleNotInterpreted.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorumlanamadı'**
+  String get titleNotInterpreted;
+
   /// No description provided for @dailyLimitReached.
   ///
   /// In tr, this message translates to:

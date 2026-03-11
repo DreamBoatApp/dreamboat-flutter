@@ -251,15 +251,14 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
       // Increment daily usage (Abuse check mainly)
       await dreamService.incrementDailyUsage();
       
-      // [NEW] Increment Weekly Usage if interpretation was provided (and not Pro)
-      // Only check if we successfully got interpretation (not skipped, not offline error, not short)
+      // [NEW] Calculate if we successfully got interpretation (not skipped, not offline error, not short, not gibberish)
       final bool gotInterpretation = !skipInterpretation && 
                                      interpretation != t.offlineInterpretation && 
-                                     interpretation != t.dreamTooShort;
+                                     interpretation != t.dreamTooShort &&
+                                     interpretation != t.dreamGibberish &&
+                                     !interpretation.contains('anlam');
                                      
-      if (gotInterpretation && !context.read<SubscriptionProvider>().isPro) {
-          await dreamService.incrementWeeklyUsage();
-      }
+      // Weekly usage limit is no longer enforced.
       
       // Mark first dream as used if applicable
       if (isFirstDream) {
@@ -314,7 +313,10 @@ class _NewDreamScreenState extends State<NewDreamScreen> {
            if (mounted) {
              Navigator.pushReplacement(
                context, 
-               FastSlidePageRoute(child: const JournalScreen())
+               FastSlidePageRoute(
+                 child: const JournalScreen(),
+                 settings: const RouteSettings(name: '/journal')
+               )
              );
            }
          }

@@ -89,42 +89,7 @@ class DreamService {
   }
 
   // --- Weekly Usage Logic (Tracking Only - Limit Enforcement DISABLED) ---
-  // Unit economics: Video ad revenue ($0.003-0.008) >> API cost ($0.0006) = 5-13x margin
-  // Tracking preserved for analytics; limit enforcement removed from new_dream_screen.dart
-  static const String _weeklyUsageStartKey = 'weekly_usage_start';
-  static const String _weeklyUsageCountKey = 'weekly_usage_count';
-  @Deprecated('Limit enforcement disabled. Constant kept for reference.')
-  static const int weeklyFreeLimit = 3; // No longer enforced
-
-  /// Returns the number of interpretations used in the active 7-day period.
-  Future<int> getWeeklyUsage() async {
-    final prefs = await SharedPreferences.getInstance();
-    final now = DateTime.now();
-    final startStr = prefs.getString(_weeklyUsageStartKey);
-    
-    DateTime? start;
-    if (startStr != null) {
-      start = DateTime.tryParse(startStr);
-    }
-    
-    // Check if 7 days passed or no start date
-    if (start == null || now.difference(start).inDays >= 7) {
-      // Reset period
-      await prefs.setString(_weeklyUsageStartKey, now.toIso8601String());
-      await prefs.setInt(_weeklyUsageCountKey, 0);
-      return 0;
-    }
-    
-    return prefs.getInt(_weeklyUsageCountKey) ?? 0;
-  }
-
-  Future<void> incrementWeeklyUsage() async {
-     // Ensure period validity
-     await getWeeklyUsage(); 
-     final prefs = await SharedPreferences.getInstance();
-     final count = prefs.getInt(_weeklyUsageCountKey) ?? 0;
-     await prefs.setInt(_weeklyUsageCountKey, count + 1);
-  }
+  // Weekly limits were fully removed. User has unlimited interpretations.
 
   // --- Image Generation ---
   Future<String> generateImage({

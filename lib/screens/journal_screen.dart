@@ -341,16 +341,18 @@ class _JournalScreenState extends State<JournalScreen> {
     
     // Detect if interpretation was skipped (contains known skip messages)
     final isInterpretationSkipped = dream.interpretation.contains('yorumsuz') || 
+                                     dream.interpretation.contains('anlam') ||
                                      dream.interpretation.contains('without interpretation') ||
                                      dream.interpretation.contains('sin interpretación') ||
                                      dream.interpretation.contains('ohne Deutung') ||
                                      dream.interpretation.contains('sem interpretação') ||
                                      dream.interpretation == t.interpretationSkipped ||
                                      dream.interpretation == t.offlineInterpretation ||
+                                     dream.interpretation == t.dreamGibberish ||
                                      dream.interpretation == t.dreamTooShort;
     
-    // If interpretation was skipped, don't show fallback title
-    final title = dream.title ?? (isInterpretationSkipped ? null : generateFallbackTitle(dream.text));
+    // If interpretation was skipped, use the localized fallback title "Yorumlanamadı"
+    final title = dream.title ?? (isInterpretationSkipped ? t.titleNotInterpreted : generateFallbackTitle(dream.text));
 
     // Helper to get localized phase name
     String getLocalizedMoonPhase() {
@@ -367,6 +369,7 @@ class _JournalScreenState extends State<JournalScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
+      routeSettings: const RouteSettings(name: '/dream_detail'),
       builder: (context) {
         // Initialize mutable state with the dream passed to the function
         var currentDream = dream;

@@ -845,6 +845,9 @@ class AppLocalizationsTr extends AppLocalizations {
       'Rüyanız yeterli anlam içermediği için yorumlanamadı.';
 
   @override
+  String get titleNotInterpreted => 'Yorumlanamadı';
+
+  @override
   String get dailyLimitReached =>
       'Günlük rüya yorumlama limitine ulaştınız (100/100).';
 

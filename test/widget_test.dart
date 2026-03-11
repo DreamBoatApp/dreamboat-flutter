@@ -13,7 +13,8 @@ import 'package:dream_boat_mobile/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    final routeObserver = RouteObserver<PageRoute<dynamic>>();
+    await tester.pumpWidget(MyApp(routeObserver: routeObserver));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

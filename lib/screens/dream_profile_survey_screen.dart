@@ -111,28 +111,18 @@ class _DreamProfileSurveyScreenState extends State<DreamProfileSurveyScreen> {
   }
 
   void _completeOnboarding() {
-    // [GROWTH] Intercept navigation to show Paywall
-    final isPro = false; // We can't access Provider here easily due to stateless mixin or just context read.
-    // Actually we can use context.read if we import provider.
-    // However, for onboarding, we generally assume they are NOT pro yet (fresh install).
-    // Let's just show it. If they restore, good.
+    if (!mounted) return;
     
-    showDialog(
-      context: context,
-      barrierDismissible: true, // Let them skip if they really want
-      builder: (context) => const ProUpgradeDialog(),
-    ).then((_) {
-      // Regardless of purchase or skip, go to Home
-      if (mounted) {
-        Navigator.of(context).pushReplacement(
-          PageRouteBuilder(
-            pageBuilder: (_, __, ___) => const HomeScreen(),
-            transitionsBuilder: (_, animation, __, child) => FadeTransition(opacity: animation, child: child),
-            transitionDuration: const Duration(milliseconds: 800),
-          ),
-        );
-      }
-    });
+    // Instead of showing the dialog *over* the survey screen (which causes 
+    // the survey to flash when the dialog is dismissed), we push directly 
+    // to the Home screen and tell it to show the paywall immediately.
+    Navigator.of(context).pushReplacement(
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => const HomeScreen(showPaywallOnInit: true),
+        transitionsBuilder: (_, animation, __, child) => FadeTransition(opacity: animation, child: child),
+        transitionDuration: const Duration(milliseconds: 800),
+      ),
+    );
   }
 
   @override

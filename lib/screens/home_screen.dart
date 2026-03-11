@@ -31,7 +31,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dream_boat_mobile/services/review_service.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final bool showPaywallOnInit;
+  const HomeScreen({super.key, this.showPaywallOnInit = false});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -46,6 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
     // Track daily login and check for 3-day streak to trigger review
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ReviewService.recordLoginAndCheckStreak(context);
+      
+      // Show paywall if requested (e.g., coming from onboarding survey)
+      if (widget.showPaywallOnInit) {
+        showDialog(
+          context: context, 
+          builder: (ctx) => const ProUpgradeDialog()
+        );
+      }
     });
   }
 
@@ -79,7 +88,10 @@ class _HomeScreenState extends State<HomeScreen> {
     
     // Navigate to journal
     if (context.mounted) {
-      Navigator.push(context, FastSlidePageRoute(child: const JournalScreen()));
+      Navigator.push(context, FastSlidePageRoute(
+        child: const JournalScreen(),
+        settings: const RouteSettings(name: '/journal')
+      ));
     }
   }
 
@@ -92,7 +104,10 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
     if (context.mounted) {
-      Navigator.push(context, FastSlidePageRoute(child: const StatsScreen()));
+      Navigator.push(context, FastSlidePageRoute(
+        child: const StatsScreen(),
+        settings: const RouteSettings(name: '/stats')
+      ));
     }
   }
 

@@ -108,6 +108,7 @@ void main() {
     runApp(
       ChangeNotifierProvider(
         create: (_) => SubscriptionProvider(),
+        lazy: false, // [NEW] Force background initialization immediately
         child: MyApp(initialLocale: initialLocale),
       ),
     );
@@ -239,6 +240,9 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
+// Global RouteObserver to track which screen is currently visible
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   late Locale _locale;
 
@@ -246,6 +250,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   bool _showSecureOverlay = false;
   bool _isAuthenticating = false;
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+  
+  // Track the current visible route name
+  String? _currentRouteName;
 
   @override
   void initState() {
@@ -263,19 +270,28 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.inactive || state == AppLifecycleState.paused) {
-      // Show overlay immediately when app goes to background
-      _checkAndShowOverlay();
-    }
-    if (state == AppLifecycleState.resumed) {
+      // Get the current route from the navigator explicitly if routeObserver failed to capture it
+      var currentRoute = _currentRouteName;
+      _navigatorKey.currentState?.popUntil((route) {
+        currentRoute = route.settings.name;
+        return true; 
+      });
+
+      // ONLY show overlay if the user is explicitly on the Journal or Stats screen
+      // or NewDreamScreen (which has sensitive dream input)
+      final isSensitiveScreen = currentRoute == '/journal' || currentRoute == '/stats' || currentRoute == '/new_dream' || currentRoute == '/dream_detail';
+      
+      _checkAndShowOverlay(isSensitiveScreen: isSensitiveScreen);
+    } else if (state == AppLifecycleState.resumed) {
       if (_showSecureOverlay) {
         _authenticateOnResume();
       }
     }
   }
 
-  Future<void> _checkAndShowOverlay() async {
+  Future<void> _checkAndShowOverlay({required bool isSensitiveScreen}) async {
     final lockEnabled = await BiometricService.isJournalLockEnabled();
-    if (lockEnabled && mounted) {
+    if (lockEnabled && mounted && isSensitiveScreen) {
       setState(() {
         _showSecureOverlay = true;
       });
@@ -329,6 +345,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       ],
       supportedLocales: AppLocalizations.supportedLocales,
       locale: _locale,
+      navigatorObservers: [routeObserver],
       home: const SplashScreen(),
       builder: (context, child) {
         return Stack(

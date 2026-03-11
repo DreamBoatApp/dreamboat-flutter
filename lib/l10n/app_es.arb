@@ -258,6 +258,7 @@
     "dreamInterpretationReadMore": "Leer Más",
     "dreamTooShort": "El sueño fue demasiado corto para interpretar.",
     "dreamGibberish": "Tu sueño no pudo ser interpretado porque no contenía suficiente contenido significativo.",
+    "titleNotInterpreted": "No Interpretado",
     "dailyLimitReached": "Has alcanzado el límite diario de interpretación de sueños (100/100).",
     "settingsRestorePurchases": "Restaurar Compras",
     "restoreSuccess": "¡Versión PRO restaurada con éxito!",
