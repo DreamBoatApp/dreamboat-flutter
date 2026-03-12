@@ -67,7 +67,11 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
       return Color.lerp(color1, color2, 0.5)!;
     }
 
-    return Container(
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.9,
+      ),
+      child: Container(
       // ... (decoration remains same) ...
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -337,6 +341,7 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
             ],
           ),
         ),
+      ),
       ),
       ),
     );
