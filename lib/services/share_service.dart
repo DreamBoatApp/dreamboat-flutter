@@ -104,12 +104,13 @@ class ShareService {
         watermarkText: watermarkText
       );
       
-      // Capture
+      // Capture at the card's native 1024x1024 size, not the device screen size
       final Uint8List? imageBytes = await _screenshotController.captureFromWidget(
         card,
         delay: const Duration(milliseconds: 500), // Give network image time to load/render
         pixelRatio: 2.0,
         context: context,
+        targetSize: const Size(1024, 1024), // Force square output
       );
 
        if (imageBytes == null || imageBytes.isEmpty) {
