@@ -142,7 +142,7 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
           // Safely avoids bottom notch/home indicator
           bottom: true,
           child: SingleChildScrollView(
-            // physics: const BouncingScrollPhysics(), // Allow scroll but don't block swipe dismiss
+            physics: const ClampingScrollPhysics(), // Allow scroll but bubble drag events to Modal
             child: Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(
