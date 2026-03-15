@@ -141,11 +141,19 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
         child: SafeArea(
           // Safely avoids bottom notch/home indicator
           bottom: true,
-          child: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(), // Allow scroll but bubble drag events to Modal
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
+          child: NotificationListener<ScrollUpdateNotification>(
+            onNotification: (notification) {
+              if (notification.dragDetails != null && notification.metrics.pixels < -30) {
+                if (mounted && !_isSaving) Navigator.pop(context);
+                return true;
+              }
+              return false;
+            },
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()), 
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+                child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -159,7 +167,7 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                           borderRadius: BorderRadius.circular(2)),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
 
                   // Vividness Slider Section
                   Row(
@@ -263,7 +271,7 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                                   fontSize: 12))),
                     ],
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 20),
 
                   // Mood Prompt
                   GradientText(
@@ -274,20 +282,13 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                     gradient: const LinearGradient(
                         colors: [Colors.white, Color(0xFFE0E7FF)]),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
 
                   // Mood Grid
                   LayoutBuilder(builder: (context, constraints) {
                     // Calculate item width for 4 columns
-                    // Padding: 24 (left) + 24 (right) = 48
-                    // Spacing: 12 * 3 = 36
-                    // Available Width for items = ScreenWidth - 48 - 36 (actually we use constraints.maxWidth which already accounts for padding)
-
-                    // Since we are inside Padding(24), constraints.maxWidth is (ScreenWidth - 48)
-                    // We need 4 items with 3 gaps of 12px
                     final itemWidth = (constraints.maxWidth - (12 * 3)) / 4;
-                    final itemHeight = itemWidth *
-                        1.3; // Slight vertical rectangle aspect ratio
+                    final itemHeight = itemWidth * 1.15; // More compact to fit screen
 
                     return Wrap(
                       spacing: 12,
@@ -358,7 +359,7 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              const SizedBox(height: 32),
+                              const SizedBox(height: 20),
                               Text(
                                 t.moodIntensityLabel,
                                 textAlign: TextAlign.center,
@@ -522,7 +523,7 @@ class _MoodSelectionSheetState extends State<MoodSelectionSheet> {
                 ],
               ),
             ),
-          ),
+          )),
         ),
       ),
     );
