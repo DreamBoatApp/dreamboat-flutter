@@ -286,6 +286,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   // Support ID Item removed and moved to Support Modal
 
                    // Review Mode Toggle (temporarily enabled for all builds)
+                   if (kDebugMode)
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: _SettingItem(
