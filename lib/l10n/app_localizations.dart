@@ -209,7 +209,7 @@ abstract class AppLocalizations {
   /// No description provided for @statsAnalysisMinDreams.
   ///
   /// In tr, this message translates to:
-  /// **'En Az 5 Kaydedilmiş Rüya Gerekir'**
+  /// **'Analiz için en az 5 rüya kaydetmelisin'**
   String get statsAnalysisMinDreams;
 
   /// No description provided for @statsAnalysisDone.
@@ -1171,6 +1171,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'PRO Versiyon ve En Az 5 Kaydedilmiş Rüya Gerekir'**
   String get proRequiredDetail;
+
+  /// No description provided for @proRequiredDetailWeekly.
+  ///
+  /// In tr, this message translates to:
+  /// **'PRO Versiyon ve En Az 3 Kaydedilmiş Rüya Gerekir'**
+  String get proRequiredDetailWeekly;
 
   /// No description provided for @guideUnlockPro.
   ///
@@ -2179,6 +2185,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kaydedilen rüya sayısı: {count}'**
   String statsRecordedDreams(Object count);
+
+  /// No description provided for @statsAnalysisMinDreamsWeekly.
+  ///
+  /// In tr, this message translates to:
+  /// **'Analiz için en az 3 rüya kaydetmelisin'**
+  String get statsAnalysisMinDreamsWeekly;
 
   /// No description provided for @settingsSupportId.
   ///

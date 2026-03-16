@@ -1111,21 +1111,21 @@ class _StatsScreenState extends State<StatsScreen> {
           if (isPro)
              // PRO FLOW
              CustomButton(
-               text: _totalDreamsCount >= 5 ? t.statsAnalyzeBtn : t.statsAnalysisMinDreams,
-               onPressed: _totalDreamsCount >= 5 
+               text: _totalDreamsCount >= 3 ? t.statsAnalyzeBtn : t.statsAnalysisMinDreamsWeekly,
+               onPressed: _totalDreamsCount >= 3 
                   ? _showAnalysisInfoDialog // Show confirmation dialog
-                  : null, // Disabled if < 5
+                  : null, // Disabled if < 3
                isLoading: _isAnalysisLoading,
-               gradient: _totalDreamsCount >= 5 
+               gradient: _totalDreamsCount >= 3 
                   ? const LinearGradient(colors: [Color(0xFFFBBF24), Color(0xFFD97706)]) // Gold for Action
                   : LinearGradient(colors: [Colors.grey.withOpacity(0.5), Colors.grey.withOpacity(0.5)]),
              )
           else
              // STANDARD FLOW (Upgrade Prompt)
              CustomButton(
-               text: _totalDreamsCount >= 5 
+               text: _totalDreamsCount >= 3 
                   ? t.proRequired  // "PRO Versiyon Gerekir"
-                  : t.proRequiredDetail,  // "PRO Versiyon ve En Az 5 Kaydedilmiş Rüya Gerekir"
+                  : t.proRequiredDetailWeekly,  // "PRO Versiyon ve En Az 3 Kaydedilmiş Rüya Gerekir"
                onPressed: () => showDialog(context: context, builder: (ctx) => const ProUpgradeDialog()),
                gradient: const LinearGradient(colors: [Color(0xFFA78BFA), Color(0xFFEC4899)]), // Gradient for Upgrade
                isLoading: _isAnalysisLoading,

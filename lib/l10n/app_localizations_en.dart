@@ -64,7 +64,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get statsAnalysisMinDreams => 'At Least 5 Recorded Dreams Required';
+  String get statsAnalysisMinDreams => 'Record at least 5 dreams for analysis';
 
   @override
   String get statsAnalysisDone => 'Weekly Analysis Done';
@@ -604,6 +604,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get proRequiredDetail =>
       'PRO Version and At Least 5 Recorded Dreams Required';
+
+  @override
+  String get proRequiredDetailWeekly =>
+      'PRO Version and At Least 3 Recorded Dreams Required';
 
   @override
   String get guideUnlockPro => 'Unlock PRO Version';
@@ -1156,6 +1160,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String statsRecordedDreams(Object count) {
     return 'Recorded dreams: $count';
   }
+
+  @override
+  String get statsAnalysisMinDreamsWeekly =>
+      'Record at least 3 dreams for analysis';
 
   @override
   String get settingsSupportId => 'Support ID';

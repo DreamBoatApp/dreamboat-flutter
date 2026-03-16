@@ -65,7 +65,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get statsAnalysisMinDreams =>
-      'Necessário Pelo Menos 5 Sonhos Registrados';
+      'Registre pelo menos 5 sonhos para análise';
 
   @override
   String get statsAnalysisDone => 'Análise Semanal Concluída';
@@ -607,6 +607,10 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get proRequiredDetail =>
       'Versão PRO e Pelo Menos 5 Sonhos Registrados Necessários';
+
+  @override
+  String get proRequiredDetailWeekly =>
+      'Versão PRO e Pelo Menos 3 Sonhos Registrados Necessários';
 
   @override
   String get guideUnlockPro => 'Desbloquear Versão PRO';
@@ -1162,6 +1166,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String statsRecordedDreams(Object count) {
     return 'Sonhos registrados: $count';
   }
+
+  @override
+  String get statsAnalysisMinDreamsWeekly =>
+      'Registre pelo menos 3 sonhos para análise';
 
   @override
   String get settingsSupportId => 'ID de Suporte';

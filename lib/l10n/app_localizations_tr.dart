@@ -64,7 +64,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get statsAnalysisMinDreams => 'En Az 5 Kaydedilmiş Rüya Gerekir';
+  String get statsAnalysisMinDreams => 'Analiz için en az 5 rüya kaydetmelisin';
 
   @override
   String get statsAnalysisDone => 'Haftalık Analiz Yapıldı';
@@ -602,6 +602,10 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get proRequiredDetail =>
       'PRO Versiyon ve En Az 5 Kaydedilmiş Rüya Gerekir';
+
+  @override
+  String get proRequiredDetailWeekly =>
+      'PRO Versiyon ve En Az 3 Kaydedilmiş Rüya Gerekir';
 
   @override
   String get guideUnlockPro => 'PRO Sürümünün Kilidini Aç';
@@ -1153,6 +1157,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String statsRecordedDreams(Object count) {
     return 'Kaydedilen rüya sayısı: $count';
   }
+
+  @override
+  String get statsAnalysisMinDreamsWeekly =>
+      'Analiz için en az 3 rüya kaydetmelisin';
 
   @override
   String get settingsSupportId => 'Destek ID\'si';
