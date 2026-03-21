@@ -590,7 +590,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privacyPolicyLink => 'Privacy Policy';
 
   @override
-  String get termsOfUseLink => 'Terms of Use';
+  String get termsOfUseLink => 'Terms of Use (EULA)';
+
+  @override
+  String get subscriptionAgreementPrefix => 'By subscribing, you agree to our ';
+
+  @override
+  String get subscriptionAgreementAnd => ' and ';
+
+  @override
+  String get subscriptionAgreementSuffix => '.';
 
   @override
   String get upgradeSuccess => 'Welcome to DreamBoat PRO!';

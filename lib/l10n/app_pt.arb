@@ -101,7 +101,10 @@
 
     "upgradeCancel": "Talvez depois",
     "privacyPolicyLink": "Política de Privacidade",
-    "termsOfUseLink": "Termos de Uso",
+    "termsOfUseLink": "Termos de Uso (EULA)",
+    "subscriptionAgreementPrefix": "Ao assinar, você concorda com nossos ",
+    "subscriptionAgreementAnd": " e a ",
+    "subscriptionAgreementSuffix": ".",
     "upgradeSuccess": "Bem-vindo ao DreamBoat PRO!",
     "upgradeStart": "Começar",
     "settingsRestorePurchases": "Restaurar Compras",

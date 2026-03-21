@@ -1145,8 +1145,26 @@ abstract class AppLocalizations {
   /// No description provided for @termsOfUseLink.
   ///
   /// In tr, this message translates to:
-  /// **'Kullanım Şartları'**
+  /// **'Kullanım Şartları (EULA)'**
   String get termsOfUseLink;
+
+  /// No description provided for @subscriptionAgreementPrefix.
+  ///
+  /// In tr, this message translates to:
+  /// **'Abone olarak '**
+  String get subscriptionAgreementPrefix;
+
+  /// No description provided for @subscriptionAgreementAnd.
+  ///
+  /// In tr, this message translates to:
+  /// **' ve '**
+  String get subscriptionAgreementAnd;
+
+  /// No description provided for @subscriptionAgreementSuffix.
+  ///
+  /// In tr, this message translates to:
+  /// **'\'nı kabul etmiş olursunuz.'**
+  String get subscriptionAgreementSuffix;
 
   /// No description provided for @upgradeSuccess.
   ///

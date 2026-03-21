@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:dream_boat_mobile/widgets/custom_button.dart';
 import 'package:dream_boat_mobile/widgets/platform_widgets.dart';
@@ -522,6 +523,49 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                             ),
                           ),
 
+                          const SizedBox(height: 16),
+                          
+                          // Legal links text
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.55),
+                                  fontSize: 12,
+                                  height: 1.4,
+                                  fontFamily: 'Quicksand', // Inherit font family if necessary, or let it default
+                                ),
+                                children: [
+                                  TextSpan(text: t.subscriptionAgreementPrefix),
+                                  TextSpan(
+                                    text: t.termsOfUseLink,
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Colors.white.withOpacity(0.55),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () => _openLegalUrl(context, 'terms'),
+                                  ),
+                                  TextSpan(text: t.subscriptionAgreementAnd),
+                                  TextSpan(
+                                    text: t.privacyPolicyLink,
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Colors.white.withOpacity(0.55),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () => _openLegalUrl(context, 'privacy'),
+                                  ),
+                                  TextSpan(text: t.subscriptionAgreementSuffix),
+                                ],
+                              ),
+                            ),
+                          ),
+
                           const SizedBox(height: 12),
                           
                           // Maybe later button
@@ -563,49 +607,6 @@ class _ProUpgradeDialogState extends State<ProUpgradeDialog> with SingleTickerPr
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                          ),
-                          
-                          const SizedBox(height: 8),
-                          
-                          // Legal links row
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () => _openLegalUrl(context, 'privacy'),
-                                child: Text(
-                                  t.privacyPolicyLink,
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.35),
-                                    fontSize: 11,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: Colors.white.withOpacity(0.35),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
-                                child: Text(
-                                  '|',
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.2),
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () => _openLegalUrl(context, 'terms'),
-                                child: Text(
-                                  t.termsOfUseLink,
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.35),
-                                    fontSize: 11,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: Colors.white.withOpacity(0.35),
-                                  ),
-                                ),
-                              ),
-                            ],
                           ),
                         ],
                       ),

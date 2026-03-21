@@ -188,7 +188,10 @@
 
     "upgradeCancel": "Belki daha sonra",
     "privacyPolicyLink": "Gizlilik Politikası",
-    "termsOfUseLink": "Kullanım Şartları",
+    "termsOfUseLink": "Kullanım Şartları (EULA)",
+    "subscriptionAgreementPrefix": "Abone olarak ",
+    "subscriptionAgreementAnd": " ve ",
+    "subscriptionAgreementSuffix": "'nı kabul etmiş olursunuz.",
     "upgradeSuccess": "DreamBoat PRO'ya hoşgeldin!",
     "upgradeStart": "Başla",
     "proRequired": "PRO Versiyon Gerekir",

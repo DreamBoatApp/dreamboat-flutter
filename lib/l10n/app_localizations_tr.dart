@@ -588,7 +588,16 @@ class AppLocalizationsTr extends AppLocalizations {
   String get privacyPolicyLink => 'Gizlilik Politikası';
 
   @override
-  String get termsOfUseLink => 'Kullanım Şartları';
+  String get termsOfUseLink => 'Kullanım Şartları (EULA)';
+
+  @override
+  String get subscriptionAgreementPrefix => 'Abone olarak ';
+
+  @override
+  String get subscriptionAgreementAnd => ' ve ';
+
+  @override
+  String get subscriptionAgreementSuffix => '\'nı kabul etmiş olursunuz.';
 
   @override
   String get upgradeSuccess => 'DreamBoat PRO\'ya hoşgeldin!';
