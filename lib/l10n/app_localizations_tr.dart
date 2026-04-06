@@ -1018,7 +1018,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get sharePrivacyHint =>
-      'Not: Yorumu paylaş butonu yalnızca rüya yorumunuzu paylaşır. Rüyalarınız size aittir. Paylaş butonu yalnızca sizin seçtiğiniz yorum metnini paylaşır.';
+      'Not: Yorumu Paylaş butonu yalnızca yorum metnini paylaşır, rüyanızı değil. Rüyalarınız her zaman gizli kalır.';
 
   @override
   String get moonPhaseLabel => 'Ay Evresi:';

@@ -1925,7 +1925,7 @@ abstract class AppLocalizations {
   /// No description provided for @sharePrivacyHint.
   ///
   /// In tr, this message translates to:
-  /// **'Not: Yorumu paylaş butonu yalnızca rüya yorumunuzu paylaşır. Rüyalarınız size aittir. Paylaş butonu yalnızca sizin seçtiğiniz yorum metnini paylaşır.'**
+  /// **'Not: Yorumu Paylaş butonu yalnızca yorum metnini paylaşır, rüyanızı değil. Rüyalarınız her zaman gizli kalır.'**
   String get sharePrivacyHint;
 
   /// No description provided for @moonPhaseLabel.

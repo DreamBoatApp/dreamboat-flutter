@@ -1021,7 +1021,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sharePrivacyHint =>
-      'Note: The Share Interpretation button only shares the dream interpretation. Your dreams belong to you. The Share button only shares the interpretation text you choose to share.';
+      'Note: The Share Interpretation button only shares the interpretation text, not your dream. Your dreams always remain private.';
 
   @override
   String get moonPhaseLabel => 'Moon Phase:';

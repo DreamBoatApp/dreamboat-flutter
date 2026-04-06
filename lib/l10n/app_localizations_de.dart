@@ -1034,7 +1034,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get sharePrivacyHint =>
-      'Hinweis: Der Button Deutung teilen teilt nur die Traumdeutung. Ihre Träume gehören Ihnen. Der Teilen-Button teilt nur den von Ihnen gewählten Deutungstext.';
+      'Hinweis: Die Teilen-Funktion teilt nur den Deutungstext, nicht Ihren Traum. Ihre Träume bleiben immer privat.';
 
   @override
   String get moonPhaseLabel => 'Mondphase:';

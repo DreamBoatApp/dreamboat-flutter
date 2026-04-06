@@ -320,7 +320,7 @@
     "moonPhaseWaningMoon": "Luna Menguante",
     "actionShareInterpretation": "Compartir\nInterpretación",
     "shareImage": "Compartir\nImagen",
-    "sharePrivacyHint": "Nota: El botón Compartir Interpretación solo comparte la interpretación. Tus sueños te pertenecen. El botón de compartir solo comparte el texto de interpretación que elijas compartir.",
+    "sharePrivacyHint": "Nota: El botón Compartir Interpretación solo comparte el texto de la interpretación, no tu sueño. Tus sueños siempre permanecen privados.",
     "moonPhaseLabel": "Fase Lunar:",
     "readMore": "Leer más...",
     "tapForDetails": "Toca para más detalles...",

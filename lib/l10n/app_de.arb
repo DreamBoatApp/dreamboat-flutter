@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "de",
     "homeTitle": "DreamBoat",
     "homeSubtitle": "Begib dich auf eine Reise in deiner Traumwelt",
@@ -320,7 +320,7 @@
     "moonPhaseWaningMoon": "Abnehmender Mond",
     "actionShareInterpretation": "Deutung\nteilen",
     "shareImage": "Bild\nteilen",
-    "sharePrivacyHint": "Hinweis: Der Button Deutung teilen teilt nur die Traumdeutung. Ihre Träume gehören Ihnen. Der Teilen-Button teilt nur den von Ihnen gewählten Deutungstext.",
+    "sharePrivacyHint": "Hinweis: Die Teilen-Funktion teilt nur den Deutungstext, nicht Ihren Traum. Ihre Träume bleiben immer privat.",
     "moonPhaseLabel": "Mondphase:",
     "readMore": "Mehr lesen...",
     "tapForDetails": "Für Details tippen...",

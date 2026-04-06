@@ -320,7 +320,7 @@
     "moonPhaseWaningMoon": "Waning Moon",
     "actionShareInterpretation": "Share\nInterpretation",
     "shareImage": "Share\nImage",
-    "sharePrivacyHint": "Note: The Share Interpretation button only shares the dream interpretation. Your dreams belong to you. The Share button only shares the interpretation text you choose to share.",
+    "sharePrivacyHint": "Note: The Share Interpretation button only shares the interpretation text, not your dream. Your dreams always remain private.",
     "moonPhaseLabel": "Moon Phase:",
     "readMore": "Read More...",
     "tapForDetails": "Tap for details...",
